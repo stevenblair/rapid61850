@@ -1,0 +1,29 @@
+<%@ jet package="sclToCHelper" imports="ch.iec._61850._2006.scl.TDAType ch.iec._61850._2006.scl.TBDA java.util.Iterator" class="XcodeGSEDA" skeleton="default.skeleton" %>
+<% TDAType da = (TDAType) argument;
+String daID = da.getId(); 
+Iterator<TBDA> bdas = da.getBDA().iterator();%>
+int <%=type%>_<%=daID%>(unsigned char *buf, struct <%=daID%> *<%=daID%>) {
+	int offset = 0;
+	
+	buf[offset++] = 0xA2;
+	offset += encodeLength(&buf[offset], ber_get_length_<%=daID%>(<%=daID%>));
+	<%
+	while (bdas.hasNext()) {
+		TBDA bda = bdas.next();
+		String bdaBType = bda.getBType().toString();
+if (bdaBType.equals("Struct")) {%>
+	offset += <%=type%>_<%=bda.getType()%>(&buf[offset], &<%=daID%>-><%= bda.getName()%>);
+<%
+}
+else if (bdaBType.equals("Enum")) {%>
+	offset += <%=type.toUpperCase()%>_CTYPE_ENUM(&buf[offset], (CTYPE_INT32 *) &<%=daID%>-><%= bda.getName()%>);
+<%
+}
+else {%>
+	offset += <%=type.toUpperCase()%>_CTYPE_<%=bdaBType.toUpperCase()%>(&buf[offset], &<%=daID%>-><%= bda.getName()%>);
+<%
+	}
+}%>
+
+	return offset;
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.iec.ch/61850/2006/SCLmaintenance" targetNamespace="http://www.iec.ch/61850/2006/SCLmaintenance" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4">
+	<xs:annotation>
+		<xs:documentation xml:lang="en">COPYRIGHT IEC, 2005. Version 1.4. Release 2005/09/11.</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="tRestrName1stL">
+		<xs:restriction base="xs:Name">
+			<xs:pattern value="\p{Ll}[\d,\p{L},_]*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tMopEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="M"/>
+			<xs:enumeration value="O"/>
+			<xs:enumeration value="P"/>
+			<xs:enumeration value="C"/>
+			<xs:enumeration value="C1"/>
+			<xs:enumeration value="C2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tExtensionMopEnum">
+		<xs:restriction base="tRestrName1stL"/>
+	</xs:simpleType>
+	<xs:simpleType name="tMOP">
+		<xs:union memberTypes="tMopEnum tExtensionMopEnum"/>
+	</xs:simpleType>
+	<xs:element name="CondDesc">
+		<xs:complexType>
+			<xs:attribute name="desc" type="xs:string" use="required"/>
+			<xs:attribute name="mop" type="tMOP" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

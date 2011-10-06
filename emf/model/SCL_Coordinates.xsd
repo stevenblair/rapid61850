@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.iec.ch/61850/2006/SCLcoordinates" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.iec.ch/61850/2006/SCLcoordinates" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4">
+	<xs:annotation>
+		<xs:documentation xml:lang="en">
+	                        COPYRIGHT IEC, 2005. Version 1.4. Release 2005/09/11.
+	                        This schema is for infomational purposes only, and is not normative!
+		</xs:documentation>
+	</xs:annotation>
+	<xs:simpleType name="tConndir">
+		<xs:restriction base="xs:normalizedString">
+			<xs:enumeration value="horizontal"/>
+			<xs:enumeration value="vertical"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attribute name="x" type="xs:int"/>
+	<xs:attribute name="y" type="xs:int"/>
+	<xs:attribute name="dir" type="tConndir"/>
+	<xs:element name="Coord">
+		<xs:complexType>
+			<xs:attribute ref="x" use="required"/>
+			<xs:attribute ref="y" use="required"/>
+			<xs:attribute ref="dir" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

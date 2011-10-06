@@ -1,0 +1,21 @@
+<%@ jet package="sclToCHelper" imports="sclToC.CSource java.util.Iterator sclToC.CFunction" class="CSourceTemplate" %>
+<% CSource header = (CSource) argument; %>
+<%=
+header.includes
+%>
+
+<%=
+header.instances.toString()
+%>
+
+<%
+Iterator<CFunction> functions = header.functions.iterator();
+while (functions.hasNext()) {
+	CFunction function = functions.next();
+%>
+<%=function.toString()%>
+<%}%>
+
+<%=
+header.manualFunctions.toString()
+%>

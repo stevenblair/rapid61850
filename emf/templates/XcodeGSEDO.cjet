@@ -1,0 +1,37 @@
+<%@ jet package="sclToCHelper" imports="ch.iec._61850._2006.scl.TDOType ch.iec._61850._2006.scl.TSDO ch.iec._61850._2006.scl.TDA java.util.Iterator" class="XcodeGSEDO" skeleton="default.skeleton" %>
+<% TDOType doType = (TDOType) argument; 
+String doID = doType.getId(); 
+Iterator<TDA> das = doType.getDA().iterator();
+Iterator<TSDO> sdos = doType.getSDO().iterator();%>
+int <%=type%>_<%=doID%>(unsigned char *buf, struct <%=doID%> *<%=doID%>) {
+	//int size = 0;//ber_get_length_<%=doID%>(<%=doID%>);
+	int offset = 0;
+	buf[offset++] = 0xA2;
+	offset += encodeLength(&buf[offset], ber_get_length_<%=doID%>(<%=doID%>));
+	
+<%	while (sdos.hasNext()) {
+		TSDO sdo = sdos.next();
+		String sdoType = sdo.getType();%>
+	offset += <%=type%>_<%=sdoType%>(&buf[offset], &<%=doID%>-><%= sdo.getName()%>);<%
+	}
+	while (das.hasNext()) {
+		TDA da = das.next();
+		String daBType = da.getBType().toString();
+if (daBType.equals("Struct")) {%>
+	//used to encode A2 and length here
+
+	offset += <%=type%>_<%=da.getType()%>(&buf[offset], &<%=doID%>-><%= da.getName()%>);
+<%
+}
+else if (daBType.equals("Enum")) {%>
+	offset += <%=type.toUpperCase()%>_CTYPE_ENUM(&buf[offset], (CTYPE_INT32 *) &<%=doID%>-><%= da.getName()%>);
+<%
+}
+else {%>
+	offset += <%=type.toUpperCase()%>_CTYPE_<%=daBType.toUpperCase()%>(&buf[offset], &<%=doID%>-><%= da.getName()%>);
+<%
+	}
+}%>
+
+	return offset;
+}

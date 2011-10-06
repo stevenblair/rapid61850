@@ -1,0 +1,18 @@
+<%@ jet package="sclToCHelper" imports="ch.iec._61850._2006.scl.TBDA;" class="BDA" %>
+<% TBDA bda = (TBDA) argument; 
+
+String bType = bda.getBType().toString(); 
+
+if (bType.equals("Struct")) {%>
+<%="struct " + bda.getType().toString()%>
+<%
+}
+else if (bType.equals("Enum")) {
+%><%="enum " + bda.getType()%>
+<%
+}
+else {
+%><%="CTYPE_" + bType%>
+<%
+}
+%><%=" " + bda.getName() + ";"%>

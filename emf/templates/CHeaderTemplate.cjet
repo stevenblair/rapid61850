@@ -1,0 +1,30 @@
+<%@ jet package="sclToCHelper" imports="sclToC.CHeader;" class="CHeaderTemplate" %>
+<% CHeader header = (CHeader) argument; %>
+#ifndef <%=header.headerProtectName%>
+#define <%=header.headerProtectName%>
+
+#ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
+extern "C" {
+#endif
+
+<%=
+header.includes
+%>
+
+<%=
+header.datatypes.toString()
+%>
+
+<%=
+header.functionPrototypes.toString()
+%>
+
+<%=
+header.extern.toString()
+%>
+
+#ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
+}
+#endif
+
+#endif

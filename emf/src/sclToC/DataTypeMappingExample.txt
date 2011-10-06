@@ -1,0 +1,22 @@
+<DAType id="simpleVector">
+	<BDA name="mag" bType="FLOAT32"/>
+	<BDA name="ang" bType="FLOAT32"/>
+</DAType>
+
+<DOType id="simpleSAV" cdc="SAV">
+	<DA name="voltage" fc="MX" bType="Struct" type="simpleVector"/>
+	<DA name="current" fc="MX" bType="Struct" type="simpleVector"/>
+</DOType>
+
+
+#define CTYPE_FLOAT32	float
+
+struct simpleVector {
+	CTYPE_FLOAT32 mag;
+	CTYPE_FLOAT32 ang;
+};
+
+struct simpleSAV {
+	struct simpleVector voltage;
+	struct simpleVector current;
+};

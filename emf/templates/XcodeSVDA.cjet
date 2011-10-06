@@ -1,0 +1,26 @@
+<%@ jet package="sclToCHelper" imports="ch.iec._61850._2006.scl.TDAType ch.iec._61850._2006.scl.TBDA java.util.Iterator" class="XcodeSVDA" skeleton="default.skeleton" %>
+<% TDAType da = (TDAType) argument;
+String daID = da.getId(); 
+Iterator<TBDA> bdas = da.getBDA().iterator();%>
+int <%=type%>_<%=daID%>(unsigned char *buf, struct <%=daID%> *<%=daID%>) {
+	int size = 0;
+	<%
+	while (bdas.hasNext()) {
+		TBDA bda = bdas.next();
+		String bdaBType = bda.getBType().toString();
+if (bdaBType.equals("Struct")) {%>
+	size += <%=type%>_<%=bda.getType()%>(&buf[size], &<%=daID%>-><%= bda.getName()%>);
+<%
+}
+else if (bdaBType.equals("Enum")) {%>
+	size += <%=type.toUpperCase()%>_CTYPE_ENUM(&buf[size], (CTYPE_INT32 *) &<%=daID%>-><%= bda.getName()%>);
+<%
+}
+else {%>
+	size += <%=type.toUpperCase()%>_CTYPE_<%=bdaBType.toUpperCase()%>(&buf[size], &<%=daID%>-><%= bda.getName()%>);
+<%
+	}
+}%>
+
+	return size;
+}
