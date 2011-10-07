@@ -18,17 +18,19 @@ The Java `emf` project directory is organised as follows:
  - `model/`: the IEC 61850 XML Schema files. EMF uses these to generate the model.
  - `templates/`: the template source files used by JET.
 
-<!-- TODO: Describe EMF import process -->
+### EMF import process ###
 
-For the `emf` project, go to Project Properties > JET Settings, and set Template Containers to "templates", and Source Container to "src".
+ 1. Create an "EMF Project" called "emf", at the location of the repository code.
+ 2. Select "XML Schema" as the Model Importer type. Select all the IEC 61850 XML Schema documents in the `emf/model` directory.
+ 3. Select the three root packages that are imported (although, only `scl` is used).
+ 4. Create a new project of type "Convert Projects to JET Projects", and select the `emf` project. For the `emf` project, go to Project Properties > JET Settings, and set Template Containers to "templates", and Source Container to "src". Delete the `sclToCHelper` directory in the root of `emf` that was created before JET was configured correctly.
+ 5. Open `SCL.genmodel` and right-click on the root of the model tree. Select "Show Properties View" and ensure that "Compliance Level" is set to "6.0". Right-click on the root again and select "Generate Model Code". This should re-generate the model implementation files, and set up the project properly for using the generated code.
 
-Many of the C files are generated automatically.
+### C code project example ###
 
-### Example ###
+An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile on Windows, you should have MinGW installed and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.) In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `Project Properties > C/C++ Build > Settings` as an include path. Also, in Project Properties > C/C++ Build > Settings > MinGW C Linker, add `wpcap` and `ws2_32` to "Libraries" and add `"${workspace_loc:/${ProjName}/Lib}"` and `"C:\MinGW\lib"` to "Library search path". The WinPcap library files and header files (from http://www.winpcap.org/devel.htm) have been included in the repository for convenience; the PC must also have WinPcap driver installed (from http://www.winpcap.org/install/default.htm).
 
-An example SCD file and a `main.c` file are provided. For the C code to compile on Windows, you should have MinGW installed and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.) Also, in Project Properties > C/C++ Build > Settings > MinGW C Linker, add `wpcap` and `ws2_32` to "Libraries" and add `"C:\MinGW\lib"` to "Library search path". The WinPcap library files and header files (from http://www.winpcap.org/devel.htm) have been included in the repository for convenience; the PC must also have WinPcap driver installed (from http://www.winpcap.org/install/default.htm).
-
-<!-- TODO: add mbed code, and Processing code -->
+The accompanying mbed microcontroller example code is available [here](http://mbed.org/users/sblair/programs/rapid61850example/lyox9z). A [Processing](http://processing.org/) GUI is located in the `/processing/PACWorldClient` directory. For this to work, execute the example C project, start the microcontroller code, then start the Processing executable.
 
 
 ## Known issues and possible features ##
@@ -50,4 +52,6 @@ An example SCD file and a `main.c` file are provided. For the C code to compile 
  - need way of specifying implemented IED, and generating only this IED. But keep existing mode - may be useful for simulating an entire substation?
     - i.e., two modes of use.
     - could create a virtual Ethernet bus (Ethernot?) where all generated packets are broadcast to all IEDs/AccessPoints
+
+ - platform-specific optimisation of the generic byte copy functions
  

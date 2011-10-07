@@ -106,21 +106,6 @@ pcap_t *initWinpcap() {
 	return fpl;
 }
 
-/*
-<LN inst="1" lnClass="MMXU" lnType="MMXUa">
-	<DOI name="Volts">
-		<SDI name="sVC">
-			<DAI name="offset">
-				<Val>10</Val>
-			</DAI>
-			<DAI name="scaleFactor">
-				<Val>200</Val>
-			</DAI>
-		</SDI>
-	</DOI>
-</LN>
-*/
-
 int main() {
 	unsigned int loops = 0;
 	unsigned int gooseLoop = 0;
