@@ -1,0 +1,4 @@
+#!/bin/sh
+
+APPDIR=$(dirname "$0")
+java  -Djava.library.path="$APPDIR" -cp "$APPDIR/lib/controlP5.jar:$APPDIR/lib/PACWorldClient.jar:$APPDIR/lib/core.jar:$APPDIR/lib/net.jar" PACWorldClient
