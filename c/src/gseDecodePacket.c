@@ -71,5 +71,12 @@ void gseDecodePDU(unsigned char *buf) {
 }
 
 void gseDecode(unsigned char *buf, int len) {
-	gseDecodePDU(&buf[26]);	// cuts out frame header (fixed size of 26 bytes before start of APDU)
+	int offset = 22;
+
+	// check for VLAN tag
+	if (&buf[12] == 0x81 && &buf[13] == 0x00) {
+		offset = 26;
+	}
+
+	gseDecodePDU(&buf[offset]);	// cuts out frame header (fixed size of 26 bytes before start of APDU)
 }
