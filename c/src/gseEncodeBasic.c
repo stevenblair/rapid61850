@@ -54,12 +54,14 @@ int BER_ENCODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 
 	return offset + len - 1;
 }
+
+//TODO: ensure this encoding (with the unused bits) is correct
 int BER_ENCODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = BER_GET_LENGTH_CTYPE_QUALITY(value);
 
-	buf[offset++] = ASN1_TAG_BIT_STRING;
-	offset += encodeLength(&buf[offset], len - 1);
+	buf[offset++] = ASN1_TAG_INTEGER;
+	offset += encodeLength(&buf[offset], len/* - 1*/);	//TODO: should this "-1" be here?
 
 	buf[offset++] = QUALITY_UNUSED_BITS;	// number of unused bits
 	netmemcpy(&buf[offset], value, len - 1);

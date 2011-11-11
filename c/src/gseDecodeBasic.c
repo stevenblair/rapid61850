@@ -42,7 +42,6 @@ int BER_DECODE_CTYPE_FLOAT32(unsigned char *buf, CTYPE_FLOAT32 *value) {
 	return offset + len - 1;
 }
 
-// GSE decoding of basic types
 int BER_DECODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = 0;
@@ -63,11 +62,11 @@ int BER_DECODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = 0;
 
-	if (buf[offset++] == 0x85) {
+	if (buf[offset++] == ASN1_TAG_INTEGER) {
 		len += decodeLength(&buf[offset]);
 		offset += getLengthFieldSize(buf[offset]);
 
-		netmemcpy(value, buf, len);		//TODO check if memcpy should be used here, and elsewhere
+		netmemcpy(value, &buf[offset], len);		//TODO check if memcpy should be used here, and elsewhere
 	}
 
 	return offset + len;
@@ -80,7 +79,7 @@ int BER_DECODE_CTYPE_TIMESTAMP(unsigned char *buf, CTYPE_TIMESTAMP *value) {
 		len += decodeLength(&buf[offset]);
 		offset += getLengthFieldSize(buf[offset]);
 
-		netmemcpy(value, buf, len);
+		netmemcpy(value, &buf[offset], len);
 	}
 
 	return offset + len;
@@ -163,7 +162,7 @@ int BER_DECODE_CTYPE_BOOLEAN(unsigned char *buf, CTYPE_BOOLEAN *value) {
 		len += decodeLength(&buf[offset]);
 		offset += getLengthFieldSize(buf[offset]);
 
-		netmemcpy(value, buf, len);
+		netmemcpy(value, &buf[offset], len);
 	}
 
 	return offset + len;
