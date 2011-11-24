@@ -35,6 +35,8 @@ The accompanying mbed microcontroller example code is available [here](http://mb
 
 ## Using the code ##
 
+First open the file `SCLCodeGenerator.java`. In the `main()` function, set the variable `xmlFile` to the path of the SCD file. Run the Java project to generate the C implementation.
+
 A basic C `main()` function will look something like:
 
     int length = 0;
