@@ -39,25 +39,26 @@ First open the file `SCLCodeGenerator.java`. In the `main()` function, set the v
 
 A basic C `main()` function will look something like:
 
-    int length = 0;
-    unsigned char buffer[2048] = {0};
+```C
+int length = 0;
+unsigned char buffer[2048] = {0};
 
-    int main() {
-	    initialise_iec61850();	// initialise all data structures
+int main() {
+	initialise_iec61850();											// initialise all data structures
 
-	    // send GOOSE packet
-	    PC_IED4.P1.CTRL.OUT_GGIO_1.SPCSO.stVal = TRUE;					// set a value that appears in the "GOOSE_outputs" Dataset
-	    length = gse_send_GOOSE_outputs_control_GT1(buffer, 1, 512);	// generate a goose packet, and store the bytes in "buffer"
-	    send_ethernet_packet(buffer, length);							// platform-specific call to send an Ethernet packet
+	// send GOOSE packet
+	PC_IED4.P1.CTRL.OUT_GGIO_1.SPCSO.stVal = TRUE;					// set a value that appears in the "GOOSE_outputs" Dataset
+	length = gse_send_GOOSE_outputs_control_GT1(buffer, 1, 512);	// generate a goose packet, and store the bytes in "buffer"
+	send_ethernet_packet(buffer, length);							// platform-specific call to send an Ethernet packet
 
-	    // receive GOOSE or SV packet
-	    length = recv_ethernet_packet(buffer);	// platform-specific call to receive an Ethernet packet
-	    gse_sv_packet_filter(buffer, length);	// deals with any GOOSE or SV dataset that is able to be processed
-	    boolean inputValue = IED_B.P1.CTRL.B_IN_GGIO_1.gse_inputs.PC_IED4_CTRL_OUT_stVal_1;	// read new value from packet
+	// receive GOOSE or SV packet
+	length = recv_ethernet_packet(buffer);							// platform-specific call to receive an Ethernet packet
+	gse_sv_packet_filter(buffer, length);							// deals with any GOOSE or SV dataset that is able to be processed
+	boolean inputValue = IED_B.P1.CTRL.B_IN_GGIO_1.gse_inputs.PC_IED4_CTRL_OUT_stVal_1;		// read new value from packet
 
-	    return 0;
-	}
-
+	return 0;
+}
+```
 
 Clearly, a real implementation might include the use of platform-specific timers, interrupts and callbacks, where needed.
 
