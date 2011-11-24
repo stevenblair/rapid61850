@@ -7,9 +7,9 @@ The goal of this software is to automatically generate C/C++ code which reads an
 
 ## Installation ##
 
-The software requires Eclipse, with the Eclipse Modeling Framework (EMF). Java Emitter Templates (JET) is also required. There are two source code trees: `emf` (in Java), and `c` (obviously written in C). Each should be a separate project in Eclipse.
+The software requires Eclipse, with the Eclipse Modeling Framework (EMF). Java Emitter Templates (JET) is also required. It's easiest to start with the version of Eclipse that comes with the Modeling Tools bundle (see here: http://www.eclipse.org/downloads/).
 
-The Java `emf` project directory is organised as follows:
+There are two source code trees: `emf` (in Java), and `c` (obviously written in C). Each should be a separate project in Eclipse. The Java `emf` project directory is organised as follows:
 
  - `src/`
    - `sclToC/`: code that does the bulk of the conversion from an SCD file to C code. The class `SCLCodeGenerator` contains the `main()` function for the project.
@@ -44,13 +44,20 @@ A basic C `main()` function will look something like:
 	    initialise_iec61850();	// initialise all data structures
 
 	    // send GOOSE packet
-	    length = gse_send_GOOSE_outputs_control_GT1(buffer, 1, 512);	// generate a goose packet, and the bytes in "buffer"
-	    send_ethernet_packet(buffer, length);	// platform-specific call to send an Ethernet packet
+	    PC_IED4.P1.CTRL.OUT_GGIO_1.SPCSO.stVal = TRUE;					// set a value that appears in the "GOOSE_outputs" Dataset
+	    length = gse_send_GOOSE_outputs_control_GT1(buffer, 1, 512);	// generate a goose packet, and store the bytes in "buffer"
+	    send_ethernet_packet(buffer, length);							// platform-specific call to send an Ethernet packet
 
 	    // receive GOOSE or SV packet
 	    length = recv_ethernet_packet(buffer);	// platform-specific call to receive an Ethernet packet
 	    gse_sv_packet_filter(buffer, length);	// deals with any GOOSE or SV dataset that is able to be processed
+	    boolean inputValue = IED_B.P1.CTRL.B_IN_GGIO_1.gse_inputs.PC_IED4_CTRL_OUT_stVal_1;	// read new value from packet
+
+	    return 0;
 	}
+
+
+Clearly, a real implementation might include the use of platform-specific timers, interrupts and callbacks, where needed.
 
 
 ## Known issues and possible features ##
@@ -65,13 +72,13 @@ A basic C `main()` function will look something like:
 
  - ensure all dataset elements are in the same order as in the SCD
  - ensure all data types in C code are in an order that can be compiled
- - ensure C string literals are "safe", i.e. "\\" instead of "\"
+ - ensure C string literals are "safe", i.e. `\\` instead of `\`
 
  - put svData and gseData instances inside LLN0 definition
 
- - need way of specifying implemented IED, and generating only this IED. But keep existing mode - may be useful for simulating an entire substation?
+ - need way of specifying implemented IED, and generating only this IED. But keep existing mode - may be useful for simulating an entire substation
     - i.e., two modes of use.
-    - could create a virtual Ethernet bus (Ethernot?) where all generated packets are broadcast to all IEDs/AccessPoints
+    - could create a virtual Ethernet bus where all generated packets are broadcast to all IEDs/AccessPoints
 
  - platform-specific optimisation of the generic byte copy functions
  
