@@ -33,6 +33,26 @@ An example SCD file and a `main.c` file are provided. Many of the other C files 
 The accompanying mbed microcontroller example code is available [here](http://mbed.org/users/sblair/programs/rapid61850example/lyox9z). A [Processing](http://processing.org/) GUI is located in the `/processing/PACWorldClient` directory. For this to work, execute the example C project, start the microcontroller code, then start the Processing executable.
 
 
+## Using the code ##
+
+A basic C `main()` function will look something like:
+
+    int length = 0;
+    unsigned char buffer[2048] = {0};
+
+    int main() {
+	    initialise_iec61850();	// initialise all data structures
+
+	    // send GOOSE packet
+	    length = gse_send_GOOSE_outputs_control_GT1(buffer, 1, 512);	// generate a goose packet, and the bytes in "buffer"
+	    send_ethernet_packet(buffer, length);	// platform-specific call to send an Ethernet packet
+
+	    // receive GOOSE or SV packet
+	    length = recv_ethernet_packet(buffer);	// platform-specific call to receive an Ethernet packet
+	    gse_sv_packet_filter(buffer, length);	// deals with any GOOSE or SV dataset that is able to be processed
+	}
+
+
 ## Known issues and possible features ##
 
  - only include items in SV packets if set to true in SmvOpts; see page 83 of 61850-6
