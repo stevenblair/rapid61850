@@ -69,6 +69,7 @@ public class SCLCodeGenerator {
 	public static void main(String[] args) {
 		// import SCD file
 		String xmlFile = "src\\sclToC\\scd.xml";
+		
 		SclXMLProcessor processor = null;
 		Resource resource = null;
 		try {
@@ -78,12 +79,13 @@ public class SCLCodeGenerator {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 
 		// initialise C files
 		CSource svEncodeSource = new CSource("svEncode.c", "#include \"svEncodeBasic.h\"\n#include \"ied.h\"\n#include \"svEncode.h\"");
-		CSource svDecodeSource = new CSource("svDecode.c", "#include \"svDecodeBasic.h\"\n#include \"ied.h\"\n#include \"svDecode.h\"");
+		CSource svDecodeSource = new CSource("svDecode.c", "#include \"sv.h\"\n#include \"svDecodeBasic.h\"\n#include \"ied.h\"\n#include \"svDecode.h\"");
 		CSource gseEncodeSource = new CSource("gseEncode.c", "#include \"gseEncodeBasic.h\"\n#include \"ied.h\"\n#include \"gseEncode.h\"");
-		CSource gseDecodeSource = new CSource("gseDecode.c", "#include \"gseDecodeBasic.h\"\n#include \"ied.h\"\n#include \"gseDecode.h\"");
+		CSource gseDecodeSource = new CSource("gseDecode.c", "#include \"gseDecodeBasic.h\"\n#include \"gse.h\"\n#include \"ied.h\"\n#include \"gseDecode.h\"");
 		CSource svSource = new CSource("sv.c", "#include \"sv.h\"\n#include \"svPacketData.h\"\n#include \"svDecode.h\"\n#include \"svEncode.h\"");
 		CSource gseSource = new CSource("gse.c", "#include \"gsePacketData.h\"\n#include \"gseDecode.h\"\n#include \"gseEncode.h\"");
 		CSource iedSource = new CSource("ied.c", "#include \"ied.h\"\n#include \"datatypes.h\"");
@@ -364,7 +366,7 @@ public class SCLCodeGenerator {
 
 														dataTypesHeader.appendDatatypes("\n\tstruct {");
 														
-														//TODO GSE datasets have more complex names: e.g. "E1Q1SB1C1/LLN0$Positions" - ensure encoded correctly
+														//TODO GSE datasets may have more complex names: e.g. "E1Q1SB1C1/LLN0$Positions". Ensure encoded correctly
 														String datSet = extRef.getIedName() + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getDatSet();
 														
 														gseDecodeSource.appendFunctionObject(new CFunctionCoder(dataset, extRef, CommsType.GSE, CoderType.DECODER));
@@ -382,21 +384,25 @@ public class SCLCodeGenerator {
 															}
 															dataInstanceName.append(ln.getLnClass().toString() + "_" + ln.getInst() + ".gse_inputs.");
 															
+															String fcdaName;
+															
 															if (fcda.getDaName() != null) {
 																TAbstractDataAttribute da = getDA(dataTypeTemplates, fcda.getLnClass().toString(), fcda.getDoName(), /*SCLCodeGenerator.getNameFromCompoundName*/(fcda.getDaName()));
-																dataInstanceName.append(fcda.getDaName());
 																
 																if (da != null) {
 																	if (da.getBType().toString().equals("Struct")) {
-																		dataTypesHeader.appendDatatypes("\n\t\tstruct " + da.getType() + " " + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst() + ";");
+																		dataTypesHeader.appendDatatypes("\n\t\tstruct " + da.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst() + ";");
 																	}
 																	else if (da.getBType().toString().equals("Enum")) {
-																		dataTypesHeader.appendDatatypes("\n\t\tenum " + da.getType() + " " + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst() + ";");
+																		dataTypesHeader.appendDatatypes("\n\t\tenum " + da.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst() + ";");
 																	}
 																	else {
 																		dataTypesHeader.appendDatatypes("\n\t\tCTYPE_" + da.getBType().toString().toUpperCase() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDaName().replaceAll("[^A-Za-z0-9]", "_") + "_" + fcda.getLnInst() + ";");
 																	}
-																	//System.out.println("da; DO name: " + fcda.getDoName() + ", DA name: " + fcda.getDaName());
+																	
+																	fcdaName = ied.getName() + "_" + ld.getInst() + "_" + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst();
+																	
+																	dataInstanceName.append(fcdaName);
 																}
 																else {
 																	System.out.println("null da; DO name: " + fcda.getDoName() + ", DA name: " + fcda.getDaName());
@@ -404,9 +410,9 @@ public class SCLCodeGenerator {
 															}
 															else {
 																TDO dataObject = getDO(dataTypeTemplates, fcda.getLnClass().toString(), fcda.getDoName());
-																dataInstanceName.append(fcda.getDoName());
+																dataInstanceName.append(extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getDoName());
 																
-																dataTypesHeader.appendDatatypes("\n\t\tstruct " + dataObject.getType() + " " + fcda.getPrefix() + fcda.getDoName() + "_" + fcda.getLnInst() + ";");
+																dataTypesHeader.appendDatatypes("\n\t\tstruct " + dataObject.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDoName() + "_" + fcda.getLnInst() + ";");
 															}
 														}
 														
@@ -440,6 +446,7 @@ public class SCLCodeGenerator {
 		Iterator<TIED> ieds = ((DocumentRoot) resource.getContents().get(0)).getSCL().getIED().iterator();
 
 		dataTypesSource.appendFunctions("void init_datatypes() {\n");
+		boolean svExists = false;
 		
 		while (ieds.hasNext()) {
 			TIED ied = ieds.next();
@@ -477,6 +484,10 @@ public class SCLCodeGenerator {
 										TDataSet dataset = datasets.next();
 										
 										if (ld.getLN0().getSampledValueControl() != null) {
+											if (svExists == false) {
+												svPacketDataInit.append("\tint i = 0;\n\n");	// ensure this line only appears in init_sv() once, and only if needed
+												svExists = true;
+											}
 
 											// initialise LN0 data
 											Iterator<TDO> dos = getLNTypeDOs(dataTypeTemplates, ld.getLN0().getLnType()).iterator();
@@ -489,13 +500,17 @@ public class SCLCodeGenerator {
 													dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LLN0"/* + lnName*/ + "." + dataObject.getName() + ");\n");
 												}
 												
-												Iterator<TDA> das = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).iterator();
-												
-												while (das.hasNext()) {
-													TDA da = das.next();
+												if (getDOTypeDAs(dataTypeTemplates, dataObject.getType()) != null) {
+													Iterator<TDA> das = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).iterator();
 													
-													if (listContains(initDATypes, da.getType())) {
-														dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LNN0"/* + lnName*/ + "." + dataObject.getName() + "." + da.getName().toString() + ");\n");
+													if (das != null) {
+														while (das.hasNext()) {
+															TDA da = das.next();
+															
+															if (listContains(initDATypes, da.getType())) {
+																dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LNN0"/* + lnName*/ + "." + dataObject.getName() + "." + da.getName().toString() + ");\n");
+															}
+														}
 													}
 												}
 											}
@@ -514,7 +529,7 @@ public class SCLCodeGenerator {
 												if (svControl.getDatSet().equals(dataset.getName())) {
 													String svName = svControl.getName() + "_" + svControl.getSmvID();
 													svSource.appendInstances("struct svData " + svName + ";\n");
-													svEncodeHeader.appendExtern("extern struct svData " + svName + ";\n");
+													svHeader.appendExtern("extern struct svData " + svName + ";\n");
 
 													svPacketDataInit.append("\t" + svName + ".noASDU = " + svControl.getNofASDU() + ";\n");
 													
@@ -626,7 +641,7 @@ public class SCLCodeGenerator {
 												if (gseControl.getDatSet().equals(dataset.getName())) {
 													String gseName = gseControl.getName() + "_" + gseControl.getAppID();
 													gseSource.appendInstances("struct gseData " + gseName + ";\n");
-													gseEncodeHeader.appendExtern("extern struct gseData " + gseName + ";\n");
+													gseHeader.appendExtern("extern struct gseData " + gseName + ";\n");
 													//gsePacketDataInit.append("\t" + gseName + ".noASDU = " + svControl.getNofASDU() + ";\n");
 													
 													TGSE gse = getCommunicationGSE(comms, iedName, apName, ldName, gseControl.getName());
@@ -694,7 +709,8 @@ public class SCLCodeGenerator {
 													gsePacketDataInit.append("\t" + gseName + ".ndsCom = 0;\n");
 													gsePacketDataInit.append("\t" + gseName + ".numDatSetEntries = " + dataset.getFCDA().size() + ";\n");
 													gsePacketDataInit.append("\t" + gseName + ".encodeDataset = &ber_encode_" + gseControl.getAppID() + ";\n");
-													gsePacketDataInit.append("\t" + gseName + ".getDatasetLength = &ber_get_length_" + gseControl.getAppID() + ";\n\n");
+													gsePacketDataInit.append("\t" + gseName + ".getDatasetLength = &ber_get_length_" + gseControl.getAppID() + ";\n");
+													gsePacketDataInit.append("\t" + gseName + ".datasetDecodeDone = NULL;\n\n");
 													
 													// send GSE function
 													String gseUpdateFunctionPrototype = "int gse_send_" + gseName + "(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive)";
@@ -824,7 +840,7 @@ public class SCLCodeGenerator {
 
 		
 		
-		svSource.appendFunctions("\nvoid init_sv() {\n\tint i = 0;\n\n");
+		svSource.appendFunctions("\nvoid init_sv() {\n");
 		svSource.appendFunctions(svPacketDataInit);
 		svSource.appendFunctions("}\n");
 		
@@ -978,6 +994,10 @@ public class SCLCodeGenerator {
 	}
 	
 	public static TSampledValueControl getSVControl(TDataSet dataset) {
+		if (dataset == null) {
+			return null;
+		}
+		
 		TLN0 ln0 = (TLN0) (dataset.eContainer());
 		
 		if (ln0 == null) {
@@ -998,6 +1018,9 @@ public class SCLCodeGenerator {
 	}
 	
 	public static TGSEControl getGSEControl(TDataSet dataset) {
+		if (dataset == null) {
+			return null;
+		}
 		TLN0 ln0 = (TLN0) (dataset.eContainer());
 		
 		if (ln0 == null) {

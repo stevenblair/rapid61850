@@ -35,8 +35,6 @@ int encode_rmxu(unsigned char *buf);
 
 int svEncodePacket(struct svData *svData, unsigned char *buf);
 
-extern struct svData Volt_11;
-extern struct svData rmxuCB_rmxu;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

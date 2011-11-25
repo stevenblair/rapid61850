@@ -249,12 +249,12 @@ struct RSYNa {
 		struct myPos Pos_2[2];
 	} sv_inputs;
 	struct {
-		struct myAnalogValue instMag_1;
-		struct myPos Pos_1;
-		struct myPos Pos_2;
-		enum Mod stVal_1;
-		struct myMV Amps_1;
-		struct myMV Volts_1;
+		struct myAnalogValue E1Q1SB1_C1_instMag_1;
+		struct myPos E1Q1SB1_C1_Pos_1;
+		struct myPos E1Q1SB1_C1_Pos_2;
+		enum Mod E1Q1SB1_C1_stVal_1;
+		struct myMV E1Q1SB1_C1_Amps_1;
+		struct myMV E1Q1SB1_C1_Volts_1;
 	} gse_inputs;
 };
 

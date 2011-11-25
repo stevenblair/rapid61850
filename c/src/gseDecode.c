@@ -19,6 +19,7 @@
  */
 
 #include "gseDecodeBasic.h"
+#include "gse.h"
 #include "ied.h"
 #include "gseDecode.h"
 
@@ -277,12 +278,16 @@ int ber_decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 int ber_decode_Positions_RSYN_1(unsigned char *buf) {
 	int offset = 0;
 
-	offset += ber_decode_myAnalogValue(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.instMag_1);
-	offset += ber_decode_myPos(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.Pos_1);
-	offset += ber_decode_myPos(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.Pos_2);
-	offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.stVal_1);
-	offset += ber_decode_myMV(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.Amps_1);
-	offset += ber_decode_myMV(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.Volts_1);
+	offset += ber_decode_myAnalogValue(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_instMag_1);
+	offset += ber_decode_myPos(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Pos_1);
+	offset += ber_decode_myPos(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Pos_2);
+	offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_stVal_1);
+	offset += ber_decode_myMV(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Amps_1);
+	offset += ber_decode_myMV(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Volts_1);
+
+	if (ItlPositions_Itl.datasetDecodeDone != NULL) {
+		ItlPositions_Itl.datasetDecodeDone();
+	}
 
 	return offset;
 }

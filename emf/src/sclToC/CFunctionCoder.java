@@ -211,7 +211,14 @@ public class CFunctionCoder extends CFunction {
 					ldName = (((TLDevice) extRef.eResource().getEObject(ldNameUri)).getInst());
 					lnName = ln.getLnClass().toString();
 					
-					variableName = iedName + "." + apName + "." + ldName + "." + /*ln.getPrefix() +*/ lnName + "_" + extRef.getLnInst() + ".gse_inputs."/* + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix()*/;
+					String lnPrefix = "";
+					if (ln.getPrefix() != null) {
+						lnPrefix = ln.getPrefix();
+					}
+					
+					//TODO: part after ".gse_inputs." needs to be expanded
+					//variableName = iedName + "." + apName + "." + ldName + "." + /*ln.getPrefix() +*/ lnName + "_" + extRef.getLnInst() + ".gse_inputs."/* + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix()*/;
+					variableName = iedName + "." + apName + "." + ldName + "." + lnPrefix + lnName + "_" + extRef.getLnInst() + ".gse_inputs." + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix();
 					instanceSuffix = "_" + fcda.getLnInst();
 				}
 			}
@@ -327,6 +334,11 @@ public class CFunctionCoder extends CFunction {
 		Iterator<EObject> objects = dataType.eContents().iterator();
 		String body = "\tint offset = 0;\n\n";
 		Boolean gseDecodeNotDataset = false;
+		Boolean decodeDataset = false;
+		
+		if (!dataType.eClass().getName().equals("TDAType") && !dataType.eClass().getName().equals("TDOType")) {
+			decodeDataset = true;
+		}
 
 		// add tag/length code required for GSE encoding/decoding
 		if (commsType == CommsType.GSE) {
@@ -354,6 +366,33 @@ public class CFunctionCoder extends CFunction {
 		
 		if (gseDecodeNotDataset) {
 			body = body.concat("\t}\n");
+		}
+		
+		if (decodeDataset == true) {
+			if (coderType == CoderType.DECODER) {
+				// call (optional) callback after dataset decode
+				if (commsType == CommsType.GSE) {
+					TGSEControl gseControl = SCLCodeGenerator.getGSEControl((TDataSet)dataType);
+					String gseName = gseControl.getName() + "_" + gseControl.getAppID();
+					
+					body = body.concat("\n\tif (" + gseName + ".datasetDecodeDone != NULL) {\n");
+					body = body.concat("\t\t" + gseName + ".datasetDecodeDone();\n");
+					body = body.concat("\t}\n");
+				}
+				else if (commsType == CommsType.SV) {
+					if (dataType != null) {
+						TSampledValueControl svControl = SCLCodeGenerator.getSVControl((TDataSet)dataType);
+						
+						if (svControl != null) {
+							String svName = svControl.getName() + "_" + svControl.getSmvID();
+			
+							body = body.concat("\n\tif (" + svName + ".datasetDecodeDone != NULL) {\n");
+							body = body.concat("\t\t" + svName + ".datasetDecodeDone();\n");
+							body = body.concat("\t}\n");
+						}
+					}
+				}
+			}
 		}
 		
 		body = body.concat("\n\treturn offset;\n");

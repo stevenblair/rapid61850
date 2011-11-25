@@ -54,7 +54,7 @@ int main() {
 	// receive GOOSE or SV packet
 	length = recv_ethernet_packet(buffer);							// platform-specific call to receive an Ethernet packet
 	gse_sv_packet_filter(buffer, length);							// deals with any GOOSE or SV dataset that is able to be processed
-	boolean inputValue = IED_B.P1.CTRL.B_IN_GGIO_1.gse_inputs.PC_IED4_CTRL_OUT_stVal_1;		// read new value from packet
+	boolean inputValue = IED_B.P1.CTRL.B_IN_GGIO_1.gse_inputs.PC_IED4_CTRL_OUT_stVal_1;		// read value that was updated by the packet
 
 	return 0;
 }
@@ -62,6 +62,19 @@ int main() {
 
 Clearly, a real implementation might include the use of platform-specific timers, interrupts and callbacks, where needed.
 
+### Callbacks after a dataset is decoded ###
+
+Callbacks should be set up in the form:
+
+'''C
+void callbackFunction() {
+	;
+}
+
+SyckResult_SynChk.datasetDecodeDone = &callbackFunction;
+'''
+
+where "SyckResult_SynChk" is of type "struct gseData" or "struct svData", as defined in gse.h or sv.h. After being initialised, this function will be called after the dataset is read from an incoming packet.
 
 ## Known issues and possible features ##
 
@@ -85,3 +98,4 @@ Clearly, a real implementation might include the use of platform-specific timers
 
  - platform-specific optimisation of the generic byte copy functions
  
+ - add a callback function which can be executed after a dataset is successfully decoded, to allow the LN to deal with the new data. The user would need to specify the callback function contents.

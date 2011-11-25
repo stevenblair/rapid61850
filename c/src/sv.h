@@ -37,6 +37,8 @@ int sv_update_rmxuCB_rmxu(unsigned char *buf);
 void svDecode(unsigned char *buf, int len);
 
 
+extern struct svData Volt_11;
+extern struct svData rmxuCB_rmxu;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

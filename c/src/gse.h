@@ -38,6 +38,9 @@ int gse_send_MMXUResult_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChang
 void gseDecode(unsigned char *buf, int len);
 
 
+extern struct gseData ItlPositions_Itl;
+extern struct gseData SyckResult_SynChk;
+extern struct gseData MMXUResult_MMXUResult;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

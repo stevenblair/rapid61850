@@ -38,9 +38,6 @@ int ber_get_length_MMXUResult();
 int ber_encode_MMXUResult(unsigned char *buf);
 int gseEncodePacket(struct gseData *gseData, unsigned char *buf);
 
-extern struct gseData ItlPositions_Itl;
-extern struct gseData SyckResult_SynChk;
-extern struct gseData MMXUResult_MMXUResult;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

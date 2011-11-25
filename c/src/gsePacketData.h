@@ -48,6 +48,7 @@ struct gseData {
 	CTYPE_INT32U maxTime;						// stored in milliseconds
 	int (*encodeDataset)(unsigned char *buf);	// function pointer to dataset-specific encoder
 	int (*getDatasetLength)();					// function pointer to dataset-specific getLength function
+	void (*datasetDecodeDone)();				// function pointer to dataset-specific callback after decode completes
 };
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
