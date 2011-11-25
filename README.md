@@ -74,7 +74,7 @@ void callbackFunction() {
 SyckResult_SynChk.datasetDecodeDone = &callbackFunction;
 ```
 
-where "SyckResult_SynChk" is of type "struct gseData" or "struct svData", as defined in gse.h or sv.h. After being initialised, this function will be called after the dataset is read from an incoming packet.
+where `SyckResult_SynChk` is of type `struct gseData` or `struct svData`, as defined in gse.h or sv.h. After being initialised, this function will be called after a dataset is successfully decoded, to allow the LN to deal with the new data.
 
 ## Known issues and possible features ##
 
@@ -97,5 +97,3 @@ where "SyckResult_SynChk" is of type "struct gseData" or "struct svData", as def
     - could create a virtual Ethernet bus where all generated packets are broadcast to all IEDs/AccessPoints
 
  - platform-specific optimisation of the generic byte copy functions
- 
- - add a callback function which can be executed after a dataset is successfully decoded, to allow the LN to deal with the new data. The user would need to specify the callback function contents.
