@@ -66,13 +66,13 @@ Clearly, a real implementation might include the use of platform-specific timers
 
 Callbacks should be set up in the form:
 
-'''C
+```C
 void callbackFunction() {
 	;
 }
 
 SyckResult_SynChk.datasetDecodeDone = &callbackFunction;
-'''
+```
 
 where "SyckResult_SynChk" is of type "struct gseData" or "struct svData", as defined in gse.h or sv.h. After being initialised, this function will be called after the dataset is read from an incoming packet.
 
