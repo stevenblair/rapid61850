@@ -598,6 +598,7 @@ public class SCLCodeGenerator {
 													svPacketDataInit.append("\t}\n");
 
 													svPacketDataInit.append("\t" + svName + ".ASDUCount = 0;\n");
+													svPacketDataInit.append("\t" + svName + ".datasetDecodeDone = NULL;\n");
 
 													if (svControls.hasNext()) {
 														svPacketDataInit.append("\n");

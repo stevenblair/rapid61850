@@ -87,6 +87,7 @@ void init_sv() {
 		Volt_11.ASDU[i].data.size = 0;
 	}
 	Volt_11.ASDUCount = 0;
+	Volt_11.datasetDecodeDone = NULL;
 
 	rmxuCB_rmxu.noASDU = 16;
 	rmxuCB_rmxu.ethHeaderData.destMACAddress[0] = 0x01;
@@ -111,5 +112,6 @@ void init_sv() {
 		rmxuCB_rmxu.ASDU[i].data.size = 0;
 	}
 	rmxuCB_rmxu.ASDUCount = 0;
+	rmxuCB_rmxu.datasetDecodeDone = NULL;
 }
 
