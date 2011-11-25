@@ -74,7 +74,7 @@ void gseDecode(unsigned char *buf, int len) {
 	int offset = 22;
 
 	// check for VLAN tag
-	if (&buf[12] == 0x81 && &buf[13] == 0x00) {
+	if (buf[12] == 0x81 && buf[13] == 0x00) {
 		offset = 26;
 	}
 
