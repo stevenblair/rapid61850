@@ -118,8 +118,6 @@ void init_gse() {
 	ItlPositions_Itl.numDatSetEntries = 6;
 	ItlPositions_Itl.encodeDataset = &ber_encode_Itl;
 	ItlPositions_Itl.getDatasetLength = &ber_get_length_Itl;
-	ItlPositions_Itl.datasetDecodeDone = NULL;
-
 	SyckResult_SynChk.ethHeaderData.destMACAddress[0] = 0x01;
 	SyckResult_SynChk.ethHeaderData.destMACAddress[1] = 0x0C;
 	SyckResult_SynChk.ethHeaderData.destMACAddress[2] = 0xCD;
@@ -145,8 +143,6 @@ void init_gse() {
 	SyckResult_SynChk.numDatSetEntries = 1;
 	SyckResult_SynChk.encodeDataset = &ber_encode_SynChk;
 	SyckResult_SynChk.getDatasetLength = &ber_get_length_SynChk;
-	SyckResult_SynChk.datasetDecodeDone = NULL;
-
 	MMXUResult_MMXUResult.ethHeaderData.destMACAddress[0] = 0x01;
 	MMXUResult_MMXUResult.ethHeaderData.destMACAddress[1] = 0x0C;
 	MMXUResult_MMXUResult.ethHeaderData.destMACAddress[2] = 0xCD;
@@ -172,7 +168,5 @@ void init_gse() {
 	MMXUResult_MMXUResult.numDatSetEntries = 1;
 	MMXUResult_MMXUResult.encodeDataset = &ber_encode_MMXUResult;
 	MMXUResult_MMXUResult.getDatasetLength = &ber_get_length_MMXUResult;
-	MMXUResult_MMXUResult.datasetDecodeDone = NULL;
-
 }
 

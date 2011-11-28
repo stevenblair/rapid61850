@@ -285,8 +285,8 @@ int ber_decode_Positions_RSYN_1(unsigned char *buf) {
 	offset += ber_decode_myMV(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Amps_1);
 	offset += ber_decode_myMV(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Volts_1);
 
-	if (ItlPositions_Itl.datasetDecodeDone != NULL) {
-		ItlPositions_Itl.datasetDecodeDone();
+	if (D1Q1SB4.S1.C1.RSYN_1.gse_inputs.datasetDecodeDone != NULL) {
+		D1Q1SB4.S1.C1.RSYN_1.gse_inputs.datasetDecodeDone();
 	}
 
 	return offset;

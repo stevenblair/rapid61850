@@ -49,6 +49,7 @@ public class CFunctionCoder extends CFunction {
 	protected CoderType		coderType;
 	protected String		prefix;
 	protected TExtRef		extRef;
+	protected String		GSESVInputPath;
 
 	public CFunctionCoder(EObject obj, CommsType commsType, CoderType coderType) {
 		super("int");
@@ -192,6 +193,7 @@ public class CFunctionCoder extends CFunction {
 					lnName = (((TLN) extRef.eResource().getEObject(lnNameUri)).getLnClass().toString());
 					
 					variableName = iedName + "." + apName + "." + ldName + "." + extRef.getPrefix() + lnName + "_" + extRef.getLnInst() + ".sv_inputs.";
+					GSESVInputPath = variableName;
 				}
 			}
 			else if (commsType == CommsType.GSE && extRef != null) {
@@ -218,7 +220,8 @@ public class CFunctionCoder extends CFunction {
 					
 					//TODO: part after ".gse_inputs." needs to be expanded
 					//variableName = iedName + "." + apName + "." + ldName + "." + /*ln.getPrefix() +*/ lnName + "_" + extRef.getLnInst() + ".gse_inputs."/* + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix()*/;
-					variableName = iedName + "." + apName + "." + ldName + "." + lnPrefix + lnName + "_" + extRef.getLnInst() + ".gse_inputs." + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix();
+					GSESVInputPath = iedName + "." + apName + "." + ldName + "." + lnPrefix + lnName + "_" + extRef.getLnInst() + ".gse_inputs.";
+					variableName = GSESVInputPath + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix();
 					instanceSuffix = "_" + fcda.getLnInst();
 				}
 			}
@@ -372,25 +375,28 @@ public class CFunctionCoder extends CFunction {
 			if (coderType == CoderType.DECODER) {
 				// call (optional) callback after dataset decode
 				if (commsType == CommsType.GSE) {
-					TGSEControl gseControl = SCLCodeGenerator.getGSEControl((TDataSet)dataType);
-					String gseName = gseControl.getName() + "_" + gseControl.getAppID();
 					
-					body = body.concat("\n\tif (" + gseName + ".datasetDecodeDone != NULL) {\n");
-					body = body.concat("\t\t" + gseName + ".datasetDecodeDone();\n");
+					//iedName + "." + apName + "." + ldName + "." + lnPrefix + lnName + "_" + extRef.getLnInst() + ".gse_inputs.";
+					/*TGSEControl gseControl = SCLCodeGenerator.getGSEControl((TDataSet)dataType);
+					String gseName = gseControl.getName() + "_" + gseControl.getAppID();*/
+					
+					body = body.concat("\n\tif (" + GSESVInputPath + "datasetDecodeDone != NULL) {\n");
+					body = body.concat("\t\t" + GSESVInputPath + "datasetDecodeDone();\n");
 					body = body.concat("\t}\n");
 				}
 				else if (commsType == CommsType.SV) {
-					if (dataType != null) {
+					/*if (dataType != null) {
 						TSampledValueControl svControl = SCLCodeGenerator.getSVControl((TDataSet)dataType);
 						
 						if (svControl != null) {
 							String svName = svControl.getName() + "_" + svControl.getSmvID();
-			
-							body = body.concat("\n\tif (" + svName + ".datasetDecodeDone != NULL) {\n");
-							body = body.concat("\t\t" + svName + ".datasetDecodeDone();\n");
+			*/
+							body = body.concat("\n\tif (" + GSESVInputPath + "datasetDecodeDone != NULL) {\n");
+							body = body.concat("\t\t" + GSESVInputPath + "datasetDecodeDone();\n");
 							body = body.concat("\t}\n");
+							/*
 						}
-					}
+					}*/
 				}
 			}
 		}

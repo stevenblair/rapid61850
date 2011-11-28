@@ -35,7 +35,7 @@ The accompanying mbed microcontroller example code is available [here](http://mb
 
 ## Using the code ##
 
-First open the file `SCLCodeGenerator.java`. In the `main()` function, set the variable `xmlFile` to the path of the SCD file. Run the Java project to generate the C implementation.
+First open the file `Main.java`. In the `main()` function, set the argument of `generateCode(filename)` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation.
 
 A basic C `main()` function will look something like:
 
@@ -67,14 +67,14 @@ Clearly, a real implementation might include the use of platform-specific timers
 Callbacks should be set up in the form:
 
 ```C
-void callbackFunction() {
+void SVcallbackFunction() {
 	;
 }
 
-SyckResult_SynChk.datasetDecodeDone = &callbackFunction;
+D1Q1SB4.S1.C1.MMXU_1.sv_inputs.datasetDecodeDone = &SVcallbackFunction;
 ```
 
-where `SyckResult_SynChk` is of type `struct gseData` or `struct svData`, as defined in gse.h or sv.h. After being initialised, this function will be called after a dataset is successfully decoded, to allow the LN to deal with the new data.
+where `D1Q1SB4.S1.C1.MMXU_1` is a Logical Node defined in `datatypes.h`. After being initialised, this function will be called after this dataset is successfully decoded, to allow the LN to deal with the new data.
 
 ## Known issues and possible features ##
 
@@ -90,7 +90,7 @@ where `SyckResult_SynChk` is of type `struct gseData` or `struct svData`, as def
  - ensure all data types in C code are in an order that can be compiled
  - ensure C string literals are "safe", i.e. `\\` instead of `\`
 
- - put svData and gseData instances inside LLN0 definition
+ - put svData and gseData instances inside LLN0 definition?
 
  - need way of specifying implemented IED, and generating only this IED. But keep existing mode - may be useful for simulating an entire substation
     - i.e., two modes of use.

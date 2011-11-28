@@ -65,10 +65,12 @@ import ch.iec._61850._2006.scl.TSDI;
 import ch.iec._61850._2006.scl.util.SclXMLProcessor;
 
 public class SCLCodeGenerator {
+	
+	final static String PATH_TO_SOURCE = "src\\sclToC\\";
 
-	public static void main(String[] args) {
+	public void generateCode(String filename) {
 		// import SCD file
-		String xmlFile = "src\\sclToC\\scd.xml";
+		String xmlFile = PATH_TO_SOURCE + filename;
 		
 		SclXMLProcessor processor = null;
 		Resource resource = null;
@@ -354,6 +356,7 @@ public class SCLCodeGenerator {
 															}
 														}
 														
+														dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
 														dataTypesHeader.appendDatatypes("\n\t} sv_inputs;");
 													}
 												}
@@ -415,7 +418,8 @@ public class SCLCodeGenerator {
 																dataTypesHeader.appendDatatypes("\n\t\tstruct " + dataObject.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDoName() + "_" + fcda.getLnInst() + ";");
 															}
 														}
-														
+
+														dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
 														dataTypesHeader.appendDatatypes("\n\t} gse_inputs;");
 													}
 												}
@@ -598,7 +602,7 @@ public class SCLCodeGenerator {
 													svPacketDataInit.append("\t}\n");
 
 													svPacketDataInit.append("\t" + svName + ".ASDUCount = 0;\n");
-													svPacketDataInit.append("\t" + svName + ".datasetDecodeDone = NULL;\n");
+													//svPacketDataInit.append("\t" + svName + ".datasetDecodeDone = NULL;\n");
 
 													if (svControls.hasNext()) {
 														svPacketDataInit.append("\n");
@@ -711,7 +715,7 @@ public class SCLCodeGenerator {
 													gsePacketDataInit.append("\t" + gseName + ".numDatSetEntries = " + dataset.getFCDA().size() + ";\n");
 													gsePacketDataInit.append("\t" + gseName + ".encodeDataset = &ber_encode_" + gseControl.getAppID() + ";\n");
 													gsePacketDataInit.append("\t" + gseName + ".getDatasetLength = &ber_get_length_" + gseControl.getAppID() + ";\n");
-													gsePacketDataInit.append("\t" + gseName + ".datasetDecodeDone = NULL;\n\n");
+													//gsePacketDataInit.append("\t" + gseName + ".datasetDecodeDone = NULL;\n\n");
 													
 													// send GSE function
 													String gseUpdateFunctionPrototype = "int gse_send_" + gseName + "(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive)";

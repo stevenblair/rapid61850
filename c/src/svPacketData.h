@@ -48,7 +48,7 @@ struct svData {
 	struct ASDU *ASDU;
 	CTYPE_INT16U ASDUCount;			// stores present ASDU count; transmit a packet when equals "noASDU"
 	CTYPE_INT16U sampleCountMaster;
-	void (*datasetDecodeDone)();	// function pointer to dataset-specific callback after decode completes
+	//void (*datasetDecodeDone)(struct svData *svData);	// function pointer to dataset-specific callback after decode completes
 };
 
 #endif
