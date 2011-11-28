@@ -96,7 +96,6 @@ In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in o
 
 ## Known issues and possible features ##
 
- - only include items in SV packets if set to true in SmvOpts; see page 83 of 61850-6, page 144 of 7-2, and page 25 of 9-2.
  - Inputs - find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset
  - default values (including DOI and DAI), and allocate memory for strings
     - typical values are set in DataTypeTemplates section (DA and BDA, both sub-types of AbstractDataType, may have Val elements)

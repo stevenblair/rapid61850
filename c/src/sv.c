@@ -83,6 +83,9 @@ void init_sv() {
 		Volt_11.ASDU[i].smpCnt = 0;
 		Volt_11.ASDU[i].confRev = 1;
 		Volt_11.ASDU[i].smpSynch = 1;
+		Volt_11.ASDU[i].showRefrTm = 1;
+		Volt_11.ASDU[i].showDatset = 0;
+		Volt_11.ASDU[i].showSmpRate = 1;
 		Volt_11.ASDU[i].smpRate = 4800;
 		Volt_11.ASDU[i].data.size = 0;
 	}
@@ -107,6 +110,9 @@ void init_sv() {
 		rmxuCB_rmxu.ASDU[i].smpCnt = 0;
 		rmxuCB_rmxu.ASDU[i].confRev = 1;
 		rmxuCB_rmxu.ASDU[i].smpSynch = 1;
+		rmxuCB_rmxu.ASDU[i].showRefrTm = 1;
+		rmxuCB_rmxu.ASDU[i].showDatset = 0;
+		rmxuCB_rmxu.ASDU[i].showSmpRate = 1;
 		rmxuCB_rmxu.ASDU[i].smpRate = 16;
 		rmxuCB_rmxu.ASDU[i].data.size = 0;
 	}

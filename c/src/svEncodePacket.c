@@ -60,7 +60,7 @@ int svAPDULength(struct svData *svData) {
 }
 
 
-//TODO: convert to proper BER sizes
+//TODO: convert to proper BER sizes, where needed
 // creates an SV packet, including frame header. returns 0 on fail; number of bytes on success
 int svEncodePacket(struct svData *svData, unsigned char *buf) {
 	int offset = 0;
@@ -98,10 +98,9 @@ int svEncodePacket(struct svData *svData, unsigned char *buf) {
 	buf[offset++] = 0x60;
 	offset += encodeLength(&buf[offset], svAPDULength(svData));
 
-	//TODO noASDU may be > 126?
 	buf[offset++] = 0x80;
-	buf[offset++] = 1;
-	buf[offset++] = (unsigned char) svData->noASDU;
+	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svData->noASDU));
+	offset += ber_encode_integer(&buf[offset], &svData->noASDU, BER_GET_LENGTH_CTYPE_INT16U(&svData->noASDU));
 
 	buf[offset++] = 0xA2;
 	offset += encodeLength(&buf[offset], svSeqLength(svData));
@@ -118,31 +117,45 @@ int svEncodePacket(struct svData *svData, unsigned char *buf) {
 		memcpy(&buf[offset], svData->ASDU[i].svID, size);
 		offset += size;
 
-		/*size = strlen(svData->ASDU[i].datset);
-		buf[offset++] = 0x81;
-		buf[offset++] = size;
-		memcpy(&buf[offset], svData->ASDU[i].datset, size);
-		offset += size;*/
+#if SV_OPTIONAL_SUPPORTED == 1
+		if (svData->ASDU[i].showDatset) {
+			size = strlen(svData->ASDU[i].datset);
+			buf[offset++] = 0x81;
+			buf[offset++] = size;
+			memcpy(&buf[offset], svData->ASDU[i].datset, size);
+			offset += size;
+		}
+#endif
 
 		buf[offset++] = 0x82;
 		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svData->ASDU[i].smpCnt));
 		offset += ber_encode_integer(&buf[offset], &svData->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U);
-		//buf[offset++] = BER_GET_LENGTH_CTYPE_INT16U(&svData->ASDU[i].smpCnt);
-		//offset += BER_ENCODE_CTYPE_INT16U(&buf[offset], &svData->ASDU[i].smpCnt);
 
 		buf[offset++] = 0x83;
 		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&svData->ASDU[i].confRev));
 		offset += ber_encode_integer(&buf[offset], &svData->ASDU[i].confRev, SV_GET_LENGTH_INT32U);
-		//buf[offset++] = BER_GET_LENGTH_CTYPE_INT32U(&svData->ASDU[i].confRev);
-		//offset += BER_ENCODE_CTYPE_INT32U(&buf[offset], &svData->ASDU[i].confRev);
+
+#if SV_OPTIONAL_SUPPORTED == 1
+		if (svData->ASDU[i].showRefrTm) {
+			buf[offset++] = 0x84;
+			offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_TIMESTAMP(&svData->ASDU[i].refrTm));
+			setTimestamp(&svData->ASDU[i].refrTm);
+			memcpy(&buf[offset], &svData->ASDU[i].refrTm, BER_GET_LENGTH_CTYPE_TIMESTAMP(&svData->ASDU[i].refrTm));
+			offset += BER_GET_LENGTH_CTYPE_TIMESTAMP(&svData->ASDU[i].refrTm);
+		}
+#endif
 
 		buf[offset++] = 0x85;
 		buf[offset++] = SV_GET_LENGTH_BOOLEAN;
 		offset += ENCODE_CTYPE_BOOLEAN(&buf[offset], &svData->ASDU[i].smpSynch);
 
-		/*buf[offset++] = 0x86;
-		buf[offset++] = SV_GET_LENGTH_INT16U;
-		offset += ENCODE_CTYPE_INT16U(&buf[offset], &svData->ASDU[i].smpRate);*/
+#if SV_OPTIONAL_SUPPORTED == 1
+		if (svData->ASDU[i].showSmpRate) {
+			buf[offset++] = 0x86;
+			buf[offset++] = SV_GET_LENGTH_INT16U;
+			offset += ENCODE_CTYPE_INT16U(&buf[offset], &svData->ASDU[i].smpRate);
+		}
+#endif
 
 		buf[offset++] = 0x87;
 		offset += encodeLength(&buf[offset], svData->ASDU[i].data.size);

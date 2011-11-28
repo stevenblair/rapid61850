@@ -589,13 +589,25 @@ public class SCLCodeGenerator {
 													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].smpCnt = 0;\n");
 													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].confRev = " + svControl.getConfRev() + ";\n");
 													
-													int smpSynch = 0;
+													int smpSynch = 0, showRefrTm = 0, showDatset = 0, showSmpRate = 0;
 													if (svControl.getSmvOpts() != null) {
 														if (svControl.getSmvOpts().isSampleSynchronized() == true) {
 															smpSynch = 1;
 														}
+														if (svControl.getSmvOpts().isRefreshTime() == true) {
+															showRefrTm = 1;
+														}
+														if (svControl.getSmvOpts().isDataSet() == true) {
+															showDatset = 1;
+														}
+														if (svControl.getSmvOpts().isSampleRate() == true) {
+															showSmpRate = 1;
+														}
 													}
 													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].smpSynch = " + smpSynch + ";\n");
+													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].showRefrTm = " + showRefrTm + ";\n");
+													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].showDatset = " + showDatset + ";\n");
+													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].showSmpRate = " + showSmpRate + ";\n");
 													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].smpRate = " + svControl.getSmpRate() + ";\n");
 													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].data.size = 0;\n");
 													

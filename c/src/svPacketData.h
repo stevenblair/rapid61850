@@ -25,6 +25,8 @@
 #include <string.h>
 #include "ctypes.h"
 
+#define SV_OPTIONAL_SUPPORTED	0		// set to "1" to enable output of optional items in SV packets (Wireshark does not support these)
+
 #define SV_MAX_DATASET_SIZE 	512
 //#define SV_MAX_PACKET_SIZE 		1024
 
@@ -33,9 +35,13 @@ struct ASDU {
 	unsigned char *datset;			// optional
 	CTYPE_INT16U smpCnt;
 	CTYPE_INT32U confRev;
-	//struct UtcTime refrTm;	// optional
+	//struct UtcTime refrTm;			// optional
+	CTYPE_TIMESTAMP refrTm;			// optional
 	CTYPE_BOOLEAN smpSynch;
-	CTYPE_INT16U smpRate;
+	CTYPE_INT16U smpRate;			// optional
+	int showDatset;
+	int showRefrTm;
+	int showSmpRate;
 	struct data {
 		unsigned char data[SV_MAX_DATASET_SIZE];
 		CTYPE_INT32U size;
