@@ -76,6 +76,24 @@ D1Q1SB4.S1.C1.MMXU_1.sv_inputs.datasetDecodeDone = &SVcallbackFunction;
 
 where `D1Q1SB4.S1.C1.MMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). After being initialised, this function will be called after this dataset is successfully decoded, to allow the LN to deal with the new data.
 
+### Platform-specific options ###
+
+All platform-specific options can be edited in `ctypes.h` or `ctypes.c`. For example, for a big endian platform, change:
+
+```C
+#define LITTLE_ENDIAN		1
+```
+
+to:
+
+```C
+#define LITTLE_ENDIAN		0
+```
+
+All `CTYPE_*` definitions must map to local datatypes of the correct size and sign.
+
+In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in order (according to platform endianness), and `reversememcpy()` copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these should work, they can be replaced with platform-specific alternatives for better performance.
+
 ## Known issues and possible features ##
 
  - only include items in SV packets if set to true in SmvOpts; see page 83 of 61850-6, page 144 of 7-2, and page 25 of 9-2.
@@ -90,4 +108,3 @@ where `D1Q1SB4.S1.C1.MMXU_1` is a Logical Node defined in `datatypes.h` (and `ie
  - need way of specifying implemented IED, and generating only this IED. But keep existing mode - may be useful for simulating an entire substation
     - i.e., two modes of use.
     - could create a virtual Ethernet bus where all generated packets are broadcast to all IEDs/AccessPoints
- - platform-specific optimisation of the generic byte copy functions
