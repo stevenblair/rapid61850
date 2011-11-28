@@ -50,7 +50,7 @@ public abstract class CFile {
 			//FileReader fr = new FileReader(copyrightTextFile);
 			FileInputStream fis  = new FileInputStream(copyrightTextFile);
 		    BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-		     
+		    
 			if (f.exists()) {
 				f.delete();
 			}

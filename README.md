@@ -28,7 +28,7 @@ There are two source code trees: `emf` (in Java), and `c` (obviously written in 
 
 ### C code project example ###
 
-An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile on Windows, you should have MinGW installed and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.) In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `"${workspace_loc:/${ProjName}/Include}"` as an include path. Also, in Project Properties > C/C++ Build > Settings > MinGW C Linker, add `wpcap` and `ws2_32` to "Libraries" and add `"${workspace_loc:/${ProjName}/Lib}"` and `"C:\MinGW\lib"` to "Library search path". The WinPcap library files and header files (from http://www.winpcap.org/devel.htm) have been included in the repository for convenience; the PC must also have WinPcap driver installed (from http://www.winpcap.org/install/default.htm).
+An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile on Windows, you should have MinGW installed and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.) In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `"${workspace_loc:/${ProjName}/Include}"` as an include path. Also, in Project Properties > C/C++ Build > Settings > MinGW C Linker, add `wpcap` and `ws2_32` (assuming you are using Windows) to "Libraries" and add `"${workspace_loc:/${ProjName}/Lib}"` and `"C:\MinGW\lib"` to "Library search path". The WinPcap library files and header files (from http://www.winpcap.org/devel.htm) have been included in the repository for convenience; the PC must also have WinPcap driver installed (from http://www.winpcap.org/install/default.htm).
 
 The accompanying mbed microcontroller example code is available [here](http://mbed.org/users/sblair/programs/rapid61850example/lyox9z). A [Processing](http://processing.org/) GUI is located in the `/processing/PACWorldClient` directory. For this to work, execute the example C project, start the microcontroller code, then start the Processing executable.
 
@@ -74,26 +74,20 @@ void SVcallbackFunction() {
 D1Q1SB4.S1.C1.MMXU_1.sv_inputs.datasetDecodeDone = &SVcallbackFunction;
 ```
 
-where `D1Q1SB4.S1.C1.MMXU_1` is a Logical Node defined in `datatypes.h`. After being initialised, this function will be called after this dataset is successfully decoded, to allow the LN to deal with the new data.
+where `D1Q1SB4.S1.C1.MMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). After being initialised, this function will be called after this dataset is successfully decoded, to allow the LN to deal with the new data.
 
 ## Known issues and possible features ##
 
- - only include items in SV packets if set to true in SmvOpts; see page 83 of 61850-6
-
+ - only include items in SV packets if set to true in SmvOpts; see page 83 of 61850-6, page 144 of 7-2, and page 25 of 9-2.
  - Inputs - find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset
-
  - default values (including DOI and DAI), and allocate memory for strings
     - typical values are set in DataTypeTemplates section (DA and BDA, both sub-types of AbstractDataType, may have Val elements)
     - special case values are set in LN definition
-
  - ensure all dataset elements are in the same order as in the SCD
  - ensure all data types in C code are in an order that can be compiled
  - ensure C string literals are "safe", i.e. `\\` instead of `\`
-
  - put svData and gseData instances inside LLN0 definition?
-
  - need way of specifying implemented IED, and generating only this IED. But keep existing mode - may be useful for simulating an entire substation
     - i.e., two modes of use.
     - could create a virtual Ethernet bus where all generated packets are broadcast to all IEDs/AccessPoints
-
  - platform-specific optimisation of the generic byte copy functions
