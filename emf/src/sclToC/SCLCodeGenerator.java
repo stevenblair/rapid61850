@@ -131,12 +131,12 @@ public class SCLCodeGenerator {
 			TEnumType enumType = enums.next();
 			Iterator<TEnumVal> enumVals = enumType.getEnumVal().iterator();
 			
-			dataTypesHeader.appendDatatypes("enum " + enumType.getId() + " {\n");
+			dataTypesHeader.appendDatatypes("enum " + enumType.getId().replaceAll("[^A-Za-z0-9]", "_") + " {\n");
 			
 			while (enumVals.hasNext()) {
 				TEnumVal enumVal = enumVals.next();
 
-				dataTypesHeader.appendDatatypes("\t" + enumType.getId().toUpperCase() + "_" + enumVal.getValue().toUpperCase().replaceAll("[^A-Za-z0-9]", "_") + " = " + enumVal.getOrd().intValue());
+				dataTypesHeader.appendDatatypes("\t" + enumType.getId().toUpperCase().replaceAll("[^A-Za-z0-9]", "_") + "_" + enumVal.getValue().toUpperCase().replaceAll("[^A-Za-z0-9]", "_") + " = " + enumVal.getOrd().intValue());
 				
 				if (enumVals.hasNext()) {
 					dataTypesHeader.appendDatatypes(",");

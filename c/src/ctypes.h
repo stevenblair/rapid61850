@@ -28,6 +28,7 @@ extern "C" {
 #include <string.h>
 
 #define LITTLE_ENDIAN		1
+#define TIMESTAMP_SUPPORTED	1
 
 // platform-specific data types to conform to SV type sizes (Table 14 in IEC 61850-9-2)
 #define CTYPE_BOOLEAN		unsigned char

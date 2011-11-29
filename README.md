@@ -40,6 +40,8 @@ First open the file `Main.java`. In the `main()` function, set the argument of `
 A basic C `main()` function will look something like:
 
 ```C
+#include "iec61850.h"
+
 int length = 0;
 unsigned char buffer[2048] = {0};
 

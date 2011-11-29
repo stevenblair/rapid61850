@@ -21,7 +21,9 @@
 #include "ctypes.h"
 #include "gse.h"
 #include "sv.h"
+#if TIMESTAMP_SUPPORTED == 1
 #include <sys\time.h>
+#endif
 
 unsigned char	LOCAL_MAC_ADDRESS[] = {0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02};
 unsigned char	endian_buf[16] = {0};
@@ -146,6 +148,7 @@ void reversememcpy(unsigned char *dst, const unsigned char *src, unsigned int le
 }
 
 void setTimestamp(CTYPE_TIMESTAMP *dest) {
+#if TIMESTAMP_SUPPORTED == 1
 	unsigned char *buf = (unsigned char *) dest;
 	struct timeval tv;
 	CTYPE_INT32U frac = 0;
@@ -157,6 +160,7 @@ void setTimestamp(CTYPE_TIMESTAMP *dest) {
 	netmemcpy(&buf[4], &frac, 4);
 
 	buf[7] = 0x18;	// quality: 24 bits of accuracy
+#endif
 }
 
 // if the recommended MAC address ranges are used, this function filters GOOSE and SV packets
