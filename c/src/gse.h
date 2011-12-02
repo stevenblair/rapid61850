@@ -21,9 +21,6 @@
 #ifndef GSE_H
 #define GSE_H
 
-#ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
-extern "C" {
-#endif
 
 #include "gseEncode.h"
 #include "gseDecode.h"
@@ -43,8 +40,5 @@ extern struct gseData SyckResult_SynChk;
 extern struct gseData MMXUResult_MMXUResult;
 
 
-#ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
-}
-#endif
 
 #endif

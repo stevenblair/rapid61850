@@ -26,9 +26,9 @@
 #endif
 
 unsigned char	LOCAL_MAC_ADDRESS[] = {0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02};
-unsigned char	endian_buf[16] = {0};
+unsigned char	endian_buf[16] = {0};	//TODO: make re-entrant
 
-
+// TODO: implement fixed-sized version
 int ber_integer_length(void *value, int maxLength) {
 	netmemcpy(endian_buf, value, maxLength);	// ensure bytes are in big-endian order
 
@@ -65,6 +65,7 @@ int ber_integer_length(void *value, int maxLength) {
 	return maxLength - shift;
 }
 
+// TODO: implement fixed-sized version
 int ber_encode_integer(unsigned char *bufDst, void *value, int maxLength) {
 	netmemcpy(endian_buf, value, maxLength);	// ensure bytes are in big-endian order
 

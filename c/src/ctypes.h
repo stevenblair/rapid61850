@@ -30,6 +30,8 @@ extern "C" {
 #define LITTLE_ENDIAN		1
 #define TIMESTAMP_SUPPORTED	1
 
+#define GOOSE_FIXED_SIZE	0	// set to 1 to enable fixed-sized GOOSE datasets, which are slightly more efficient to encode.
+
 // platform-specific data types to conform to SV type sizes (Table 14 in IEC 61850-9-2)
 #define CTYPE_BOOLEAN		unsigned char
 #define CTYPE_INT8			char
@@ -60,7 +62,21 @@ extern "C" {
 #define SV_GET_LENGTH_QUALITY				4
 #define SV_GET_LENGTH_DBPOS					4
 
+#if GOOSE_FIXED_SIZE == 1
 // BER datatype sizes, which are dependent on the actual data
+#define BER_GET_LENGTH_CTYPE_FLOAT32(x)			(SV_GET_LENGTH_FLOAT32)
+#define BER_GET_LENGTH_CTYPE_FLOAT64(x)			(SV_GET_LENGTH_FLOAT64)
+#define BER_GET_LENGTH_CTYPE_TIMESTAMP(x)		(SV_GET_LENGTH_TIMESTAMP)
+#define BER_GET_LENGTH_CTYPE_INT16(x)			(3)								// 16-bit datatypes are encoded in 24 bits!
+#define BER_GET_LENGTH_CTYPE_INT32(x)			(5)
+#define BER_GET_LENGTH_CTYPE_INT16U(x)			(3)
+#define BER_GET_LENGTH_CTYPE_INT32U(x)			(5)
+#define BER_GET_LENGTH_CTYPE_VISSTRING255(x)	(SV_GET_LENGTH_VISSTRING255)
+#define BER_GET_LENGTH_CTYPE_BOOLEAN(x)			(SV_GET_LENGTH_BOOLEAN)
+#define BER_GET_LENGTH_CTYPE_ENUM(x)			(2)
+#define BER_GET_LENGTH_CTYPE_QUALITY(x)			(3)
+#define BER_GET_LENGTH_CTYPE_DBPOS(x)			(SV_GET_LENGTH_DBPOS)
+#else
 #define BER_GET_LENGTH_CTYPE_FLOAT32(x)			(SV_GET_LENGTH_FLOAT32 + 1)		// + 1 byte for number of exponent bits
 #define BER_GET_LENGTH_CTYPE_FLOAT64(x)			(SV_GET_LENGTH_FLOAT64 + 1)		// + 1 byte for number of exponent bits
 #define BER_GET_LENGTH_CTYPE_TIMESTAMP(x)		(SV_GET_LENGTH_TIMESTAMP)
@@ -73,7 +89,7 @@ extern "C" {
 #define BER_GET_LENGTH_CTYPE_ENUM(x)			(ber_integer_length((x), SV_GET_LENGTH_ENUM))
 #define BER_GET_LENGTH_CTYPE_QUALITY(x)			(/*SV_GET_LENGTH_QUALITY*/2 + 1)		// + 1 byte for padding
 #define BER_GET_LENGTH_CTYPE_DBPOS(x)			(SV_GET_LENGTH_DBPOS)
-
+#endif
 
 #define ASN1_TAG_ARRAY							0x81
 #define ASN1_TAG_STRUCTURE						0x82

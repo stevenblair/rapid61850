@@ -21,9 +21,6 @@
 #ifndef SV_H
 #define SV_H
 
-#ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
-extern "C" {
-#endif
 
 #include "svEncode.h"
 #include "svDecode.h"
@@ -41,8 +38,5 @@ extern struct svData Volt_11;
 extern struct svData rmxuCB_rmxu;
 
 
-#ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
-}
-#endif
 
 #endif

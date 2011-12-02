@@ -3,9 +3,11 @@
 #ifndef <%=header.headerProtectName%>
 #define <%=header.headerProtectName%>
 
+<% if (header.showExternC) { %>
 #ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
 extern "C" {
 #endif
+<%}%>
 
 <%=
 header.includes
@@ -23,8 +25,10 @@ header.functionPrototypes.toString()
 header.extern.toString()
 %>
 
+<% if (header.showExternC) { %>
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
 }
 #endif
+<%}%>
 
 #endif

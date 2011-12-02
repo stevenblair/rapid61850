@@ -28,7 +28,8 @@ public class CHeader extends CFile {
 	public StringBuilder functionPrototypes;
 	public StringBuilder extern;
 	public CHeaderTemplate template;
-	
+	public Boolean showExternC = true;
+
 	public CHeader(String filename, String headerProtectName, String includes) {
 		super(filename, includes);
 		
@@ -37,6 +38,11 @@ public class CHeader extends CFile {
 		this.functionPrototypes = new StringBuilder();
 		this.extern = new StringBuilder();
 		this.template = new CHeaderTemplate();
+	}
+	
+	public CHeader(String filename, String headerProtectName, String includes, Boolean showExternC) {
+		this(filename, headerProtectName, includes);
+		this.showExternC = showExternC;
 	}
 
 	public void appendFunctionPrototypes(StringBuilder functionPrototypes) {
