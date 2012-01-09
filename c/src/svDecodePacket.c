@@ -23,6 +23,7 @@
 #include "svDecode.h"
 #include "svPacketData.h"
 #include "decodePacket.h"
+#include "gseDecodeBasic.h"
 #include <stddef.h>
 
 
@@ -36,6 +37,7 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 
 	int i = 0;
 	for (i = 0; i < len;) {
+		CTYPE_INT16U smpCnt = 0;
 		tag = (unsigned char) buf[i];
 		lengthFieldSize = getLengthFieldSize((unsigned char) buf[i + 1]);
 		lengthValue = decodeLength((unsigned char *) &buf[i + 1]);
@@ -52,7 +54,7 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 
 				break;
 			case 0x82:
-				// TODO: may be useful to store smpCnt value
+				BER_DECODE_CTYPE_INT16U(&buf[i + 1 + lengthFieldSize], &smpCnt);
 				break;
 			case 0x83:
 
@@ -68,7 +70,7 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 				break;
 			case 0x87:
 				if (svID != NULL) {
-					svDecodeDataset(&buf[i + 1 + lengthFieldSize], lengthValue, noASDU, svID, svIDLength);
+					svDecodeDataset(&buf[i + 1 + lengthFieldSize], lengthValue, noASDU, svID, svIDLength, smpCnt);
 				}
 				break;
 			default:

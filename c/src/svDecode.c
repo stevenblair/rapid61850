@@ -241,7 +241,7 @@ int decode_smv_RSYN_1(unsigned char *buf, int noASDU) {
 	return offset;
 }
 
-void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength) {
+void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {
 
 	if (strncmp((const char *) svID, "11", svIDLength) == 0) {
 		decode_smv_LPHD_1(dataset, ASDU);

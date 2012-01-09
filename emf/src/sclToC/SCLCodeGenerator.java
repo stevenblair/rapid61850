@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EReferenceImpl;
+import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import sclToCHelper.BDA;
@@ -253,7 +256,7 @@ public class SCLCodeGenerator {
 		// process Logical Node Types
 		Iterator<TLNodeType> lnTypes = dataTypeTemplates.getLNodeType().iterator();
 		dataTypesHeader.appendDatatypes("// logical nodes\n");
-		svDecodeDatasetFunction.append("void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength) {\n");
+		svDecodeDatasetFunction.append("void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {\n");
 		gseDecodeDatasetFunction.append("void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *datSet, int datSetLength) {\n");
 		
 		while (lnTypes.hasNext()) {
@@ -869,7 +872,7 @@ public class SCLCodeGenerator {
 		svEncodeHeader = svEncodeSource.populateHeaderFilePrototypes(svEncodeHeader);
 		gseEncodeHeader = gseEncodeSource.populateHeaderFilePrototypes(gseEncodeHeader);
 		gseDecodeHeader = gseDecodeSource.populateHeaderFilePrototypes(gseDecodeHeader);
-		svDecodeHeader.appendFunctionPrototypes("\nvoid svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength);");
+		svDecodeHeader.appendFunctionPrototypes("\nvoid svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt);");
 		gseDecodeHeader.appendFunctionPrototypes("\nvoid gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *datSet, int datSetLength);");
 		svEncodeHeader.appendFunctionPrototypes("\nint svEncodePacket(struct svData *svData, unsigned char *buf);");
 		gseEncodeHeader.appendFunctionPrototypes("int gseEncodePacket(struct gseData *gseData, unsigned char *buf);");
