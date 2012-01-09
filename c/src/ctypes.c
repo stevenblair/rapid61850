@@ -25,11 +25,11 @@
 #include <sys\time.h>
 #endif
 
-unsigned char	LOCAL_MAC_ADDRESS[] = {0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02};
-unsigned char	endian_buf[16] = {0};	//TODO: make re-entrant
+unsigned char	LOCAL_MAC_ADDRESS[] = LOCAL_MAC_ADDRESS_VALUE;
 
 // TODO: implement fixed-sized version
 int ber_integer_length(void *value, int maxLength) {
+	unsigned char	endian_buf[16] = {0};
 	netmemcpy(endian_buf, value, maxLength);	// ensure bytes are in big-endian order
 
 	unsigned char *buf = endian_buf;
@@ -67,6 +67,7 @@ int ber_integer_length(void *value, int maxLength) {
 
 // TODO: implement fixed-sized version
 int ber_encode_integer(unsigned char *bufDst, void *value, int maxLength) {
+	unsigned char	endian_buf[16] = {0};
 	netmemcpy(endian_buf, value, maxLength);	// ensure bytes are in big-endian order
 
 	unsigned char *buf = endian_buf;
@@ -123,6 +124,7 @@ int ber_encode_integer(unsigned char *bufDst, void *value, int maxLength) {
 }
 
 void ber_decode_integer(unsigned char *buf, int length, void *value, int maxLength) {
+	unsigned char	endian_buf[16] = {0};
 	unsigned char padding = (buf[0] & 0x80) ? 0xFF : 0x00;
 	int i = 0;
 	unsigned char *dest = (unsigned char *) value;

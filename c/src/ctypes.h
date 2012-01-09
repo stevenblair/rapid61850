@@ -27,10 +27,12 @@ extern "C" {
 
 #include <string.h>
 
-#define LITTLE_ENDIAN		1
-#define TIMESTAMP_SUPPORTED	1
+#define LITTLE_ENDIAN			1
+#define TIMESTAMP_SUPPORTED		1
 
-#define GOOSE_FIXED_SIZE	0	// set to 1 to enable fixed-sized GOOSE datasets, which are slightly more efficient to encode.
+#define LOCAL_MAC_ADDRESS_VALUE	{0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02}
+
+#define GOOSE_FIXED_SIZE		0	// set to 1 to enable fixed-sized GOOSE datasets, which are slightly more efficient to encode.
 
 // platform-specific data types to conform to SV type sizes (Table 14 in IEC 61850-9-2)
 #define CTYPE_BOOLEAN		unsigned char
