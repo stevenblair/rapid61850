@@ -69,6 +69,13 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass documentRootEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass historyTypeEClass = null;
 
 	/**
@@ -882,13 +889,6 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * @generated
 	 */
 	private EClass tVoltageEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass documentRootEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -1721,9 +1721,111 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getDocumentRoot() {
+		if (documentRootEClass == null) {
+			documentRootEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(1);
+		}
+		return documentRootEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDocumentRoot_Mixed() {
+        return (EAttribute)getDocumentRoot().getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_XMLNSPrefixMap() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_XSISchemaLocation() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_Communication() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_DataTypeTemplates() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_IED() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_LN() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_LN0() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_SCL() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDocumentRoot_Substation() {
+        return (EReference)getDocumentRoot().getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getHistoryType() {
 		if (historyTypeEClass == null) {
-			historyTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(1);
+			historyTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(2);
 		}
 		return historyTypeEClass;
 	}
@@ -1744,7 +1846,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getLN0Type() {
 		if (ln0TypeEClass == null) {
-			ln0TypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(2);
+			ln0TypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(3);
 		}
 		return ln0TypeEClass;
 	}
@@ -1756,7 +1858,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getOptFieldsType() {
 		if (optFieldsTypeEClass == null) {
-			optFieldsTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(5);
+			optFieldsTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(6);
 		}
 		return optFieldsTypeEClass;
 	}
@@ -1840,7 +1942,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getSCLType() {
 		if (sclTypeEClass == null) {
-			sclTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(6);
+			sclTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(7);
 		}
 		return sclTypeEClass;
 	}
@@ -1897,7 +1999,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getSettingGroupsType() {
 		if (settingGroupsTypeEClass == null) {
-			settingGroupsTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(7);
+			settingGroupsTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(8);
 		}
 		return settingGroupsTypeEClass;
 	}
@@ -1927,7 +2029,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getSmvOptsType() {
 		if (smvOptsTypeEClass == null) {
-			smvOptsTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(9);
+			smvOptsTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(10);
 		}
 		return smvOptsTypeEClass;
 	}
@@ -1984,7 +2086,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTAbstractConductingEquipment() {
 		if (tAbstractConductingEquipmentEClass == null) {
-			tAbstractConductingEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(10);
+			tAbstractConductingEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(11);
 		}
 		return tAbstractConductingEquipmentEClass;
 	}
@@ -2014,7 +2116,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTAbstractDataAttribute() {
 		if (tAbstractDataAttributeEClass == null) {
-			tAbstractDataAttributeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(11);
+			tAbstractDataAttributeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(12);
 		}
 		return tAbstractDataAttributeEClass;
 	}
@@ -2089,7 +2191,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTAccessControl() {
 		if (tAccessControlEClass == null) {
-			tAccessControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(12);
+			tAccessControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(13);
 		}
 		return tAccessControlEClass;
 	}
@@ -2101,7 +2203,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTAccessPoint() {
 		if (tAccessPointEClass == null) {
-			tAccessPointEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(13);
+			tAccessPointEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(14);
 		}
 		return tAccessPointEClass;
 	}
@@ -2149,7 +2251,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTAddress() {
 		if (tAddressEClass == null) {
-			tAddressEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(14);
+			tAddressEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(15);
 		}
 		return tAddressEClass;
 	}
@@ -2170,7 +2272,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTAnyContentFromOtherNamespace() {
 		if (tAnyContentFromOtherNamespaceEClass == null) {
-			tAnyContentFromOtherNamespaceEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(15);
+			tAnyContentFromOtherNamespaceEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(16);
 		}
 		return tAnyContentFromOtherNamespaceEClass;
 	}
@@ -2218,7 +2320,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTAnyLN() {
 		if (tAnyLNEClass == null) {
-			tAnyLNEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(16);
+			tAnyLNEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(17);
 		}
 		return tAnyLNEClass;
 	}
@@ -2284,7 +2386,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTAssociation() {
 		if (tAssociationEClass == null) {
-			tAssociationEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(18);
+			tAssociationEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(19);
 		}
 		return tAssociationEClass;
 	}
@@ -2359,7 +2461,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTBaseElement() {
 		if (tBaseElementEClass == null) {
-			tBaseElementEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(24);
+			tBaseElementEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(25);
 		}
 		return tBaseElementEClass;
 	}
@@ -2407,7 +2509,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTBay() {
 		if (tBayEClass == null) {
-			tBayEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(26);
+			tBayEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(27);
 		}
 		return tBayEClass;
 	}
@@ -2437,7 +2539,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTBDA() {
 		if (tbdaEClass == null) {
-			tbdaEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(27);
+			tbdaEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(28);
 		}
 		return tbdaEClass;
 	}
@@ -2449,7 +2551,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTBitRateInMbPerSec() {
 		if (tBitRateInMbPerSecEClass == null) {
-			tBitRateInMbPerSecEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(28);
+			tBitRateInMbPerSecEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(29);
 		}
 		return tBitRateInMbPerSecEClass;
 	}
@@ -2461,7 +2563,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTClientLN() {
 		if (tClientLNEClass == null) {
-			tClientLNEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(30);
+			tClientLNEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(31);
 		}
 		return tClientLNEClass;
 	}
@@ -2518,7 +2620,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTClientServices() {
 		if (tClientServicesEClass == null) {
-			tClientServicesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(31);
+			tClientServicesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(32);
 		}
 		return tClientServicesEClass;
 	}
@@ -2575,7 +2677,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTCommunication() {
 		if (tCommunicationEClass == null) {
-			tCommunicationEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(33);
+			tCommunicationEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(34);
 		}
 		return tCommunicationEClass;
 	}
@@ -2596,7 +2698,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTConductingEquipment() {
 		if (tConductingEquipmentEClass == null) {
-			tConductingEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(34);
+			tConductingEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(35);
 		}
 		return tConductingEquipmentEClass;
 	}
@@ -2617,7 +2719,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTConfLNs() {
 		if (tConfLNsEClass == null) {
-			tConfLNsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(35);
+			tConfLNsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(36);
 		}
 		return tConfLNsEClass;
 	}
@@ -2647,7 +2749,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTConnectedAP() {
 		if (tConnectedAPEClass == null) {
-			tConnectedAPEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(36);
+			tConnectedAPEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(37);
 		}
 		return tConnectedAPEClass;
 	}
@@ -2713,7 +2815,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTConnectivityNode() {
 		if (tConnectivityNodeEClass == null) {
-			tConnectivityNodeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(37);
+			tConnectivityNodeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(38);
 		}
 		return tConnectivityNodeEClass;
 	}
@@ -2734,7 +2836,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTControl() {
 		if (tControlEClass == null) {
-			tControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(38);
+			tControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(39);
 		}
 		return tControlEClass;
 	}
@@ -2753,9 +2855,27 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTControl_ControlBlock() {
+        return (EReference)getTControl().getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTControl_DataSetRef() {
+        return (EReference)getTControl().getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTControlBlock() {
 		if (tControlBlockEClass == null) {
-			tControlBlockEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(39);
+			tControlBlockEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(40);
 		}
 		return tControlBlockEClass;
 	}
@@ -2792,9 +2912,18 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTControlBlock_Control() {
+        return (EReference)getTControlBlock().getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTControlWithIEDName() {
 		if (tControlWithIEDNameEClass == null) {
-			tControlWithIEDNameEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(40);
+			tControlWithIEDNameEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(41);
 		}
 		return tControlWithIEDNameEClass;
 	}
@@ -2824,7 +2953,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTControlWithTriggerOpt() {
 		if (tControlWithTriggerOptEClass == null) {
-			tControlWithTriggerOptEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(41);
+			tControlWithTriggerOptEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(42);
 		}
 		return tControlWithTriggerOptEClass;
 	}
@@ -2854,7 +2983,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTDA() {
 		if (tdaEClass == null) {
-			tdaEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(42);
+			tdaEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(43);
 		}
 		return tdaEClass;
 	}
@@ -2902,7 +3031,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTDAI() {
 		if (tdaiEClass == null) {
-			tdaiEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(43);
+			tdaiEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(44);
 		}
 		return tdaiEClass;
 	}
@@ -2959,7 +3088,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTDataSet() {
 		if (tDataSetEClass == null) {
-			tDataSetEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(44);
+			tDataSetEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(45);
 		}
 		return tDataSetEClass;
 	}
@@ -2996,9 +3125,27 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTDataSet_Control() {
+        return (EReference)getTDataSet().getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTDataSet_ExtRef() {
+        return (EReference)getTDataSet().getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTDataTypeTemplates() {
 		if (tDataTypeTemplatesEClass == null) {
-			tDataTypeTemplatesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(45);
+			tDataTypeTemplatesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(46);
 		}
 		return tDataTypeTemplatesEClass;
 	}
@@ -3046,7 +3193,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTDAType() {
 		if (tdaTypeEClass == null) {
-			tdaTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(46);
+			tdaTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(47);
 		}
 		return tdaTypeEClass;
 	}
@@ -3074,9 +3221,27 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTDAType_ExtRef() {
+        return (EReference)getTDAType().getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTDAType_Fcda() {
+        return (EReference)getTDAType().getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTDO() {
 		if (tdoEClass == null) {
-			tdoEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(47);
+			tdoEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(48);
 		}
 		return tdoEClass;
 	}
@@ -3124,7 +3289,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTDOI() {
 		if (tdoiEClass == null) {
-			tdoiEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(48);
+			tdoiEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(49);
 		}
 		return tdoiEClass;
 	}
@@ -3190,7 +3355,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTDOType() {
 		if (tdoTypeEClass == null) {
-			tdoTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(74);
+			tdoTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(75);
 		}
 		return tdoTypeEClass;
 	}
@@ -3245,9 +3410,27 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTDOType_ExtRef() {
+        return (EReference)getTDOType().getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTDOType_Fcda() {
+        return (EReference)getTDOType().getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTDurationInMilliSec() {
 		if (tDurationInMilliSecEClass == null) {
-			tDurationInMilliSecEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(75);
+			tDurationInMilliSecEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(76);
 		}
 		return tDurationInMilliSecEClass;
 	}
@@ -3259,7 +3442,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTDurationInSec() {
 		if (tDurationInSecEClass == null) {
-			tDurationInSecEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(76);
+			tDurationInSecEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(77);
 		}
 		return tDurationInSecEClass;
 	}
@@ -3271,7 +3454,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTEnumType() {
 		if (tEnumTypeEClass == null) {
-			tEnumTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(77);
+			tEnumTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(78);
 		}
 		return tEnumTypeEClass;
 	}
@@ -3292,7 +3475,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTEnumVal() {
 		if (tEnumValEClass == null) {
-			tEnumValEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(78);
+			tEnumValEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(79);
 		}
 		return tEnumValEClass;
 	}
@@ -3322,7 +3505,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTEquipment() {
 		if (tEquipmentEClass == null) {
-			tEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(79);
+			tEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(80);
 		}
 		return tEquipmentEClass;
 	}
@@ -3343,7 +3526,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTEquipmentContainer() {
 		if (tEquipmentContainerEClass == null) {
-			tEquipmentContainerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(80);
+			tEquipmentContainerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(81);
 		}
 		return tEquipmentContainerEClass;
 	}
@@ -3373,7 +3556,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTExtRef() {
 		if (tExtRefEClass == null) {
-			tExtRefEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(89);
+			tExtRefEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(90);
 		}
 		return tExtRefEClass;
 	}
@@ -3455,9 +3638,36 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTExtRef_DataSet() {
+        return (EReference)getTExtRef().getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTExtRef_DoType() {
+        return (EReference)getTExtRef().getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTExtRef_DaType() {
+        return (EReference)getTExtRef().getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTFCCB() {
 		if (tfccbEClass == null) {
-			tfccbEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(90);
+			tfccbEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(91);
 		}
 		return tfccbEClass;
 	}
@@ -3532,7 +3742,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTFCDA() {
 		if (tfcdaEClass == null) {
-			tfcdaEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(91);
+			tfcdaEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(92);
 		}
 		return tfcdaEClass;
 	}
@@ -3605,9 +3815,27 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTFCDA_DoType() {
+        return (EReference)getTFCDA().getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTFCDA_DaType() {
+        return (EReference)getTFCDA().getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTFunction() {
 		if (tFunctionEClass == null) {
-			tFunctionEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(94);
+			tFunctionEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(95);
 		}
 		return tFunctionEClass;
 	}
@@ -3637,7 +3865,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTGeneralEquipment() {
 		if (tGeneralEquipmentEClass == null) {
-			tGeneralEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(95);
+			tGeneralEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(96);
 		}
 		return tGeneralEquipmentEClass;
 	}
@@ -3658,7 +3886,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTGSE() {
 		if (tgseEClass == null) {
-			tgseEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(97);
+			tgseEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(98);
 		}
 		return tgseEClass;
 	}
@@ -3688,7 +3916,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTGSEControl() {
 		if (tgseControlEClass == null) {
-			tgseControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(98);
+			tgseControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(99);
 		}
 		return tgseControlEClass;
 	}
@@ -3718,7 +3946,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTGSESettings() {
 		if (tgseSettingsEClass == null) {
-			tgseSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(101);
+			tgseSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(102);
 		}
 		return tgseSettingsEClass;
 	}
@@ -3748,7 +3976,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTHeader() {
 		if (tHeaderEClass == null) {
-			tHeaderEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(102);
+			tHeaderEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(103);
 		}
 		return tHeaderEClass;
 	}
@@ -3823,7 +4051,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTHitem() {
 		if (tHitemEClass == null) {
-			tHitemEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(103);
+			tHitemEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(104);
 		}
 		return tHitemEClass;
 	}
@@ -3889,7 +4117,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTIDNaming() {
 		if (tidNamingEClass == null) {
-			tidNamingEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(104);
+			tidNamingEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(105);
 		}
 		return tidNamingEClass;
 	}
@@ -3919,7 +4147,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTIED() {
 		if (tiedEClass == null) {
-			tiedEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(105);
+			tiedEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(106);
 		}
 		return tiedEClass;
 	}
@@ -3976,7 +4204,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTInputs() {
 		if (tInputsEClass == null) {
-			tInputsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(106);
+			tInputsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(107);
 		}
 		return tInputsEClass;
 	}
@@ -3997,7 +4225,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLDevice() {
 		if (tlDeviceEClass == null) {
-			tlDeviceEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(107);
+			tlDeviceEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(108);
 		}
 		return tlDeviceEClass;
 	}
@@ -4054,7 +4282,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLN() {
 		if (tlnEClass == null) {
-			tlnEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(110);
+			tlnEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(111);
 		}
 		return tlnEClass;
 	}
@@ -4093,7 +4321,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLN0() {
 		if (tln0EClass == null) {
-			tln0EClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(111);
+			tln0EClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(112);
 		}
 		return tln0EClass;
 	}
@@ -4168,7 +4396,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLNode() {
 		if (tlNodeEClass == null) {
-			tlNodeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(113);
+			tlNodeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(114);
 		}
 		return tlNodeEClass;
 	}
@@ -4234,7 +4462,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLNodeContainer() {
 		if (tlNodeContainerEClass == null) {
-			tlNodeContainerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(114);
+			tlNodeContainerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(115);
 		}
 		return tlNodeContainerEClass;
 	}
@@ -4255,7 +4483,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLNodeType() {
 		if (tlNodeTypeEClass == null) {
-			tlNodeTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(115);
+			tlNodeTypeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(116);
 		}
 		return tlNodeTypeEClass;
 	}
@@ -4294,7 +4522,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLog() {
 		if (tLogEClass == null) {
-			tLogEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(116);
+			tLogEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(117);
 		}
 		return tLogEClass;
 	}
@@ -4306,7 +4534,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLogControl() {
 		if (tLogControlEClass == null) {
-			tLogControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(117);
+			tLogControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(118);
 		}
 		return tLogControlEClass;
 	}
@@ -4345,7 +4573,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTLogSettings() {
 		if (tLogSettingsEClass == null) {
-			tLogSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(118);
+			tLogSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(119);
 		}
 		return tLogSettingsEClass;
 	}
@@ -4384,7 +4612,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTNaming() {
 		if (tNamingEClass == null) {
-			tNamingEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(122);
+			tNamingEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(123);
 		}
 		return tNamingEClass;
 	}
@@ -4414,7 +4642,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTP() {
 		if (tpEClass == null) {
-			tpEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(123);
+			tpEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(124);
 		}
 		return tpEClass;
 	}
@@ -4444,7 +4672,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPAPPID() {
 		if (tpappidEClass == null) {
-			tpappidEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(125);
+			tpappidEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(126);
 		}
 		return tpappidEClass;
 	}
@@ -4456,7 +4684,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPhysConn() {
 		if (tPhysConnEClass == null) {
-			tPhysConnEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(128);
+			tPhysConnEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(129);
 		}
 		return tPhysConnEClass;
 	}
@@ -4486,7 +4714,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPIP() {
 		if (tpipEClass == null) {
-			tpipEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(129);
+			tpipEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(130);
 		}
 		return tpipEClass;
 	}
@@ -4498,7 +4726,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPIPGATEWAY() {
 		if (tpipgatewayEClass == null) {
-			tpipgatewayEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(130);
+			tpipgatewayEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(131);
 		}
 		return tpipgatewayEClass;
 	}
@@ -4510,7 +4738,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPIPSUBNET() {
 		if (tpipsubnetEClass == null) {
-			tpipsubnetEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(131);
+			tpipsubnetEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(132);
 		}
 		return tpipsubnetEClass;
 	}
@@ -4522,7 +4750,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPMACAddress() {
 		if (tpmacAddressEClass == null) {
-			tpmacAddressEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(132);
+			tpmacAddressEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(133);
 		}
 		return tpmacAddressEClass;
 	}
@@ -4534,7 +4762,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPOSIAEInvoke() {
 		if (tposiaeInvokeEClass == null) {
-			tposiaeInvokeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(133);
+			tposiaeInvokeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(134);
 		}
 		return tposiaeInvokeEClass;
 	}
@@ -4546,7 +4774,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPOSIAEQualifier() {
 		if (tposiaeQualifierEClass == null) {
-			tposiaeQualifierEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(134);
+			tposiaeQualifierEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(135);
 		}
 		return tposiaeQualifierEClass;
 	}
@@ -4558,7 +4786,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPOSIAPInvoke() {
 		if (tposiapInvokeEClass == null) {
-			tposiapInvokeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(135);
+			tposiapInvokeEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(136);
 		}
 		return tposiapInvokeEClass;
 	}
@@ -4570,7 +4798,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPOSIAPTitle() {
 		if (tposiapTitleEClass == null) {
-			tposiapTitleEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(136);
+			tposiapTitleEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(137);
 		}
 		return tposiapTitleEClass;
 	}
@@ -4582,7 +4810,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPOSINSAP() {
 		if (tposinsapEClass == null) {
-			tposinsapEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(137);
+			tposinsapEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(138);
 		}
 		return tposinsapEClass;
 	}
@@ -4594,7 +4822,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPOSIPSEL() {
 		if (tposipselEClass == null) {
-			tposipselEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(138);
+			tposipselEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(139);
 		}
 		return tposipselEClass;
 	}
@@ -4606,7 +4834,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPOSISSEL() {
 		if (tposisselEClass == null) {
-			tposisselEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(139);
+			tposisselEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(140);
 		}
 		return tposisselEClass;
 	}
@@ -4618,7 +4846,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPOSITSEL() {
 		if (tpositselEClass == null) {
-			tpositselEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(140);
+			tpositselEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(141);
 		}
 		return tpositselEClass;
 	}
@@ -4630,7 +4858,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPowerSystemResource() {
 		if (tPowerSystemResourceEClass == null) {
-			tPowerSystemResourceEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(141);
+			tPowerSystemResourceEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(142);
 		}
 		return tPowerSystemResourceEClass;
 	}
@@ -4642,7 +4870,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPowerTransformer() {
 		if (tPowerTransformerEClass == null) {
-			tPowerTransformerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(142);
+			tPowerTransformerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(143);
 		}
 		return tPowerTransformerEClass;
 	}
@@ -4672,7 +4900,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPrivate() {
 		if (tPrivateEClass == null) {
-			tPrivateEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(159);
+			tPrivateEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(160);
 		}
 		return tPrivateEClass;
 	}
@@ -4702,7 +4930,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPVLANID() {
 		if (tpvlanidEClass == null) {
-			tpvlanidEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(161);
+			tpvlanidEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(162);
 		}
 		return tpvlanidEClass;
 	}
@@ -4714,7 +4942,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTPVLANPRIORITY() {
 		if (tpvlanpriorityEClass == null) {
-			tpvlanpriorityEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(162);
+			tpvlanpriorityEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(163);
 		}
 		return tpvlanpriorityEClass;
 	}
@@ -4726,7 +4954,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTReportControl() {
 		if (tReportControlEClass == null) {
-			tReportControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(164);
+			tReportControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(165);
 		}
 		return tReportControlEClass;
 	}
@@ -4792,7 +5020,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTReportSettings() {
 		if (tReportSettingsEClass == null) {
-			tReportSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(165);
+			tReportSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(166);
 		}
 		return tReportSettingsEClass;
 	}
@@ -4849,7 +5077,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTRptEnabled() {
 		if (tRptEnabledEClass == null) {
-			tRptEnabledEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(170);
+			tRptEnabledEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(171);
 		}
 		return tRptEnabledEClass;
 	}
@@ -4879,7 +5107,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSampledValueControl() {
 		if (tSampledValueControlEClass == null) {
-			tSampledValueControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(171);
+			tSampledValueControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(172);
 		}
 		return tSampledValueControlEClass;
 	}
@@ -4936,7 +5164,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSCLControl() {
 		if (tsclControlEClass == null) {
-			tsclControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(172);
+			tsclControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(173);
 		}
 		return tsclControlEClass;
 	}
@@ -4948,7 +5176,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSDI() {
 		if (tsdiEClass == null) {
-			tsdiEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(173);
+			tsdiEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(174);
 		}
 		return tsdiEClass;
 	}
@@ -5005,7 +5233,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSDO() {
 		if (tsdoEClass == null) {
-			tsdoEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(174);
+			tsdoEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(175);
 		}
 		return tsdoEClass;
 	}
@@ -5026,7 +5254,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTServer() {
 		if (tServerEClass == null) {
-			tServerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(175);
+			tServerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(176);
 		}
 		return tServerEClass;
 	}
@@ -5074,7 +5302,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTServices() {
 		if (tServicesEClass == null) {
-			tServicesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(178);
+			tServicesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(179);
 		}
 		return tServicesEClass;
 	}
@@ -5311,7 +5539,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTServiceSettings() {
 		if (tServiceSettingsEClass == null) {
-			tServiceSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(179);
+			tServiceSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(180);
 		}
 		return tServiceSettingsEClass;
 	}
@@ -5341,7 +5569,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTServiceWithMax() {
 		if (tServiceWithMaxEClass == null) {
-			tServiceWithMaxEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(182);
+			tServiceWithMaxEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(183);
 		}
 		return tServiceWithMaxEClass;
 	}
@@ -5362,7 +5590,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTServiceWithMaxAndMaxAttributes() {
 		if (tServiceWithMaxAndMaxAttributesEClass == null) {
-			tServiceWithMaxAndMaxAttributesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(183);
+			tServiceWithMaxAndMaxAttributesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(184);
 		}
 		return tServiceWithMaxAndMaxAttributesEClass;
 	}
@@ -5383,7 +5611,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTServiceWithMaxAndMaxAttributesAndModify() {
 		if (tServiceWithMaxAndMaxAttributesAndModifyEClass == null) {
-			tServiceWithMaxAndMaxAttributesAndModifyEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(184);
+			tServiceWithMaxAndMaxAttributesAndModifyEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(185);
 		}
 		return tServiceWithMaxAndMaxAttributesAndModifyEClass;
 	}
@@ -5404,7 +5632,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTServiceWithMaxAndModify() {
 		if (tServiceWithMaxAndModifyEClass == null) {
-			tServiceWithMaxAndModifyEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(185);
+			tServiceWithMaxAndModifyEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(186);
 		}
 		return tServiceWithMaxAndModifyEClass;
 	}
@@ -5425,7 +5653,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTServiceYesNo() {
 		if (tServiceYesNoEClass == null) {
-			tServiceYesNoEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(186);
+			tServiceYesNoEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(187);
 		}
 		return tServiceYesNoEClass;
 	}
@@ -5437,7 +5665,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSettingControl() {
 		if (tSettingControlEClass == null) {
-			tSettingControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(187);
+			tSettingControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(188);
 		}
 		return tSettingControlEClass;
 	}
@@ -5467,7 +5695,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSMV() {
 		if (tsmvEClass == null) {
-			tsmvEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(190);
+			tsmvEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(191);
 		}
 		return tsmvEClass;
 	}
@@ -5479,7 +5707,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSMVSettings() {
 		if (tsmvSettingsEClass == null) {
-			tsmvSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(191);
+			tsmvSettingsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(192);
 		}
 		return tsmvSettingsEClass;
 	}
@@ -5527,7 +5755,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSubEquipment() {
 		if (tSubEquipmentEClass == null) {
-			tSubEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(192);
+			tSubEquipmentEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(193);
 		}
 		return tSubEquipmentEClass;
 	}
@@ -5557,7 +5785,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSubFunction() {
 		if (tSubFunctionEClass == null) {
-			tSubFunctionEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(193);
+			tSubFunctionEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(194);
 		}
 		return tSubFunctionEClass;
 	}
@@ -5578,7 +5806,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSubNetwork() {
 		if (tSubNetworkEClass == null) {
-			tSubNetworkEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(194);
+			tSubNetworkEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(195);
 		}
 		return tSubNetworkEClass;
 	}
@@ -5617,7 +5845,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTSubstation() {
 		if (tSubstationEClass == null) {
-			tSubstationEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(195);
+			tSubstationEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(196);
 		}
 		return tSubstationEClass;
 	}
@@ -5647,7 +5875,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTTapChanger() {
 		if (tTapChangerEClass == null) {
-			tTapChangerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(196);
+			tTapChangerEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(197);
 		}
 		return tTapChangerEClass;
 	}
@@ -5677,7 +5905,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTTerminal() {
 		if (tTerminalEClass == null) {
-			tTerminalEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(197);
+			tTerminalEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(198);
 		}
 		return tTerminalEClass;
 	}
@@ -5743,7 +5971,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTText() {
 		if (tTextEClass == null) {
-			tTextEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(198);
+			tTextEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(199);
 		}
 		return tTextEClass;
 	}
@@ -5764,7 +5992,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTTransformerWinding() {
 		if (tTransformerWindingEClass == null) {
-			tTransformerWindingEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(199);
+			tTransformerWindingEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(200);
 		}
 		return tTransformerWindingEClass;
 	}
@@ -5794,7 +6022,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTTrgOps() {
 		if (tTrgOpsEClass == null) {
-			tTrgOpsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(202);
+			tTrgOpsEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(203);
 		}
 		return tTrgOpsEClass;
 	}
@@ -5842,7 +6070,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTUnNaming() {
 		if (tUnNamingEClass == null) {
-			tUnNamingEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(209);
+			tUnNamingEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(210);
 		}
 		return tUnNamingEClass;
 	}
@@ -5863,7 +6091,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTVal() {
 		if (tValEClass == null) {
-			tValEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(210);
+			tValEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(211);
 		}
 		return tValEClass;
 	}
@@ -5893,7 +6121,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTValueWithUnit() {
 		if (tValueWithUnitEClass == null) {
-			tValueWithUnitEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(213);
+			tValueWithUnitEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(214);
 		}
 		return tValueWithUnitEClass;
 	}
@@ -5932,111 +6160,9 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EClass getTVoltage() {
 		if (tVoltageEClass == null) {
-			tVoltageEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(214);
+			tVoltageEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(215);
 		}
 		return tVoltageEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getDocumentRoot() {
-		if (documentRootEClass == null) {
-			documentRootEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(215);
-		}
-		return documentRootEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getDocumentRoot_Mixed() {
-        return (EAttribute)getDocumentRoot().getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_XMLNSPrefixMap() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_XSISchemaLocation() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_Communication() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_DataTypeTemplates() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_IED() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_LN() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_LN0() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_Substation() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDocumentRoot_SCL() {
-        return (EReference)getDocumentRoot().getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -6076,7 +6202,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getNameStructureType() {
 		if (nameStructureTypeEEnum == null) {
-			nameStructureTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(3);
+			nameStructureTypeEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(4);
 		}
 		return nameStructureTypeEEnum;
 	}
@@ -6088,7 +6214,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTAssociationKindEnum() {
 		if (tAssociationKindEnumEEnum == null) {
-			tAssociationKindEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(19);
+			tAssociationKindEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(20);
 		}
 		return tAssociationKindEnumEEnum;
 	}
@@ -6100,7 +6226,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTAuthenticationEnum() {
 		if (tAuthenticationEnumEEnum == null) {
-			tAuthenticationEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(22);
+			tAuthenticationEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(23);
 		}
 		return tAuthenticationEnumEEnum;
 	}
@@ -6112,7 +6238,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupAEnum() {
 		if (tDomainLNGroupAEnumEEnum == null) {
-			tDomainLNGroupAEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(50);
+			tDomainLNGroupAEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(51);
 		}
 		return tDomainLNGroupAEnumEEnum;
 	}
@@ -6124,7 +6250,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupCEnum() {
 		if (tDomainLNGroupCEnumEEnum == null) {
-			tDomainLNGroupCEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(52);
+			tDomainLNGroupCEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(53);
 		}
 		return tDomainLNGroupCEnumEEnum;
 	}
@@ -6136,7 +6262,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupGEnum() {
 		if (tDomainLNGroupGEnumEEnum == null) {
-			tDomainLNGroupGEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(54);
+			tDomainLNGroupGEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(55);
 		}
 		return tDomainLNGroupGEnumEEnum;
 	}
@@ -6148,7 +6274,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupIEnum() {
 		if (tDomainLNGroupIEnumEEnum == null) {
-			tDomainLNGroupIEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(56);
+			tDomainLNGroupIEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(57);
 		}
 		return tDomainLNGroupIEnumEEnum;
 	}
@@ -6160,7 +6286,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupMEnum() {
 		if (tDomainLNGroupMEnumEEnum == null) {
-			tDomainLNGroupMEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(58);
+			tDomainLNGroupMEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(59);
 		}
 		return tDomainLNGroupMEnumEEnum;
 	}
@@ -6172,7 +6298,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupPEnum() {
 		if (tDomainLNGroupPEnumEEnum == null) {
-			tDomainLNGroupPEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(60);
+			tDomainLNGroupPEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(61);
 		}
 		return tDomainLNGroupPEnumEEnum;
 	}
@@ -6184,7 +6310,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupREnum() {
 		if (tDomainLNGroupREnumEEnum == null) {
-			tDomainLNGroupREnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(62);
+			tDomainLNGroupREnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(63);
 		}
 		return tDomainLNGroupREnumEEnum;
 	}
@@ -6196,7 +6322,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupSEnum() {
 		if (tDomainLNGroupSEnumEEnum == null) {
-			tDomainLNGroupSEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(64);
+			tDomainLNGroupSEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(65);
 		}
 		return tDomainLNGroupSEnumEEnum;
 	}
@@ -6208,7 +6334,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupTEnum() {
 		if (tDomainLNGroupTEnumEEnum == null) {
-			tDomainLNGroupTEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(66);
+			tDomainLNGroupTEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(67);
 		}
 		return tDomainLNGroupTEnumEEnum;
 	}
@@ -6220,7 +6346,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupXEnum() {
 		if (tDomainLNGroupXEnumEEnum == null) {
-			tDomainLNGroupXEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(68);
+			tDomainLNGroupXEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(69);
 		}
 		return tDomainLNGroupXEnumEEnum;
 	}
@@ -6232,7 +6358,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupYEnum() {
 		if (tDomainLNGroupYEnumEEnum == null) {
-			tDomainLNGroupYEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(70);
+			tDomainLNGroupYEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(71);
 		}
 		return tDomainLNGroupYEnumEEnum;
 	}
@@ -6244,7 +6370,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTDomainLNGroupZEnum() {
 		if (tDomainLNGroupZEnumEEnum == null) {
-			tDomainLNGroupZEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(72);
+			tDomainLNGroupZEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(73);
 		}
 		return tDomainLNGroupZEnumEEnum;
 	}
@@ -6256,7 +6382,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTFCEnum() {
 		if (tfcEnumEEnum == null) {
-			tfcEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(92);
+			tfcEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(93);
 		}
 		return tfcEnumEEnum;
 	}
@@ -6268,7 +6394,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTGSEControlTypeEnum() {
 		if (tgseControlTypeEnumEEnum == null) {
-			tgseControlTypeEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(99);
+			tgseControlTypeEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(100);
 		}
 		return tgseControlTypeEnumEEnum;
 	}
@@ -6280,7 +6406,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTLLN0Enum() {
 		if (tlln0EnumEEnum == null) {
-			tlln0EnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(108);
+			tlln0EnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(109);
 		}
 		return tlln0EnumEEnum;
 	}
@@ -6292,7 +6418,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTLPHDEnum() {
 		if (tlphdEnumEEnum == null) {
-			tlphdEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(119);
+			tlphdEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(120);
 		}
 		return tlphdEnumEEnum;
 	}
@@ -6304,7 +6430,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTPhaseEnum() {
 		if (tPhaseEnumEEnum == null) {
-			tPhaseEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(126);
+			tPhaseEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(127);
 		}
 		return tPhaseEnumEEnum;
 	}
@@ -6316,7 +6442,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTPowerTransformerEnum() {
 		if (tPowerTransformerEnumEEnum == null) {
-			tPowerTransformerEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(143);
+			tPowerTransformerEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(144);
 		}
 		return tPowerTransformerEnumEEnum;
 	}
@@ -6328,7 +6454,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTPredefinedAttributeNameEnum() {
 		if (tPredefinedAttributeNameEnumEEnum == null) {
-			tPredefinedAttributeNameEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(145);
+			tPredefinedAttributeNameEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(146);
 		}
 		return tPredefinedAttributeNameEnumEEnum;
 	}
@@ -6340,7 +6466,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTPredefinedBasicTypeEnum() {
 		if (tPredefinedBasicTypeEnumEEnum == null) {
-			tPredefinedBasicTypeEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(147);
+			tPredefinedBasicTypeEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(148);
 		}
 		return tPredefinedBasicTypeEnumEEnum;
 	}
@@ -6352,7 +6478,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTPredefinedCDCEnum() {
 		if (tPredefinedCDCEnumEEnum == null) {
-			tPredefinedCDCEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(149);
+			tPredefinedCDCEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(150);
 		}
 		return tPredefinedCDCEnumEEnum;
 	}
@@ -6364,7 +6490,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTPredefinedCommonConductingEquipmentEnum() {
 		if (tPredefinedCommonConductingEquipmentEnumEEnum == null) {
-			tPredefinedCommonConductingEquipmentEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(151);
+			tPredefinedCommonConductingEquipmentEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(152);
 		}
 		return tPredefinedCommonConductingEquipmentEnumEEnum;
 	}
@@ -6376,7 +6502,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTPredefinedGeneralEquipmentEnum() {
 		if (tPredefinedGeneralEquipmentEnumEEnum == null) {
-			tPredefinedGeneralEquipmentEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(154);
+			tPredefinedGeneralEquipmentEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(155);
 		}
 		return tPredefinedGeneralEquipmentEnumEEnum;
 	}
@@ -6388,7 +6514,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTPredefinedPTypeEnum() {
 		if (tPredefinedPTypeEnumEEnum == null) {
-			tPredefinedPTypeEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(157);
+			tPredefinedPTypeEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(158);
 		}
 		return tPredefinedPTypeEnumEEnum;
 	}
@@ -6400,7 +6526,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTServiceFCEnum() {
 		if (tServiceFCEnumEEnum == null) {
-			tServiceFCEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(176);
+			tServiceFCEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(177);
 		}
 		return tServiceFCEnumEEnum;
 	}
@@ -6412,7 +6538,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTServiceSettingsEnum() {
 		if (tServiceSettingsEnumEEnum == null) {
-			tServiceSettingsEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(180);
+			tServiceSettingsEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(181);
 		}
 		return tServiceSettingsEnumEEnum;
 	}
@@ -6424,7 +6550,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTSIUnitEnum() {
 		if (tsiUnitEnumEEnum == null) {
-			tsiUnitEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(188);
+			tsiUnitEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(189);
 		}
 		return tsiUnitEnumEEnum;
 	}
@@ -6436,7 +6562,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTTransformerWindingEnum() {
 		if (tTransformerWindingEnumEEnum == null) {
-			tTransformerWindingEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(200);
+			tTransformerWindingEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(201);
 		}
 		return tTransformerWindingEnumEEnum;
 	}
@@ -6448,7 +6574,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTTrgOptControlEnum() {
 		if (tTrgOptControlEnumEEnum == null) {
-			tTrgOptControlEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(203);
+			tTrgOptControlEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(204);
 		}
 		return tTrgOptControlEnumEEnum;
 	}
@@ -6460,7 +6586,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTTrgOptEnum() {
 		if (tTrgOptEnumEEnum == null) {
-			tTrgOptEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(205);
+			tTrgOptEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(206);
 		}
 		return tTrgOptEnumEEnum;
 	}
@@ -6472,7 +6598,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTUnitMultiplierEnum() {
 		if (tUnitMultiplierEnumEEnum == null) {
-			tUnitMultiplierEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(207);
+			tUnitMultiplierEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(208);
 		}
 		return tUnitMultiplierEnumEEnum;
 	}
@@ -6484,7 +6610,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EEnum getTValKindEnum() {
 		if (tValKindEnumEEnum == null) {
-			tValKindEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(211);
+			tValKindEnumEEnum = (EEnum)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(212);
 		}
 		return tValKindEnumEEnum;
 	}
@@ -6496,7 +6622,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getNameStructureTypeObject() {
 		if (nameStructureTypeObjectEDataType == null) {
-			nameStructureTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(4);
+			nameStructureTypeObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(5);
 		}
 		return nameStructureTypeObjectEDataType;
 	}
@@ -6508,7 +6634,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getSmpRateType() {
 		if (smpRateTypeEDataType == null) {
-			smpRateTypeEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(8);
+			smpRateTypeEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(9);
 		}
 		return smpRateTypeEDataType;
 	}
@@ -6520,7 +6646,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTAnyName() {
 		if (tAnyNameEDataType == null) {
-			tAnyNameEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(17);
+			tAnyNameEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(18);
 		}
 		return tAnyNameEDataType;
 	}
@@ -6532,7 +6658,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTAssociationKindEnumObject() {
 		if (tAssociationKindEnumObjectEDataType == null) {
-			tAssociationKindEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(20);
+			tAssociationKindEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(21);
 		}
 		return tAssociationKindEnumObjectEDataType;
 	}
@@ -6544,7 +6670,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTAttributeNameEnum() {
 		if (tAttributeNameEnumEDataType == null) {
-			tAttributeNameEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(21);
+			tAttributeNameEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(22);
 		}
 		return tAttributeNameEnumEDataType;
 	}
@@ -6556,7 +6682,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTAuthenticationEnumObject() {
 		if (tAuthenticationEnumObjectEDataType == null) {
-			tAuthenticationEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(23);
+			tAuthenticationEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(24);
 		}
 		return tAuthenticationEnumObjectEDataType;
 	}
@@ -6568,7 +6694,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTBasicTypeEnum() {
 		if (tBasicTypeEnumEDataType == null) {
-			tBasicTypeEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(25);
+			tBasicTypeEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(26);
 		}
 		return tBasicTypeEnumEDataType;
 	}
@@ -6580,7 +6706,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTCDCEnum() {
 		if (tcdcEnumEDataType == null) {
-			tcdcEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(29);
+			tcdcEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(30);
 		}
 		return tcdcEnumEDataType;
 	}
@@ -6592,7 +6718,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTCommonConductingEquipmentEnum() {
 		if (tCommonConductingEquipmentEnumEDataType == null) {
-			tCommonConductingEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(32);
+			tCommonConductingEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(33);
 		}
 		return tCommonConductingEquipmentEnumEDataType;
 	}
@@ -6604,7 +6730,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNEnum() {
 		if (tDomainLNEnumEDataType == null) {
-			tDomainLNEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(49);
+			tDomainLNEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(50);
 		}
 		return tDomainLNEnumEDataType;
 	}
@@ -6616,7 +6742,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupAEnumObject() {
 		if (tDomainLNGroupAEnumObjectEDataType == null) {
-			tDomainLNGroupAEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(51);
+			tDomainLNGroupAEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(52);
 		}
 		return tDomainLNGroupAEnumObjectEDataType;
 	}
@@ -6628,7 +6754,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupCEnumObject() {
 		if (tDomainLNGroupCEnumObjectEDataType == null) {
-			tDomainLNGroupCEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(53);
+			tDomainLNGroupCEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(54);
 		}
 		return tDomainLNGroupCEnumObjectEDataType;
 	}
@@ -6640,7 +6766,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupGEnumObject() {
 		if (tDomainLNGroupGEnumObjectEDataType == null) {
-			tDomainLNGroupGEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(55);
+			tDomainLNGroupGEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(56);
 		}
 		return tDomainLNGroupGEnumObjectEDataType;
 	}
@@ -6652,7 +6778,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupIEnumObject() {
 		if (tDomainLNGroupIEnumObjectEDataType == null) {
-			tDomainLNGroupIEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(57);
+			tDomainLNGroupIEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(58);
 		}
 		return tDomainLNGroupIEnumObjectEDataType;
 	}
@@ -6664,7 +6790,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupMEnumObject() {
 		if (tDomainLNGroupMEnumObjectEDataType == null) {
-			tDomainLNGroupMEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(59);
+			tDomainLNGroupMEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(60);
 		}
 		return tDomainLNGroupMEnumObjectEDataType;
 	}
@@ -6676,7 +6802,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupPEnumObject() {
 		if (tDomainLNGroupPEnumObjectEDataType == null) {
-			tDomainLNGroupPEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(61);
+			tDomainLNGroupPEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(62);
 		}
 		return tDomainLNGroupPEnumObjectEDataType;
 	}
@@ -6688,7 +6814,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupREnumObject() {
 		if (tDomainLNGroupREnumObjectEDataType == null) {
-			tDomainLNGroupREnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(63);
+			tDomainLNGroupREnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(64);
 		}
 		return tDomainLNGroupREnumObjectEDataType;
 	}
@@ -6700,7 +6826,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupSEnumObject() {
 		if (tDomainLNGroupSEnumObjectEDataType == null) {
-			tDomainLNGroupSEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(65);
+			tDomainLNGroupSEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(66);
 		}
 		return tDomainLNGroupSEnumObjectEDataType;
 	}
@@ -6712,7 +6838,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupTEnumObject() {
 		if (tDomainLNGroupTEnumObjectEDataType == null) {
-			tDomainLNGroupTEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(67);
+			tDomainLNGroupTEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(68);
 		}
 		return tDomainLNGroupTEnumObjectEDataType;
 	}
@@ -6724,7 +6850,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupXEnumObject() {
 		if (tDomainLNGroupXEnumObjectEDataType == null) {
-			tDomainLNGroupXEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(69);
+			tDomainLNGroupXEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(70);
 		}
 		return tDomainLNGroupXEnumObjectEDataType;
 	}
@@ -6736,7 +6862,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupYEnumObject() {
 		if (tDomainLNGroupYEnumObjectEDataType == null) {
-			tDomainLNGroupYEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(71);
+			tDomainLNGroupYEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(72);
 		}
 		return tDomainLNGroupYEnumObjectEDataType;
 	}
@@ -6748,7 +6874,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTDomainLNGroupZEnumObject() {
 		if (tDomainLNGroupZEnumObjectEDataType == null) {
-			tDomainLNGroupZEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(73);
+			tDomainLNGroupZEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(74);
 		}
 		return tDomainLNGroupZEnumObjectEDataType;
 	}
@@ -6760,7 +6886,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTEquipmentEnum() {
 		if (tEquipmentEnumEDataType == null) {
-			tEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(81);
+			tEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(82);
 		}
 		return tEquipmentEnumEDataType;
 	}
@@ -6772,7 +6898,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTExtensionAttributeNameEnum() {
 		if (tExtensionAttributeNameEnumEDataType == null) {
-			tExtensionAttributeNameEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(82);
+			tExtensionAttributeNameEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(83);
 		}
 		return tExtensionAttributeNameEnumEDataType;
 	}
@@ -6784,7 +6910,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTExtensionBasicTypeEnum() {
 		if (tExtensionBasicTypeEnumEDataType == null) {
-			tExtensionBasicTypeEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(83);
+			tExtensionBasicTypeEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(84);
 		}
 		return tExtensionBasicTypeEnumEDataType;
 	}
@@ -6796,7 +6922,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTExtensionCDCEnum() {
 		if (tExtensionCDCEnumEDataType == null) {
-			tExtensionCDCEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(84);
+			tExtensionCDCEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(85);
 		}
 		return tExtensionCDCEnumEDataType;
 	}
@@ -6808,7 +6934,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTExtensionEquipmentEnum() {
 		if (tExtensionEquipmentEnumEDataType == null) {
-			tExtensionEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(85);
+			tExtensionEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(86);
 		}
 		return tExtensionEquipmentEnumEDataType;
 	}
@@ -6820,7 +6946,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTExtensionGeneralEquipmentEnum() {
 		if (tExtensionGeneralEquipmentEnumEDataType == null) {
-			tExtensionGeneralEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(86);
+			tExtensionGeneralEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(87);
 		}
 		return tExtensionGeneralEquipmentEnumEDataType;
 	}
@@ -6832,7 +6958,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTExtensionLNClassEnum() {
 		if (tExtensionLNClassEnumEDataType == null) {
-			tExtensionLNClassEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(87);
+			tExtensionLNClassEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(88);
 		}
 		return tExtensionLNClassEnumEDataType;
 	}
@@ -6844,7 +6970,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTExtensionPTypeEnum() {
 		if (tExtensionPTypeEnumEDataType == null) {
-			tExtensionPTypeEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(88);
+			tExtensionPTypeEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(89);
 		}
 		return tExtensionPTypeEnumEDataType;
 	}
@@ -6856,7 +6982,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTFCEnumObject() {
 		if (tfcEnumObjectEDataType == null) {
-			tfcEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(93);
+			tfcEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(94);
 		}
 		return tfcEnumObjectEDataType;
 	}
@@ -6868,7 +6994,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTGeneralEquipmentEnum() {
 		if (tGeneralEquipmentEnumEDataType == null) {
-			tGeneralEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(96);
+			tGeneralEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(97);
 		}
 		return tGeneralEquipmentEnumEDataType;
 	}
@@ -6880,7 +7006,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTGSEControlTypeEnumObject() {
 		if (tgseControlTypeEnumObjectEDataType == null) {
-			tgseControlTypeEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(100);
+			tgseControlTypeEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(101);
 		}
 		return tgseControlTypeEnumObjectEDataType;
 	}
@@ -6892,7 +7018,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTLLN0EnumObject() {
 		if (tlln0EnumObjectEDataType == null) {
-			tlln0EnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(109);
+			tlln0EnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(110);
 		}
 		return tlln0EnumObjectEDataType;
 	}
@@ -6904,7 +7030,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTLNClassEnum() {
 		if (tlnClassEnumEDataType == null) {
-			tlnClassEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(112);
+			tlnClassEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(113);
 		}
 		return tlnClassEnumEDataType;
 	}
@@ -6916,7 +7042,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTLPHDEnumObject() {
 		if (tlphdEnumObjectEDataType == null) {
-			tlphdEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(120);
+			tlphdEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(121);
 		}
 		return tlphdEnumObjectEDataType;
 	}
@@ -6928,7 +7054,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTName() {
 		if (tNameEDataType == null) {
-			tNameEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(121);
+			tNameEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(122);
 		}
 		return tNameEDataType;
 	}
@@ -6940,7 +7066,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPAddr() {
 		if (tpAddrEDataType == null) {
-			tpAddrEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(124);
+			tpAddrEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(125);
 		}
 		return tpAddrEDataType;
 	}
@@ -6952,7 +7078,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPhaseEnumObject() {
 		if (tPhaseEnumObjectEDataType == null) {
-			tPhaseEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(127);
+			tPhaseEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(128);
 		}
 		return tPhaseEnumObjectEDataType;
 	}
@@ -6964,7 +7090,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPowerTransformerEnumObject() {
 		if (tPowerTransformerEnumObjectEDataType == null) {
-			tPowerTransformerEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(144);
+			tPowerTransformerEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(145);
 		}
 		return tPowerTransformerEnumObjectEDataType;
 	}
@@ -6976,7 +7102,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPredefinedAttributeNameEnumObject() {
 		if (tPredefinedAttributeNameEnumObjectEDataType == null) {
-			tPredefinedAttributeNameEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(146);
+			tPredefinedAttributeNameEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(147);
 		}
 		return tPredefinedAttributeNameEnumObjectEDataType;
 	}
@@ -6988,7 +7114,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPredefinedBasicTypeEnumObject() {
 		if (tPredefinedBasicTypeEnumObjectEDataType == null) {
-			tPredefinedBasicTypeEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(148);
+			tPredefinedBasicTypeEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(149);
 		}
 		return tPredefinedBasicTypeEnumObjectEDataType;
 	}
@@ -7000,7 +7126,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPredefinedCDCEnumObject() {
 		if (tPredefinedCDCEnumObjectEDataType == null) {
-			tPredefinedCDCEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(150);
+			tPredefinedCDCEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(151);
 		}
 		return tPredefinedCDCEnumObjectEDataType;
 	}
@@ -7012,7 +7138,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPredefinedCommonConductingEquipmentEnumObject() {
 		if (tPredefinedCommonConductingEquipmentEnumObjectEDataType == null) {
-			tPredefinedCommonConductingEquipmentEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(152);
+			tPredefinedCommonConductingEquipmentEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(153);
 		}
 		return tPredefinedCommonConductingEquipmentEnumObjectEDataType;
 	}
@@ -7024,7 +7150,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPredefinedEquipmentEnum() {
 		if (tPredefinedEquipmentEnumEDataType == null) {
-			tPredefinedEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(153);
+			tPredefinedEquipmentEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(154);
 		}
 		return tPredefinedEquipmentEnumEDataType;
 	}
@@ -7036,7 +7162,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPredefinedGeneralEquipmentEnumObject() {
 		if (tPredefinedGeneralEquipmentEnumObjectEDataType == null) {
-			tPredefinedGeneralEquipmentEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(155);
+			tPredefinedGeneralEquipmentEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(156);
 		}
 		return tPredefinedGeneralEquipmentEnumObjectEDataType;
 	}
@@ -7048,7 +7174,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPredefinedLNClassEnum() {
 		if (tPredefinedLNClassEnumEDataType == null) {
-			tPredefinedLNClassEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(156);
+			tPredefinedLNClassEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(157);
 		}
 		return tPredefinedLNClassEnumEDataType;
 	}
@@ -7060,7 +7186,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPredefinedPTypeEnumObject() {
 		if (tPredefinedPTypeEnumObjectEDataType == null) {
-			tPredefinedPTypeEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(158);
+			tPredefinedPTypeEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(159);
 		}
 		return tPredefinedPTypeEnumObjectEDataType;
 	}
@@ -7072,7 +7198,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTPTypeEnum() {
 		if (tpTypeEnumEDataType == null) {
-			tpTypeEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(160);
+			tpTypeEnumEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(161);
 		}
 		return tpTypeEnumEDataType;
 	}
@@ -7084,7 +7210,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTRef() {
 		if (tRefEDataType == null) {
-			tRefEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(163);
+			tRefEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(164);
 		}
 		return tRefEDataType;
 	}
@@ -7096,7 +7222,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTRestrLdName() {
 		if (tRestrLdNameEDataType == null) {
-			tRestrLdNameEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(166);
+			tRestrLdNameEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(167);
 		}
 		return tRestrLdNameEDataType;
 	}
@@ -7108,7 +7234,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTRestrName() {
 		if (tRestrNameEDataType == null) {
-			tRestrNameEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(167);
+			tRestrNameEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(168);
 		}
 		return tRestrNameEDataType;
 	}
@@ -7120,7 +7246,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTRestrName1stL() {
 		if (tRestrName1stLEDataType == null) {
-			tRestrName1stLEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(168);
+			tRestrName1stLEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(169);
 		}
 		return tRestrName1stLEDataType;
 	}
@@ -7132,7 +7258,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTRestrName1stU() {
 		if (tRestrName1stUEDataType == null) {
-			tRestrName1stUEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(169);
+			tRestrName1stUEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(170);
 		}
 		return tRestrName1stUEDataType;
 	}
@@ -7144,7 +7270,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTServiceFCEnumObject() {
 		if (tServiceFCEnumObjectEDataType == null) {
-			tServiceFCEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(177);
+			tServiceFCEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(178);
 		}
 		return tServiceFCEnumObjectEDataType;
 	}
@@ -7156,7 +7282,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTServiceSettingsEnumObject() {
 		if (tServiceSettingsEnumObjectEDataType == null) {
-			tServiceSettingsEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(181);
+			tServiceSettingsEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(182);
 		}
 		return tServiceSettingsEnumObjectEDataType;
 	}
@@ -7168,7 +7294,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTSIUnitEnumObject() {
 		if (tsiUnitEnumObjectEDataType == null) {
-			tsiUnitEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(189);
+			tsiUnitEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(190);
 		}
 		return tsiUnitEnumObjectEDataType;
 	}
@@ -7180,7 +7306,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTTransformerWindingEnumObject() {
 		if (tTransformerWindingEnumObjectEDataType == null) {
-			tTransformerWindingEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(201);
+			tTransformerWindingEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(202);
 		}
 		return tTransformerWindingEnumObjectEDataType;
 	}
@@ -7192,7 +7318,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTTrgOptControlEnumObject() {
 		if (tTrgOptControlEnumObjectEDataType == null) {
-			tTrgOptControlEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(204);
+			tTrgOptControlEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(205);
 		}
 		return tTrgOptControlEnumObjectEDataType;
 	}
@@ -7204,7 +7330,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTTrgOptEnumObject() {
 		if (tTrgOptEnumObjectEDataType == null) {
-			tTrgOptEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(206);
+			tTrgOptEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(207);
 		}
 		return tTrgOptEnumObjectEDataType;
 	}
@@ -7216,7 +7342,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTUnitMultiplierEnumObject() {
 		if (tUnitMultiplierEnumObjectEDataType == null) {
-			tUnitMultiplierEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(208);
+			tUnitMultiplierEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(209);
 		}
 		return tUnitMultiplierEnumObjectEDataType;
 	}
@@ -7228,7 +7354,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EDataType getTValKindEnumObject() {
 		if (tValKindEnumObjectEDataType == null) {
-			tValKindEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(212);
+			tValKindEnumObjectEDataType = (EDataType)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(213);
 		}
 		return tValKindEnumObjectEDataType;
 	}

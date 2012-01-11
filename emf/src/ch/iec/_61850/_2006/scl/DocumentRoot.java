@@ -28,8 +28,8 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link ch.iec._61850._2006.scl.DocumentRoot#getIED <em>IED</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.DocumentRoot#getLN <em>LN</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.DocumentRoot#getLN0 <em>LN0</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.DocumentRoot#getSubstation <em>Substation</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.DocumentRoot#getSCL <em>SCL</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.DocumentRoot#getSubstation <em>Substation</em>}</li>
  * </ul>
  * </p>
  *
@@ -227,33 +227,6 @@ public interface DocumentRoot extends EObject {
 	void setLN0(LN0Type value);
 
 	/**
-	 * Returns the value of the '<em><b>Substation</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Substation</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Substation</em>' containment reference.
-	 * @see #setSubstation(TSubstation)
-	 * @see ch.iec._61850._2006.scl.SclPackage#getDocumentRoot_Substation()
-	 * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
-	 *        extendedMetaData="kind='element' name='Substation' namespace='##targetNamespace'"
-	 * @generated
-	 */
-	TSubstation getSubstation();
-
-	/**
-	 * Sets the value of the '{@link ch.iec._61850._2006.scl.DocumentRoot#getSubstation <em>Substation</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Substation</em>' containment reference.
-	 * @see #getSubstation()
-	 * @generated
-	 */
-	void setSubstation(TSubstation value);
-
-	/**
 	 * Returns the value of the '<em><b>SCL</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -279,5 +252,32 @@ public interface DocumentRoot extends EObject {
 	 * @generated
 	 */
 	void setSCL(SCLType value);
+
+	/**
+	 * Returns the value of the '<em><b>Substation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Substation</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Substation</em>' containment reference.
+	 * @see #setSubstation(TSubstation)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getDocumentRoot_Substation()
+	 * @model containment="true" upper="-2" transient="true" volatile="true" derived="true"
+	 *        extendedMetaData="kind='element' name='Substation' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	TSubstation getSubstation();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.DocumentRoot#getSubstation <em>Substation</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Substation</em>' containment reference.
+	 * @see #getSubstation()
+	 * @generated
+	 */
+	void setSubstation(TSubstation value);
 
 } // DocumentRoot

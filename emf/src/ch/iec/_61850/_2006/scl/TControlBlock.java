@@ -18,6 +18,7 @@ package ch.iec._61850._2006.scl;
  *   <li>{@link ch.iec._61850._2006.scl.TControlBlock#getAddress <em>Address</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TControlBlock#getCbName <em>Cb Name</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TControlBlock#getLdInst <em>Ld Inst</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TControlBlock#getControl <em>Control</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,5 +108,33 @@ public interface TControlBlock extends TUnNaming {
 	 * @generated
 	 */
 	void setLdInst(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Control</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TControl#getControlBlock <em>Control Block</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Control</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Control</em>' reference.
+	 * @see #setControl(TControl)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTControlBlock_Control()
+	 * @see ch.iec._61850._2006.scl.TControl#getControlBlock
+	 * @model opposite="controlBlock"
+	 * @generated
+	 */
+	TControl getControl();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TControlBlock#getControl <em>Control</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Control</em>' reference.
+	 * @see #getControl()
+	 * @generated
+	 */
+	void setControl(TControl value);
 
 } // TControlBlock

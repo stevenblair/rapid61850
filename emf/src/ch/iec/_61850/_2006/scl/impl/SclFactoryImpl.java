@@ -71,6 +71,7 @@ public class SclFactoryImpl extends EFactoryImpl implements SclFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case SclPackage.AUTHENTICATION_TYPE: return createAuthenticationType();
+			case SclPackage.DOCUMENT_ROOT: return createDocumentRoot();
 			case SclPackage.HISTORY_TYPE: return createHistoryType();
 			case SclPackage.LN0_TYPE: return createLN0Type();
 			case SclPackage.OPT_FIELDS_TYPE: return createOptFieldsType();
@@ -172,7 +173,6 @@ public class SclFactoryImpl extends EFactoryImpl implements SclFactory {
 			case SclPackage.TVAL: return createTVal();
 			case SclPackage.TVALUE_WITH_UNIT: return createTValueWithUnit();
 			case SclPackage.TVOLTAGE: return createTVoltage();
-			case SclPackage.DOCUMENT_ROOT: return createDocumentRoot();
 			case SclPackage.TVOLTAGE_LEVEL: return createTVoltageLevel();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -601,6 +601,16 @@ public class SclFactoryImpl extends EFactoryImpl implements SclFactory {
 	public AuthenticationType createAuthenticationType() {
 		AuthenticationTypeImpl authenticationType = new AuthenticationTypeImpl();
 		return authenticationType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DocumentRoot createDocumentRoot() {
+		DocumentRootImpl documentRoot = new DocumentRootImpl();
+		return documentRoot;
 	}
 
 	/**
@@ -1611,16 +1621,6 @@ public class SclFactoryImpl extends EFactoryImpl implements SclFactory {
 	public TVoltage createTVoltage() {
 		TVoltageImpl tVoltage = new TVoltageImpl();
 		return tVoltage;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public DocumentRoot createDocumentRoot() {
-		DocumentRootImpl documentRoot = new DocumentRootImpl();
-		return documentRoot;
 	}
 
 	/**

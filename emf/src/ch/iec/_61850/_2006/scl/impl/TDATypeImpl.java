@@ -9,6 +9,8 @@ package ch.iec._61850._2006.scl.impl;
 import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TBDA;
 import ch.iec._61850._2006.scl.TDAType;
+import ch.iec._61850._2006.scl.TExtRef;
+import ch.iec._61850._2006.scl.TFCDA;
 
 import java.util.Collection;
 
@@ -23,6 +25,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -34,6 +37,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TDATypeImpl#getBDA <em>BDA</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TDATypeImpl#getIedType <em>Ied Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TDATypeImpl#getExtRef <em>Ext Ref</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TDATypeImpl#getFcda <em>Fcda</em>}</li>
  * </ul>
  * </p>
  *
@@ -78,6 +83,26 @@ public class TDATypeImpl extends TIDNamingImpl implements TDAType {
 	 * @ordered
 	 */
 	protected boolean iedTypeESet;
+
+	/**
+	 * The cached value of the '{@link #getExtRef() <em>Ext Ref</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExtRef()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<TExtRef> extRef;
+
+	/**
+	 * The cached value of the '{@link #getFcda() <em>Fcda</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFcda()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<TFCDA> fcda;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -161,11 +186,56 @@ public class TDATypeImpl extends TIDNamingImpl implements TDAType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<TExtRef> getExtRef() {
+		if (extRef == null) {
+			extRef = new EObjectWithInverseResolvingEList<TExtRef>(TExtRef.class, this, SclPackage.TDA_TYPE__EXT_REF, SclPackage.TEXT_REF__DA_TYPE);
+		}
+		return extRef;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<TFCDA> getFcda() {
+		if (fcda == null) {
+			fcda = new EObjectWithInverseResolvingEList<TFCDA>(TFCDA.class, this, SclPackage.TDA_TYPE__FCDA, SclPackage.TFCDA__DA_TYPE);
+		}
+		return fcda;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SclPackage.TDA_TYPE__EXT_REF:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getExtRef()).basicAdd(otherEnd, msgs);
+			case SclPackage.TDA_TYPE__FCDA:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getFcda()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SclPackage.TDA_TYPE__BDA:
 				return ((InternalEList<?>)getBDA()).basicRemove(otherEnd, msgs);
+			case SclPackage.TDA_TYPE__EXT_REF:
+				return ((InternalEList<?>)getExtRef()).basicRemove(otherEnd, msgs);
+			case SclPackage.TDA_TYPE__FCDA:
+				return ((InternalEList<?>)getFcda()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -182,6 +252,10 @@ public class TDATypeImpl extends TIDNamingImpl implements TDAType {
 				return getBDA();
 			case SclPackage.TDA_TYPE__IED_TYPE:
 				return getIedType();
+			case SclPackage.TDA_TYPE__EXT_REF:
+				return getExtRef();
+			case SclPackage.TDA_TYPE__FCDA:
+				return getFcda();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -202,6 +276,14 @@ public class TDATypeImpl extends TIDNamingImpl implements TDAType {
 			case SclPackage.TDA_TYPE__IED_TYPE:
 				setIedType((String)newValue);
 				return;
+			case SclPackage.TDA_TYPE__EXT_REF:
+				getExtRef().clear();
+				getExtRef().addAll((Collection<? extends TExtRef>)newValue);
+				return;
+			case SclPackage.TDA_TYPE__FCDA:
+				getFcda().clear();
+				getFcda().addAll((Collection<? extends TFCDA>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -220,6 +302,12 @@ public class TDATypeImpl extends TIDNamingImpl implements TDAType {
 			case SclPackage.TDA_TYPE__IED_TYPE:
 				unsetIedType();
 				return;
+			case SclPackage.TDA_TYPE__EXT_REF:
+				getExtRef().clear();
+				return;
+			case SclPackage.TDA_TYPE__FCDA:
+				getFcda().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -236,6 +324,10 @@ public class TDATypeImpl extends TIDNamingImpl implements TDAType {
 				return bDA != null && !bDA.isEmpty();
 			case SclPackage.TDA_TYPE__IED_TYPE:
 				return isSetIedType();
+			case SclPackage.TDA_TYPE__EXT_REF:
+				return extRef != null && !extRef.isEmpty();
+			case SclPackage.TDA_TYPE__FCDA:
+				return fcda != null && !fcda.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

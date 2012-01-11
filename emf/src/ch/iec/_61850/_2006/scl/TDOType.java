@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link ch.iec._61850._2006.scl.TDOType#getDA <em>DA</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TDOType#getCdc <em>Cdc</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TDOType#getIedType <em>Ied Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TDOType#getExtRef <em>Ext Ref</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TDOType#getFcda <em>Fcda</em>}</li>
  * </ul>
  * </p>
  *
@@ -163,5 +165,41 @@ public interface TDOType extends TIDNaming {
 	 * @generated
 	 */
 	boolean isSetIedType();
+
+	/**
+	 * Returns the value of the '<em><b>Ext Ref</b></em>' reference list.
+	 * The list contents are of type {@link ch.iec._61850._2006.scl.TExtRef}.
+	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TExtRef#getDoType <em>Do Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ext Ref</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ext Ref</em>' reference list.
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTDOType_ExtRef()
+	 * @see ch.iec._61850._2006.scl.TExtRef#getDoType
+	 * @model opposite="doType"
+	 * @generated
+	 */
+	EList<TExtRef> getExtRef();
+
+	/**
+	 * Returns the value of the '<em><b>Fcda</b></em>' reference list.
+	 * The list contents are of type {@link ch.iec._61850._2006.scl.TFCDA}.
+	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TFCDA#getDoType <em>Do Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Fcda</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Fcda</em>' reference list.
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTDOType_Fcda()
+	 * @see ch.iec._61850._2006.scl.TFCDA#getDoType
+	 * @model opposite="doType"
+	 * @generated
+	 */
+	EList<TFCDA> getFcda();
 
 } // TDOType

@@ -21,14 +21,16 @@
 package sclToC;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.query.conditions.ObjectInstanceCondition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
+import org.eclipse.emf.query.conditions.eobjects.EObjectInstanceCondition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectTypeRelationCondition;
 import org.eclipse.emf.query.statements.FROM;
 import org.eclipse.emf.query.statements.IQueryResult;
@@ -48,6 +50,7 @@ import ch.iec._61850._2006.scl.TAccessPoint;
 import ch.iec._61850._2006.scl.TBDA;
 import ch.iec._61850._2006.scl.TCommunication;
 import ch.iec._61850._2006.scl.TConnectedAP;
+import ch.iec._61850._2006.scl.TControl;
 import ch.iec._61850._2006.scl.TDA;
 import ch.iec._61850._2006.scl.TDAType;
 import ch.iec._61850._2006.scl.TDO;
@@ -93,6 +96,10 @@ public class SCLCodeGenerator {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		
+		// model validation and pre-caching
+		mapDataSetToControl(resource);
 
 		
 		// initialise C files
@@ -908,8 +915,77 @@ public class SCLCodeGenerator {
 		gseHeader.saveFile();
 		iedHeader.saveFile();
 		dataTypesHeader.saveFile();
+		
+		/*try {
+			resource.save(System.out, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 	
+
+	private static void mapDataSetToControl(Resource resource) {
+		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
+		
+		/*ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) lnClass) {
+			@Override
+			public boolean isSatisfied(Object obj) {
+				return getObject().toString().equals(obj.toString());
+			}
+		};*/
+		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTGSEControl()
+		);
+		final EObjectCondition isSVControl = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTSampledValueControl()
+		);
+		
+		IQueryResult result = new SELECT(
+			new FROM(root),
+			new WHERE(isGSEControl.OR(isSVControl))
+		).execute();
+	
+		//System.out.println("results: " + result.size());
+		for (Object next : result) {
+			//System.out.println(next.toString());
+			TControl control = (TControl) next;
+			
+			final EObjectCondition isDataSet = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTDataSet()
+			);
+			final EObjectCondition isDataSetForControl = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTNaming_Name(),
+				new StringValue(control.getDatSet())
+			);
+
+			IQueryResult resultMapped = new SELECT(
+				new FROM(root),
+				new WHERE(isDataSet.AND(isDataSetForControl))
+			).execute();
+			
+			//System.out.println("\tresults: " + resultMapped.size() + " (for '" + control.getName() + "')");
+			//for (Object nextMapped : resultMapped) {
+				//System.out.println("\t\t" + nextMapped.toString());
+			//}
+			if (resultMapped.getException() == null) {
+				if (resultMapped.size() == 0) {
+					warning("no dataset named '" + control.getDatSet() + "' for " + control.eClass().getName() + " '" + control.getName() + "'");
+				}
+				else {
+					if (resultMapped.size() == 1) {
+						TDataSet dataSet = ((TDataSet) resultMapped.toArray()[0]);
+						control.setDataSetRef(dataSet);
+						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
+					}
+					else {
+						warning("more than one dataset named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
+					}
+				}
+			}
+		}
+	}
+
 
 	private static void processDA(TDataTypeTemplates dataTypeTemplates, TLN ln, TDO dataObject, TDA da, List<String> initDATypes) {
 
@@ -1156,7 +1232,7 @@ public class SCLCodeGenerator {
 				if (result.size() > 1) {
 					warning("more than dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
 				}
-				//extRef.setDataSet((TDataSet) ((TFCDA) result.toArray()[0]).eContainer());
+				extRef.setDataSet((TDataSet) ((TFCDA) result.toArray()[0]).eContainer());
 				
 				// return dataset (container) of first matching FCDA
 				return (TDataSet) ((TFCDA) result.toArray()[0]).eContainer();

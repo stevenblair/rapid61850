@@ -48,8 +48,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ch.iec._61850._2006.scl.impl.DocumentRootImpl#getIED <em>IED</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.DocumentRootImpl#getLN <em>LN</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.DocumentRootImpl#getLN0 <em>LN0</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.DocumentRootImpl#getSubstation <em>Substation</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.DocumentRootImpl#getSCL <em>SCL</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.DocumentRootImpl#getSubstation <em>Substation</em>}</li>
  * </ul>
  * </p>
  *
@@ -281,33 +281,6 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TSubstation getSubstation() {
-		return (TSubstation)getMixed().get(SclPackage.eINSTANCE.getDocumentRoot_Substation(), true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetSubstation(TSubstation newSubstation, NotificationChain msgs) {
-		return ((FeatureMap.Internal)getMixed()).basicAdd(SclPackage.eINSTANCE.getDocumentRoot_Substation(), newSubstation, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setSubstation(TSubstation newSubstation) {
-		((FeatureMap.Internal)getMixed()).set(SclPackage.eINSTANCE.getDocumentRoot_Substation(), newSubstation);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public SCLType getSCL() {
 		return (SCLType)getMixed().get(SclPackage.eINSTANCE.getDocumentRoot_SCL(), true);
 	}
@@ -335,6 +308,33 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public TSubstation getSubstation() {
+		return (TSubstation)getMixed().get(SclPackage.eINSTANCE.getDocumentRoot_Substation(), true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSubstation(TSubstation newSubstation, NotificationChain msgs) {
+		return ((FeatureMap.Internal)getMixed()).basicAdd(SclPackage.eINSTANCE.getDocumentRoot_Substation(), newSubstation, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSubstation(TSubstation newSubstation) {
+		((FeatureMap.Internal)getMixed()).set(SclPackage.eINSTANCE.getDocumentRoot_Substation(), newSubstation);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -354,10 +354,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 				return basicSetLN(null, msgs);
 			case SclPackage.DOCUMENT_ROOT__LN0:
 				return basicSetLN0(null, msgs);
-			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
-				return basicSetSubstation(null, msgs);
 			case SclPackage.DOCUMENT_ROOT__SCL:
 				return basicSetSCL(null, msgs);
+			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
+				return basicSetSubstation(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -389,10 +389,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 				return getLN();
 			case SclPackage.DOCUMENT_ROOT__LN0:
 				return getLN0();
-			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
-				return getSubstation();
 			case SclPackage.DOCUMENT_ROOT__SCL:
 				return getSCL();
+			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
+				return getSubstation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -429,11 +429,11 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 			case SclPackage.DOCUMENT_ROOT__LN0:
 				setLN0((LN0Type)newValue);
 				return;
-			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
-				setSubstation((TSubstation)newValue);
-				return;
 			case SclPackage.DOCUMENT_ROOT__SCL:
 				setSCL((SCLType)newValue);
+				return;
+			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
+				setSubstation((TSubstation)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -471,11 +471,11 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 			case SclPackage.DOCUMENT_ROOT__LN0:
 				setLN0((LN0Type)null);
 				return;
-			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
-				setSubstation((TSubstation)null);
-				return;
 			case SclPackage.DOCUMENT_ROOT__SCL:
 				setSCL((SCLType)null);
+				return;
+			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
+				setSubstation((TSubstation)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -505,10 +505,10 @@ public class DocumentRootImpl extends EObjectImpl implements DocumentRoot {
 				return getLN() != null;
 			case SclPackage.DOCUMENT_ROOT__LN0:
 				return getLN0() != null;
-			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
-				return getSubstation() != null;
 			case SclPackage.DOCUMENT_ROOT__SCL:
 				return getSCL() != null;
+			case SclPackage.DOCUMENT_ROOT__SUBSTATION:
+				return getSubstation() != null;
 		}
 		return super.eIsSet(featureID);
 	}

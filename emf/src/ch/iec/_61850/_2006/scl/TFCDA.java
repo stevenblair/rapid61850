@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getLnClass <em>Ln Class</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getLnInst <em>Ln Inst</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getDoType <em>Do Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getDaType <em>Da Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -249,5 +251,61 @@ public interface TFCDA extends EObject {
 	 * @generated
 	 */
 	void setPrefix(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Do Type</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TDOType#getFcda <em>Fcda</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Do Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Do Type</em>' reference.
+	 * @see #setDoType(TDOType)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_DoType()
+	 * @see ch.iec._61850._2006.scl.TDOType#getFcda
+	 * @model opposite="fcda"
+	 * @generated
+	 */
+	TDOType getDoType();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getDoType <em>Do Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Do Type</em>' reference.
+	 * @see #getDoType()
+	 * @generated
+	 */
+	void setDoType(TDOType value);
+
+	/**
+	 * Returns the value of the '<em><b>Da Type</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TDAType#getFcda <em>Fcda</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Da Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Da Type</em>' reference.
+	 * @see #setDaType(TDAType)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_DaType()
+	 * @see ch.iec._61850._2006.scl.TDAType#getFcda
+	 * @model opposite="fcda"
+	 * @generated
+	 */
+	TDAType getDaType();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getDaType <em>Da Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Da Type</em>' reference.
+	 * @see #getDaType()
+	 * @generated
+	 */
+	void setDaType(TDAType value);
 
 } // TFCDA

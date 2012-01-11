@@ -76,6 +76,10 @@ public class SclAdapterFactory extends AdapterFactoryImpl {
 				return createAuthenticationTypeAdapter();
 			}
 			@Override
+			public Adapter caseDocumentRoot(DocumentRoot object) {
+				return createDocumentRootAdapter();
+			}
+			@Override
 			public Adapter caseHistoryType(HistoryType object) {
 				return createHistoryTypeAdapter();
 			}
@@ -544,10 +548,6 @@ public class SclAdapterFactory extends AdapterFactoryImpl {
 				return createTVoltageAdapter();
 			}
 			@Override
-			public Adapter caseDocumentRoot(DocumentRoot object) {
-				return createDocumentRootAdapter();
-			}
-			@Override
 			public Adapter caseTVoltageLevel(TVoltageLevel object) {
 				return createTVoltageLevelAdapter();
 			}
@@ -582,6 +582,20 @@ public class SclAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAuthenticationTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ch.iec._61850._2006.scl.DocumentRoot <em>Document Root</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot
+	 * @generated
+	 */
+	public Adapter createDocumentRootAdapter() {
 		return null;
 	}
 
@@ -2220,20 +2234,6 @@ public class SclAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTVoltageAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link ch.iec._61850._2006.scl.DocumentRoot <em>Document Root</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot
-	 * @generated
-	 */
-	public Adapter createDocumentRootAdapter() {
 		return null;
 	}
 

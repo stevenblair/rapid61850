@@ -108,6 +108,8 @@ public class SclValidator extends EObjectValidator {
 		switch (classifierID) {
 			case SclPackage.AUTHENTICATION_TYPE:
 				return validateAuthenticationType((AuthenticationType)value, diagnostics, context);
+			case SclPackage.DOCUMENT_ROOT:
+				return validateDocumentRoot((DocumentRoot)value, diagnostics, context);
 			case SclPackage.HISTORY_TYPE:
 				return validateHistoryType((HistoryType)value, diagnostics, context);
 			case SclPackage.LN0_TYPE:
@@ -342,8 +344,6 @@ public class SclValidator extends EObjectValidator {
 				return validateTValueWithUnit((TValueWithUnit)value, diagnostics, context);
 			case SclPackage.TVOLTAGE:
 				return validateTVoltage((TVoltage)value, diagnostics, context);
-			case SclPackage.DOCUMENT_ROOT:
-				return validateDocumentRoot((DocumentRoot)value, diagnostics, context);
 			case SclPackage.TVOLTAGE_LEVEL:
 				return validateTVoltageLevel((TVoltageLevel)value, diagnostics, context);
 			case SclPackage.NAME_STRUCTURE_TYPE:
@@ -552,6 +552,15 @@ public class SclValidator extends EObjectValidator {
 	 */
 	public boolean validateAuthenticationType(AuthenticationType authenticationType, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint(authenticationType, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateDocumentRoot(DocumentRoot documentRoot, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(documentRoot, diagnostics, context);
 	}
 
 	/**
@@ -1605,15 +1614,6 @@ public class SclValidator extends EObjectValidator {
 	 */
 	public boolean validateTVoltage(TVoltage tVoltage, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint(tVoltage, diagnostics, context);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean validateDocumentRoot(DocumentRoot documentRoot, DiagnosticChain diagnostics, Map<Object, Object> context) {
-		return validate_EveryDefaultConstraint(documentRoot, diagnostics, context);
 	}
 
 	/**

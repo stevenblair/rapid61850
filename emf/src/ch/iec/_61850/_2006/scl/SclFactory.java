@@ -35,6 +35,15 @@ public interface SclFactory extends EFactory {
 	AuthenticationType createAuthenticationType();
 
 	/**
+	 * Returns a new object of class '<em>Document Root</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Document Root</em>'.
+	 * @generated
+	 */
+	DocumentRoot createDocumentRoot();
+
+	/**
 	 * Returns a new object of class '<em>History Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -942,15 +951,6 @@ public interface SclFactory extends EFactory {
 	 * @generated
 	 */
 	TVoltage createTVoltage();
-
-	/**
-	 * Returns a new object of class '<em>Document Root</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Document Root</em>'.
-	 * @generated
-	 */
-	DocumentRoot createDocumentRoot();
 
 	/**
 	 * Returns a new object of class '<em>TVoltage Level</em>'.

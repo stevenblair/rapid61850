@@ -26,6 +26,9 @@ import org.eclipse.emf.ecore.EReference;
  * <!-- end-user-doc -->
  * <!-- begin-model-doc -->
  * COPYRIGHT IEC, 2005. Version 1.4. Release 2005/09/11.
+ * COPYRIGHT IEC, 2005. Version 1.4. Release 2005/09/11.
+ * COPYRIGHT IEC, 2005. Version 1.4. Release 2005/09/11.
+ * COPYRIGHT IEC, 2005. Version 1.4. Release 2005/09/11.
  * <!-- end-model-doc -->
  * @see ch.iec._61850._2006.scl.SclFactory
  * @model kind="package"
@@ -129,6 +132,115 @@ public interface SclPackage extends EPackage {
 	int AUTHENTICATION_TYPE_FEATURE_COUNT = 5;
 
 	/**
+	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.DocumentRootImpl <em>Document Root</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ch.iec._61850._2006.scl.impl.DocumentRootImpl
+	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getDocumentRoot()
+	 * @generated
+	 */
+	int DOCUMENT_ROOT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__MIXED = 0;
+
+	/**
+	 * The feature id for the '<em><b>XMLNS Prefix Map</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__XMLNS_PREFIX_MAP = 1;
+
+	/**
+	 * The feature id for the '<em><b>XSI Schema Location</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = 2;
+
+	/**
+	 * The feature id for the '<em><b>Communication</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__COMMUNICATION = 3;
+
+	/**
+	 * The feature id for the '<em><b>Data Type Templates</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__DATA_TYPE_TEMPLATES = 4;
+
+	/**
+	 * The feature id for the '<em><b>IED</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__IED = 5;
+
+	/**
+	 * The feature id for the '<em><b>LN</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__LN = 6;
+
+	/**
+	 * The feature id for the '<em><b>LN0</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__LN0 = 7;
+
+	/**
+	 * The feature id for the '<em><b>SCL</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__SCL = 8;
+
+	/**
+	 * The feature id for the '<em><b>Substation</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT__SUBSTATION = 9;
+
+	/**
+	 * The number of structural features of the '<em>Document Root</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DOCUMENT_ROOT_FEATURE_COUNT = 10;
+
+	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.HistoryTypeImpl <em>History Type</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -136,7 +248,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getHistoryType()
 	 * @generated
 	 */
-	int HISTORY_TYPE = 1;
+	int HISTORY_TYPE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Hitem</b></em>' containment reference list.
@@ -164,7 +276,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTBaseElement()
 	 * @generated
 	 */
-	int TBASE_ELEMENT = 15;
+	int TBASE_ELEMENT = 16;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -219,7 +331,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTUnNaming()
 	 * @generated
 	 */
-	int TUN_NAMING = 114;
+	int TUN_NAMING = 115;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -283,7 +395,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTAnyLN()
 	 * @generated
 	 */
-	int TANY_LN = 13;
+	int TANY_LN = 14;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -401,7 +513,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLN0()
 	 * @generated
 	 */
-	int TLN0 = 59;
+	int TLN0 = 60;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -582,7 +694,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getLN0Type()
 	 * @generated
 	 */
-	int LN0_TYPE = 2;
+	int LN0_TYPE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -763,7 +875,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getOptFieldsType()
 	 * @generated
 	 */
-	int OPT_FIELDS_TYPE = 3;
+	int OPT_FIELDS_TYPE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Buf Ovfl</b></em>' attribute.
@@ -854,7 +966,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getSCLType()
 	 * @generated
 	 */
-	int SCL_TYPE = 4;
+	int SCL_TYPE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -954,7 +1066,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getSettingGroupsType()
 	 * @generated
 	 */
-	int SETTING_GROUPS_TYPE = 5;
+	int SETTING_GROUPS_TYPE = 6;
 
 	/**
 	 * The feature id for the '<em><b>SG Edit</b></em>' containment reference.
@@ -991,7 +1103,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getSmvOptsType()
 	 * @generated
 	 */
-	int SMV_OPTS_TYPE = 6;
+	int SMV_OPTS_TYPE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Data Set</b></em>' attribute.
@@ -1055,7 +1167,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTNaming()
 	 * @generated
 	 */
-	int TNAMING = 66;
+	int TNAMING = 67;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -1128,7 +1240,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLNodeContainer()
 	 * @generated
 	 */
-	int TL_NODE_CONTAINER = 61;
+	int TL_NODE_CONTAINER = 62;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -1210,7 +1322,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPowerSystemResource()
 	 * @generated
 	 */
-	int TPOWER_SYSTEM_RESOURCE = 82;
+	int TPOWER_SYSTEM_RESOURCE = 83;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -1292,7 +1404,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTEquipment()
 	 * @generated
 	 */
-	int TEQUIPMENT = 42;
+	int TEQUIPMENT = 43;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -1383,7 +1495,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTAbstractConductingEquipment()
 	 * @generated
 	 */
-	int TABSTRACT_CONDUCTING_EQUIPMENT = 7;
+	int TABSTRACT_CONDUCTING_EQUIPMENT = 8;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -1492,7 +1604,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTAbstractDataAttribute()
 	 * @generated
 	 */
-	int TABSTRACT_DATA_ATTRIBUTE = 8;
+	int TABSTRACT_DATA_ATTRIBUTE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -1619,7 +1731,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTAnyContentFromOtherNamespace()
 	 * @generated
 	 */
-	int TANY_CONTENT_FROM_OTHER_NAMESPACE = 12;
+	int TANY_CONTENT_FROM_OTHER_NAMESPACE = 13;
 
 	/**
 	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -1674,7 +1786,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTAccessControl()
 	 * @generated
 	 */
-	int TACCESS_CONTROL = 9;
+	int TACCESS_CONTROL = 10;
 
 	/**
 	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -1729,7 +1841,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTAccessPoint()
 	 * @generated
 	 */
-	int TACCESS_POINT = 10;
+	int TACCESS_POINT = 11;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -1838,7 +1950,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTAddress()
 	 * @generated
 	 */
-	int TADDRESS = 11;
+	int TADDRESS = 12;
 
 	/**
 	 * The feature id for the '<em><b>P</b></em>' containment reference list.
@@ -1866,7 +1978,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTAssociation()
 	 * @generated
 	 */
-	int TASSOCIATION = 14;
+	int TASSOCIATION = 15;
 
 	/**
 	 * The feature id for the '<em><b>Association ID</b></em>' attribute.
@@ -1948,7 +2060,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTEquipmentContainer()
 	 * @generated
 	 */
-	int TEQUIPMENT_CONTAINER = 43;
+	int TEQUIPMENT_CONTAINER = 44;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -2048,7 +2160,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTBay()
 	 * @generated
 	 */
-	int TBAY = 16;
+	int TBAY = 17;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -2166,7 +2278,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTBDA()
 	 * @generated
 	 */
-	int TBDA = 17;
+	int TBDA = 18;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -2293,7 +2405,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTValueWithUnit()
 	 * @generated
 	 */
-	int TVALUE_WITH_UNIT = 116;
+	int TVALUE_WITH_UNIT = 117;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -2339,7 +2451,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTBitRateInMbPerSec()
 	 * @generated
 	 */
-	int TBIT_RATE_IN_MB_PER_SEC = 18;
+	int TBIT_RATE_IN_MB_PER_SEC = 19;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -2385,7 +2497,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTClientLN()
 	 * @generated
 	 */
-	int TCLIENT_LN = 19;
+	int TCLIENT_LN = 20;
 
 	/**
 	 * The feature id for the '<em><b>Ied Name</b></em>' attribute.
@@ -2449,7 +2561,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTClientServices()
 	 * @generated
 	 */
-	int TCLIENT_SERVICES = 20;
+	int TCLIENT_SERVICES = 21;
 
 	/**
 	 * The feature id for the '<em><b>Buf Report</b></em>' attribute.
@@ -2513,7 +2625,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTCommunication()
 	 * @generated
 	 */
-	int TCOMMUNICATION = 21;
+	int TCOMMUNICATION = 22;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -2586,7 +2698,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTConductingEquipment()
 	 * @generated
 	 */
-	int TCONDUCTING_EQUIPMENT = 22;
+	int TCONDUCTING_EQUIPMENT = 23;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -2704,7 +2816,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTConfLNs()
 	 * @generated
 	 */
-	int TCONF_LNS = 23;
+	int TCONF_LNS = 24;
 
 	/**
 	 * The feature id for the '<em><b>Fix Ln Inst</b></em>' attribute.
@@ -2741,7 +2853,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTConnectedAP()
 	 * @generated
 	 */
-	int TCONNECTED_AP = 24;
+	int TCONNECTED_AP = 25;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -2859,7 +2971,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTConnectivityNode()
 	 * @generated
 	 */
-	int TCONNECTIVITY_NODE = 25;
+	int TCONNECTIVITY_NODE = 26;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -2950,7 +3062,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTControl()
 	 * @generated
 	 */
-	int TCONTROL = 26;
+	int TCONTROL = 27;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3016,13 +3128,31 @@ public interface SclPackage extends EPackage {
 	int TCONTROL__DAT_SET = TNAMING_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Control Block</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TCONTROL__CONTROL_BLOCK = TNAMING_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TCONTROL__DATA_SET_REF = TNAMING_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>TControl</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TCONTROL_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 1;
+	int TCONTROL_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TControlBlockImpl <em>TControl Block</em>}' class.
@@ -3032,7 +3162,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTControlBlock()
 	 * @generated
 	 */
-	int TCONTROL_BLOCK = 27;
+	int TCONTROL_BLOCK = 28;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3107,13 +3237,22 @@ public interface SclPackage extends EPackage {
 	int TCONTROL_BLOCK__LD_INST = TUN_NAMING_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Control</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TCONTROL_BLOCK__CONTROL = TUN_NAMING_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>TControl Block</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TCONTROL_BLOCK_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 3;
+	int TCONTROL_BLOCK_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TControlWithIEDNameImpl <em>TControl With IED Name</em>}' class.
@@ -3123,7 +3262,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTControlWithIEDName()
 	 * @generated
 	 */
-	int TCONTROL_WITH_IED_NAME = 28;
+	int TCONTROL_WITH_IED_NAME = 29;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3189,6 +3328,24 @@ public interface SclPackage extends EPackage {
 	int TCONTROL_WITH_IED_NAME__DAT_SET = TCONTROL__DAT_SET;
 
 	/**
+	 * The feature id for the '<em><b>Control Block</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TCONTROL_WITH_IED_NAME__CONTROL_BLOCK = TCONTROL__CONTROL_BLOCK;
+
+	/**
+	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TCONTROL_WITH_IED_NAME__DATA_SET_REF = TCONTROL__DATA_SET_REF;
+
+	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3223,7 +3380,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTControlWithTriggerOpt()
 	 * @generated
 	 */
-	int TCONTROL_WITH_TRIGGER_OPT = 29;
+	int TCONTROL_WITH_TRIGGER_OPT = 30;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3289,6 +3446,24 @@ public interface SclPackage extends EPackage {
 	int TCONTROL_WITH_TRIGGER_OPT__DAT_SET = TCONTROL__DAT_SET;
 
 	/**
+	 * The feature id for the '<em><b>Control Block</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK = TCONTROL__CONTROL_BLOCK;
+
+	/**
+	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TCONTROL_WITH_TRIGGER_OPT__DATA_SET_REF = TCONTROL__DATA_SET_REF;
+
+	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3323,7 +3498,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDA()
 	 * @generated
 	 */
-	int TDA = 30;
+	int TDA = 31;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3486,7 +3661,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDAI()
 	 * @generated
 	 */
-	int TDAI = 31;
+	int TDAI = 32;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3595,7 +3770,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDataSet()
 	 * @generated
 	 */
-	int TDATA_SET = 32;
+	int TDATA_SET = 33;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3679,13 +3854,31 @@ public interface SclPackage extends EPackage {
 	int TDATA_SET__FCCB = TNAMING_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Control</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TDATA_SET__CONTROL = TNAMING_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Ext Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TDATA_SET__EXT_REF = TNAMING_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>TData Set</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TDATA_SET_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 3;
+	int TDATA_SET_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TDataTypeTemplatesImpl <em>TData Type Templates</em>}' class.
@@ -3695,7 +3888,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDataTypeTemplates()
 	 * @generated
 	 */
-	int TDATA_TYPE_TEMPLATES = 33;
+	int TDATA_TYPE_TEMPLATES = 34;
 
 	/**
 	 * The feature id for the '<em><b>LNode Type</b></em>' containment reference list.
@@ -3750,7 +3943,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTIDNaming()
 	 * @generated
 	 */
-	int TID_NAMING = 54;
+	int TID_NAMING = 55;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3823,7 +4016,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDAType()
 	 * @generated
 	 */
-	int TDA_TYPE = 34;
+	int TDA_TYPE = 35;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -3898,13 +4091,31 @@ public interface SclPackage extends EPackage {
 	int TDA_TYPE__IED_TYPE = TID_NAMING_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Ext Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TDA_TYPE__EXT_REF = TID_NAMING_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Fcda</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TDA_TYPE__FCDA = TID_NAMING_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>TDA Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TDA_TYPE_FEATURE_COUNT = TID_NAMING_FEATURE_COUNT + 2;
+	int TDA_TYPE_FEATURE_COUNT = TID_NAMING_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TDOImpl <em>TDO</em>}' class.
@@ -3914,7 +4125,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDO()
 	 * @generated
 	 */
-	int TDO = 35;
+	int TDO = 36;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -4014,7 +4225,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDOI()
 	 * @generated
 	 */
-	int TDOI = 36;
+	int TDOI = 37;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -4132,7 +4343,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDOType()
 	 * @generated
 	 */
-	int TDO_TYPE = 37;
+	int TDO_TYPE = 38;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -4234,13 +4445,31 @@ public interface SclPackage extends EPackage {
 	int TDO_TYPE__IED_TYPE = TID_NAMING_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Ext Ref</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TDO_TYPE__EXT_REF = TID_NAMING_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Fcda</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TDO_TYPE__FCDA = TID_NAMING_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>TDO Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TDO_TYPE_FEATURE_COUNT = TID_NAMING_FEATURE_COUNT + 5;
+	int TDO_TYPE_FEATURE_COUNT = TID_NAMING_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TDurationInMilliSecImpl <em>TDuration In Milli Sec</em>}' class.
@@ -4250,7 +4479,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDurationInMilliSec()
 	 * @generated
 	 */
-	int TDURATION_IN_MILLI_SEC = 38;
+	int TDURATION_IN_MILLI_SEC = 39;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -4296,7 +4525,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTDurationInSec()
 	 * @generated
 	 */
-	int TDURATION_IN_SEC = 39;
+	int TDURATION_IN_SEC = 40;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -4342,7 +4571,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTEnumType()
 	 * @generated
 	 */
-	int TENUM_TYPE = 40;
+	int TENUM_TYPE = 41;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -4424,7 +4653,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTEnumVal()
 	 * @generated
 	 */
-	int TENUM_VAL = 41;
+	int TENUM_VAL = 42;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -4461,7 +4690,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTExtRef()
 	 * @generated
 	 */
-	int TEXT_REF = 44;
+	int TEXT_REF = 45;
 
 	/**
 	 * The feature id for the '<em><b>Da Name</b></em>' attribute.
@@ -4536,13 +4765,40 @@ public interface SclPackage extends EPackage {
 	int TEXT_REF__PREFIX = 7;
 
 	/**
+	 * The feature id for the '<em><b>Data Set</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_REF__DATA_SET = 8;
+
+	/**
+	 * The feature id for the '<em><b>Do Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_REF__DO_TYPE = 9;
+
+	/**
+	 * The feature id for the '<em><b>Da Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEXT_REF__DA_TYPE = 10;
+
+	/**
 	 * The number of structural features of the '<em>TExt Ref</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXT_REF_FEATURE_COUNT = 8;
+	int TEXT_REF_FEATURE_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TFCCBImpl <em>TFCCB</em>}' class.
@@ -4552,7 +4808,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTFCCB()
 	 * @generated
 	 */
-	int TFCCB = 45;
+	int TFCCB = 46;
 
 	/**
 	 * The feature id for the '<em><b>Cb Name</b></em>' attribute.
@@ -4634,7 +4890,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTFCDA()
 	 * @generated
 	 */
-	int TFCDA = 46;
+	int TFCDA = 47;
 
 	/**
 	 * The feature id for the '<em><b>Da Name</b></em>' attribute.
@@ -4700,13 +4956,31 @@ public interface SclPackage extends EPackage {
 	int TFCDA__PREFIX = 6;
 
 	/**
+	 * The feature id for the '<em><b>Do Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TFCDA__DO_TYPE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Da Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TFCDA__DA_TYPE = 8;
+
+	/**
 	 * The number of structural features of the '<em>TFCDA</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TFCDA_FEATURE_COUNT = 7;
+	int TFCDA_FEATURE_COUNT = 9;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TFunctionImpl <em>TFunction</em>}' class.
@@ -4716,7 +4990,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTFunction()
 	 * @generated
 	 */
-	int TFUNCTION = 47;
+	int TFUNCTION = 48;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -4816,7 +5090,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTGeneralEquipment()
 	 * @generated
 	 */
-	int TGENERAL_EQUIPMENT = 48;
+	int TGENERAL_EQUIPMENT = 49;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -4916,7 +5190,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTGSE()
 	 * @generated
 	 */
-	int TGSE = 49;
+	int TGSE = 50;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -4991,6 +5265,15 @@ public interface SclPackage extends EPackage {
 	int TGSE__LD_INST = TCONTROL_BLOCK__LD_INST;
 
 	/**
+	 * The feature id for the '<em><b>Control</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TGSE__CONTROL = TCONTROL_BLOCK__CONTROL;
+
+	/**
 	 * The feature id for the '<em><b>Min Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5025,7 +5308,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTGSEControl()
 	 * @generated
 	 */
-	int TGSE_CONTROL = 50;
+	int TGSE_CONTROL = 51;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -5091,6 +5374,24 @@ public interface SclPackage extends EPackage {
 	int TGSE_CONTROL__DAT_SET = TCONTROL_WITH_IED_NAME__DAT_SET;
 
 	/**
+	 * The feature id for the '<em><b>Control Block</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TGSE_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_IED_NAME__CONTROL_BLOCK;
+
+	/**
+	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TGSE_CONTROL__DATA_SET_REF = TCONTROL_WITH_IED_NAME__DATA_SET_REF;
+
+	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5143,7 +5444,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTServiceSettings()
 	 * @generated
 	 */
-	int TSERVICE_SETTINGS = 96;
+	int TSERVICE_SETTINGS = 97;
 
 	/**
 	 * The feature id for the '<em><b>Cb Name</b></em>' attribute.
@@ -5180,7 +5481,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTGSESettings()
 	 * @generated
 	 */
-	int TGSE_SETTINGS = 51;
+	int TGSE_SETTINGS = 52;
 
 	/**
 	 * The feature id for the '<em><b>Cb Name</b></em>' attribute.
@@ -5235,7 +5536,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTHeader()
 	 * @generated
 	 */
-	int THEADER = 52;
+	int THEADER = 53;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' containment reference.
@@ -5317,7 +5618,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTHitem()
 	 * @generated
 	 */
-	int THITEM = 53;
+	int THITEM = 54;
 
 	/**
 	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -5426,7 +5727,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTIED()
 	 * @generated
 	 */
-	int TIED = 55;
+	int TIED = 56;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -5544,7 +5845,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTInputs()
 	 * @generated
 	 */
-	int TINPUTS = 56;
+	int TINPUTS = 57;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -5617,7 +5918,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLDevice()
 	 * @generated
 	 */
-	int TL_DEVICE = 57;
+	int TL_DEVICE = 58;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -5726,7 +6027,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLN()
 	 * @generated
 	 */
-	int TLN = 58;
+	int TLN = 59;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -5871,7 +6172,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLNode()
 	 * @generated
 	 */
-	int TL_NODE = 60;
+	int TL_NODE = 61;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -5989,7 +6290,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLNodeType()
 	 * @generated
 	 */
-	int TL_NODE_TYPE = 62;
+	int TL_NODE_TYPE = 63;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -6089,7 +6390,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLog()
 	 * @generated
 	 */
-	int TLOG = 63;
+	int TLOG = 64;
 
 	/**
 	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -6144,7 +6445,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLogControl()
 	 * @generated
 	 */
-	int TLOG_CONTROL = 64;
+	int TLOG_CONTROL = 65;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -6210,6 +6511,24 @@ public interface SclPackage extends EPackage {
 	int TLOG_CONTROL__DAT_SET = TCONTROL_WITH_TRIGGER_OPT__DAT_SET;
 
 	/**
+	 * The feature id for the '<em><b>Control Block</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TLOG_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK;
+
+	/**
+	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TLOG_CONTROL__DATA_SET_REF = TCONTROL_WITH_TRIGGER_OPT__DATA_SET_REF;
+
+	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6271,7 +6590,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTLogSettings()
 	 * @generated
 	 */
-	int TLOG_SETTINGS = 65;
+	int TLOG_SETTINGS = 66;
 
 	/**
 	 * The feature id for the '<em><b>Cb Name</b></em>' attribute.
@@ -6335,7 +6654,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTP()
 	 * @generated
 	 */
-	int TP = 67;
+	int TP = 68;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6372,7 +6691,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPAPPID()
 	 * @generated
 	 */
-	int TPAPPID = 68;
+	int TPAPPID = 69;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6409,7 +6728,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPhysConn()
 	 * @generated
 	 */
-	int TPHYS_CONN = 69;
+	int TPHYS_CONN = 70;
 
 	/**
 	 * The feature id for the '<em><b>P</b></em>' containment reference list.
@@ -6446,7 +6765,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPIP()
 	 * @generated
 	 */
-	int TPIP = 70;
+	int TPIP = 71;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6483,7 +6802,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPIPGATEWAY()
 	 * @generated
 	 */
-	int TPIPGATEWAY = 71;
+	int TPIPGATEWAY = 72;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6520,7 +6839,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPIPSUBNET()
 	 * @generated
 	 */
-	int TPIPSUBNET = 72;
+	int TPIPSUBNET = 73;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6557,7 +6876,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPMACAddress()
 	 * @generated
 	 */
-	int TPMAC_ADDRESS = 73;
+	int TPMAC_ADDRESS = 74;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6594,7 +6913,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPOSIAEInvoke()
 	 * @generated
 	 */
-	int TPOSIAE_INVOKE = 74;
+	int TPOSIAE_INVOKE = 75;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6631,7 +6950,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPOSIAEQualifier()
 	 * @generated
 	 */
-	int TPOSIAE_QUALIFIER = 75;
+	int TPOSIAE_QUALIFIER = 76;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6668,7 +6987,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPOSIAPInvoke()
 	 * @generated
 	 */
-	int TPOSIAP_INVOKE = 76;
+	int TPOSIAP_INVOKE = 77;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6705,7 +7024,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPOSIAPTitle()
 	 * @generated
 	 */
-	int TPOSIAP_TITLE = 77;
+	int TPOSIAP_TITLE = 78;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6742,7 +7061,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPOSINSAP()
 	 * @generated
 	 */
-	int TPOSINSAP = 78;
+	int TPOSINSAP = 79;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6779,7 +7098,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPOSIPSEL()
 	 * @generated
 	 */
-	int TPOSIPSEL = 79;
+	int TPOSIPSEL = 80;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6816,7 +7135,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPOSISSEL()
 	 * @generated
 	 */
-	int TPOSISSEL = 80;
+	int TPOSISSEL = 81;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6853,7 +7172,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPOSITSEL()
 	 * @generated
 	 */
-	int TPOSITSEL = 81;
+	int TPOSITSEL = 82;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -6890,7 +7209,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPowerTransformer()
 	 * @generated
 	 */
-	int TPOWER_TRANSFORMER = 83;
+	int TPOWER_TRANSFORMER = 84;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -6999,7 +7318,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPrivate()
 	 * @generated
 	 */
-	int TPRIVATE = 84;
+	int TPRIVATE = 85;
 
 	/**
 	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -7072,7 +7391,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPVLANID()
 	 * @generated
 	 */
-	int TPVLANID = 85;
+	int TPVLANID = 86;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -7109,7 +7428,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTPVLANPRIORITY()
 	 * @generated
 	 */
-	int TPVLANPRIORITY = 86;
+	int TPVLANPRIORITY = 87;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -7146,7 +7465,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTReportControl()
 	 * @generated
 	 */
-	int TREPORT_CONTROL = 87;
+	int TREPORT_CONTROL = 88;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -7210,6 +7529,24 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TREPORT_CONTROL__DAT_SET = TCONTROL_WITH_TRIGGER_OPT__DAT_SET;
+
+	/**
+	 * The feature id for the '<em><b>Control Block</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TREPORT_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK;
+
+	/**
+	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TREPORT_CONTROL__DATA_SET_REF = TCONTROL_WITH_TRIGGER_OPT__DATA_SET_REF;
 
 	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
@@ -7300,7 +7637,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTReportSettings()
 	 * @generated
 	 */
-	int TREPORT_SETTINGS = 88;
+	int TREPORT_SETTINGS = 89;
 
 	/**
 	 * The feature id for the '<em><b>Cb Name</b></em>' attribute.
@@ -7382,7 +7719,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTRptEnabled()
 	 * @generated
 	 */
-	int TRPT_ENABLED = 89;
+	int TRPT_ENABLED = 90;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -7464,7 +7801,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSampledValueControl()
 	 * @generated
 	 */
-	int TSAMPLED_VALUE_CONTROL = 90;
+	int TSAMPLED_VALUE_CONTROL = 91;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -7528,6 +7865,24 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TSAMPLED_VALUE_CONTROL__DAT_SET = TCONTROL_WITH_IED_NAME__DAT_SET;
+
+	/**
+	 * The feature id for the '<em><b>Control Block</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TSAMPLED_VALUE_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_IED_NAME__CONTROL_BLOCK;
+
+	/**
+	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TSAMPLED_VALUE_CONTROL__DATA_SET_REF = TCONTROL_WITH_IED_NAME__DATA_SET_REF;
 
 	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
@@ -7609,7 +7964,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSCLControl()
 	 * @generated
 	 */
-	int TSCL_CONTROL = 91;
+	int TSCL_CONTROL = 92;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -7673,7 +8028,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSDI()
 	 * @generated
 	 */
-	int TSDI = 92;
+	int TSDI = 93;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -7782,7 +8137,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSDO()
 	 * @generated
 	 */
-	int TSDO = 93;
+	int TSDO = 94;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -7864,7 +8219,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTServer()
 	 * @generated
 	 */
-	int TSERVER = 94;
+	int TSERVER = 95;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -7964,7 +8319,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTServices()
 	 * @generated
 	 */
-	int TSERVICES = 95;
+	int TSERVICES = 96;
 
 	/**
 	 * The feature id for the '<em><b>Dyn Association</b></em>' containment reference.
@@ -8208,7 +8563,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTServiceWithMax()
 	 * @generated
 	 */
-	int TSERVICE_WITH_MAX = 97;
+	int TSERVICE_WITH_MAX = 98;
 
 	/**
 	 * The feature id for the '<em><b>Max</b></em>' attribute.
@@ -8236,7 +8591,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTServiceWithMaxAndMaxAttributes()
 	 * @generated
 	 */
-	int TSERVICE_WITH_MAX_AND_MAX_ATTRIBUTES = 98;
+	int TSERVICE_WITH_MAX_AND_MAX_ATTRIBUTES = 99;
 
 	/**
 	 * The feature id for the '<em><b>Max</b></em>' attribute.
@@ -8273,7 +8628,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTServiceWithMaxAndMaxAttributesAndModify()
 	 * @generated
 	 */
-	int TSERVICE_WITH_MAX_AND_MAX_ATTRIBUTES_AND_MODIFY = 99;
+	int TSERVICE_WITH_MAX_AND_MAX_ATTRIBUTES_AND_MODIFY = 100;
 
 	/**
 	 * The feature id for the '<em><b>Max</b></em>' attribute.
@@ -8319,7 +8674,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTServiceWithMaxAndModify()
 	 * @generated
 	 */
-	int TSERVICE_WITH_MAX_AND_MODIFY = 100;
+	int TSERVICE_WITH_MAX_AND_MODIFY = 101;
 
 	/**
 	 * The feature id for the '<em><b>Max</b></em>' attribute.
@@ -8356,7 +8711,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTServiceYesNo()
 	 * @generated
 	 */
-	int TSERVICE_YES_NO = 101;
+	int TSERVICE_YES_NO = 102;
 
 	/**
 	 * The number of structural features of the '<em>TService Yes No</em>' class.
@@ -8375,7 +8730,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSettingControl()
 	 * @generated
 	 */
-	int TSETTING_CONTROL = 102;
+	int TSETTING_CONTROL = 103;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -8457,7 +8812,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSMV()
 	 * @generated
 	 */
-	int TSMV = 103;
+	int TSMV = 104;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -8532,6 +8887,15 @@ public interface SclPackage extends EPackage {
 	int TSMV__LD_INST = TCONTROL_BLOCK__LD_INST;
 
 	/**
+	 * The feature id for the '<em><b>Control</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TSMV__CONTROL = TCONTROL_BLOCK__CONTROL;
+
+	/**
 	 * The number of structural features of the '<em>TSMV</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -8548,7 +8912,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSMVSettings()
 	 * @generated
 	 */
-	int TSMV_SETTINGS = 104;
+	int TSMV_SETTINGS = 105;
 
 	/**
 	 * The feature id for the '<em><b>Cb Name</b></em>' attribute.
@@ -8621,7 +8985,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSubEquipment()
 	 * @generated
 	 */
-	int TSUB_EQUIPMENT = 105;
+	int TSUB_EQUIPMENT = 106;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -8721,7 +9085,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSubFunction()
 	 * @generated
 	 */
-	int TSUB_FUNCTION = 106;
+	int TSUB_FUNCTION = 107;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -8812,7 +9176,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSubNetwork()
 	 * @generated
 	 */
-	int TSUB_NETWORK = 107;
+	int TSUB_NETWORK = 108;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -8912,7 +9276,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTSubstation()
 	 * @generated
 	 */
-	int TSUBSTATION = 108;
+	int TSUBSTATION = 109;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -9030,7 +9394,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTTapChanger()
 	 * @generated
 	 */
-	int TTAP_CHANGER = 109;
+	int TTAP_CHANGER = 110;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -9130,7 +9494,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTTerminal()
 	 * @generated
 	 */
-	int TTERMINAL = 110;
+	int TTERMINAL = 111;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -9248,7 +9612,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTText()
 	 * @generated
 	 */
-	int TTEXT = 111;
+	int TTEXT = 112;
 
 	/**
 	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -9312,7 +9676,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTTransformerWinding()
 	 * @generated
 	 */
-	int TTRANSFORMER_WINDING = 112;
+	int TTRANSFORMER_WINDING = 113;
 
 	/**
 	 * The feature id for the '<em><b>Any</b></em>' attribute list.
@@ -9439,7 +9803,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTTrgOps()
 	 * @generated
 	 */
-	int TTRG_OPS = 113;
+	int TTRG_OPS = 114;
 
 	/**
 	 * The feature id for the '<em><b>Dchg</b></em>' attribute.
@@ -9494,7 +9858,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTVal()
 	 * @generated
 	 */
-	int TVAL = 115;
+	int TVAL = 116;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -9531,7 +9895,7 @@ public interface SclPackage extends EPackage {
 	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getTVoltage()
 	 * @generated
 	 */
-	int TVOLTAGE = 117;
+	int TVOLTAGE = 118;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -9568,115 +9932,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TVOLTAGE_FEATURE_COUNT = TVALUE_WITH_UNIT_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.DocumentRootImpl <em>Document Root</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see ch.iec._61850._2006.scl.impl.DocumentRootImpl
-	 * @see ch.iec._61850._2006.scl.impl.SclPackageImpl#getDocumentRoot()
-	 * @generated
-	 */
-	int DOCUMENT_ROOT = 118;
-
-	/**
-	 * The feature id for the '<em><b>Mixed</b></em>' attribute list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__MIXED = 0;
-
-	/**
-	 * The feature id for the '<em><b>XMLNS Prefix Map</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__XMLNS_PREFIX_MAP = 1;
-
-	/**
-	 * The feature id for the '<em><b>XSI Schema Location</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = 2;
-
-	/**
-	 * The feature id for the '<em><b>Communication</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__COMMUNICATION = 3;
-
-	/**
-	 * The feature id for the '<em><b>Data Type Templates</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__DATA_TYPE_TEMPLATES = 4;
-
-	/**
-	 * The feature id for the '<em><b>IED</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__IED = 5;
-
-	/**
-	 * The feature id for the '<em><b>LN</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__LN = 6;
-
-	/**
-	 * The feature id for the '<em><b>LN0</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__LN0 = 7;
-
-	/**
-	 * The feature id for the '<em><b>Substation</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__SUBSTATION = 8;
-
-	/**
-	 * The feature id for the '<em><b>SCL</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT__SCL = 9;
-
-	/**
-	 * The number of structural features of the '<em>Document Root</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int DOCUMENT_ROOT_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TVoltageLevelImpl <em>TVoltage Level</em>}' class.
@@ -10833,6 +11088,126 @@ public interface SclPackage extends EPackage {
 	EAttribute getAuthenticationType_Weak();
 
 	/**
+	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.DocumentRoot <em>Document Root</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Document Root</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot
+	 * @generated
+	 */
+	EClass getDocumentRoot();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link ch.iec._61850._2006.scl.DocumentRoot#getMixed <em>Mixed</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Mixed</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getMixed()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EAttribute getDocumentRoot_Mixed();
+
+	/**
+	 * Returns the meta object for the map '{@link ch.iec._61850._2006.scl.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>XMLNS Prefix Map</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getXMLNSPrefixMap()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_XMLNSPrefixMap();
+
+	/**
+	 * Returns the meta object for the map '{@link ch.iec._61850._2006.scl.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>XSI Schema Location</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getXSISchemaLocation()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_XSISchemaLocation();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getCommunication <em>Communication</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Communication</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getCommunication()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_Communication();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getDataTypeTemplates <em>Data Type Templates</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Data Type Templates</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getDataTypeTemplates()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_DataTypeTemplates();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getIED <em>IED</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>IED</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getIED()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_IED();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getLN <em>LN</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>LN</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getLN()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_LN();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getLN0 <em>LN0</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>LN0</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getLN0()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_LN0();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getSCL <em>SCL</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>SCL</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getSCL()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_SCL();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getSubstation <em>Substation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Substation</em>'.
+	 * @see ch.iec._61850._2006.scl.DocumentRoot#getSubstation()
+	 * @see #getDocumentRoot()
+	 * @generated
+	 */
+	EReference getDocumentRoot_Substation();
+
+	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.HistoryType <em>History Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -11973,6 +12348,28 @@ public interface SclPackage extends EPackage {
 	EAttribute getTControl_DatSet();
 
 	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TControl#getControlBlock <em>Control Block</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Control Block</em>'.
+	 * @see ch.iec._61850._2006.scl.TControl#getControlBlock()
+	 * @see #getTControl()
+	 * @generated
+	 */
+	EReference getTControl_ControlBlock();
+
+	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TControl#getDataSetRef <em>Data Set Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Data Set Ref</em>'.
+	 * @see ch.iec._61850._2006.scl.TControl#getDataSetRef()
+	 * @see #getTControl()
+	 * @generated
+	 */
+	EReference getTControl_DataSetRef();
+
+	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TControlBlock <em>TControl Block</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12014,6 +12411,17 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTControlBlock_LdInst();
+
+	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TControlBlock#getControl <em>Control</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Control</em>'.
+	 * @see ch.iec._61850._2006.scl.TControlBlock#getControl()
+	 * @see #getTControlBlock()
+	 * @generated
+	 */
+	EReference getTControlBlock_Control();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TControlWithIEDName <em>TControl With IED Name</em>}'.
@@ -12242,6 +12650,28 @@ public interface SclPackage extends EPackage {
 	EReference getTDataSet_FCCB();
 
 	/**
+	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDataSet#getControl <em>Control</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Control</em>'.
+	 * @see ch.iec._61850._2006.scl.TDataSet#getControl()
+	 * @see #getTDataSet()
+	 * @generated
+	 */
+	EReference getTDataSet_Control();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDataSet#getExtRef <em>Ext Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Ext Ref</em>'.
+	 * @see ch.iec._61850._2006.scl.TDataSet#getExtRef()
+	 * @see #getTDataSet()
+	 * @generated
+	 */
+	EReference getTDataSet_ExtRef();
+
+	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TDataTypeTemplates <em>TData Type Templates</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12326,6 +12756,28 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTDAType_IedType();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDAType#getExtRef <em>Ext Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Ext Ref</em>'.
+	 * @see ch.iec._61850._2006.scl.TDAType#getExtRef()
+	 * @see #getTDAType()
+	 * @generated
+	 */
+	EReference getTDAType_ExtRef();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDAType#getFcda <em>Fcda</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Fcda</em>'.
+	 * @see ch.iec._61850._2006.scl.TDAType#getFcda()
+	 * @see #getTDAType()
+	 * @generated
+	 */
+	EReference getTDAType_Fcda();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TDO <em>TDO</em>}'.
@@ -12521,6 +12973,28 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTDOType_IedType();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDOType#getExtRef <em>Ext Ref</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Ext Ref</em>'.
+	 * @see ch.iec._61850._2006.scl.TDOType#getExtRef()
+	 * @see #getTDOType()
+	 * @generated
+	 */
+	EReference getTDOType_ExtRef();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDOType#getFcda <em>Fcda</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Fcda</em>'.
+	 * @see ch.iec._61850._2006.scl.TDOType#getFcda()
+	 * @see #getTDOType()
+	 * @generated
+	 */
+	EReference getTDOType_Fcda();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TDurationInMilliSec <em>TDuration In Milli Sec</em>}'.
@@ -12747,6 +13221,39 @@ public interface SclPackage extends EPackage {
 	EAttribute getTExtRef_Prefix();
 
 	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TExtRef#getDataSet <em>Data Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Data Set</em>'.
+	 * @see ch.iec._61850._2006.scl.TExtRef#getDataSet()
+	 * @see #getTExtRef()
+	 * @generated
+	 */
+	EReference getTExtRef_DataSet();
+
+	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TExtRef#getDoType <em>Do Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Do Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TExtRef#getDoType()
+	 * @see #getTExtRef()
+	 * @generated
+	 */
+	EReference getTExtRef_DoType();
+
+	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TExtRef#getDaType <em>Da Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Da Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TExtRef#getDaType()
+	 * @see #getTExtRef()
+	 * @generated
+	 */
+	EReference getTExtRef_DaType();
+
+	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TFCCB <em>TFCCB</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12919,6 +13426,28 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTFCDA_Prefix();
+
+	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TFCDA#getDoType <em>Do Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Do Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TFCDA#getDoType()
+	 * @see #getTFCDA()
+	 * @generated
+	 */
+	EReference getTFCDA_DoType();
+
+	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TFCDA#getDaType <em>Da Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Da Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TFCDA#getDaType()
+	 * @see #getTFCDA()
+	 * @generated
+	 */
+	EReference getTFCDA_DaType();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TFunction <em>TFunction</em>}'.
@@ -15444,126 +15973,6 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getTVoltage();
-
-	/**
-	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.DocumentRoot <em>Document Root</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Document Root</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot
-	 * @generated
-	 */
-	EClass getDocumentRoot();
-
-	/**
-	 * Returns the meta object for the attribute list '{@link ch.iec._61850._2006.scl.DocumentRoot#getMixed <em>Mixed</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Mixed</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getMixed()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EAttribute getDocumentRoot_Mixed();
-
-	/**
-	 * Returns the meta object for the map '{@link ch.iec._61850._2006.scl.DocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the map '<em>XMLNS Prefix Map</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getXMLNSPrefixMap()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_XMLNSPrefixMap();
-
-	/**
-	 * Returns the meta object for the map '{@link ch.iec._61850._2006.scl.DocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the map '<em>XSI Schema Location</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getXSISchemaLocation()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_XSISchemaLocation();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getCommunication <em>Communication</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Communication</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getCommunication()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_Communication();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getDataTypeTemplates <em>Data Type Templates</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Data Type Templates</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getDataTypeTemplates()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_DataTypeTemplates();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getIED <em>IED</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>IED</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getIED()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_IED();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getLN <em>LN</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>LN</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getLN()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_LN();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getLN0 <em>LN0</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>LN0</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getLN0()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_LN0();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getSubstation <em>Substation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Substation</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getSubstation()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_Substation();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ch.iec._61850._2006.scl.DocumentRoot#getSCL <em>SCL</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>SCL</em>'.
-	 * @see ch.iec._61850._2006.scl.DocumentRoot#getSCL()
-	 * @see #getDocumentRoot()
-	 * @generated
-	 */
-	EReference getDocumentRoot_SCL();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TVoltageLevel <em>TVoltage Level</em>}'.

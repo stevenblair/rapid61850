@@ -93,6 +93,12 @@ public class SclSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SclPackage.DOCUMENT_ROOT: {
+				DocumentRoot documentRoot = (DocumentRoot)theEObject;
+				T result = caseDocumentRoot(documentRoot);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case SclPackage.HISTORY_TYPE: {
 				HistoryType historyType = (HistoryType)theEObject;
 				T result = caseHistoryType(historyType);
@@ -998,12 +1004,6 @@ public class SclSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case SclPackage.DOCUMENT_ROOT: {
-				DocumentRoot documentRoot = (DocumentRoot)theEObject;
-				T result = caseDocumentRoot(documentRoot);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case SclPackage.TVOLTAGE_LEVEL: {
 				TVoltageLevel tVoltageLevel = (TVoltageLevel)theEObject;
 				T result = caseTVoltageLevel(tVoltageLevel);
@@ -1031,6 +1031,21 @@ public class SclSwitch<T> {
 	 * @generated
 	 */
 	public T caseAuthenticationType(AuthenticationType object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Document Root</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Document Root</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDocumentRoot(DocumentRoot object) {
 		return null;
 	}
 
@@ -2786,21 +2801,6 @@ public class SclSwitch<T> {
 	 * @generated
 	 */
 	public T caseTVoltage(TVoltage object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Document Root</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Document Root</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseDocumentRoot(DocumentRoot object) {
 		return null;
 	}
 

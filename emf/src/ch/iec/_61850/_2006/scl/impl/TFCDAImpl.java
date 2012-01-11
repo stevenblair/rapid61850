@@ -7,12 +7,16 @@
 package ch.iec._61850._2006.scl.impl;
 
 import ch.iec._61850._2006.scl.SclPackage;
+import ch.iec._61850._2006.scl.TDAType;
+import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TFCDA;
 import ch.iec._61850._2006.scl.TFCEnum;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -31,6 +35,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getLnClass <em>Ln Class</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getLnInst <em>Ln Inst</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getPrefix <em>Prefix</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDoType <em>Do Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDaType <em>Da Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -185,6 +191,26 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * @ordered
 	 */
 	protected String prefix = PREFIX_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getDoType() <em>Do Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDoType()
+	 * @generated
+	 * @ordered
+	 */
+	protected TDOType doType;
+
+	/**
+	 * The cached value of the '{@link #getDaType() <em>Da Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDaType()
+	 * @generated
+	 * @ordered
+	 */
+	protected TDAType daType;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -382,6 +408,162 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public TDOType getDoType() {
+		if (doType != null && doType.eIsProxy()) {
+			InternalEObject oldDoType = (InternalEObject)doType;
+			doType = (TDOType)eResolveProxy(oldDoType);
+			if (doType != oldDoType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TFCDA__DO_TYPE, oldDoType, doType));
+			}
+		}
+		return doType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TDOType basicGetDoType() {
+		return doType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetDoType(TDOType newDoType, NotificationChain msgs) {
+		TDOType oldDoType = doType;
+		doType = newDoType;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__DO_TYPE, oldDoType, newDoType);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDoType(TDOType newDoType) {
+		if (newDoType != doType) {
+			NotificationChain msgs = null;
+			if (doType != null)
+				msgs = ((InternalEObject)doType).eInverseRemove(this, SclPackage.TDO_TYPE__FCDA, TDOType.class, msgs);
+			if (newDoType != null)
+				msgs = ((InternalEObject)newDoType).eInverseAdd(this, SclPackage.TDO_TYPE__FCDA, TDOType.class, msgs);
+			msgs = basicSetDoType(newDoType, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__DO_TYPE, newDoType, newDoType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TDAType getDaType() {
+		if (daType != null && daType.eIsProxy()) {
+			InternalEObject oldDaType = (InternalEObject)daType;
+			daType = (TDAType)eResolveProxy(oldDaType);
+			if (daType != oldDaType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TFCDA__DA_TYPE, oldDaType, daType));
+			}
+		}
+		return daType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TDAType basicGetDaType() {
+		return daType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetDaType(TDAType newDaType, NotificationChain msgs) {
+		TDAType oldDaType = daType;
+		daType = newDaType;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__DA_TYPE, oldDaType, newDaType);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDaType(TDAType newDaType) {
+		if (newDaType != daType) {
+			NotificationChain msgs = null;
+			if (daType != null)
+				msgs = ((InternalEObject)daType).eInverseRemove(this, SclPackage.TDA_TYPE__FCDA, TDAType.class, msgs);
+			if (newDaType != null)
+				msgs = ((InternalEObject)newDaType).eInverseAdd(this, SclPackage.TDA_TYPE__FCDA, TDAType.class, msgs);
+			msgs = basicSetDaType(newDaType, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__DA_TYPE, newDaType, newDaType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SclPackage.TFCDA__DO_TYPE:
+				if (doType != null)
+					msgs = ((InternalEObject)doType).eInverseRemove(this, SclPackage.TDO_TYPE__FCDA, TDOType.class, msgs);
+				return basicSetDoType((TDOType)otherEnd, msgs);
+			case SclPackage.TFCDA__DA_TYPE:
+				if (daType != null)
+					msgs = ((InternalEObject)daType).eInverseRemove(this, SclPackage.TDA_TYPE__FCDA, TDAType.class, msgs);
+				return basicSetDaType((TDAType)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SclPackage.TFCDA__DO_TYPE:
+				return basicSetDoType(null, msgs);
+			case SclPackage.TFCDA__DA_TYPE:
+				return basicSetDaType(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -399,6 +581,12 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return getLnInst();
 			case SclPackage.TFCDA__PREFIX:
 				return getPrefix();
+			case SclPackage.TFCDA__DO_TYPE:
+				if (resolve) return getDoType();
+				return basicGetDoType();
+			case SclPackage.TFCDA__DA_TYPE:
+				if (resolve) return getDaType();
+				return basicGetDaType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -431,6 +619,12 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return;
 			case SclPackage.TFCDA__PREFIX:
 				setPrefix((String)newValue);
+				return;
+			case SclPackage.TFCDA__DO_TYPE:
+				setDoType((TDOType)newValue);
+				return;
+			case SclPackage.TFCDA__DA_TYPE:
+				setDaType((TDAType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -465,6 +659,12 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__PREFIX:
 				setPrefix(PREFIX_EDEFAULT);
 				return;
+			case SclPackage.TFCDA__DO_TYPE:
+				setDoType((TDOType)null);
+				return;
+			case SclPackage.TFCDA__DA_TYPE:
+				setDaType((TDAType)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -491,6 +691,10 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return LN_INST_EDEFAULT == null ? lnInst != null : !LN_INST_EDEFAULT.equals(lnInst);
 			case SclPackage.TFCDA__PREFIX:
 				return PREFIX_EDEFAULT == null ? prefix != null : !PREFIX_EDEFAULT.equals(prefix);
+			case SclPackage.TFCDA__DO_TYPE:
+				return doType != null;
+			case SclPackage.TFCDA__DA_TYPE:
+				return daType != null;
 		}
 		return super.eIsSet(featureID);
 	}
