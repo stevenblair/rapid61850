@@ -238,7 +238,7 @@ public class CFunctionCoder extends CFunction {
 			}
 			
 			if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
-				TAbstractDataAttribute da = SCLCodeGenerator.getDA(dtt, fcda.getLnClass().toString(), fcda.getDoName(), fcda.getDaName());
+				TAbstractDataAttribute da = SCLCodeGenerator.getDA(dtt, fcda.getLnInst(), fcda.getLnClass().toString(), fcda.getDoName(), fcda.getDaName());
 				obj = da;
 				
 				if (obj != null && obj.eClass().getName().equals("TBDA")) {

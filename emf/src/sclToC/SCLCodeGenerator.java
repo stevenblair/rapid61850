@@ -25,15 +25,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.EReferenceImpl;
-import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.query.conditions.ObjectInstanceCondition;
+import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
+import org.eclipse.emf.query.conditions.eobjects.EObjectTypeRelationCondition;
+import org.eclipse.emf.query.statements.FROM;
+import org.eclipse.emf.query.statements.IQueryResult;
+import org.eclipse.emf.query.statements.SELECT;
+import org.eclipse.emf.query.statements.WHERE;
+import org.eclipse.emf.query.conditions.eobjects.structuralfeatures.*;//EObjectAttributeValueCondition
+import org.eclipse.emf.query.conditions.strings.StringValue;
+import org.eclipse.emf.query.handlers.PruneHandler;
 
 import sclToCHelper.BDA;
 import sclToCHelper.DA;
 
 import ch.iec._61850._2006.scl.DocumentRoot;
+import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TAbstractDataAttribute;
 import ch.iec._61850._2006.scl.TAccessPoint;
 import ch.iec._61850._2006.scl.TBDA;
@@ -84,8 +93,8 @@ public class SCLCodeGenerator {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 
+		
 		// initialise C files
 		CSource svEncodeSource = new CSource("svEncode.c", "#include \"svEncodeBasic.h\"\n#include \"ied.h\"\n#include \"svEncode.h\"");
 		CSource svDecodeSource = new CSource("svDecode.c", "#include \"sv.h\"\n#include \"svDecodeBasic.h\"\n#include \"ied.h\"\n#include \"svDecode.h\"");
@@ -124,8 +133,7 @@ public class SCLCodeGenerator {
 		// get main SCD sections
 		TDataTypeTemplates dataTypeTemplates = ((DocumentRoot) resource.getContents().get(0)).getSCL().getDataTypeTemplates();
 		TCommunication comms = ((DocumentRoot) resource.getContents().get(0)).getSCL().getCommunication();
-		
-		
+
 		// process enum types
 		Iterator<TEnumType> enums = dataTypeTemplates.getEnumType().iterator();
 		dataTypesHeader.appendDatatypes("// enums\n");
@@ -159,7 +167,7 @@ public class SCLCodeGenerator {
 		while (daTypes.hasNext()) {
 			TDAType daType = daTypes.next();
 			dataTypesHeader.appendDatatypes("struct " + daType.getId() + " {");
-
+			
 			// generate GSE/SV DA encode/decode functions
 			gseEncodeSource.appendFunctionObject(new CFunctionLengthCoder(daType, CommsType.GSE, CoderType.ENCODER));
 			gseEncodeSource.appendFunctionObject(new CFunctionCoder(daType, CommsType.GSE, CoderType.ENCODER));
@@ -338,7 +346,11 @@ public class SCLCodeGenerator {
 															dataInstanceName.append(ln.getLnClass().toString() + "_" + ln.getInst() + ".sv_inputs.");
 															
 															if (fcda.getDaName() != null) {
-																TDA da = (TDA) getDA(dataTypeTemplates, fcda.getLnClass().toString(), fcda.getDoName(), fcda.getDaName());
+																TDA da = (TDA) getDA(dataTypeTemplates, fcda.getLnInst(), fcda.getLnClass().toString(), fcda.getDoName(), fcda.getDaName());
+																
+																if (da == null) {
+																	System.out.println(fcda);
+																}
 																dataInstanceName.append(fcda.getDaName());
 																
 																if (da.getBType().toString().equals("Struct")) {
@@ -393,7 +405,7 @@ public class SCLCodeGenerator {
 															String fcdaName;
 															
 															if (fcda.getDaName() != null) {
-																TAbstractDataAttribute da = getDA(dataTypeTemplates, fcda.getLnClass().toString(), fcda.getDoName(), /*SCLCodeGenerator.getNameFromCompoundName*/(fcda.getDaName()));
+																TAbstractDataAttribute da = getDA(dataTypeTemplates, fcda.getLnInst(), fcda.getLnClass().toString(), fcda.getDoName(), /*SCLCodeGenerator.getNameFromCompoundName*/(fcda.getDaName()));
 																
 																if (da != null) {
 																	if (da.getBType().toString().equals("Struct")) {
@@ -1071,72 +1083,93 @@ public class SCLCodeGenerator {
 		
 		return false;
 	}
-	
-	public static TDataSet findDataSetFromExtRef(Resource resource, TExtRef extRef) {
-		Iterator<TIED> ieds = ((DocumentRoot) resource.getContents().get(0)).getSCL().getIED().iterator();
+
+	public static TDataSet findDataSetFromExtRef(Resource resource, final TExtRef extRef) {
+		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
 		
-		while (ieds.hasNext()) {
-			TIED ied = ieds.next();
-			String iedName = ied.getName();
-			
-			if (iedName.equals(extRef.getIedName())) {
-				if (ied.getAccessPoint() != null) {	
-					Iterator<TAccessPoint> aps = ied.getAccessPoint().iterator();
-					
-					while (aps.hasNext()) {
-						TAccessPoint ap = aps.next();
-						
-						if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
-							Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
-							
-							while (lds.hasNext()) {
-								TLDevice ld = lds.next();
-								String ldInst = ld.getInst();
-								
-								if (ldInst.equals(extRef.getLdInst())) {
-									if (ld.getLN0() != null) {
-										if (ld.getLN0().getDataSet() != null) {
-											Iterator<TDataSet> datasets = ld.getLN0().getDataSet().iterator();
-											
-											while (datasets.hasNext()) {
-												TDataSet dataset = datasets.next();
-												
-												if (ld.getLN0().getSampledValueControl() != null) {
-													Iterator<TFCDA> fcdas = dataset.getFCDA().iterator();
-													
-													while (fcdas.hasNext()) {
-														TFCDA fcda = fcdas.next();
-														
-														if (fcda.getLnClass().toString().equals(extRef.getLnClass().toString()) && fcda.getLnInst().equals(extRef.getLnInst()) && fcda.getDoName().equals(extRef.getDoName())) {
-															
-															// dataset may not be SV or GOOSE - this is checked by the code calling this function
-															if (extRef.getDaName() != null) {
-																if (extRef.getDaName().equals(fcda.getDaName())) {
-																	//System.out.println(dataset.getName() + " is DA");
-																	return dataset;
-																}
-															}
-															else {
-																//System.out.println(dataset.getName() + " is DO");
-																return dataset;
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
+		// filter out invalid IEDs
+		PruneHandler pruner = new PruneHandler() {
+			public boolean shouldPrune(EObject object) {
+				if (object.eClass() == SclPackage.eINSTANCE.getTIED()) {
+	            	TIED found = (TIED) object;
+	            	
+	            	if (!found.getName().equals(extRef.getIedName())) {
+			            return true;
+	            	}
+	            }
+	        	
+	        	return false;
+	        }
+		};
+		final EObjectCondition isFCDA = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTFCDA(),
+			pruner
+		);
+		final EObjectCondition isLdInst = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTFCDA_LdInst(),
+			new StringValue(extRef.getLdInst())
+		);
+		final EObjectCondition isPrefix = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTFCDA_Prefix(),
+			new StringValue(extRef.getPrefix())
+		);
+		ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) extRef.getLnClass()) {
+			@Override
+			public boolean isSatisfied(Object obj) {
+				return getObject().toString().equals(obj.toString());
+			}
+		};
+		final EObjectCondition isLnClass = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTFCDA_LnClass(),
+			sc
+		);
+		final EObjectCondition isLnInst = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTFCDA_LnInst(),
+			new StringValue(extRef.getLnInst())
+		);
+		final EObjectCondition isDOName = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTFCDA_DoName(),
+			new StringValue(extRef.getDoName())
+		);
+		final EObjectCondition isDAName = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTFCDA_DaName(),
+			new StringValue(extRef.getDaName())
+		);
+		EObjectCondition isDOAndDA = isDOName;
+		if (extRef.getDaName() != null) {
+			isDOAndDA = isDOAndDA.AND(isDAName);
+		}
+
+		// find DO name, then extract DO type
+		IQueryResult result = new SELECT(
+			new FROM(root),
+			new WHERE(isFCDA.AND(isLdInst).AND(isPrefix).AND(isLnClass).AND(isLnInst).AND(isDOAndDA))
+		).execute();
+
+		if (result.getException() != null) {
+			return null;
+		} else {
+			if (result.size() == 0) {
+				warning("no dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+			}
+			else {
+				if (result.size() > 1) {
+					warning("more than dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
 				}
+				//extRef.setDataSet((TDataSet) ((TFCDA) result.toArray()[0]).eContainer());
+				
+				// return dataset (container) of first matching FCDA
+				return (TDataSet) ((TFCDA) result.toArray()[0]).eContainer();
 			}
 		}
 		
 		return null;
 	}
 	
+	public static void warning(String warning) {
+		System.out.println("Warning: " + warning);
+	}
+
 	public static TDO getDO(TDataTypeTemplates dataTypeTemplates, String lnClass, String doName) {
 		Iterator<TLNodeType> lnTypes = dataTypeTemplates.getLNodeType().iterator();
 		
@@ -1157,94 +1190,87 @@ public class SCLCodeGenerator {
 		
 		return null;
 	}
-	
-	public static TAbstractDataAttribute getDA(TDataTypeTemplates dataTypeTemplates, String lnClass, String doName, String daName) {
-		Iterator<TLNodeType> lnTypes = dataTypeTemplates.getLNodeType().iterator();
-		
-		while (lnTypes.hasNext()) {
-			TLNodeType lnType = lnTypes.next();
-			
-			if (lnType.getLnClass().toString().equals(lnClass)) {
-				Iterator<TDO> dos = lnType.getDO().iterator();
-		
-				while (dos.hasNext()) {
-					TDO doInst = dos.next();
-					
-					if (doInst.getName().equals(doName)) {
-						String doTypeMatch = doInst.getType();
-						
-						Iterator<TDOType> doTypes = dataTypeTemplates.getDOType().iterator();
-			
-						while (doTypes.hasNext()) {
-							TDOType doType = doTypes.next();
-							
-							if (doType.getId().equals(doTypeMatch)) {
-								Iterator<TDA> das = doType.getDA().iterator();
-								
-								while (das.hasNext()) {
-									TDA da = das.next();
-									
-									if (da.getName().toString().equals(daName)) {
-										return da;
-									}
-								}
-								
-								// no exact match; try compound syntax
-								
-								String split[] = daName.split("\\.");
-								String nextType = "";
-								TAbstractDataAttribute foundObj = null;
-								
-								if (split.length > 0) {
-									//return split[split.length - 1];
-									Iterator<TDA> firstDAs = doType.getDA().iterator();
-									while (firstDAs.hasNext()) {
-										TDA firstDA = firstDAs.next();
-										
-										if (firstDA.getName().toString().equals(split[0])) {
-											nextType = firstDA.getType();
-											break;
-										}
-									}
-									//System.out.println("trying compound for " + daName + " " + nextType);
-									
-									for (int i = 1; i < split.length; i++) {
-										Iterator<TDAType> daTypes = dataTypeTemplates.getDAType().iterator();
-										
-										while (daTypes.hasNext()) {
-											TDAType daType = daTypes.next();
-											
-											if (daType.getId().equals(nextType)) {
-												
-												Iterator<TBDA> bdas = daType.getBDA().iterator(); 
-												
-												while (bdas.hasNext()) {
-													TBDA bda = bdas.next();
-													
-													if (bda.getName().equals(split[i])) {
-														nextType = bda.getBType().toString();
-														foundObj = bda;
-														//System.out.println("\tgot " + nextType);
-													}
-												}
-											}
-										}
-									}
-									
-									return foundObj;
-								}
-								
-							}
-							
-						}
-					}
-				}
+
+	public static TAbstractDataAttribute getDA(TDataTypeTemplates dataTypeTemplates, String lnInst, String lnClass, String doName, String daName) {
+		ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) lnClass) {
+			@Override
+			public boolean isSatisfied(Object obj) {
+				return getObject().toString().equals(obj.toString());
 			}
+		};
+		final EObjectCondition isLNClass = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTLNodeType_LnClass(),
+			sc
+		);
+		final EObjectCondition isDOName = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTDO_Name(),
+			new StringValue(doName)
+		);
+		final EObjectCondition isDAName = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTAbstractDataAttribute_Name(),
+			new StringValue(daName)
+		);
+
+		// find DO name, then extract DO type
+		IQueryResult result = new SELECT(
+			new FROM(
+				new SELECT(
+					new FROM(dataTypeTemplates),
+					new WHERE(isLNClass)
+				)
+			), new WHERE(isDOName)
+		).execute();
+		
+		String DOType = "";
+		if (result.getException() != null) {
+			return null;
+		} else {
+	        if (result.size() >= Integer.parseInt(lnInst)) {
+	        	int i = 1;
+			    for (Object next : result) {
+			        if (i == Integer.parseInt(lnInst)) {
+				        DOType = ((TDO) next).getType();
+				        break;
+			        }
+			        i++;
+			    }
+	        }
+	        else {
+	        	//System.out.println("result = " + result.size() + ", " + Integer.parseInt(lnInst));
+	        	return null;
+	        }
+		}
+		final EObjectCondition isDOType = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTIDNaming_Id(),
+			new StringValue(DOType)
+		);
+		
+		// find DA from DO type (the id attribute) and DA name
+		IQueryResult result2 = 	new SELECT(
+			new FROM(
+				new SELECT(
+					new FROM(dataTypeTemplates),
+					new WHERE(isDOType)
+				)
+			), new WHERE(isDAName)
+		).execute();
+		
+		if (result2.getException() != null) {
+			return null;
+		} else {
+	        if (result2.size() == 1) {
+			    for (Object next : result2) {
+			        return (TAbstractDataAttribute) next;
+			    }
+	        }
+	        else {
+	        	return null;
+	        }
 		}
 		
 		return null;
 	}
-	
+
 	public static TSMV getCommunicationSMV(TCommunication comms, String iedName, String apName, String ldName, String cbName) {
 		if (comms == null) {
 			System.out.println("comms null!");
