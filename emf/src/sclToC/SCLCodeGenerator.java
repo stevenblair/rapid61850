@@ -51,6 +51,7 @@ import ch.iec._61850._2006.scl.TBDA;
 import ch.iec._61850._2006.scl.TCommunication;
 import ch.iec._61850._2006.scl.TConnectedAP;
 import ch.iec._61850._2006.scl.TControl;
+import ch.iec._61850._2006.scl.TControlBlock;
 import ch.iec._61850._2006.scl.TDA;
 import ch.iec._61850._2006.scl.TDAType;
 import ch.iec._61850._2006.scl.TDO;
@@ -100,7 +101,9 @@ public class SCLCodeGenerator {
 		
 		// model validation and pre-caching
 		mapDataSetToControl(resource);
-
+		mapExtRefToDataSet(resource);
+		mapControlToControlBlock(resource);
+		
 		
 		// initialise C files
 		CSource svEncodeSource = new CSource("svEncode.c", "#include \"svEncodeBasic.h\"\n#include \"ied.h\"\n#include \"svEncode.h\"");
@@ -318,7 +321,7 @@ public class SCLCodeGenerator {
 											
 											while (extRefs.hasNext()) {
 												TExtRef extRef = extRefs.next();
-												TDataSet dataset = findDataSetFromExtRef(resource, extRef);
+												TDataSet dataset = extRef.getDataSet();//findDataSetFromExtRef(resource, extRef);
 												TSampledValueControl svControl = getSVControl(dataset);
 												TGSEControl gseControl = getGSEControl(dataset);
 
@@ -919,21 +922,74 @@ public class SCLCodeGenerator {
 		/*try {
 			resource.save(System.out, null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
 	}
 	
 
+	private static void mapControlToControlBlock(Resource resource) {
+		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
+		
+		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTGSEControl()
+		);
+		final EObjectCondition isSVControl = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTSampledValueControl()
+		);
+		
+		IQueryResult result = new SELECT(
+			new FROM(root),
+			new WHERE(isGSEControl.OR(isSVControl))
+		).execute();
+	
+		//System.out.println("results: " + result.size());
+		for (Object next : result) {
+			//System.out.println(next.toString());
+			TControl control = (TControl) next;
+
+			final EObjectCondition isGSE = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTGSE()
+			);
+			final EObjectCondition isSMV = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTSMV()
+			);
+			final EObjectCondition isControlBlockForControl = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTControlBlock_CbName(),
+				new StringValue(control.getName())
+			);
+
+			IQueryResult resultMapped = new SELECT(
+				new FROM(root),
+				new WHERE((isGSE.OR(isSMV)).AND(isControlBlockForControl))
+			).execute();
+			
+			//System.out.println("\tresults: " + resultMapped.size() + " (for '" + control.getName() + "')");
+			//for (Object nextMapped : resultMapped) {
+				//System.out.println("\t\t" + nextMapped.toString());
+			//}
+			if (resultMapped.getException() == null) {
+				if (resultMapped.size() == 0) {
+					warning("no ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
+				}
+				else {
+					if (resultMapped.size() == 1) {
+						TControlBlock cb = ((TControlBlock) resultMapped.toArray()[0]);
+						if (control.getControlBlock() == null) {
+							control.setControlBlock(cb);
+						}
+						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
+					}
+					else {
+						warning("more than one ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
+					}
+				}
+			}
+		}
+	}
+
 	private static void mapDataSetToControl(Resource resource) {
 		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
 		
-		/*ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) lnClass) {
-			@Override
-			public boolean isSatisfied(Object obj) {
-				return getObject().toString().equals(obj.toString());
-			}
-		};*/
 		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTGSEControl()
 		);
@@ -1160,86 +1216,97 @@ public class SCLCodeGenerator {
 		return false;
 	}
 
-	public static TDataSet findDataSetFromExtRef(Resource resource, final TExtRef extRef) {
+	public static void mapExtRefToDataSet(Resource resource) {
 		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
 		
-		// filter out invalid IEDs
-		PruneHandler pruner = new PruneHandler() {
-			public boolean shouldPrune(EObject object) {
-				if (object.eClass() == SclPackage.eINSTANCE.getTIED()) {
-	            	TIED found = (TIED) object;
-	            	
-	            	if (!found.getName().equals(extRef.getIedName())) {
-			            return true;
-	            	}
-	            }
-	        	
-	        	return false;
-	        }
-		};
-		final EObjectCondition isFCDA = new EObjectTypeRelationCondition(
-			SclPackage.eINSTANCE.getTFCDA(),
-			pruner
+		// find all ExtRefs
+		final EObjectCondition isExtRef = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTExtRef()
 		);
-		final EObjectCondition isLdInst = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTFCDA_LdInst(),
-			new StringValue(extRef.getLdInst())
-		);
-		final EObjectCondition isPrefix = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTFCDA_Prefix(),
-			new StringValue(extRef.getPrefix())
-		);
-		ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) extRef.getLnClass()) {
-			@Override
-			public boolean isSatisfied(Object obj) {
-				return getObject().toString().equals(obj.toString());
-			}
-		};
-		final EObjectCondition isLnClass = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTFCDA_LnClass(),
-			sc
-		);
-		final EObjectCondition isLnInst = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTFCDA_LnInst(),
-			new StringValue(extRef.getLnInst())
-		);
-		final EObjectCondition isDOName = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTFCDA_DoName(),
-			new StringValue(extRef.getDoName())
-		);
-		final EObjectCondition isDAName = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTFCDA_DaName(),
-			new StringValue(extRef.getDaName())
-		);
-		EObjectCondition isDOAndDA = isDOName;
-		if (extRef.getDaName() != null) {
-			isDOAndDA = isDOAndDA.AND(isDAName);
-		}
-
-		// find DO name, then extract DO type
-		IQueryResult result = new SELECT(
+		IQueryResult extRefs = new SELECT(
 			new FROM(root),
-			new WHERE(isFCDA.AND(isLdInst).AND(isPrefix).AND(isLnClass).AND(isLnInst).AND(isDOAndDA))
+			new WHERE(isExtRef)
 		).execute();
-
-		if (result.getException() != null) {
-			return null;
-		} else {
-			if (result.size() == 0) {
-				warning("no dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
-			}
-			else {
-				if (result.size() > 1) {
-					warning("more than dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+		
+		for (EObject object : extRefs) {
+			final TExtRef extRef = (TExtRef) object;
+			
+			// filter out invalid IEDs
+			PruneHandler pruner = new PruneHandler() {
+				public boolean shouldPrune(EObject object) {
+					if (object.eClass() == SclPackage.eINSTANCE.getTIED()) {
+		            	TIED found = (TIED) object;
+		            	
+		            	if (!found.getName().equals(extRef.getIedName())) {
+				            return true;
+		            	}
+		            }
+		        	
+		        	return false;
+		        }
+			};
+			final EObjectCondition isFCDA = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTFCDA(),
+				pruner
+			);
+			final EObjectCondition isLdInst = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTFCDA_LdInst(),
+				new StringValue(extRef.getLdInst())
+			);
+			final EObjectCondition isPrefix = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTFCDA_Prefix(),
+				new StringValue(extRef.getPrefix())
+			);
+			ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) extRef.getLnClass()) {
+				@Override
+				public boolean isSatisfied(Object obj) {
+					return getObject().toString().equals(obj.toString());
 				}
-				extRef.setDataSet((TDataSet) ((TFCDA) result.toArray()[0]).eContainer());
-				
-				// return dataset (container) of first matching FCDA
-				return (TDataSet) ((TFCDA) result.toArray()[0]).eContainer();
+			};
+			final EObjectCondition isLnClass = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTFCDA_LnClass(),
+				sc
+			);
+			final EObjectCondition isLnInst = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTFCDA_LnInst(),
+				new StringValue(extRef.getLnInst())
+			);
+			final EObjectCondition isDOName = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTFCDA_DoName(),
+				new StringValue(extRef.getDoName())
+			);
+			final EObjectCondition isDAName = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTFCDA_DaName(),
+				new StringValue(extRef.getDaName())
+			);
+			EObjectCondition isDOAndDA = isDOName;
+			if (extRef.getDaName() != null) {
+				isDOAndDA = isDOAndDA.AND(isDAName);
+			}
+	
+			// find DO name, then extract DO type
+			IQueryResult result = new SELECT(
+				new FROM(root),
+				new WHERE(isFCDA.AND(isLdInst).AND(isPrefix).AND(isLnClass).AND(isLnInst).AND(isDOAndDA))
+			).execute();
+	
+			if (result.getException() != null) {
+				return;
+			} else {
+				if (result.size() == 0) {
+					warning("no dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+				}
+				else {
+					if (result.size() > 1) {
+						warning("more than dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+					}
+					extRef.setDataSet((TDataSet) ((TFCDA) result.toArray()[0]).eContainer());
+					
+					// return dataset (container) of first matching FCDA
+					//return (TDataSet) ((TFCDA) result.toArray()[0]).eContainer();
+				}
 			}
 		}
-		
-		return null;
 	}
 	
 	public static void warning(String warning) {
