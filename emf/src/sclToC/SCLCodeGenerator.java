@@ -95,25 +95,18 @@ public class SCLCodeGenerator {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
-
+		
+		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
+		
 		
 		// model validation and pre-caching
-		mapDataSetToControl(resource);
-		mapExtRefToDataSet(resource);
-		mapControlToControlBlock(resource);
-		mapFCDAToDataType(resource);
-		checkForCircularSDOReferences(resource);
-		
-		
-		/*String lnClass = "CSWI";
-		String doName = "Pos";
-		TDataTypeTemplates dtt = ((DocumentRoot) resource.getContents().get(0)).getSCL().getDataTypeTemplates();
-		getDO(dtt, lnClass, doName);
-		getDO2(dtt, lnClass, doName);*/
-		
-		
-		
+		mapDataSetToControl(root);
+		mapExtRefToDataSet(root);
+		mapControlToControlBlock(root);
+		mapFCDAToDataType(root);
+		checkForCircularSDOReferences(root);
 		
 		
 		// initialise C files
@@ -152,8 +145,8 @@ public class SCLCodeGenerator {
 		List<String> initDOTypes = new ArrayList<String>();
 		
 		// get main SCD sections
-		TDataTypeTemplates dataTypeTemplates = ((DocumentRoot) resource.getContents().get(0)).getSCL().getDataTypeTemplates();
-		TCommunication comms = ((DocumentRoot) resource.getContents().get(0)).getSCL().getCommunication();
+		TDataTypeTemplates dataTypeTemplates = root.getSCL().getDataTypeTemplates();
+		TCommunication comms = root.getSCL().getCommunication();
 
 		// process enum types
 		Iterator<TEnumType> enums = dataTypeTemplates.getEnumType().iterator();
@@ -302,7 +295,7 @@ public class SCLCodeGenerator {
 			}
 			
 			// deal with Inputs/ExtRefs
-			Iterator<TIED> ieds = ((DocumentRoot) resource.getContents().get(0)).getSCL().getIED().iterator();
+			Iterator<TIED> ieds = root.getSCL().getIED().iterator();
 			
 			while (ieds.hasNext()) {
 				TIED ied = ieds.next();
@@ -483,7 +476,7 @@ public class SCLCodeGenerator {
 
 		
 		// process IEDs
-		Iterator<TIED> ieds = ((DocumentRoot) resource.getContents().get(0)).getSCL().getIED().iterator();
+		Iterator<TIED> ieds = root.getSCL().getIED().iterator();
 
 		dataTypesSource.appendFunctions("void init_datatypes() {\n");
 		boolean svExists = false;
@@ -938,9 +931,7 @@ public class SCLCodeGenerator {
 	}
 	
 
-	private static void checkForCircularSDOReferences(Resource resource) {
-		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
-
+	private static void checkForCircularSDOReferences(DocumentRoot root) {
 		final EObjectCondition isSDO = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTSDO()
 		);
@@ -963,10 +954,7 @@ public class SCLCodeGenerator {
 		}
 	}
 
-
-	private static void mapFCDAToDataType(Resource resource) {
-		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
-
+	private static void mapFCDAToDataType(DocumentRoot root) {
 		final EObjectCondition isFCDA = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTFCDA()
 		);
@@ -1156,7 +1144,7 @@ public class SCLCodeGenerator {
 	}
 
 
-	private static TIED getIEDFromFCDA(DocumentRoot rott, TFCDA fcda) {
+	private static TIED getIEDFromFCDA(DocumentRoot root, TFCDA fcda) {
 		EObject next = fcda;
 		
 		while (next != null) {
@@ -1172,9 +1160,7 @@ public class SCLCodeGenerator {
 	}
 
 
-	private static void mapControlToControlBlock(Resource resource) {
-		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
-		
+	private static void mapControlToControlBlock(DocumentRoot root) {
 		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTGSEControl()
 		);
@@ -1232,8 +1218,7 @@ public class SCLCodeGenerator {
 		}
 	}
 
-	private static void mapDataSetToControl(Resource resource) {
-		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
+	private static void mapDataSetToControl(DocumentRoot root) {
 		
 		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTGSEControl()
@@ -1461,9 +1446,7 @@ public class SCLCodeGenerator {
 		return false;
 	}
 
-	public static void mapExtRefToDataSet(Resource resource) {
-		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
-		
+	public static void mapExtRefToDataSet(DocumentRoot root) {
 		// find all ExtRefs
 		final EObjectCondition isExtRef = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTExtRef()
