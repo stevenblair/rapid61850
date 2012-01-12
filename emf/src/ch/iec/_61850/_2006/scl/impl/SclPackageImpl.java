@@ -3833,6 +3833,24 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTFCDA_Type() {
+        return (EAttribute)getTFCDA().getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTFCDA_BType() {
+        return (EAttribute)getTFCDA().getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTFunction() {
 		if (tFunctionEClass == null) {
 			tFunctionEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(95);

@@ -12,6 +12,7 @@ import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TFCDA;
 import ch.iec._61850._2006.scl.TFCEnum;
 
+import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -37,6 +38,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDoType <em>Do Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDaType <em>Da Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getType <em>Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getBType <em>BType</em>}</li>
  * </ul>
  * </p>
  *
@@ -211,6 +214,46 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * @ordered
 	 */
 	protected TDAType daType;
+
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TYPE_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String type = TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getBType() <em>BType</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final TPredefinedBasicTypeEnum BTYPE_EDEFAULT = TPredefinedBasicTypeEnum.BOOLEAN;
+
+	/**
+	 * The cached value of the '{@link #getBType() <em>BType</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBType()
+	 * @generated
+	 * @ordered
+	 */
+	protected TPredefinedBasicTypeEnum bType = BTYPE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -528,6 +571,48 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(String newType) {
+		String oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TPredefinedBasicTypeEnum getBType() {
+		return bType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setBType(TPredefinedBasicTypeEnum newBType) {
+		TPredefinedBasicTypeEnum oldBType = bType;
+		bType = newBType == null ? BTYPE_EDEFAULT : newBType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__BTYPE, oldBType, bType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -587,6 +672,10 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__DA_TYPE:
 				if (resolve) return getDaType();
 				return basicGetDaType();
+			case SclPackage.TFCDA__TYPE:
+				return getType();
+			case SclPackage.TFCDA__BTYPE:
+				return getBType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -625,6 +714,12 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return;
 			case SclPackage.TFCDA__DA_TYPE:
 				setDaType((TDAType)newValue);
+				return;
+			case SclPackage.TFCDA__TYPE:
+				setType((String)newValue);
+				return;
+			case SclPackage.TFCDA__BTYPE:
+				setBType((TPredefinedBasicTypeEnum)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -665,6 +760,12 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__DA_TYPE:
 				setDaType((TDAType)null);
 				return;
+			case SclPackage.TFCDA__TYPE:
+				setType(TYPE_EDEFAULT);
+				return;
+			case SclPackage.TFCDA__BTYPE:
+				setBType(BTYPE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -695,6 +796,10 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return doType != null;
 			case SclPackage.TFCDA__DA_TYPE:
 				return daType != null;
+			case SclPackage.TFCDA__TYPE:
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+			case SclPackage.TFCDA__BTYPE:
+				return bType != BTYPE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -723,6 +828,10 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 		result.append(lnInst);
 		result.append(", prefix: ");
 		result.append(prefix);
+		result.append(", type: ");
+		result.append(type);
+		result.append(", bType: ");
+		result.append(bType);
 		result.append(')');
 		return result.toString();
 	}

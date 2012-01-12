@@ -109,6 +109,7 @@ public interface TLN extends TAnyLN {
 
 	/**
 	 * Returns the value of the '<em><b>Prefix</b></em>' attribute.
+	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Prefix</em>' attribute isn't clear,
@@ -118,7 +119,7 @@ public interface TLN extends TAnyLN {
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see #setPrefix(String)
 	 * @see ch.iec._61850._2006.scl.SclPackage#getTLN_Prefix()
-	 * @model dataType="ch.iec._61850._2006.scl.TAnyName"
+	 * @model default="" dataType="ch.iec._61850._2006.scl.TAnyName"
 	 *        extendedMetaData="kind='attribute' name='prefix'"
 	 * @generated
 	 */

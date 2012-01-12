@@ -21,25 +21,23 @@
 package sclToC;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.query.conditions.ObjectInstanceCondition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
-import org.eclipse.emf.query.conditions.eobjects.EObjectInstanceCondition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectTypeRelationCondition;
 import org.eclipse.emf.query.statements.FROM;
 import org.eclipse.emf.query.statements.IQueryResult;
 import org.eclipse.emf.query.statements.SELECT;
 import org.eclipse.emf.query.statements.WHERE;
 import org.eclipse.emf.query.conditions.eobjects.structuralfeatures.*;//EObjectAttributeValueCondition
+import org.eclipse.emf.query.conditions.numbers.NumberCondition;
 import org.eclipse.emf.query.conditions.strings.StringValue;
 import org.eclipse.emf.query.handlers.PruneHandler;
-
 import sclToCHelper.BDA;
 import sclToCHelper.DA;
 
@@ -71,6 +69,7 @@ import ch.iec._61850._2006.scl.TLN;
 import ch.iec._61850._2006.scl.TLN0;
 import ch.iec._61850._2006.scl.TLNodeType;
 import ch.iec._61850._2006.scl.TP;
+import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
 import ch.iec._61850._2006.scl.TSDO;
 import ch.iec._61850._2006.scl.TSMV;
 import ch.iec._61850._2006.scl.TSampledValueControl;
@@ -103,6 +102,18 @@ public class SCLCodeGenerator {
 		mapDataSetToControl(resource);
 		mapExtRefToDataSet(resource);
 		mapControlToControlBlock(resource);
+		mapFCDAToDataType(resource);
+		checkForCircularSDOReferences(resource);
+		
+		
+		/*String lnClass = "CSWI";
+		String doName = "Pos";
+		TDataTypeTemplates dtt = ((DocumentRoot) resource.getContents().get(0)).getSCL().getDataTypeTemplates();
+		getDO(dtt, lnClass, doName);
+		getDO2(dtt, lnClass, doName);*/
+		
+		
+		
 		
 		
 		// initialise C files
@@ -927,6 +938,240 @@ public class SCLCodeGenerator {
 	}
 	
 
+	private static void checkForCircularSDOReferences(Resource resource) {
+		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
+
+		final EObjectCondition isSDO = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTSDO()
+		);
+		
+		IQueryResult sdoResult = new SELECT(
+			new FROM(root),
+			new WHERE(isSDO)
+		).execute();
+		
+		for (Object o : sdoResult) {
+			TSDO sdo = (TSDO) o;
+
+			if (sdo.eContainer().eClass() == SclPackage.eINSTANCE.getTDOType()) {
+				TDOType container = (TDOType) sdo.eContainer();
+				
+				if (sdo.getType().equals(container.getId())) {
+					warning("SDO named '" + sdo.getName() + "' with type '" + sdo.getType() + "' is a cicular reference");
+				}
+			}
+		}
+	}
+
+
+	private static void mapFCDAToDataType(Resource resource) {
+		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
+
+		final EObjectCondition isFCDA = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTFCDA()
+		);
+		
+		IQueryResult fcdaResult = new SELECT(
+			new FROM(root),
+			new WHERE(isFCDA)
+		).execute();
+		
+		//System.out.println("fcdaResult: " + fcdaResult.size());
+		for (Object nextFCDA : fcdaResult) {
+			final TFCDA fcda = (TFCDA) nextFCDA;
+			TIED ied = getIEDFromFCDA(root, fcda);
+			
+			// filter out invalid LDs
+			PruneHandler pruner = new PruneHandler() {
+				public boolean shouldPrune(EObject object) {
+					if (object.eClass() == SclPackage.eINSTANCE.getTLDevice()) {
+		            	TLDevice found = (TLDevice) object;
+		            	
+		            	if (!found.getInst().equals(fcda.getLdInst())) {
+				            return true;
+		            	}
+		            }
+		        	
+		        	return false;
+		        }
+			};
+			
+			final EObjectCondition isLN = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTLN(),
+				pruner
+			);
+			final EObjectCondition isLNInst = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTLN_Inst(),
+				new NumberCondition.LongValue(Long.parseLong(fcda.getLnInst()))
+			);
+			ObjectInstanceCondition sc = new ObjectInstanceCondition(fcda.getLnClass()) {
+				@Override
+				public boolean isSatisfied(Object obj) {
+					return getObject().toString().equals(obj.toString());
+				}
+			};
+			final EObjectCondition isLNClass = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTLN_LnClass(),
+				sc
+			);
+			final EObjectCondition isLNPrefix = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTLN_Prefix(),
+				new StringValue(fcda.getPrefix())
+			);
+			
+			IQueryResult lnResult = new SELECT(
+				new FROM(ied),
+				new WHERE(isLN.AND(isLNInst).AND(isLNClass).AND(isLNPrefix))
+			).execute();
+			
+			//System.out.println("\tlnResult: " + lnResult.size() + ", LN prefix: '" + ((TLN)lnResult.iterator().next()).getPrefix() + "', FCDA prefx: '" + fcda.getPrefix() + "'");
+			if (lnResult.size() == 0) {
+				warning("no Logical Node with class '" + fcda.getLnClass().toString() + "' for FCDA: " + fcda.toString());
+			}
+			else if (lnResult.size() == 1) {
+				if (lnResult.size() > 1) {
+					warning("more than one Logical Node with class '" + fcda.getLnClass().toString() + "' for FCDA: " + fcda.toString());
+				}
+				TLN ln = ((TLN) lnResult.toArray()[0]);
+				
+				final EObjectCondition isLNType = new EObjectTypeRelationCondition(
+					SclPackage.eINSTANCE.getTLNodeType()
+				);
+				
+				final EObjectCondition isLNTypeValue = new EObjectAttributeValueCondition(
+					SclPackage.eINSTANCE.getTIDNaming_Id(),
+					new StringValue(ln.getLnType())
+				);
+				
+				IQueryResult lnTypeResult = new SELECT(
+					new FROM(root),
+					new WHERE(isLNType.AND(isLNTypeValue))
+				).execute();
+				
+				//System.out.println("\t\tLNodeType: " + ((TLNodeType) lnTypeResult.iterator().next()).getId());
+				
+				if (lnTypeResult.size() >= 1) {
+					TLNodeType lnType = ((TLNodeType) lnTypeResult.toArray()[0]);
+					
+					final EObjectCondition isDO = new EObjectTypeRelationCondition(
+						SclPackage.eINSTANCE.getTDO()
+					);
+					
+					ObjectInstanceCondition sc3 = new ObjectInstanceCondition((Object) fcda.getDoName()) {
+						@Override
+						public boolean isSatisfied(Object obj) {
+							return getObject().equals(obj.toString());
+						}
+					};
+					final EObjectCondition isDOName = new EObjectAttributeValueCondition(
+						SclPackage.eINSTANCE.getTDO_Name(),
+						sc3
+					);
+					
+					IQueryResult doTypeResult = new SELECT(
+						new FROM(lnType),
+						new WHERE(isDO.AND(isDOName))
+					).execute();
+					
+					if (doTypeResult.size() >= 1) {
+						//System.out.println("doTypeResult.size(): " + doTypeResult.size());
+						TDO dataObject = ((TDO) doTypeResult.iterator().next());
+						
+						//System.out.println("\t\t\tDO: " + ((TDO) doTypeResult.iterator().next()).getType());
+						
+						final EObjectCondition isDOType = new EObjectTypeRelationCondition(
+							SclPackage.eINSTANCE.getTDOType()
+						);
+						final EObjectCondition isDOTypeName = new EObjectAttributeValueCondition(
+							SclPackage.eINSTANCE.getTIDNaming_Id(),
+							new StringValue(dataObject.getType())
+						);
+						
+						IQueryResult doTypeObjectResult = new SELECT(
+							new FROM(root),
+							new WHERE(isDOType.AND(isDOTypeName))
+						).execute();
+						
+						if (doTypeObjectResult.size() >= 1) {
+							TDOType doType = ((TDOType) doTypeObjectResult.iterator().next());
+							//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
+							
+							// set reference to DOType or DAType
+							if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
+								fcda.setDoType(doType);
+								fcda.setType("struct " + doType.getId());
+								//System.out.println("\tvalid DO type: '" + fcda.getType() + "'");
+							}
+							else {
+								// TODO: extend with support for FCDA daName="da.da.da" syntax
+								final EObjectCondition isDA = new EObjectTypeRelationCondition(
+									SclPackage.eINSTANCE.getTDA()
+								);
+								ObjectInstanceCondition sc2 = new ObjectInstanceCondition((Object) fcda.getDaName()) {
+									@Override
+									public boolean isSatisfied(Object obj) {
+										return getObject().toString().equals(obj.toString());
+									}
+								};
+								final EObjectCondition isDAName = new EObjectAttributeValueCondition(
+									SclPackage.eINSTANCE.getTAbstractDataAttribute_Name(),
+									sc2
+								);
+								
+								IQueryResult daResult = new SELECT(
+									new FROM(doType),
+									new WHERE(isDA.AND(isDAName))
+								).execute();
+	
+								//System.out.println("daResult: " + daResult.size() + ", fcda.getDaName(): " + fcda.getDaName());
+								
+								if (daResult.size() >= 1) {
+									TDA da = ((TDA) daResult.iterator().next());
+									TPredefinedBasicTypeEnum bTypePredefined = TPredefinedBasicTypeEnum.getByName(da.getBType().toString());
+									String bType = da.getBType().toString();
+									
+									if (bType.equals("Struct")) {
+										fcda.setType("struct " + da.getType());
+										//System.out.println("\tvalid Struct type: '" + fcda.getType() + "'");
+									}
+									else if (bType.equals("Enum")) {
+										fcda.setType("enum " + da.getType());
+										//System.out.println("\tvalid Enum type: '" + fcda.getType() + "'");
+									}
+									else if (bTypePredefined != null) {
+										fcda.setType("CTYPE_" + bTypePredefined.getName());
+										fcda.setBType(bTypePredefined);
+										//System.out.println("\tvalid basic type: '" + fcda.getType() + "'");
+									}
+									else {
+										warning("unknown bType attribute for DA '" + da.getType() + "'");
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	private static TIED getIEDFromFCDA(DocumentRoot rott, TFCDA fcda) {
+		EObject next = fcda;
+		
+		while (next != null) {
+			next = next.eContainer();
+			
+			if (next.eClass() == SclPackage.eINSTANCE.getTIED()) {
+				//System.out.println("found IED: " + (TIED) next);
+				return (TIED) next;
+			}
+		}
+		
+		return null;
+	}
+
+
 	private static void mapControlToControlBlock(Resource resource) {
 		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
 		
@@ -1300,10 +1545,9 @@ public class SCLCodeGenerator {
 					if (result.size() > 1) {
 						warning("more than dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
 					}
-					extRef.setDataSet((TDataSet) ((TFCDA) result.toArray()[0]).eContainer());
 					
-					// return dataset (container) of first matching FCDA
-					//return (TDataSet) ((TFCDA) result.toArray()[0]).eContainer();
+					// map ExtRef to the DataSet of the first FCDA in results
+					extRef.setDataSet((TDataSet) ((TFCDA) result.toArray()[0]).eContainer());
 				}
 			}
 		}
@@ -1311,6 +1555,37 @@ public class SCLCodeGenerator {
 	
 	public static void warning(String warning) {
 		System.out.println("Warning: " + warning);
+	}
+
+	public static TDO getDO2(TDataTypeTemplates dataTypeTemplates, String lnClass, String doName) {
+		ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) lnClass) {
+			@Override
+			public boolean isSatisfied(Object obj) {
+				return getObject().toString().equals(obj.toString());
+			}
+		};
+		final EObjectCondition isLNClass = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTLNodeType_LnClass(),
+			sc
+		);
+		final EObjectCondition isDOName = new EObjectAttributeValueCondition(
+			SclPackage.eINSTANCE.getTDO_Name(),
+			new StringValue(doName)
+		);
+
+		// find DO name, then extract DO type
+		IQueryResult result = new SELECT(
+			new FROM(
+				new SELECT(
+					new FROM(dataTypeTemplates),
+					new WHERE(isLNClass)
+				)
+			), new WHERE(isDOName)
+		).execute();
+		
+		System.out.println("results: " + result.size());
+
+		return null;
 	}
 
 	public static TDO getDO(TDataTypeTemplates dataTypeTemplates, String lnClass, String doName) {
@@ -1328,7 +1603,6 @@ public class SCLCodeGenerator {
 					return doType;
 				}
 			}
-			
 		}
 		
 		return null;
@@ -1397,6 +1671,7 @@ public class SCLCodeGenerator {
 				)
 			), new WHERE(isDAName)
 		).execute();
+    	//System.out.println("result1 = " + result.size() + ", result2 = " + result2.size());
 		
 		if (result2.getException() != null) {
 			return null;

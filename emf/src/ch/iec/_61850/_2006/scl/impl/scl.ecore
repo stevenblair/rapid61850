@@ -1868,6 +1868,10 @@
         eOpposite="#//TDOType/fcda"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="daType" eType="#//TDAType"
         eOpposite="#//TDAType/fcda"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bType" eType="#//TPredefinedBasicTypeEnum"
+        defaultValueLiteral=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TFCEnum">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -2247,7 +2251,8 @@
         <details key="name" value="lnClass"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="#//TAnyName">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="#//TAnyName"
+        defaultValueLiteral="">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="prefix"/>

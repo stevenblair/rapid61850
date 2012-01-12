@@ -25,6 +25,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getDoType <em>Do Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getDaType <em>Da Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getType <em>Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}</li>
  * </ul>
  * </p>
  *
@@ -307,5 +309,62 @@ public interface TFCDA extends EObject {
 	 * @generated
 	 */
 	void setDaType(TDAType value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see #setType(String)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_Type()
+	 * @model default="" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @generated
+	 */
+	String getType();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(String value);
+
+	/**
+	 * Returns the value of the '<em><b>BType</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * The literals are from the enumeration {@link ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>BType</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>BType</em>' attribute.
+	 * @see ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum
+	 * @see #setBType(TPredefinedBasicTypeEnum)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_BType()
+	 * @model default=""
+	 * @generated
+	 */
+	TPredefinedBasicTypeEnum getBType();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>BType</em>' attribute.
+	 * @see ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum
+	 * @see #getBType()
+	 * @generated
+	 */
+	void setBType(TPredefinedBasicTypeEnum value);
 
 } // TFCDA

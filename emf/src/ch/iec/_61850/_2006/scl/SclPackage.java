@@ -4974,13 +4974,31 @@ public interface SclPackage extends EPackage {
 	int TFCDA__DA_TYPE = 8;
 
 	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TFCDA__TYPE = 9;
+
+	/**
+	 * The feature id for the '<em><b>BType</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TFCDA__BTYPE = 10;
+
+	/**
 	 * The number of structural features of the '<em>TFCDA</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TFCDA_FEATURE_COUNT = 9;
+	int TFCDA_FEATURE_COUNT = 11;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TFunctionImpl <em>TFunction</em>}' class.
@@ -13448,6 +13466,28 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTFCDA_DaType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TFCDA#getType()
+	 * @see #getTFCDA()
+	 * @generated
+	 */
+	EAttribute getTFCDA_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>BType</em>'.
+	 * @see ch.iec._61850._2006.scl.TFCDA#getBType()
+	 * @see #getTFCDA()
+	 * @generated
+	 */
+	EAttribute getTFCDA_BType();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TFunction <em>TFunction</em>}'.
