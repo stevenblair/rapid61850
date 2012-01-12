@@ -20,11 +20,25 @@ There are two source code trees: `emf` (in Java), and `c` (obviously written in 
 
 ### EMF import process ###
 
+Note that the SCL model has been augmented to help with code generation, so the original IEC 61850 XML Schema files are not used to generate the model. Instead, the augmented model is defined in `scl.ecore`.
+
+ 1. Create an "EMF Project" called "emf", at the location of the repository code.
+ 2. Select "Ecore model" as the Model Importer type.
+ 3. Select `scl.ecore` from the File System as the model URI.
+ 4. Select `scl` as the root package to import.
+ 5. Create a new project of type "Convert Projects to JET Projects", and select the `emf` project. For the `emf` project, go to Project Properties > JET Settings, and set Template Containers to "templates", and Source Container to "src". Delete the `sclToCHelper` directory in the root of `emf` that was created before JET was configured correctly.
+ 6. Open `SCL.genmodel` and right-click on the root of the model tree. Select "Show Properties View" and ensure that "Compliance Level" is set to "6.0". Right-click on the root again and select "Generate Model Code". This should re-generate the model implementation files, and set up the project properly for using the generated code.
+ 7. You may need to include an additional JAR library for the project to compile. In the Project Properties for `emf`, go to Java Build Path > Libraries. Click on "Add Extrenal JARs..." and find `com.ibm.icu_4.2.1.v20100412.jar` (or a similar version).
+
+<!--
+### EMF import process ###
+
  1. Create an "EMF Project" called "emf", at the location of the repository code.
  2. Select "XML Schema" as the Model Importer type. Select all the IEC 61850 XML Schema documents in the `emf/model` directory.
  3. Select the three root packages that are imported (although, only `scl` is used).
  4. Create a new project of type "Convert Projects to JET Projects", and select the `emf` project. For the `emf` project, go to Project Properties > JET Settings, and set Template Containers to "templates", and Source Container to "src". Delete the `sclToCHelper` directory in the root of `emf` that was created before JET was configured correctly.
  5. Open `SCL.genmodel` and right-click on the root of the model tree. Select "Show Properties View" and ensure that "Compliance Level" is set to "6.0". Right-click on the root again and select "Generate Model Code". This should re-generate the model implementation files, and set up the project properly for using the generated code.
+-->
 
 ### C code project example ###
 
