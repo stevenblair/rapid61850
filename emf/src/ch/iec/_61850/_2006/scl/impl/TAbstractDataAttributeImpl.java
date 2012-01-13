@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TAbstractDataAttributeImpl#getSAddr <em>SAddr</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TAbstractDataAttributeImpl#getType <em>Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TAbstractDataAttributeImpl#getValKind <em>Val Kind</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TAbstractDataAttributeImpl#getPrintedType <em>Printed Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -193,6 +194,26 @@ public abstract class TAbstractDataAttributeImpl extends TUnNamingImpl implement
 	 * @ordered
 	 */
 	protected boolean valKindESet;
+
+	/**
+	 * The default value of the '{@link #getPrintedType() <em>Printed Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPrintedType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String PRINTED_TYPE_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getPrintedType() <em>Printed Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPrintedType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String printedType = PRINTED_TYPE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -406,6 +427,27 @@ public abstract class TAbstractDataAttributeImpl extends TUnNamingImpl implement
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getPrintedType() {
+		return printedType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setPrintedType(String newPrintedType) {
+		String oldPrintedType = printedType;
+		printedType = newPrintedType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE, oldPrintedType, printedType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -437,6 +479,8 @@ public abstract class TAbstractDataAttributeImpl extends TUnNamingImpl implement
 				return getType();
 			case SclPackage.TABSTRACT_DATA_ATTRIBUTE__VAL_KIND:
 				return getValKind();
+			case SclPackage.TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE:
+				return getPrintedType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -472,6 +516,9 @@ public abstract class TAbstractDataAttributeImpl extends TUnNamingImpl implement
 			case SclPackage.TABSTRACT_DATA_ATTRIBUTE__VAL_KIND:
 				setValKind((TValKindEnum)newValue);
 				return;
+			case SclPackage.TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE:
+				setPrintedType((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -505,6 +552,9 @@ public abstract class TAbstractDataAttributeImpl extends TUnNamingImpl implement
 			case SclPackage.TABSTRACT_DATA_ATTRIBUTE__VAL_KIND:
 				unsetValKind();
 				return;
+			case SclPackage.TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE:
+				setPrintedType(PRINTED_TYPE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -531,6 +581,8 @@ public abstract class TAbstractDataAttributeImpl extends TUnNamingImpl implement
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 			case SclPackage.TABSTRACT_DATA_ATTRIBUTE__VAL_KIND:
 				return isSetValKind();
+			case SclPackage.TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE:
+				return PRINTED_TYPE_EDEFAULT == null ? printedType != null : !PRINTED_TYPE_EDEFAULT.equals(printedType);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -557,6 +609,8 @@ public abstract class TAbstractDataAttributeImpl extends TUnNamingImpl implement
 		result.append(type);
 		result.append(", valKind: ");
 		if (valKindESet) result.append(valKind); else result.append("<unset>");
+		result.append(", printedType: ");
+		result.append(printedType);
 		result.append(')');
 		return result.toString();
 	}

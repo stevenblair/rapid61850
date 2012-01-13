@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getDoType <em>Do Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getDaType <em>Da Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getType <em>Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getPrintedType <em>Printed Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}</li>
  * </ul>
  * </p>
@@ -311,31 +311,31 @@ public interface TFCDA extends EObject {
 	void setDaType(TDAType value);
 
 	/**
-	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * Returns the value of the '<em><b>Printed Type</b></em>' attribute.
 	 * The default value is <code>""</code>.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Printed Type</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Type</em>' attribute.
-	 * @see #setType(String)
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_Type()
+	 * @return the value of the '<em>Printed Type</em>' attribute.
+	 * @see #setPrintedType(String)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_PrintedType()
 	 * @model default="" dataType="org.eclipse.emf.ecore.xml.type.String"
 	 * @generated
 	 */
-	String getType();
+	String getPrintedType();
 
 	/**
-	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getType <em>Type</em>}' attribute.
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getPrintedType <em>Printed Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' attribute.
-	 * @see #getType()
+	 * @param value the new value of the '<em>Printed Type</em>' attribute.
+	 * @see #getPrintedType()
 	 * @generated
 	 */
-	void setType(String value);
+	void setPrintedType(String value);
 
 	/**
 	 * Returns the value of the '<em><b>BType</b></em>' attribute.

@@ -420,6 +420,8 @@
         <details key="name" value="valKind"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="printedType" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+        defaultValueLiteral=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TAccessControl" eSuperTypes="#//TAnyContentFromOtherNamespace">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1871,7 +1873,7 @@
         eOpposite="#//TDOType/fcda"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="daType" eType="#//TDAType"
         eOpposite="#//TDAType/fcda"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="printedType" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
         defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bType" eType="#//TPredefinedBasicTypeEnum"
         defaultValueLiteral=""/>

@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getSAddr <em>SAddr</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getType <em>Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getValKind <em>Val Kind</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getPrintedType <em>Printed Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -269,5 +270,32 @@ public interface TAbstractDataAttribute extends TUnNaming {
 	 * @generated
 	 */
 	boolean isSetValKind();
+
+	/**
+	 * Returns the value of the '<em><b>Printed Type</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Printed Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Printed Type</em>' attribute.
+	 * @see #setPrintedType(String)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTAbstractDataAttribute_PrintedType()
+	 * @model default="" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @generated
+	 */
+	String getPrintedType();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getPrintedType <em>Printed Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Printed Type</em>' attribute.
+	 * @see #getPrintedType()
+	 * @generated
+	 */
+	void setPrintedType(String value);
 
 } // TAbstractDataAttribute

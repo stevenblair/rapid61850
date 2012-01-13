@@ -38,8 +38,6 @@ import org.eclipse.emf.query.conditions.eobjects.structuralfeatures.*;//EObjectA
 import org.eclipse.emf.query.conditions.numbers.NumberCondition;
 import org.eclipse.emf.query.conditions.strings.StringValue;
 import org.eclipse.emf.query.handlers.PruneHandler;
-import sclToCHelper.BDA;
-import sclToCHelper.DA;
 
 import ch.iec._61850._2006.scl.DocumentRoot;
 import ch.iec._61850._2006.scl.SclPackage;
@@ -102,6 +100,7 @@ public class SCLCodeGenerator {
 		
 		
 		// model validation and pre-caching
+		setPrintedType(root);
 		mapDataSetToControl(root);
 		mapExtRefToDataSet(root);
 		mapControlToControlBlock(root);
@@ -135,10 +134,7 @@ public class SCLCodeGenerator {
 		StringBuilder gseDecodeDatasetFunction = new StringBuilder();
 		StringBuilder svPacketDataInit = new StringBuilder();
 		StringBuilder gsePacketDataInit = new StringBuilder();
-		
-		// create JET instances
-		BDA bdaJET = new BDA();
-		DA daJET = new DA();
+
 		
 		// create lists of DO and DA types that require initialisation
 		List<String> initDATypes = new ArrayList<String>();
@@ -195,7 +191,7 @@ public class SCLCodeGenerator {
 			
 			while (bdaTypes.hasNext()) {
 				TBDA bdaType = bdaTypes.next();
-				String bda = bdaJET.generate(bdaType);
+				String bda = bdaType.getPrintedType() + " " + bdaType.getName() + ";";
 
 				dataTypesHeader.appendDatatypes("\n\t" + bda);
 				
@@ -249,7 +245,7 @@ public class SCLCodeGenerator {
 			
 			while (das.hasNext()) {
 				TDA da = das.next();				
-				String daString = daJET.generate(da);
+				String daString = da.getPrintedType() + " " + da.getName() + ";";
 
 				dataTypesHeader.appendDatatypes("\n\t" + daString);
 				
@@ -367,7 +363,7 @@ public class SCLCodeGenerator {
 																dataElementName = fcda.getDoName();
 															}
 															dataInstanceName.append(dataElementName);
-															dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getType() + " " + dataElementName + "_" + fcda.getLnInst() + noASDUString + ";");
+															dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getPrintedType() + " " + dataElementName + "_" + fcda.getLnInst() + noASDUString + ";");
 														}
 														
 														dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
@@ -411,7 +407,7 @@ public class SCLCodeGenerator {
 															else {
 																dataElementName = fcda.getDoName();dataInstanceName.append(extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getDoName());
 															}
-															dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + dataElementName + "_" + fcda.getLnInst() + ";");
+															dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getPrintedType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + dataElementName + "_" + fcda.getLnInst() + ";");
 														}
 
 														dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
@@ -897,6 +893,53 @@ public class SCLCodeGenerator {
 	}
 	
 
+	private static void setPrintedType(DocumentRoot root) {
+		// DAs and BDAs
+		final EObjectCondition isDA = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTDA()
+		);
+		final EObjectCondition isBDA = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTBDA()
+		);
+		
+		IQueryResult daResult = new SELECT(
+			new FROM(root),
+			new WHERE(isDA.OR(isBDA))
+		).execute();
+
+		System.out.println("daResult: " + daResult.size());
+		
+		if (daResult.size() >= 1) {
+			for (Object o : daResult) {
+				TAbstractDataAttribute da = (TAbstractDataAttribute) o;
+				TPredefinedBasicTypeEnum bTypePredefined = TPredefinedBasicTypeEnum.getByName(da.getBType().toString());
+				String bType = da.getBType().toString();
+				String finalType = "";
+				
+				if (bType.equals("Struct")) {
+					finalType = "struct " + da.getType();
+					//System.out.println("\tvalid Struct type: '" + finalType + "'");
+				}
+				else if (bType.equals("Enum")) {
+					finalType = "enum " + da.getType();
+					//System.out.println("\tvalid Enum type: '" + finalType + "'");
+				}
+				else if (bTypePredefined != null) {
+					finalType = "CTYPE_" + bTypePredefined.getName().toUpperCase();
+					//System.out.println("\tvalid basic type: '" + finalType + "'");
+				}
+				else {
+					warning("unknown bType attribute for DA: '" + da + "'");
+				}
+				da.setPrintedType(finalType);
+			}
+		}
+
+		// DOs
+		//TODO:
+	}
+
+
 	private static void checkForCircularSDOReferences(DocumentRoot root) {
 		final EObjectCondition isSDO = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTSDO()
@@ -1053,7 +1096,7 @@ public class SCLCodeGenerator {
 							// set reference to DOType or DAType
 							if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
 								fcda.setDoType(doType);
-								fcda.setType("struct " + doType.getId());
+								fcda.setPrintedType("struct " + doType.getId());
 								//System.out.println("\tvalid DO type: '" + fcda.getType() + "'");
 							}
 							else {
@@ -1081,24 +1124,13 @@ public class SCLCodeGenerator {
 								
 								if (daResult.size() >= 1) {
 									TDA da = ((TDA) daResult.iterator().next());
-									TPredefinedBasicTypeEnum bTypePredefined = TPredefinedBasicTypeEnum.getByName(da.getBType().toString());
-									String bType = da.getBType().toString();
-									
-									if (bType.equals("Struct")) {
-										fcda.setType("struct " + da.getType());
-										//System.out.println("\tvalid Struct type: '" + fcda.getType() + "'");
-									}
-									else if (bType.equals("Enum")) {
-										fcda.setType("enum " + da.getType());
-										//System.out.println("\tvalid Enum type: '" + fcda.getType() + "'");
-									}
-									else if (bTypePredefined != null) {
-										fcda.setType("CTYPE_" + bTypePredefined.getName().toUpperCase());
-										fcda.setBType(bTypePredefined);
-										//System.out.println("\tvalid basic type: '" + fcda.getType() + "'");
+
+									// get type string from DA
+									if (da.getPrintedType() == null || da.getPrintedType().equals("")) {
+										warning("unknown printedType for DA '" + da.getType() + "'");
 									}
 									else {
-										warning("unknown bType attribute for DA '" + da.getType() + "'");
+										fcda.setPrintedType(da.getPrintedType());
 									}
 								}
 							}

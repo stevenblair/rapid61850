@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getPrefix <em>Prefix</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDoType <em>Do Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDaType <em>Da Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getType <em>Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getPrintedType <em>Printed Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getBType <em>BType</em>}</li>
  * </ul>
  * </p>
@@ -216,24 +216,24 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	protected TDAType daType;
 
 	/**
-	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * The default value of the '{@link #getPrintedType() <em>Printed Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getType()
+	 * @see #getPrintedType()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String TYPE_EDEFAULT = "";
+	protected static final String PRINTED_TYPE_EDEFAULT = "";
 
 	/**
-	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * The cached value of the '{@link #getPrintedType() <em>Printed Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getType()
+	 * @see #getPrintedType()
 	 * @generated
 	 * @ordered
 	 */
-	protected String type = TYPE_EDEFAULT;
+	protected String printedType = PRINTED_TYPE_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getBType() <em>BType</em>}' attribute.
@@ -571,8 +571,8 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getType() {
-		return type;
+	public String getPrintedType() {
+		return printedType;
 	}
 
 	/**
@@ -580,11 +580,11 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setType(String newType) {
-		String oldType = type;
-		type = newType;
+	public void setPrintedType(String newPrintedType) {
+		String oldPrintedType = printedType;
+		printedType = newPrintedType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__PRINTED_TYPE, oldPrintedType, printedType));
 	}
 
 	/**
@@ -672,8 +672,8 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__DA_TYPE:
 				if (resolve) return getDaType();
 				return basicGetDaType();
-			case SclPackage.TFCDA__TYPE:
-				return getType();
+			case SclPackage.TFCDA__PRINTED_TYPE:
+				return getPrintedType();
 			case SclPackage.TFCDA__BTYPE:
 				return getBType();
 		}
@@ -715,8 +715,8 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__DA_TYPE:
 				setDaType((TDAType)newValue);
 				return;
-			case SclPackage.TFCDA__TYPE:
-				setType((String)newValue);
+			case SclPackage.TFCDA__PRINTED_TYPE:
+				setPrintedType((String)newValue);
 				return;
 			case SclPackage.TFCDA__BTYPE:
 				setBType((TPredefinedBasicTypeEnum)newValue);
@@ -760,8 +760,8 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__DA_TYPE:
 				setDaType((TDAType)null);
 				return;
-			case SclPackage.TFCDA__TYPE:
-				setType(TYPE_EDEFAULT);
+			case SclPackage.TFCDA__PRINTED_TYPE:
+				setPrintedType(PRINTED_TYPE_EDEFAULT);
 				return;
 			case SclPackage.TFCDA__BTYPE:
 				setBType(BTYPE_EDEFAULT);
@@ -796,8 +796,8 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return doType != null;
 			case SclPackage.TFCDA__DA_TYPE:
 				return daType != null;
-			case SclPackage.TFCDA__TYPE:
-				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+			case SclPackage.TFCDA__PRINTED_TYPE:
+				return PRINTED_TYPE_EDEFAULT == null ? printedType != null : !PRINTED_TYPE_EDEFAULT.equals(printedType);
 			case SclPackage.TFCDA__BTYPE:
 				return bType != BTYPE_EDEFAULT;
 		}
@@ -828,8 +828,8 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 		result.append(lnInst);
 		result.append(", prefix: ");
 		result.append(prefix);
-		result.append(", type: ");
-		result.append(type);
+		result.append(", printedType: ");
+		result.append(printedType);
 		result.append(", bType: ");
 		result.append(bType);
 		result.append(')');

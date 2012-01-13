@@ -1715,13 +1715,22 @@ public interface SclPackage extends EPackage {
 	int TABSTRACT_DATA_ATTRIBUTE__VAL_KIND = TUN_NAMING_FEATURE_COUNT + 6;
 
 	/**
+	 * The feature id for the '<em><b>Printed Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE = TUN_NAMING_FEATURE_COUNT + 7;
+
+	/**
 	 * The number of structural features of the '<em>TAbstract Data Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TABSTRACT_DATA_ATTRIBUTE_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 7;
+	int TABSTRACT_DATA_ATTRIBUTE_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TAnyContentFromOtherNamespaceImpl <em>TAny Content From Other Namespace</em>}' class.
@@ -2387,6 +2396,15 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TBDA__VAL_KIND = TABSTRACT_DATA_ATTRIBUTE__VAL_KIND;
+
+	/**
+	 * The feature id for the '<em><b>Printed Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TBDA__PRINTED_TYPE = TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>TBDA</em>' class.
@@ -3607,6 +3625,15 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TDA__VAL_KIND = TABSTRACT_DATA_ATTRIBUTE__VAL_KIND;
+
+	/**
+	 * The feature id for the '<em><b>Printed Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TDA__PRINTED_TYPE = TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Dchg</b></em>' attribute.
@@ -4974,13 +5001,13 @@ public interface SclPackage extends EPackage {
 	int TFCDA__DA_TYPE = 8;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * The feature id for the '<em><b>Printed Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TFCDA__TYPE = 9;
+	int TFCDA__PRINTED_TYPE = 9;
 
 	/**
 	 * The feature id for the '<em><b>BType</b></em>' attribute.
@@ -11636,6 +11663,17 @@ public interface SclPackage extends EPackage {
 	EAttribute getTAbstractDataAttribute_ValKind();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getPrintedType <em>Printed Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Printed Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TAbstractDataAttribute#getPrintedType()
+	 * @see #getTAbstractDataAttribute()
+	 * @generated
+	 */
+	EAttribute getTAbstractDataAttribute_PrintedType();
+
+	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TAccessControl <em>TAccess Control</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -13468,15 +13506,15 @@ public interface SclPackage extends EPackage {
 	EReference getTFCDA_DaType();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getType <em>Type</em>}'.
+	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getPrintedType <em>Printed Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TFCDA#getType()
+	 * @return the meta object for the attribute '<em>Printed Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TFCDA#getPrintedType()
 	 * @see #getTFCDA()
 	 * @generated
 	 */
-	EAttribute getTFCDA_Type();
+	EAttribute getTFCDA_PrintedType();
 
 	/**
 	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}'.
