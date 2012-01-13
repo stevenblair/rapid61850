@@ -394,43 +394,24 @@ public class SCLCodeGenerator {
 														
 														while (fcdas.hasNext()) {
 															TFCDA fcda = fcdas.next();
-															
+															String dataElementName = "";
+															String fcdaName = "";
 															StringBuilder dataInstanceName = new StringBuilder(ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".");
+															
 															if (fcda.getPrefix() != null) {
 																dataInstanceName.append(fcda.getPrefix());
 															}
 															dataInstanceName.append(ln.getLnClass().toString() + "_" + ln.getInst() + ".gse_inputs.");
 															
-															String fcdaName;
-															
 															if (fcda.getDaName() != null) {
-																TAbstractDataAttribute da = getDA(dataTypeTemplates, fcda.getLnInst(), fcda.getLnClass().toString(), fcda.getDoName(), /*SCLCodeGenerator.getNameFromCompoundName*/(fcda.getDaName()));
-																
-																if (da != null) {
-																	if (da.getBType().toString().equals("Struct")) {
-																		dataTypesHeader.appendDatatypes("\n\t\tstruct " + da.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst() + ";");
-																	}
-																	else if (da.getBType().toString().equals("Enum")) {
-																		dataTypesHeader.appendDatatypes("\n\t\tenum " + da.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst() + ";");
-																	}
-																	else {
-																		dataTypesHeader.appendDatatypes("\n\t\tCTYPE_" + da.getBType().toString().toUpperCase() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDaName().replaceAll("[^A-Za-z0-9]", "_") + "_" + fcda.getLnInst() + ";");
-																	}
-																	
-																	fcdaName = ied.getName() + "_" + ld.getInst() + "_" + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst();
-																	
-																	dataInstanceName.append(fcdaName);
-																}
-																else {
-																	System.out.println("null da; DO name: " + fcda.getDoName() + ", DA name: " + fcda.getDaName());
-																}
+																dataElementName = fcda.getDaName().replaceAll("[^A-Za-z0-9]", "_");
+																fcdaName = ied.getName() + "_" + ld.getInst() + "_" + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst();
+																dataInstanceName.append(fcdaName);
 															}
 															else {
-																TDO dataObject = getDO(dataTypeTemplates, fcda.getLnClass().toString(), fcda.getDoName());
-																dataInstanceName.append(extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getDoName());
-																
-																dataTypesHeader.appendDatatypes("\n\t\tstruct " + dataObject.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getDoName() + "_" + fcda.getLnInst() + ";");
+																dataElementName = fcda.getDoName();dataInstanceName.append(extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getDoName());
 															}
+															dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + dataElementName + "_" + fcda.getLnInst() + ";");
 														}
 
 														dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
