@@ -341,7 +341,7 @@ public class SCLCodeGenerator {
 														Iterator<TFCDA> fcdas = dataset.getFCDA().iterator();
 														svDatasetsConsumed.add(dataset.getName());
 														
-														//System.out.println("\tadding sv dataset: " + dataset.getName());
+														//System.out.println("\tadding sv dataset: " + dataset.getName() + " size: " + svDatasetsConsumed.size());
 
 														dataTypesHeader.appendDatatypes("\n\tstruct {");
 														
@@ -352,37 +352,22 @@ public class SCLCodeGenerator {
 														
 														while (fcdas.hasNext()) {
 															TFCDA fcda = fcdas.next();
-															
+															String dataElementName = "";
 															StringBuilder dataInstanceName = new StringBuilder(ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".");
+															
 															if (fcda.getPrefix() != null) {
 																dataInstanceName.append(fcda.getPrefix());
 															}
 															dataInstanceName.append(ln.getLnClass().toString() + "_" + ln.getInst() + ".sv_inputs.");
 															
 															if (fcda.getDaName() != null) {
-																TDA da = (TDA) getDA(dataTypeTemplates, fcda.getLnInst(), fcda.getLnClass().toString(), fcda.getDoName(), fcda.getDaName());
-																
-																if (da == null) {
-																	System.out.println(fcda);
-																}
-																dataInstanceName.append(fcda.getDaName());
-																
-																if (da.getBType().toString().equals("Struct")) {
-																	dataTypesHeader.appendDatatypes("\n\t\tstruct " + da.getType() + " " + fcda.getDaName() + "_" + fcda.getLnInst() + noASDUString + ";");
-																}
-																else if (da.getBType().toString().equals("Enum")) {
-																	dataTypesHeader.appendDatatypes("\n\t\tenum " + da.getType() + " " + fcda.getDaName() + "_" + fcda.getLnInst() + noASDUString + ";");
-																}
-																else {
-																	dataTypesHeader.appendDatatypes("\n\t\tCTYPE_" + da.getBType().toString().toUpperCase() + " " + fcda.getDaName() + "_" + fcda.getLnInst() + noASDUString + ";");
-																}
+																dataElementName = fcda.getDaName();
 															}
-															else {
-																TDO dataObject = getDO(dataTypeTemplates, fcda.getLnClass().toString(), fcda.getDoName());
-																dataInstanceName.append(fcda.getDoName());
-																
-																dataTypesHeader.appendDatatypes("\n\t\tstruct " + dataObject.getType() + " " + fcda.getDoName() + "_" + fcda.getLnInst() + noASDUString + ";");
+															else if (fcda.getDoName() != null) {
+																dataElementName = fcda.getDoName();
 															}
+															dataInstanceName.append(dataElementName);
+															dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getType() + " " + dataElementName + "_" + fcda.getLnInst() + noASDUString + ";");
 														}
 														
 														dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
@@ -1091,7 +1076,7 @@ public class SCLCodeGenerator {
 								//System.out.println("\tvalid DO type: '" + fcda.getType() + "'");
 							}
 							else {
-								// TODO: extend with support for FCDA daName="da.da.da" syntax
+								// TODO: extend with support for FCDA daName="da.da.da(3)" (or ix="3"? see Tissue 302, and p. 75 of -6) syntax
 								final EObjectCondition isDA = new EObjectTypeRelationCondition(
 									SclPackage.eINSTANCE.getTDA()
 								);
@@ -1127,7 +1112,7 @@ public class SCLCodeGenerator {
 										//System.out.println("\tvalid Enum type: '" + fcda.getType() + "'");
 									}
 									else if (bTypePredefined != null) {
-										fcda.setType("CTYPE_" + bTypePredefined.getName());
+										fcda.setType("CTYPE_" + bTypePredefined.getName().toUpperCase());
 										fcda.setBType(bTypePredefined);
 										//System.out.println("\tvalid basic type: '" + fcda.getType() + "'");
 									}
