@@ -1,7 +1,0 @@
- public class CLASS
- {
-   public String generate(Object argument, String type)
-   {
-     return "";
-   }
- }

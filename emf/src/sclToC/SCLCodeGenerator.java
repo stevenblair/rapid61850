@@ -321,7 +321,7 @@ public class SCLCodeGenerator {
 											
 											while (extRefs.hasNext()) {
 												TExtRef extRef = extRefs.next();
-												TDataSet dataset = extRef.getDataSet();//findDataSetFromExtRef(resource, extRef);
+												TDataSet dataset = extRef.getDataSet();
 												TSampledValueControl svControl = getSVControl(dataset);
 												TGSEControl gseControl = getGSEControl(dataset);
 
@@ -405,7 +405,8 @@ public class SCLCodeGenerator {
 																dataInstanceName.append(fcdaName);
 															}
 															else {
-																dataElementName = fcda.getDoName();dataInstanceName.append(extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getDoName());
+																dataElementName = fcda.getDoName();
+																dataInstanceName.append(extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getDoName());
 															}
 															dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getPrintedType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + dataElementName + "_" + fcda.getLnInst() + ";");
 														}
@@ -894,7 +895,7 @@ public class SCLCodeGenerator {
 	
 
 	private static void setPrintedType(DocumentRoot root) {
-		// DAs and BDAs
+		// find DAs and BDAs
 		final EObjectCondition isDA = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTDA()
 		);
@@ -907,7 +908,7 @@ public class SCLCodeGenerator {
 			new WHERE(isDA.OR(isBDA))
 		).execute();
 
-		System.out.println("daResult: " + daResult.size());
+		//System.out.println("daResult: " + daResult.size());
 		
 		if (daResult.size() >= 1) {
 			for (Object o : daResult) {
@@ -934,9 +935,6 @@ public class SCLCodeGenerator {
 				da.setPrintedType(finalType);
 			}
 		}
-
-		// DOs
-		//TODO:
 	}
 
 
@@ -1270,11 +1268,9 @@ public class SCLCodeGenerator {
 		}
 	}
 
-
 	private static void processDA(TDataTypeTemplates dataTypeTemplates, TLN ln, TDO dataObject, TDA da, List<String> initDATypes) {
 
 	}
-
 
 	public static void processSDI(TSDI sdi, StringBuilder accumulatedName, CSource dataTypesSource) {
 		Iterator<TDAI> dais = sdi.getDAI().iterator();
