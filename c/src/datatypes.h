@@ -251,15 +251,6 @@ struct RSYNa {
 		struct myPos Pos_2[2];
 		void (*datasetDecodeDone)();
 	} sv_inputs;
-	struct {
-		struct myAnalogValue E1Q1SB1_C1_instMag_1;
-		struct myPos E1Q1SB1_C1_Pos_1;
-		struct myPos E1Q1SB1_C1_Pos_2;
-		enum Mod E1Q1SB1_C1_stVal_1;
-		struct myMV E1Q1SB1_C1_Amps_1;
-		struct myMV E1Q1SB1_C1_Volts_1;
-		void (*datasetDecodeDone)();
-	} gse_inputs;
 };
 
 void init_datatypes();
