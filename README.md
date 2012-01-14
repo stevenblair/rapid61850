@@ -28,7 +28,8 @@ Note that the SCL model has been augmented to help with code generation, so the 
  4. Select `scl` as the root package to import.
  5. Create a new project of type "Convert Projects to JET Projects", and select the `emf` project. For the `emf` project, go to Project Properties > JET Settings, and set Template Containers to "templates", and Source Container to "src". Delete the `sclToCHelper` directory in the root of `emf` that was created before JET was configured correctly.
  6. Open `SCL.genmodel` and right-click on the root of the model tree. Select "Show Properties View" and ensure that "Compliance Level" is set to "6.0". Right-click on the root again and select "Generate Model Code". This should re-generate the model implementation files, and set up the project properly for using the generated code.
- 7. You may need to include an additional JAR library for the project to compile. In the Project Properties for `emf`, go to Java Build Path > Libraries. Click on "Add Extrenal JARs..." and find `com.ibm.icu_4.2.1.v20100412.jar` (or a similar version).
+ 7. The package `org.eclipse.em.query` may need to be add to the Plug-in Dependencies. This can be done from the tooltip for the compiler error at the `import` statements.
+ 8. You may need to include an additional JAR library for the project to compile. In the Project Properties for `emf`, go to Java Build Path > Libraries. Click on "Add Extrenal JARs..." and find `com.ibm.icu_4.2.1.v20100412.jar` (or a similar version). It should be located in the "plugins" directory within the Eclipse installation.
 
 <!--
 ### EMF import process ###
