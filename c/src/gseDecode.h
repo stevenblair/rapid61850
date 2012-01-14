@@ -29,6 +29,7 @@ extern "C" {
 
 
 
+int ber_decode_Positions_RSYN_1(unsigned char *buf);
 
 void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *datSet, int datSetLength);
 

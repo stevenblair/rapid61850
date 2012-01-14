@@ -31,7 +31,7 @@ extern "C" {
 
 //#define GSE_MAX_DATASET_SIZE 	1280
 
-struct gseData {
+struct gseControl {
 	struct ethHeaderData ethHeaderData;
 	unsigned char *gocbRef;						// <IEDname><LDinst>/LLN0$<GSEControl.name> e.g. "E1Q1SB1C1/LLN0$ItlPositions"
 	CTYPE_INT32U timeAllowedToLive;
@@ -48,7 +48,7 @@ struct gseData {
 	CTYPE_INT32U maxTime;						// stored in milliseconds
 	int (*encodeDataset)(unsigned char *buf);	// function pointer to dataset-specific encoder
 	int (*getDatasetLength)();					// function pointer to dataset-specific getLength function
-	//void (*datasetDecodeDone)(struct gseData *gseData);				// function pointer to dataset-specific callback after decode completes
+	//void (*datasetDecodeDone)(struct gseControl *gseControl);				// function pointer to dataset-specific callback after decode completes
 };
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

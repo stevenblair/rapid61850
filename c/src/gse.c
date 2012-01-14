@@ -22,9 +22,9 @@
 #include "gseDecode.h"
 #include "gseEncode.h"
 
-struct gseData ItlPositions_Itl;
-struct gseData SyckResult_SynChk;
-struct gseData MMXUResult_MMXUResult;
+struct gseControl ItlPositions_Itl;
+struct gseControl SyckResult_SynChk;
+struct gseControl MMXUResult_MMXUResult;
 
 
 

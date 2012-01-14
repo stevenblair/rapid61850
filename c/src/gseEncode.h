@@ -36,7 +36,7 @@ int ber_get_length_SynChk();
 int ber_encode_SynChk(unsigned char *buf);
 int ber_get_length_MMXUResult();
 int ber_encode_MMXUResult(unsigned char *buf);
-int gseEncodePacket(struct gseData *gseData, unsigned char *buf);
+int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf);
 
 
 
