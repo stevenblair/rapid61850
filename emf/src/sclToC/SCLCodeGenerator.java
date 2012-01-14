@@ -83,23 +83,30 @@ public class SCLCodeGenerator {
 
 	public void generateCode(String filename) {
 		// import SCD file
-		String xmlFile = PATH_TO_SOURCE + filename;
+		String scdFileName = PATH_TO_SOURCE + filename;
 		
-		SclXMLProcessor processor = null;
+		//SclXMLProcessor processor = null;
 		Resource resource = null;
 		try {
-			processor = new SclXMLProcessor();
-			resource = processor.load(new File(xmlFile).getAbsolutePath(), null);
+			File scdFile = new File(scdFileName);
+			if (scdFile.exists()) {
+				SclXMLProcessor processor = new SclXMLProcessor();
+				resource = processor.load(scdFile.getAbsolutePath(), null);
+			}
+			else {
+				error("SCD file does not exist");
+			}
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
+			//e.printStackTrace();
+			error("cannot parse SCD file");
 		}
 		
 		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
 		
 		
 		// model validation and pre-caching
+		checkForDuplicateNames(root);
 		setPrintedType(root);
 		mapDataSetToControl(root);
 		mapExtRefToDataSet(root);
@@ -894,6 +901,12 @@ public class SCLCodeGenerator {
 	}
 	
 
+	private static void checkForDuplicateNames(DocumentRoot root) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	private static void setPrintedType(DocumentRoot root) {
 		// find DAs and BDAs
 		final EObjectCondition isDA = new EObjectTypeRelationCondition(
@@ -1532,6 +1545,11 @@ public class SCLCodeGenerator {
 	
 	public static void warning(String warning) {
 		System.out.println("Warning: " + warning);
+	}
+	
+	public static void error(String error) {
+		System.err.println("Error: " + error);
+		System.exit(1);
 	}
 
 	public static TDO getDO2(TDataTypeTemplates dataTypeTemplates, String lnClass, String doName) {
