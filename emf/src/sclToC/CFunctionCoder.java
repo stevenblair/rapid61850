@@ -113,7 +113,7 @@ public class CFunctionCoder extends CFunction {
 					return ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst();
 				}
 				else {
-					return SCLCodeGenerator.getSVControl((TDataSet) dataType).getSmvID();
+					return SCDCodeGenerator.getSVControl((TDataSet) dataType).getSmvID();
 				}
 			}
 			else if (commsType == CommsType.GSE) {
@@ -128,7 +128,7 @@ public class CFunctionCoder extends CFunction {
 				}
 				else {
 					//System.out.println(coderType + ", other type of GSE, appID: " + SCLCodeGenerator.getGSEControl((TDataSet) dataType).getAppID() + " extref: " + extRef);
-					return SCLCodeGenerator.getGSEControl((TDataSet) dataType).getAppID();
+					return SCDCodeGenerator.getGSEControl((TDataSet) dataType).getAppID();
 				}
 			}
 		}
@@ -172,7 +172,7 @@ public class CFunctionCoder extends CFunction {
 			TDataTypeTemplates dtt = getTDataTypeTemplates();
 			
 			if (commsType == CommsType.SV && extRef != null) {
-				TSampledValueControl svControl = SCLCodeGenerator.getSVControl((TDataSet) dataType);
+				TSampledValueControl svControl = SCDCodeGenerator.getSVControl((TDataSet) dataType);
 				
 				if (svControl != null) {
 					long noASDU = svControl.getNofASDU();
@@ -197,7 +197,7 @@ public class CFunctionCoder extends CFunction {
 				}
 			}
 			else if (commsType == CommsType.GSE && extRef != null) {
-				TGSEControl gseControl = SCLCodeGenerator.getGSEControl((TDataSet) dataType);
+				TGSEControl gseControl = SCDCodeGenerator.getGSEControl((TDataSet) dataType);
 				
 				if (gseControl != null) {
 					String uriFragment = extRef.eResource().getURIFragment(extRef);
@@ -238,7 +238,7 @@ public class CFunctionCoder extends CFunction {
 			}
 			
 			if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
-				TAbstractDataAttribute da = SCLCodeGenerator.getDA(dtt, fcda.getLnInst(), fcda.getLnClass().toString(), fcda.getDoName(), fcda.getDaName());
+				TAbstractDataAttribute da = SCDCodeGenerator.getDA(dtt, fcda.getLnInst(), fcda.getLnClass().toString(), fcda.getDoName(), fcda.getDaName());
 				obj = da;
 				
 				if (obj != null && obj.eClass().getName().equals("TBDA")) {
@@ -256,7 +256,7 @@ public class CFunctionCoder extends CFunction {
 				}
 			}
 			else {
-				TDO dataObject = SCLCodeGenerator.getDO(dtt, fcda.getLnClass().toString(), fcda.getDoName());
+				TDO dataObject = SCDCodeGenerator.getDO(dtt, fcda.getLnClass().toString(), fcda.getDoName());
 				obj = dataObject;
 			}
 		}

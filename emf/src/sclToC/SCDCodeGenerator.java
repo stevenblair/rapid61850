@@ -69,7 +69,7 @@ import ch.iec._61850._2006.scl.TDAI;
 import ch.iec._61850._2006.scl.TSDI;
 import ch.iec._61850._2006.scl.util.SclXMLProcessor;
 
-public class SCLCodeGenerator {
+public class SCDCodeGenerator {
 	
 	final static String PATH_TO_SOURCE = "src\\sclToC\\";
 
