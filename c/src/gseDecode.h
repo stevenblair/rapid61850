@@ -1,7 +1,7 @@
 /**
  * Rapid-prototyping protection schemes with IEC 61850
  *
- * Copyright (c) 2011 Steven Blair
+ * Copyright (c) 2012 Steven Blair
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,6 @@ extern "C" {
 
 
 
-int ber_decode_Positions_RSYN_1(unsigned char *buf);
 
 void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *datSet, int datSetLength);
 

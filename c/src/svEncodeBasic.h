@@ -1,7 +1,7 @@
 /**
  * Rapid-prototyping protection schemes with IEC 61850
  *
- * Copyright (c) 2011 Steven Blair
+ * Copyright (c) 2012 Steven Blair
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
