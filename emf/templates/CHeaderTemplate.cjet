@@ -1,4 +1,4 @@
-<%@ jet package="sclToCHelper" imports="sclToC.CHeader;" class="CHeaderTemplate" %>
+<%@ jet package="scdCodeGeneratorTemplates" imports="scdCodeGenerator.CHeader;" class="CHeaderTemplate" %>
 <% CHeader header = (CHeader) argument; %>
 #ifndef <%=header.headerProtectName%>
 #define <%=header.headerProtectName%>

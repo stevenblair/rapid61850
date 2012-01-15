@@ -1,4 +1,4 @@
-package sclToC;
+package scdCodeGenerator;
 
 public class Main {
 	public static void main(String[] args) {

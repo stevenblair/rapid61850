@@ -18,13 +18,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package sclToC;
+package scdCodeGenerator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import sclToCHelper.CSourceTemplate;
+import scdCodeGeneratorTemplates.CSourceTemplate;
 
 import ch.iec._61850._2006.scl.TDataSet;
 

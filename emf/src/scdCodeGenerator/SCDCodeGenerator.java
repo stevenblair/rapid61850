@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package sclToC;
+package scdCodeGenerator;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ import ch.iec._61850._2006.scl.util.SclXMLProcessor;
 
 public class SCDCodeGenerator {
 	
-	final static String PATH_TO_SOURCE = "src\\sclToC\\";
+	final static String PATH_TO_SOURCE = "src\\scdCodeGenerator\\";
 
 	public void generateCode(String filename) {
 		// import SCD file

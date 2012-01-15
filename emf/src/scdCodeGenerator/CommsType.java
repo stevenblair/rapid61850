@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package sclToC;
+package scdCodeGenerator;
 
-public enum CoderType {
-	ENCODER, DECODER
+public enum CommsType {
+	GSE, SV
 }

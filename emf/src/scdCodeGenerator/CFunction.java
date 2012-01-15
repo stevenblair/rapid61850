@@ -18,8 +18,36 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package sclToC;
+package scdCodeGenerator;
 
-public enum CommsType {
-	GSE, SV
+
+public abstract class CFunction {
+
+	public String returnType;
+
+	public CFunction() {
+		this.returnType = "";
+	}
+
+	public CFunction(String returnType) {
+		this.returnType = returnType;
+	}
+
+	public abstract String getName();
+	public abstract String getArgs();
+	public abstract String getFunctionName();
+	public abstract String getBody();
+
+	public String getFunctionDefinition() {
+		return this.returnType + " " + this.getFunctionName() + "(" + this.getArgs() + ")";
+	}
+
+	public String getPrototype() {
+		return this.getFunctionDefinition() + ";\n";
+	}
+
+	// template method
+	public String toString() {
+		return getFunctionDefinition() + " {\n" + this.getBody() + "}";
+	}
 }

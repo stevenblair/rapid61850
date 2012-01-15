@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package sclToC;
+package scdCodeGenerator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,7 +29,7 @@ import java.io.InputStreamReader;
 
 public abstract class CFile {
 	public final String C_PATH = "..\\c\\src\\";
-	public final String LICENSE_PATH = "src\\sclToC\\license.txt";
+	public final String LICENSE_PATH = "src\\scdCodeGenerator\\license.txt";
 	public String filename;
 	public String includes;
 	

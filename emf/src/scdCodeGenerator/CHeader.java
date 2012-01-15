@@ -18,9 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package sclToC;
+package scdCodeGenerator;
 
-import sclToCHelper.CHeaderTemplate;
+import scdCodeGeneratorTemplates.CHeaderTemplate;
 
 public class CHeader extends CFile {
 	public String headerProtectName;
