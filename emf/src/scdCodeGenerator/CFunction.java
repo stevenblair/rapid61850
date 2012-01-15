@@ -26,7 +26,7 @@ public abstract class CFunction {
 	public String returnType;
 
 	public CFunction() {
-		this.returnType = "";
+		this.returnType = "void";	// default return type
 	}
 
 	public CFunction(String returnType) {
