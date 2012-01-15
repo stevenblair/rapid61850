@@ -121,7 +121,5 @@ In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in o
  - initialise default values (including DOI and DAI), and allocate memory for strings
     - typical values are set in DataTypeTemplates section (i.e., DA and BDA, both sub-types of AbstractDataType, may have Val elements)
     - special case values are set in LN definition
- - ensure all dataset elements are in the same order as in the SCD
- - ensure all data types in C code are in an order that can be compiled
  - ensure C string literals are "safe", i.e. `\\` instead of `\`
  - put svData and gseData instances inside LLN0 definition?

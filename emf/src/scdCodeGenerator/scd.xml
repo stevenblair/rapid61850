@@ -536,9 +536,12 @@
 			<DA name="t" fc="MX" bType="Timestamp"/>
 		</DOType>
 		<DOType id="simpleWYE" cdc="WYE">
-			<DA name="phsA" fc="MX" bType="Struct" type="simpleCMV" dchg="true"/>
+			<SDO name="phsA" type="simpleCMV"/>
+			<SDO name="phsB" type="simpleCMV"/>
+			<SDO name="phsC" type="simpleCMV"/>
+			<!--<DA name="phsA" fc="MX" bType="Struct" type="simpleCMV" dchg="true"/>
 			<DA name="phsB" fc="MX" bType="Struct" type="simpleCMV" dchg="true"/>
-			<DA name="phsC" fc="MX" bType="Struct" type="simpleCMV" dchg="true"/>
+			<DA name="phsC" fc="MX" bType="Struct" type="simpleCMV" dchg="true"/>-->
 		</DOType>
 		<DOType id="myCMV" cdc="CMV">
 			<DA name="cVal" fc="MX" bType="Struct" type="myVector" dchg="true"/>

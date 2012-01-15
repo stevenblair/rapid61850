@@ -20,6 +20,10 @@
 
 package scdCodeGenerator;
 
+import java.util.Iterator;
+
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.query.conditions.ObjectInstanceCondition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
@@ -36,6 +40,7 @@ import org.eclipse.emf.query.statements.WHERE;
 import ch.iec._61850._2006.scl.DocumentRoot;
 import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TAbstractDataAttribute;
+import ch.iec._61850._2006.scl.TBDA;
 import ch.iec._61850._2006.scl.TControl;
 import ch.iec._61850._2006.scl.TControlBlock;
 import ch.iec._61850._2006.scl.TDA;
@@ -54,6 +59,81 @@ import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
 import ch.iec._61850._2006.scl.TSDO;
 
 public class SCDValidator {
+
+	public void validate(DocumentRoot root) {
+		checkForDuplicateNames(root);
+		checkForCircularSDOReferences(root);
+		checkDataTypeOrder(root);
+		
+		setPrintedType(root);
+		mapDataSetToControl(root);
+		mapExtRefToDataSet(root);
+		mapControlToControlBlock(root);
+		mapFCDAToDataType(root);
+	}
+	
+	public void warning(String warning) {
+		System.out.println("Warning: " + warning);
+	}
+	
+	public void error(String error) {
+		System.err.println("Error: " + error);
+		System.exit(1);
+	}
+	
+	public void checkDataTypeOrder(DocumentRoot root) {
+		EList<String> daTypeList = new BasicEList<String>();
+		EList<String> doTypeList = new BasicEList<String>();
+		String endOfError = "; the SCD datatype templates may need to be corrected or reordered for correct C code to be generated";
+		
+		// check DATypes
+		Iterator<TDAType> daTypeResult = root.getSCL().getDataTypeTemplates().getDAType().iterator(); 
+		
+		while (daTypeResult.hasNext()) {
+			TDAType daType = daTypeResult.next();
+			daTypeList.add(daType.getId());
+			
+			Iterator<TBDA> bdaList = daType.getBDA().iterator();
+			
+			while (bdaList.hasNext()) {
+				TBDA bda = bdaList.next();
+				
+				if (bda.getBType().toString().equals("Struct") && !daTypeList.contains(bda.getType())) {
+					error("cannot find DAType for BDA '" + bda.getType() + "'" + endOfError);
+				}
+			}
+		}
+		
+		// check DOTypes
+		Iterator<TDOType> doTypeResult = root.getSCL().getDataTypeTemplates().getDOType().iterator();
+		
+		while (doTypeResult.hasNext()) {
+			TDOType doType = doTypeResult.next();
+			doTypeList.add(doType.getId());
+			
+			// DA components
+			Iterator<TDA> daList = doType.getDA().iterator();
+			
+			while (daList.hasNext()) {
+				TDA da = daList.next();
+				
+				if (da.getBType().toString().equals("Struct") && !daTypeList.contains(da.getType())) {
+					error("cannot find DAType for DA '" + da.getType() + "' in DOType '" + doType.getId() + "'" + endOfError);
+				}
+			}
+			
+			// SDO components
+			Iterator<TSDO> sdoList = doType.getSDO().iterator();
+			
+			while (sdoList.hasNext()) {
+				TSDO sdo = sdoList.next();
+				
+				if (!doTypeList.contains(sdo.getType())) {
+					error("cannot find DOType for SDO '" + sdo.getType() + "'" + endOfError);
+				}
+			}
+		}
+	}
 
 	public void checkForDuplicateNames(DocumentRoot root) {
 		// check IED names
@@ -672,14 +752,5 @@ public class SCDValidator {
 				}
 			}
 		}
-	}
-	
-	public void warning(String warning) {
-		System.out.println("Warning: " + warning);
-	}
-	
-	public void error(String error) {
-		System.err.println("Error: " + error);
-		System.exit(1);
 	}
 }

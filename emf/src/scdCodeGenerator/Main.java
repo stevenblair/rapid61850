@@ -29,15 +29,15 @@ import ch.iec._61850._2006.scl.util.SclXMLProcessor;
 
 public class Main {
 	
-	final static String PATH_TO_SOURCE = "src\\scdCodeGenerator\\";
+	final static String PATH_TO_SOURCE	= "src\\scdCodeGenerator\\";
+	final static String SCD_FILENAME	= "scd.xml";					// edit this to match the input SCD filename
 	
 	public static void main(String[] args) {
 		SCDValidator validator = new SCDValidator();
 		SCDCodeGenerator scdCodeGenerator = new SCDCodeGenerator();
-		String filename = "scd.xml";	// edit this to match the input SCD file
 		
 		// import SCD file
-		String scdFullFilePath = PATH_TO_SOURCE + filename;
+		String scdFullFilePath = PATH_TO_SOURCE + SCD_FILENAME;
 		Resource resource = null;
 		
 		try {
@@ -59,15 +59,15 @@ public class Main {
 		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
 		
 		// model validation and pre-caching
-		validator.checkForDuplicateNames(root);
-		validator.setPrintedType(root);
-		validator.mapDataSetToControl(root);
-		validator.mapExtRefToDataSet(root);
-		validator.mapControlToControlBlock(root);
-		validator.mapFCDAToDataType(root);
-		validator.checkForCircularSDOReferences(root);
+		validator.validate(root);
 		
 		// generate code
 		scdCodeGenerator.generateCode(root);
+		
+		/*try {
+			resource.save(System.out, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 	}
 }

@@ -847,14 +847,7 @@ public class SCDCodeGenerator {
 		gseHeader.saveFile();
 		iedHeader.saveFile();
 		dataTypesHeader.saveFile();
-		
-		/*try {
-			resource.save(System.out, null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 	}
-	
 
 
 	private static void processDA(TDataTypeTemplates dataTypeTemplates, TLN ln, TDO dataObject, TDA da, List<String> initDATypes) {
