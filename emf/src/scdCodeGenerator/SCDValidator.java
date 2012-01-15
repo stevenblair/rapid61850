@@ -81,6 +81,12 @@ public class SCDValidator {
 		System.exit(1);
 	}
 	
+	/**
+	 * Checks that all data type definitions are in an order that will ensure valid C code.
+	 * Also ensures that DAs, SDOs, and BDA map to a valid types that exist in the SCD file. 
+	 * 
+	 * @param root
+	 */
 	public void checkDataTypeOrder(DocumentRoot root) {
 		EList<String> daTypeList = new BasicEList<String>();
 		EList<String> doTypeList = new BasicEList<String>();
@@ -135,6 +141,11 @@ public class SCDValidator {
 		}
 	}
 
+	/**
+	 * Ensures that all IED names, LNs, data type IDs are unique.
+	 * 
+	 * @param root
+	 */
 	public void checkForDuplicateNames(DocumentRoot root) {
 		// check IED names
 		final EObjectCondition isIED = new EObjectTypeRelationCondition(
@@ -289,7 +300,11 @@ public class SCDValidator {
 		}
 	}
 
-
+	/**
+	 * Pre-calculates the type of all DAs and BDAs, as a string of C code.
+	 * 
+	 * @param root
+	 */
 	public void setPrintedType(DocumentRoot root) {
 		// find DAs and BDAs
 		final EObjectCondition isDA = new EObjectTypeRelationCondition(
@@ -333,6 +348,11 @@ public class SCDValidator {
 		}
 	}
 
+	/**
+	 * Ensures that the definition of a DOType does not contain an instance of itself.
+	 * 
+	 * @param root
+	 */
 	public void checkForCircularSDOReferences(DocumentRoot root) {
 		final EObjectCondition isSDO = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTSDO()
