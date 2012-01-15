@@ -20,12 +20,10 @@
 
 package scdCodeGenerator;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.query.conditions.ObjectInstanceCondition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
 import org.eclipse.emf.query.statements.FROM;
@@ -67,45 +65,10 @@ import ch.iec._61850._2006.scl.TSubNetwork;
 import ch.iec._61850._2006.scl.TVal;
 import ch.iec._61850._2006.scl.TDAI;
 import ch.iec._61850._2006.scl.TSDI;
-import ch.iec._61850._2006.scl.util.SclXMLProcessor;
 
 public class SCDCodeGenerator {
-	
-	final static String PATH_TO_SOURCE = "src\\scdCodeGenerator\\";
 
-	public void generateCode(String filename) {
-		// import SCD file
-		String scdFileName = PATH_TO_SOURCE + filename;
-		Resource resource = null;
-		
-		try {
-			File scdFile = new File(scdFileName);
-			if (scdFile.exists()) {
-				SclXMLProcessor processor = new SclXMLProcessor();
-				resource = processor.load(scdFile.getAbsolutePath(), null);
-			}
-			else {
-				SCDValidator.error("SCD file does not exist");
-			}
-		}
-		catch (Exception e) {
-			//e.printStackTrace();
-			SCDValidator.error("cannot parse SCD file");
-		}
-		
-		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
-		
-		
-		// model validation and pre-caching
-		SCDValidator.checkForDuplicateNames(root);
-		SCDValidator.setPrintedType(root);
-		SCDValidator.mapDataSetToControl(root);
-		SCDValidator.mapExtRefToDataSet(root);
-		SCDValidator.mapControlToControlBlock(root);
-		SCDValidator.mapFCDAToDataType(root);
-		SCDValidator.checkForCircularSDOReferences(root);
-		
-		
+	public void generateCode(DocumentRoot root) {
 		// initialise C files
 		CSource svEncodeSource = new CSource("svEncode.c", "#include \"svEncodeBasic.h\"\n#include \"ied.h\"\n#include \"svEncode.h\"");
 		CSource svDecodeSource = new CSource("svDecode.c", "#include \"sv.h\"\n#include \"svDecodeBasic.h\"\n#include \"ied.h\"\n#include \"svDecode.h\"");

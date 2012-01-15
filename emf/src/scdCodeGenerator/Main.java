@@ -20,10 +20,54 @@
 
 package scdCodeGenerator;
 
+import java.io.File;
+
+import org.eclipse.emf.ecore.resource.Resource;
+
+import ch.iec._61850._2006.scl.DocumentRoot;
+import ch.iec._61850._2006.scl.util.SclXMLProcessor;
+
 public class Main {
+	
+	final static String PATH_TO_SOURCE = "src\\scdCodeGenerator\\";
+	
 	public static void main(String[] args) {
-		SCDCodeGenerator sclCodeGenerator = new SCDCodeGenerator();
+		SCDValidator validator = new SCDValidator();
+		SCDCodeGenerator scdCodeGenerator = new SCDCodeGenerator();
+		String filename = "scd.xml";	// edit this to match the input SCD file
 		
-		sclCodeGenerator.generateCode("scd.xml");
+		// import SCD file
+		String scdFullFilePath = PATH_TO_SOURCE + filename;
+		Resource resource = null;
+		
+		try {
+			File scdFile = new File(scdFullFilePath);
+			if (scdFile.exists()) {
+				SclXMLProcessor processor = new SclXMLProcessor();
+				resource = processor.load(scdFile.getAbsolutePath(), null);
+			}
+			else {
+				validator.error("SCD file does not exist");
+			}
+		}
+		catch (Exception e) {
+			//e.printStackTrace();
+			validator.error("cannot parse SCD file");
+		}
+		
+		// get root of XML document
+		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
+		
+		// model validation and pre-caching
+		validator.checkForDuplicateNames(root);
+		validator.setPrintedType(root);
+		validator.mapDataSetToControl(root);
+		validator.mapExtRefToDataSet(root);
+		validator.mapControlToControlBlock(root);
+		validator.mapFCDAToDataType(root);
+		validator.checkForCircularSDOReferences(root);
+		
+		// generate code
+		scdCodeGenerator.generateCode(root);
 	}
 }

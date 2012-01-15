@@ -55,7 +55,7 @@ import ch.iec._61850._2006.scl.TSDO;
 
 public class SCDValidator {
 
-	public static void checkForDuplicateNames(DocumentRoot root) {
+	public void checkForDuplicateNames(DocumentRoot root) {
 		// check IED names
 		final EObjectCondition isIED = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTIED()
@@ -210,7 +210,7 @@ public class SCDValidator {
 	}
 
 
-	public static void setPrintedType(DocumentRoot root) {
+	public void setPrintedType(DocumentRoot root) {
 		// find DAs and BDAs
 		final EObjectCondition isDA = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTDA()
@@ -253,7 +253,7 @@ public class SCDValidator {
 		}
 	}
 
-	public static void checkForCircularSDOReferences(DocumentRoot root) {
+	public void checkForCircularSDOReferences(DocumentRoot root) {
 		final EObjectCondition isSDO = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTSDO()
 		);
@@ -276,7 +276,7 @@ public class SCDValidator {
 		}
 	}
 
-	public static void mapFCDAToDataType(DocumentRoot root) {
+	public void mapFCDAToDataType(DocumentRoot root) {
 		final EObjectCondition isFCDA = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTFCDA()
 		);
@@ -455,7 +455,7 @@ public class SCDValidator {
 	}
 
 
-	public static TIED getIEDFromFCDA(DocumentRoot root, TFCDA fcda) {
+	public TIED getIEDFromFCDA(DocumentRoot root, TFCDA fcda) {
 		EObject next = fcda;
 		
 		while (next != null) {
@@ -471,7 +471,7 @@ public class SCDValidator {
 	}
 
 
-	public static void mapControlToControlBlock(DocumentRoot root) {
+	public void mapControlToControlBlock(DocumentRoot root) {
 		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTGSEControl()
 		);
@@ -529,7 +529,7 @@ public class SCDValidator {
 		}
 	}
 
-	public static void mapDataSetToControl(DocumentRoot root) {
+	public void mapDataSetToControl(DocumentRoot root) {
 		
 		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTGSEControl()
@@ -584,7 +584,7 @@ public class SCDValidator {
 	}
 	
 
-	public static void mapExtRefToDataSet(DocumentRoot root) {
+	public void mapExtRefToDataSet(DocumentRoot root) {
 		// find all ExtRefs
 		final EObjectCondition isExtRef = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTExtRef()
@@ -674,11 +674,11 @@ public class SCDValidator {
 		}
 	}
 	
-	public static void warning(String warning) {
+	public void warning(String warning) {
 		System.out.println("Warning: " + warning);
 	}
 	
-	public static void error(String error) {
+	public void error(String error) {
 		System.err.println("Error: " + error);
 		System.exit(1);
 	}
