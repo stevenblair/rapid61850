@@ -186,7 +186,7 @@ struct LPHDa {
 		CTYPE_QUALITY q_1[2];
 		struct myMV Amps_1[2];
 		struct myPos Pos_2[2];
-		void (*datasetDecodeDone)();
+		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 	} sv_inputs;
 };
 struct CSWIa {
@@ -212,7 +212,7 @@ struct exampleMMXU {
 		struct simpleSAV AmpLocPhsA_1[16];
 		struct simpleSAV AmpLocPhsB_1[16];
 		struct simpleSAV AmpLocPhsC_1[16];
-		void (*datasetDecodeDone)();
+		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 	} sv_inputs;
 };
 struct exampleRMXU {
@@ -249,7 +249,7 @@ struct RSYNa {
 		CTYPE_QUALITY q_1[2];
 		struct myMV Amps_1[2];
 		struct myPos Pos_2[2];
-		void (*datasetDecodeDone)();
+		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 	} sv_inputs;
 	struct {
 		struct myAnalogValue E1Q1SB1_C1_instMag_1;

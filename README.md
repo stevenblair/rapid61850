@@ -86,14 +86,14 @@ The generated code implements all IEDs specified in the SCD file. You can use th
 Callbacks should be set up in the form:
 
 ```C
-void SVcallbackFunction() {
+void SVcallbackFunction(CTYPE_INT16U smpCont) {
 	;
 }
 
 D1Q1SB4.S1.C1.MMXU_1.sv_inputs.datasetDecodeDone = &SVcallbackFunction;
 ```
 
-where `D1Q1SB4.S1.C1.MMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). After being initialised, this function will be called after this dataset is successfully decoded, to allow the LN to deal with the new data.
+where `D1Q1SB4.S1.C1.MMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). After being initialised, this function will be called after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a seperate memory buffer.
 
 ### Platform-specific options ###
 

@@ -341,7 +341,7 @@ public class SCLCodeGenerator {
 														
 														svDecodeSource.appendFunctionObject(new CFunctionCoder(dataset, extRef, CommsType.SV, CoderType.DECODER));
 														svDecodeDatasetFunction.append("\n\tif (strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");
-														svDecodeDatasetFunction.append("\n\t\tdecode_" + svControl.getDatSet() + "_" + ln.getLnClass().toString() + "_" + ln.getInst() + "(dataset, ASDU);");
+														svDecodeDatasetFunction.append("\n\t\tdecode_" + svControl.getDatSet() + "_" + ln.getLnClass().toString() + "_" + ln.getInst() + "(dataset, ASDU, smpCnt);");
 														svDecodeDatasetFunction.append("\n\t}");
 														
 														while (fcdas.hasNext()) {
@@ -364,7 +364,7 @@ public class SCLCodeGenerator {
 															dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getPrintedType() + " " + dataElementName + "_" + fcda.getLnInst() + noASDUString + ";");
 														}
 														
-														dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
+														dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)(CTYPE_INT16U smpCnt);");
 														dataTypesHeader.appendDatatypes("\n\t} sv_inputs;");
 													}
 												}

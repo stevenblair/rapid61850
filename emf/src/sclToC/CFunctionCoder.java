@@ -81,7 +81,7 @@ public class CFunctionCoder extends CFunction {
 	public String getArgs() {
 		if (this.dataType.eClass().getName().equals("TDataSet")) {
 			if (commsType == CommsType.SV && coderType == CoderType.DECODER) {
-				return "unsigned char *buf, int noASDU";
+				return "unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt";
 			}
 			else {
 				return "unsigned char *buf";
@@ -392,7 +392,7 @@ public class CFunctionCoder extends CFunction {
 							String svName = svControl.getName() + "_" + svControl.getSmvID();
 			*/
 							body = body.concat("\n\tif (" + GSESVInputPath + "datasetDecodeDone != NULL) {\n");
-							body = body.concat("\t\t" + GSESVInputPath + "datasetDecodeDone();\n");
+							body = body.concat("\t\t" + GSESVInputPath + "datasetDecodeDone(smpCnt);\n");
 							body = body.concat("\t}\n");
 							/*
 						}

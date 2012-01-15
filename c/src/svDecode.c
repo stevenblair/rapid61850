@@ -195,7 +195,7 @@ int decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 
 	return offset;
 }
-int decode_smv_LPHD_1(unsigned char *buf, int noASDU) {
+int decode_smv_LPHD_1(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt) {
 	int offset = 0;
 
 	offset += decode_myAnalogValue(&buf[offset], &D1Q1SB4.S1.C1.LPHD_1.sv_inputs.instMag_1[noASDU]);
@@ -206,12 +206,12 @@ int decode_smv_LPHD_1(unsigned char *buf, int noASDU) {
 	offset += decode_myPos(&buf[offset], &D1Q1SB4.S1.C1.LPHD_1.sv_inputs.Pos_2[noASDU]);
 
 	if (D1Q1SB4.S1.C1.LPHD_1.sv_inputs.datasetDecodeDone != NULL) {
-		D1Q1SB4.S1.C1.LPHD_1.sv_inputs.datasetDecodeDone();
+		D1Q1SB4.S1.C1.LPHD_1.sv_inputs.datasetDecodeDone(smpCnt);
 	}
 
 	return offset;
 }
-int decode_rmxu_MMXU_1(unsigned char *buf, int noASDU) {
+int decode_rmxu_MMXU_1(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt) {
 	int offset = 0;
 
 	offset += decode_simpleSAV(&buf[offset], &D1Q1SB4.S1.C1.MMXU_1.sv_inputs.AmpLocPhsA_1[noASDU]);
@@ -219,12 +219,12 @@ int decode_rmxu_MMXU_1(unsigned char *buf, int noASDU) {
 	offset += decode_simpleSAV(&buf[offset], &D1Q1SB4.S1.C1.MMXU_1.sv_inputs.AmpLocPhsC_1[noASDU]);
 
 	if (D1Q1SB4.S1.C1.MMXU_1.sv_inputs.datasetDecodeDone != NULL) {
-		D1Q1SB4.S1.C1.MMXU_1.sv_inputs.datasetDecodeDone();
+		D1Q1SB4.S1.C1.MMXU_1.sv_inputs.datasetDecodeDone(smpCnt);
 	}
 
 	return offset;
 }
-int decode_smv_RSYN_1(unsigned char *buf, int noASDU) {
+int decode_smv_RSYN_1(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt) {
 	int offset = 0;
 
 	offset += decode_myAnalogValue(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.sv_inputs.instMag_1[noASDU]);
@@ -235,7 +235,7 @@ int decode_smv_RSYN_1(unsigned char *buf, int noASDU) {
 	offset += decode_myPos(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.sv_inputs.Pos_2[noASDU]);
 
 	if (D1Q1SB4.S1.C1.RSYN_1.sv_inputs.datasetDecodeDone != NULL) {
-		D1Q1SB4.S1.C1.RSYN_1.sv_inputs.datasetDecodeDone();
+		D1Q1SB4.S1.C1.RSYN_1.sv_inputs.datasetDecodeDone(smpCnt);
 	}
 
 	return offset;
@@ -244,13 +244,13 @@ int decode_smv_RSYN_1(unsigned char *buf, int noASDU) {
 void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {
 
 	if (strncmp((const char *) svID, "11", svIDLength) == 0) {
-		decode_smv_LPHD_1(dataset, ASDU);
+		decode_smv_LPHD_1(dataset, ASDU, smpCnt);
 	}
 	if (strncmp((const char *) svID, "rmxu", svIDLength) == 0) {
-		decode_rmxu_MMXU_1(dataset, ASDU);
+		decode_rmxu_MMXU_1(dataset, ASDU, smpCnt);
 	}
 	if (strncmp((const char *) svID, "11", svIDLength) == 0) {
-		decode_smv_RSYN_1(dataset, ASDU);
+		decode_smv_RSYN_1(dataset, ASDU, smpCnt);
 	}
 }
 
