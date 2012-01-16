@@ -23,8 +23,8 @@
 #include "svDecode.h"
 #include "svEncode.h"
 
-struct svData Volt_11;
-struct svData rmxuCB_rmxu;
+struct svControl Volt_11;
+struct svControl rmxuCB_rmxu;
 
 
 

@@ -59,8 +59,7 @@ void DFT(struct simpleSAV *sav, struct simpleVector *vector, int N) {
 }
 
 void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data) {
-	//printf("got packet, len: %d\n", header->len);
-    if (header->len == 737) {
+    if (header->len == 737) {	// hardcoded packet length for demo
 		svDecode((unsigned char *) pkt_data, header->len);
 
 		DFT(D1Q1SB4.S1.C1.MMXU_1.sv_inputs.AmpLocPhsA_1, &D1Q1SB4.S1.C1.MMXU_1.A.phsA.cVal, 16);
@@ -179,11 +178,7 @@ int main() {
 
 			if (client != INVALID_SOCKET) {
 				len = sprintf(tcpBuffer, "%f %f %f %f %f %f\n", D1Q1SB4.S1.C1.MMXU_1.A.phsA.cVal.mag.f, 180 * D1Q1SB4.S1.C1.MMXU_1.A.phsA.cVal.ang.f / PI, D1Q1SB4.S1.C1.MMXU_1.A.phsB.cVal.mag.f, 180 * D1Q1SB4.S1.C1.MMXU_1.A.phsB.cVal.ang.f / PI, D1Q1SB4.S1.C1.MMXU_1.A.phsC.cVal.mag.f, 180 * D1Q1SB4.S1.C1.MMXU_1.A.phsC.cVal.ang.f / PI);
-				//printf("%d: %s", len, tcpBuffer);
-				//fflush(stdout);
 				if (send(client, tcpBuffer, len, 0) == SOCKET_ERROR) {
-					//fprintf(stderr, "send() failed: %d\n", WSAGetLastError());
-					//exit(1);
 					client = INVALID_SOCKET;
 					continue;
 				}
@@ -201,14 +196,6 @@ int main() {
 				if (sret > 0) {
 					lenRecv = recv(client, recvBuffer, 1, 0);
 					if (lenRecv > 0) {
-		//				printf("%d from prcessing: ", lenRecv);
-		//				int c = 0;
-		//				for (c = 0; c < lenRecv; c++) {
-		//					printf("%c", recvBuffer[c]);
-		//				}
-		//				printf("\n");
-		//				fflush(stdout);
-
 						if (recvBuffer[0] == '1') {
 							E1Q1SB1.S1.C1.TVTR_1.Vol.instMag.f = 1;
 						}
@@ -227,11 +214,8 @@ int main() {
 			else {
 				client = accept(sock, (struct sockaddr *) &sin, &lengthSin);
 				if (client == SOCKET_ERROR) {
-					//fprintf(stderr, "accept() failed: %d", WSAGetLastError());
-					//exit(1);
 					client = INVALID_SOCKET;
 				}
-				//Sleep(1);
 			}
 		}
 		Sleep(1);

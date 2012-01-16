@@ -311,6 +311,10 @@ public class SCDCodeGenerator {
 														svDecodeDatasetFunction.append("\n\t\tdecode_" + svControl.getDatSet() + "_" + ln.getLnClass().toString() + "_" + ln.getInst() + "(dataset, ASDU, smpCnt);");
 														svDecodeDatasetFunction.append("\n\t}");
 														
+														//TODO: get IED name, etc., from dataset object
+														//String datasetName = ied.getName() + "_" + ld.getInst() + "_" + dataset.getName();
+														//dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + noASDUString + ";");
+														
 														while (fcdas.hasNext()) {
 															TFCDA fcda = fcdas.next();
 															String dataElementName = "";
@@ -490,8 +494,8 @@ public class SCDCodeGenerator {
 												
 												if (svControl.getDatSet().equals(dataset.getName())) {
 													String svName = svControl.getName() + "_" + svControl.getSmvID();
-													svSource.appendInstances("struct svData " + svName + ";\n");
-													svHeader.appendExtern("extern struct svData " + svName + ";\n");
+													svSource.appendInstances("struct svControl " + svName + ";\n");
+													svHeader.appendExtern("extern struct svControl " + svName + ";\n");
 
 													svPacketDataInit.append("\t" + svName + ".noASDU = " + svControl.getNofASDU() + ";\n");
 													
@@ -829,7 +833,7 @@ public class SCDCodeGenerator {
 		gseDecodeHeader = gseDecodeSource.populateHeaderFilePrototypes(gseDecodeHeader);
 		svDecodeHeader.appendFunctionPrototypes("\nvoid svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt);");
 		gseDecodeHeader.appendFunctionPrototypes("\nvoid gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *datSet, int datSetLength);");
-		svEncodeHeader.appendFunctionPrototypes("\nint svEncodePacket(struct svData *svData, unsigned char *buf);");
+		svEncodeHeader.appendFunctionPrototypes("\nint svEncodePacket(struct svControl *svControl, unsigned char *buf);");
 		gseEncodeHeader.appendFunctionPrototypes("int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf);");
 		svHeader.appendFunctionPrototypes("void svDecode(unsigned char *buf, int len);\n");
 		gseHeader.appendFunctionPrototypes("void gseDecode(unsigned char *buf, int len);\n");
@@ -866,8 +870,6 @@ public class SCDCodeGenerator {
 				
 				while (aps.hasNext()) {
 					TAccessPoint ap = aps.next();
-					List<String> svDatasetsConsumed = new ArrayList<String>();
-					List<String> gseDatasetsConsumed = new ArrayList<String>();
 					
 					if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
 						Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
@@ -904,7 +906,6 @@ public class SCDCodeGenerator {
 			}
 		}
 	}
-
 
 	private static void processDA(TDataTypeTemplates dataTypeTemplates, TLN ln, TDO dataObject, TDA da, List<String> initDATypes) {
 

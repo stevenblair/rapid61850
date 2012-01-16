@@ -33,7 +33,7 @@ extern "C" {
 int encode_11(unsigned char *buf);
 int encode_rmxu(unsigned char *buf);
 
-int svEncodePacket(struct svData *svData, unsigned char *buf);
+int svEncodePacket(struct svControl *svControl, unsigned char *buf);
 
 
 

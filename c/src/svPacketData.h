@@ -27,8 +27,7 @@
 
 #define SV_OPTIONAL_SUPPORTED	0		// set to "1" to enable output of optional items in SV packets (Wireshark does not support these)
 
-#define SV_MAX_DATASET_SIZE 	512
-//#define SV_MAX_PACKET_SIZE 		1024
+#define SV_MAX_DATASET_SIZE 	512//1024
 
 struct ASDU {
 	unsigned char *svID;
@@ -48,13 +47,12 @@ struct ASDU {
 	} data;
 };
 
-struct svData {
+struct svControl {
 	struct ethHeaderData ethHeaderData;
 	short noASDU;
 	struct ASDU *ASDU;
 	CTYPE_INT16U ASDUCount;			// stores present ASDU count; transmit a packet when equals "noASDU"
 	CTYPE_INT16U sampleCountMaster;
-	//void (*datasetDecodeDone)(struct svData *svData);	// function pointer to dataset-specific callback after decode completes
 };
 
 #endif

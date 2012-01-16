@@ -24,33 +24,33 @@
 #include "encodePacket.h"
 
 
-int svASDULength(struct svData *svData) {
+int svASDULength(struct svControl *svControl) {
 	int len = 0;
 
-	len += strlen((const char *) svData->ASDU[0].svID) + 2;
-	//printf("%i, %s\n", strlen(svData->ASDU[0].svID), svData->ASDU[0].svID);
-	//len += strlen((const char *) svData->ASDU[0].datset) + 2;
-	len += BER_GET_LENGTH_CTYPE_INT16U(&svData->ASDU[0].smpCnt) + 2;
-	len += BER_GET_LENGTH_CTYPE_INT32U(&svData->ASDU[0].confRev) + 2;
+	len += strlen((const char *) svControl->ASDU[0].svID) + 2;
+	//printf("%i, %s\n", strlen(svControl->ASDU[0].svID), svControl->ASDU[0].svID);
+	//len += strlen((const char *) svControl->ASDU[0].datset) + 2;
+	len += BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[0].smpCnt) + 2;
+	len += BER_GET_LENGTH_CTYPE_INT32U(&svControl->ASDU[0].confRev) + 2;
 	len += SV_GET_LENGTH_BOOLEAN + 2;
-	//len += BER_GET_LENGTH_CTYPE_INT16U(&svData->ASDU[0].smpRate) + 2;
-	len += svData->ASDU[0].data.size + getLengthBytes(svData->ASDU[0].data.size);
+	//len += BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[0].smpRate) + 2;
+	len += svControl->ASDU[0].data.size + getLengthBytes(svControl->ASDU[0].data.size);
 	len++;
 
 	return len;
 }
 
-int svSeqLength(struct svData *svData) {
-	int len = svASDULength(svData);
+int svSeqLength(struct svControl *svControl) {
+	int len = svASDULength(svControl);
 	len += getLengthBytes(len);
 	len++;
-	len = len * svData->noASDU;	// assume all ASDUs are the same size
+	len = len * svControl->noASDU;	// assume all ASDUs are the same size
 
 	return len;
 }
 
-int svAPDULength(struct svData *svData) {
-	int len = svSeqLength(svData);
+int svAPDULength(struct svControl *svControl) {
+	int len = svSeqLength(svControl);
 	len += getLengthBytes(len);
 	len++;
 
@@ -62,14 +62,14 @@ int svAPDULength(struct svData *svData) {
 
 //TODO: convert to proper BER sizes, where needed
 // creates an SV packet, including frame header. returns 0 on fail; number of bytes on success
-int svEncodePacket(struct svData *svData, unsigned char *buf) {
+int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 	int offset = 0;
-	int len = svAPDULength(svData);
+	int len = svAPDULength(svControl);
 	len += getLengthBytes(len);
 	len += 9;		// savPdu tag size (1 byte), plus 8 "header" bytes
 
 	// frame header
-	memcpy(&buf[offset], svData->ethHeaderData.destMACAddress, 6);	// destination MAC addresses
+	memcpy(&buf[offset], svControl->ethHeaderData.destMACAddress, 6);	// destination MAC addresses
 	offset += 6;
 	memcpy(&buf[offset], LOCAL_MAC_ADDRESS, 6);						// source MAC addresses
 	offset += 6;
@@ -77,14 +77,14 @@ int svEncodePacket(struct svData *svData, unsigned char *buf) {
 	buf[offset++] = 0x81;	// TPID
 	buf[offset++] = 0x00;
 
-	netmemcpy(&buf[offset], &svData->ethHeaderData.VLAN_ID, 2);	// TCI
-	buf[offset] |= (svData->ethHeaderData.VLAN_PRIORITY << 5);
+	netmemcpy(&buf[offset], &svControl->ethHeaderData.VLAN_ID, 2);	// TCI
+	buf[offset] |= (svControl->ethHeaderData.VLAN_PRIORITY << 5);
 	offset += 2;
 
 	buf[offset++] = 0x88;	// EtherType
 	buf[offset++] = 0xBA;
 
-	netmemcpy(&buf[offset], &svData->ethHeaderData.APPID, 2);	// APPID
+	netmemcpy(&buf[offset], &svControl->ethHeaderData.APPID, 2);	// APPID
 	offset += 2;
 
 	netmemcpy(&buf[offset], &len, 2);	// length
@@ -96,71 +96,71 @@ int svEncodePacket(struct svData *svData, unsigned char *buf) {
 	buf[offset++] = 0x00;
 
 	buf[offset++] = 0x60;
-	offset += encodeLength(&buf[offset], svAPDULength(svData));
+	offset += encodeLength(&buf[offset], svAPDULength(svControl));
 
 	buf[offset++] = 0x80;
-	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svData->noASDU));
-	offset += ber_encode_integer(&buf[offset], &svData->noASDU, BER_GET_LENGTH_CTYPE_INT16U(&svData->noASDU));
+	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svControl->noASDU));
+	offset += ber_encode_integer(&buf[offset], &svControl->noASDU, BER_GET_LENGTH_CTYPE_INT16U(&svControl->noASDU));
 
 	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], svSeqLength(svData));
+	offset += encodeLength(&buf[offset], svSeqLength(svControl));
 
 	int i = 0;
 	int size = 0;
-	for (i = 0; i < svData->noASDU; i++) {
+	for (i = 0; i < svControl->noASDU; i++) {
 		buf[offset++] = 0x30;
-		offset += encodeLength(&buf[offset], svASDULength(svData));
+		offset += encodeLength(&buf[offset], svASDULength(svControl));
 
-		size = strlen((const char *) svData->ASDU[i].svID);
+		size = strlen((const char *) svControl->ASDU[i].svID);
 		buf[offset++] = 0x80;
 		buf[offset++] = size;
-		memcpy(&buf[offset], svData->ASDU[i].svID, size);
+		memcpy(&buf[offset], svControl->ASDU[i].svID, size);
 		offset += size;
 
 #if SV_OPTIONAL_SUPPORTED == 1
-		if (svData->ASDU[i].showDatset) {
-			size = strlen(svData->ASDU[i].datset);
+		if (svControl->ASDU[i].showDatset) {
+			size = strlen(svControl->ASDU[i].datset);
 			buf[offset++] = 0x81;
 			buf[offset++] = size;
-			memcpy(&buf[offset], svData->ASDU[i].datset, size);
+			memcpy(&buf[offset], svControl->ASDU[i].datset, size);
 			offset += size;
 		}
 #endif
 
 		buf[offset++] = 0x82;
-		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svData->ASDU[i].smpCnt));
-		offset += ber_encode_integer(&buf[offset], &svData->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U);
+		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[i].smpCnt));
+		offset += ber_encode_integer(&buf[offset], &svControl->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U);
 
 		buf[offset++] = 0x83;
-		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&svData->ASDU[i].confRev));
-		offset += ber_encode_integer(&buf[offset], &svData->ASDU[i].confRev, SV_GET_LENGTH_INT32U);
+		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&svControl->ASDU[i].confRev));
+		offset += ber_encode_integer(&buf[offset], &svControl->ASDU[i].confRev, SV_GET_LENGTH_INT32U);
 
 #if SV_OPTIONAL_SUPPORTED == 1
-		if (svData->ASDU[i].showRefrTm) {
+		if (svControl->ASDU[i].showRefrTm) {
 			buf[offset++] = 0x84;
-			offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_TIMESTAMP(&svData->ASDU[i].refrTm));
-			setTimestamp(&svData->ASDU[i].refrTm);
-			memcpy(&buf[offset], &svData->ASDU[i].refrTm, BER_GET_LENGTH_CTYPE_TIMESTAMP(&svData->ASDU[i].refrTm));
-			offset += BER_GET_LENGTH_CTYPE_TIMESTAMP(&svData->ASDU[i].refrTm);
+			offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_TIMESTAMP(&svControl->ASDU[i].refrTm));
+			setTimestamp(&svControl->ASDU[i].refrTm);
+			memcpy(&buf[offset], &svControl->ASDU[i].refrTm, BER_GET_LENGTH_CTYPE_TIMESTAMP(&svControl->ASDU[i].refrTm));
+			offset += BER_GET_LENGTH_CTYPE_TIMESTAMP(&svControl->ASDU[i].refrTm);
 		}
 #endif
 
 		buf[offset++] = 0x85;
 		buf[offset++] = SV_GET_LENGTH_BOOLEAN;
-		offset += ENCODE_CTYPE_BOOLEAN(&buf[offset], &svData->ASDU[i].smpSynch);
+		offset += ENCODE_CTYPE_BOOLEAN(&buf[offset], &svControl->ASDU[i].smpSynch);
 
 #if SV_OPTIONAL_SUPPORTED == 1
-		if (svData->ASDU[i].showSmpRate) {
+		if (svControl->ASDU[i].showSmpRate) {
 			buf[offset++] = 0x86;
 			buf[offset++] = SV_GET_LENGTH_INT16U;
-			offset += ENCODE_CTYPE_INT16U(&buf[offset], &svData->ASDU[i].smpRate);
+			offset += ENCODE_CTYPE_INT16U(&buf[offset], &svControl->ASDU[i].smpRate);
 		}
 #endif
 
 		buf[offset++] = 0x87;
-		offset += encodeLength(&buf[offset], svData->ASDU[i].data.size);
-		memcpy(&buf[offset], svData->ASDU[i].data.data, svData->ASDU[i].data.size);
-		offset += svData->ASDU[i].data.size;
+		offset += encodeLength(&buf[offset], svControl->ASDU[i].data.size);
+		memcpy(&buf[offset], svControl->ASDU[i].data.data, svControl->ASDU[i].data.size);
+		offset += svControl->ASDU[i].data.size;
 	}
 
 	// assume network interface, such as WinPcap, generates CRC bytes
