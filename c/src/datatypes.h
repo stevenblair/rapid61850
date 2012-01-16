@@ -164,6 +164,39 @@ struct simpleSAV {
 	CTYPE_QUALITY q;
 };
 
+// datasets
+struct E1Q1SB1_C1_Positions {
+	struct myAnalogValue C1__TVTR_1_Vol_instMag;
+	struct myPos C1__CSWI_1_Pos;
+	struct myPos C1__CSWI_2_Pos;
+	enum Mod C1__MMXU_1_Mod_stVal;
+	struct myMV C1__MMXU_1_Amps;
+	struct myMV C1__MMXU_1_Volts;
+};
+struct E1Q1SB1_C1_Measurands {
+	struct myMV C1__MMXU_1_Amps;
+	struct myMV C1__MMXU_1_Volts;
+};
+struct E1Q1SB1_C1_smv {
+	struct myAnalogValue C1__TVTR_1_Vol_instMag;
+	struct myMod C1__CSWI_1_Mod;
+	enum Mod C1__MMXU_1_Mod_stVal;
+	CTYPE_QUALITY C1__MMXU_1_Volts_q;
+	struct myMV C1__MMXU_1_Amps;
+	struct myPos C1__CSWI_2_Pos;
+};
+struct E1Q1SB1_C1_rmxu {
+	struct simpleSAV C1__RMXU_1_AmpLocPhsA;
+	struct simpleSAV C1__RMXU_1_AmpLocPhsB;
+	struct simpleSAV C1__RMXU_1_AmpLocPhsC;
+};
+struct D1Q1SB4_C1_SyckResult {
+	struct mySPS C1__RSYN_1_Rel;
+};
+struct D1Q1SB4_C1_MMXUResult {
+	struct simpleWYE C1__MMXU_1_A;
+};
+
 // logical nodes
 struct LN0 {
 	struct myMod Mod;
@@ -251,6 +284,15 @@ struct RSYNa {
 		struct myPos Pos_2[2];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 	} sv_inputs;
+	struct {
+		struct myAnalogValue E1Q1SB1_C1_instMag_1;
+		struct myPos E1Q1SB1_C1_Pos_1;
+		struct myPos E1Q1SB1_C1_Pos_2;
+		enum Mod E1Q1SB1_C1_stVal_1;
+		struct myMV E1Q1SB1_C1_Amps_1;
+		struct myMV E1Q1SB1_C1_Volts_1;
+		void (*datasetDecodeDone)();
+	} gse_inputs;
 };
 
 void init_datatypes();

@@ -228,7 +228,11 @@ public class SCDCodeGenerator {
 				dataTypesHeader.appendDatatypes("\n");
 			}
 		}
+		
+		// create dataset types
+		createDatasetTypes(root, dataTypesHeader);
 
+		
 		dataTypesHeader.appendDatatypes("\n\n");
 		
 		
@@ -847,6 +851,58 @@ public class SCDCodeGenerator {
 		gseHeader.saveFile();
 		iedHeader.saveFile();
 		dataTypesHeader.saveFile();
+	}
+
+
+	private void createDatasetTypes(DocumentRoot root, CHeader dataTypesHeader) {
+		dataTypesHeader.appendDatatypes("\n\n// datasets");
+		Iterator<TIED> ieds = root.getSCL().getIED().iterator();
+		
+		while (ieds.hasNext()) {
+			TIED ied = ieds.next();
+			
+			if (ied.getAccessPoint() != null) {
+				Iterator<TAccessPoint> aps = ied.getAccessPoint().iterator();
+				
+				while (aps.hasNext()) {
+					TAccessPoint ap = aps.next();
+					List<String> svDatasetsConsumed = new ArrayList<String>();
+					List<String> gseDatasetsConsumed = new ArrayList<String>();
+					
+					if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
+						Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
+						
+						while (lds.hasNext()) {
+							TLDevice ld = lds.next();
+							
+							Iterator<TDataSet> datasets = ld.getLN0().getDataSet().iterator();
+							
+							while (datasets.hasNext()) {
+								TDataSet dataset = datasets.next();
+
+								dataTypesHeader.appendDatatypes("\nstruct " + ied.getName() + "_" + ld.getInst() + "_" + dataset.getName() + " {\n");
+								
+								Iterator<TFCDA> fcdas = dataset.getFCDA().iterator();
+								
+								while (fcdas.hasNext()) {
+									TFCDA fcda = fcdas.next();
+									//ldInst="C1" prefix="" lnClass="MMXU" lnInst="1" doName="Mod" daName="stVal"
+									String name = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + fcda.getLnClass() + "_" + fcda.getLnInst() + "_" + fcda.getDoName();
+									
+									if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
+										name = name + "_" + fcda.getDaName();
+									}
+									
+									dataTypesHeader.appendDatatypes("\t" + fcda.getPrintedType() + " " + name + ";\n");
+								}
+								
+								dataTypesHeader.appendDatatypes("};");
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 
