@@ -122,4 +122,4 @@ In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in o
     - typical values are set in DataTypeTemplates section (i.e., DA and BDA, both sub-types of AbstractDataType, may have Val elements)
     - special case values are set in LN definition
  - ensure C string literals are "safe", i.e. `\\` instead of `\`
- - put svData and gseData instances inside LLN0 definition?
+ - put svControl and gseControl instances inside LLN0 definition?
