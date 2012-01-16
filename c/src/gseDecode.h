@@ -26,12 +26,14 @@ extern "C" {
 #endif
 
 #include "gsePacketData.h"
+#include "datatypes.h"
 
 
 
-int ber_decode_Positions_RSYN_1(unsigned char *buf);
+int ber_decode_E1Q1SB1_C1_Positions(unsigned char *buf, struct E1Q1SB1_C1_Positions *dest);
+int ber_decode_E1Q1SB1_C1_Positions(unsigned char *buf, struct E1Q1SB1_C1_Positions *dest);
 
-void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *datSet, int datSetLength);
+void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *gocbRef, int gocbRefLength);
 
 
 

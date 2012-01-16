@@ -33,9 +33,11 @@
 //#include <stdlib.h>
 
 
-
+//TODO move these inside gseDecodePDU() and loop, rather than recurse to ensure re-entrant
 unsigned char	datasetName[65] = {0};		// maximum length of 65 bytes
 CTYPE_INT16U	datasetNameLength = 0;
+unsigned char	gocbRef[129] = {0};			// maximum length of 129 bytes
+CTYPE_INT16U	gocbRefLength = 0;
 
 
 void gseDecodePDU(unsigned char *buf) {
@@ -48,6 +50,12 @@ void gseDecodePDU(unsigned char *buf) {
 	//printf("tag: %x, lengthFieldSize: %i, lengthValue: %i, offset: %i\n", tag, lengthFieldSize, lengthValue, offsetForNonSequence);
 
 	switch (tag) {
+	case 0x80:
+		// save gocbRef name
+		memcpy(datasetName, &buf[offsetForSequence], lengthValue);
+		datasetNameLength = lengthValue;
+		gseDecodePDU(&buf[offsetForNonSequence]);
+		break;
 	case 0x61:
 		gseDecodePDU(&buf[offsetForSequence]);
 		break;
@@ -61,7 +69,7 @@ void gseDecodePDU(unsigned char *buf) {
 		gseDecodePDU(&buf[offsetForNonSequence]);
 		break;
 	case 0xAB:
-		gseDecodeDataset(&buf[offsetForSequence], lengthValue, datasetName, datasetNameLength);
+		gseDecodeDataset(&buf[offsetForSequence], lengthValue, gocbRef, gocbRefLength);
 		return;
 		break;
 	default:

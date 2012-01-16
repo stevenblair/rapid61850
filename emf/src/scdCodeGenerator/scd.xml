@@ -173,6 +173,13 @@
 						<P type="VLAN-PRIORITY">4</P>
 					</Address>
 				</GSE>
+				<GSE ldInst="C1" cbName="AnotherPositions">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-01-00-04</P>
+						<P type="APPID">3000</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</GSE>
 				<SMV ldInst="C1" cbName="Volt">
 					<Address>
 						<P type="MAC-Address">01-0C-CD-04-00-01</P>
@@ -278,6 +285,7 @@
 							<TrgOps dchg="true" qchg="true"/>
 						</LogControl>
 						<GSEControl name="ItlPositions" datSet="Positions" appID="Itl" confRev="1"/>
+						<GSEControl name="AnotherPositions" datSet="Positions" appID="Itl" confRev="1"/>
 						<SampledValueControl name="Volt" datSet="smv" smvID="11" smpRate="4800" nofASDU="2" multicast="true" confRev="1">
 							<SmvOpts sampleRate="true" refreshTime="true" sampleSynchronized="true"/>
 						</SampledValueControl>

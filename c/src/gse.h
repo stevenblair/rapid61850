@@ -30,12 +30,14 @@
 
 void init_gse();
 int gse_send_ItlPositions_Itl(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
+int gse_send_AnotherPositions_Itl(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
 int gse_send_SyckResult_SynChk(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
 int gse_send_MMXUResult_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
 void gseDecode(unsigned char *buf, int len);
 
 
 extern struct gseControl ItlPositions_Itl;
+extern struct gseControl AnotherPositions_Itl;
 extern struct gseControl SyckResult_SynChk;
 extern struct gseControl MMXUResult_MMXUResult;
 

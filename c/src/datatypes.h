@@ -213,14 +213,9 @@ struct LPHDa {
 	struct myINS PhyHealth;
 	struct mySPS Proxy;
 	struct {
-		struct myAnalogValue instMag_1[2];
-		struct myMod Mod_1[2];
-		enum Mod stVal_1[2];
-		CTYPE_QUALITY q_1[2];
-		struct myMV Amps_1[2];
-		struct myPos Pos_2[2];
+		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
-	} sv_inputs;
+	} sv_inputs_Volt;
 };
 struct CSWIa {
 	struct myMod Mod;
@@ -242,11 +237,9 @@ struct exampleMMXU {
 	struct myBeh Health;
 	struct simpleWYE A;
 	struct {
-		struct simpleSAV AmpLocPhsA_1[16];
-		struct simpleSAV AmpLocPhsB_1[16];
-		struct simpleSAV AmpLocPhsC_1[16];
+		struct E1Q1SB1_C1_rmxu E1Q1SB1_C1_rmxu[16];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
-	} sv_inputs;
+	} sv_inputs_rmxuCB;
 };
 struct exampleRMXU {
 	struct myMod Mod;
@@ -276,23 +269,17 @@ struct RSYNa {
 	struct myLPL NamPlt;
 	struct mySPS Rel;
 	struct {
-		struct myAnalogValue instMag_1[2];
-		struct myMod Mod_1[2];
-		enum Mod stVal_1[2];
-		CTYPE_QUALITY q_1[2];
-		struct myMV Amps_1[2];
-		struct myPos Pos_2[2];
+		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
-	} sv_inputs;
+	} sv_inputs_Volt;
 	struct {
-		struct myAnalogValue E1Q1SB1_C1_instMag_1;
-		struct myPos E1Q1SB1_C1_Pos_1;
-		struct myPos E1Q1SB1_C1_Pos_2;
-		enum Mod E1Q1SB1_C1_stVal_1;
-		struct myMV E1Q1SB1_C1_Amps_1;
-		struct myMV E1Q1SB1_C1_Volts_1;
+		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
 		void (*datasetDecodeDone)();
-	} gse_inputs;
+	} gse_inputs_AnotherPositions;
+	struct {
+		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
+		void (*datasetDecodeDone)();
+	} gse_inputs_ItlPositions;
 };
 
 void init_datatypes();

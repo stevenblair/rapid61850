@@ -29,9 +29,9 @@ extern "C" {
 
 
 
-int decode_smv_LPHD_1(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt);
-int decode_rmxu_MMXU_1(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt);
-int decode_smv_RSYN_1(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt);
+int decode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *dest);
+int decode_E1Q1SB1_C1_rmxu(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_rmxu *dest);
+int decode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *dest);
 
 void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt);
 

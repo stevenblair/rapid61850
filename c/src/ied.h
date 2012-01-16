@@ -31,12 +31,12 @@ struct E1Q1SB1 {
 	struct {
 		struct {
 			struct LN0 LLN0;
-			struct exampleRMXU RMXU_1;
-			struct LPHDa LPHD_1;
-			struct CSWIa CSWI_1;
-			struct CSWIa CSWI_2;
-			struct MMXUa MMXU_1;
-			struct TVTRa TVTR_1;
+			struct exampleRMXU exampleRMXU_1;
+			struct LPHDa LPHDa_1;
+			struct CSWIa CSWIa_1;
+			struct CSWIa CSWIa_2;
+			struct MMXUa MMXUa_1;
+			struct TVTRa TVTRa_1;
 		} C1;
 	} S1;
 };
@@ -95,9 +95,9 @@ struct D1Q1SB4 {
 	struct {
 		struct {
 			struct LN0 LLN0;
-			struct exampleMMXU MMXU_1;
-			struct LPHDa LPHD_1;
-			struct RSYNa RSYN_1;
+			struct exampleMMXU exampleMMXU_1;
+			struct LPHDa LPHDa_1;
+			struct RSYNa RSYNa_1;
 		} C1;
 	} S1;
 };

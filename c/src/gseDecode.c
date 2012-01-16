@@ -275,27 +275,32 @@ int ber_decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 
 	return offset;
 }
-int ber_decode_Positions_RSYN_1(unsigned char *buf) {
+int ber_decode_E1Q1SB1_C1_Positions(unsigned char *buf, struct E1Q1SB1_C1_Positions *dest) {
 	int offset = 0;
 
-	offset += ber_decode_myAnalogValue(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_instMag_1);
-	offset += ber_decode_myPos(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Pos_1);
-	offset += ber_decode_myPos(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Pos_2);
-	offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_stVal_1);
-	offset += ber_decode_myMV(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Amps_1);
-	offset += ber_decode_myMV(&buf[offset], &D1Q1SB4.S1.C1.RSYN_1.gse_inputs.E1Q1SB1_C1_Volts_1);
-
-	if (D1Q1SB4.S1.C1.RSYN_1.gse_inputs.datasetDecodeDone != NULL) {
-		D1Q1SB4.S1.C1.RSYN_1.gse_inputs.datasetDecodeDone();
-	}
+//	offset += ber_decode_myAnalogValue(&buf[offset], &dest.C1__TVTR_1_Vol_instMaginstMag);
+//	offset += ber_decode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWI_1.Pos);
+//	offset += ber_decode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWI_2.Pos);
+//	offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &dest.C1__MMXU_1_Mod_stValstVal);
+//	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXU_1.Amps);
+//	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXU_1.Volts);
 
 	return offset;
 }
 
-void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *datSet, int datSetLength) {
+void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *gocbRef, int gocbRefLength) {
 
-	if (strncmp((const char *) datSet, "E1Q1SB1C1/LLN0$Positions", datSetLength) == 0) {
-		ber_decode_Positions_RSYN_1(dataset);
+	if (strncmp((const char *) gocbRef, "C1/LLN0$AnotherPositions", gocbRefLength) == 0) {
+		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.E1Q1SB1_C1_Positions);
+		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.datasetDecodeDone != NULL) {
+			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.datasetDecodeDone();
+		}
+	}
+	if (strncmp((const char *) gocbRef, "C1/LLN0$ItlPositions", gocbRefLength) == 0) {
+		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions);
+		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone != NULL) {
+			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone();
+		}
 	}
 }
 

@@ -80,18 +80,18 @@ void init_datatypes() {
 	init_myLPL(&E1Q1SB1.S1.C1.LLN0.NamPlt);
 	init_myLPL(&E1Q1SB1.S1.C1.LLN0.NamPlt);
 	init_myLPL(&E1Q1SB1.S1.C1.LLN0.NamPlt);
-	init_myAnalogValue(&E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsA.instMag);
-	init_myAnalogValue(&E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsB.instMag);
-	init_myAnalogValue(&E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsC.instMag);
-	init_myLPL(&E1Q1SB1.S1.C1.LPHD_1.NamPlt);
-	init_myDPL(&E1Q1SB1.S1.C1.LPHD_1.PhyNam);
-	init_myAnalogValue(&E1Q1SB1.S1.C1.MMXU_1.Amps.mag);
-	init_myAnalogValue(&E1Q1SB1.S1.C1.MMXU_1.Volts.mag);
-	init_myAnalogValue(&E1Q1SB1.S1.C1.TVTR_1.Vol.instMag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA.instMag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsB.instMag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC.instMag);
+	init_myLPL(&E1Q1SB1.S1.C1.LPHDa_1.NamPlt);
+	init_myDPL(&E1Q1SB1.S1.C1.LPHDa_1.PhyNam);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.MMXUa_1.Amps.mag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.MMXUa_1.Volts.mag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
 	init_myLPL(&D1Q1SB4.S1.C1.LLN0.NamPlt);
 	init_myLPL(&D1Q1SB4.S1.C1.LLN0.NamPlt);
-	init_myLPL(&D1Q1SB4.S1.C1.LPHD_1.NamPlt);
-	init_myDPL(&D1Q1SB4.S1.C1.LPHD_1.PhyNam);
-	init_myLPL(&D1Q1SB4.S1.C1.RSYN_1.NamPlt);
+	init_myLPL(&D1Q1SB4.S1.C1.LPHDa_1.NamPlt);
+	init_myDPL(&D1Q1SB4.S1.C1.LPHDa_1.PhyNam);
+	init_myLPL(&D1Q1SB4.S1.C1.RSYNa_1.NamPlt);
 }
 

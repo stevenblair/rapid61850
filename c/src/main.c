@@ -62,9 +62,9 @@ void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_cha
     if (header->len == 737) {	// hardcoded packet length for demo
 		svDecode((unsigned char *) pkt_data, header->len);
 
-		DFT(D1Q1SB4.S1.C1.MMXU_1.sv_inputs.AmpLocPhsA_1, &D1Q1SB4.S1.C1.MMXU_1.A.phsA.cVal, 16);
-		DFT(D1Q1SB4.S1.C1.MMXU_1.sv_inputs.AmpLocPhsB_1, &D1Q1SB4.S1.C1.MMXU_1.A.phsB.cVal, 16);
-		DFT(D1Q1SB4.S1.C1.MMXU_1.sv_inputs.AmpLocPhsC_1, &D1Q1SB4.S1.C1.MMXU_1.A.phsC.cVal, 16);
+		DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA.cVal, 16);
+		DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB.cVal, 16);
+		DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC.cVal, 16);
     }
 }
 
@@ -158,7 +158,7 @@ int main() {
 	initialise_iec61850();
 	fp = initWinpcap();
 
-	E1Q1SB1.S1.C1.TVTR_1.Vol.instMag.f = 0;
+	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 0;
 
 	while (1) {
 		pcap_loop(fp, 1, packet_handler, NULL);    // capture SV packet
@@ -177,7 +177,7 @@ int main() {
 			}
 
 			if (client != INVALID_SOCKET) {
-				len = sprintf(tcpBuffer, "%f %f %f %f %f %f\n", D1Q1SB4.S1.C1.MMXU_1.A.phsA.cVal.mag.f, 180 * D1Q1SB4.S1.C1.MMXU_1.A.phsA.cVal.ang.f / PI, D1Q1SB4.S1.C1.MMXU_1.A.phsB.cVal.mag.f, 180 * D1Q1SB4.S1.C1.MMXU_1.A.phsB.cVal.ang.f / PI, D1Q1SB4.S1.C1.MMXU_1.A.phsC.cVal.mag.f, 180 * D1Q1SB4.S1.C1.MMXU_1.A.phsC.cVal.ang.f / PI);
+				len = sprintf(tcpBuffer, "%f %f %f %f %f %f\n", D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA.cVal.mag.f, 180 * D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA.cVal.ang.f / PI, D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB.cVal.mag.f, 180 * D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB.cVal.ang.f / PI, D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC.cVal.mag.f, 180 * D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC.cVal.ang.f / PI);
 				if (send(client, tcpBuffer, len, 0) == SOCKET_ERROR) {
 					client = INVALID_SOCKET;
 					continue;
@@ -197,10 +197,10 @@ int main() {
 					lenRecv = recv(client, recvBuffer, 1, 0);
 					if (lenRecv > 0) {
 						if (recvBuffer[0] == '1') {
-							E1Q1SB1.S1.C1.TVTR_1.Vol.instMag.f = 1;
+							E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 1;
 						}
 						else {
-							E1Q1SB1.S1.C1.TVTR_1.Vol.instMag.f = 0;
+							E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 0;
 						}
 
 						len = gse_send_ItlPositions_Itl(buf, 0, 512);

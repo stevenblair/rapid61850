@@ -611,7 +611,7 @@ public class SCDValidator {
 			//}
 			if (resultMapped.getException() == null) {
 				if (resultMapped.size() == 0) {
-					warning("no ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
+					error("no ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
 				}
 				else {
 					if (resultMapped.size() == 1) {

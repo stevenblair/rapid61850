@@ -31,7 +31,7 @@ extern "C" {
 
 struct gseControl {
 	struct ethHeaderData ethHeaderData;
-	unsigned char *gocbRef;						// <IEDname><LDinst>/LLN0$<GSEControl.name> e.g. "E1Q1SB1C1/LLN0$ItlPositions"
+	unsigned char *gocbRef;						// <LDinst>/LLN0$<GSEControl.name> e.g. "C1/LLN0$ItlPositions"
 	CTYPE_INT32U timeAllowedToLive;
 	unsigned char *datSet;						// <IEDname><LDinst>/LLN0$<DataSet.name> e.g. "E1Q1SB1C1/LLN0$Positions"
 	unsigned char *goID;						// optional

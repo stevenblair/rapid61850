@@ -32,6 +32,8 @@ extern "C" {
 
 int ber_get_length_Itl();
 int ber_encode_Itl(unsigned char *buf);
+int ber_get_length_Itl();
+int ber_encode_Itl(unsigned char *buf);
 int ber_get_length_SynChk();
 int ber_encode_SynChk(unsigned char *buf);
 int ber_get_length_MMXUResult();

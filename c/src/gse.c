@@ -23,6 +23,7 @@
 #include "gseEncode.h"
 
 struct gseControl ItlPositions_Itl;
+struct gseControl AnotherPositions_Itl;
 struct gseControl SyckResult_SynChk;
 struct gseControl MMXUResult_MMXUResult;
 
@@ -48,6 +49,27 @@ int gse_send_ItlPositions_Itl(unsigned char *buf, CTYPE_BOOLEAN statusChange, CT
 	}
 
 	return gseEncodePacket(&ItlPositions_Itl, buf);
+}
+
+// returns 1 if buf contains valid packet data
+int gse_send_AnotherPositions_Itl(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
+	AnotherPositions_Itl.timeAllowedToLive = timeAllowedToLive;
+
+	if (statusChange) {
+		AnotherPositions_Itl.stNum++;
+		if (AnotherPositions_Itl.stNum == 0) {
+			AnotherPositions_Itl.stNum = 1;
+		}
+		AnotherPositions_Itl.sqNum = 0;
+	}
+	else {
+		AnotherPositions_Itl.sqNum++;
+		if (AnotherPositions_Itl.sqNum == 0) {
+			AnotherPositions_Itl.sqNum = 1;
+		}
+	}
+
+	return gseEncodePacket(&AnotherPositions_Itl, buf);
 }
 
 // returns 1 if buf contains valid packet data
@@ -118,6 +140,31 @@ void init_gse() {
 	ItlPositions_Itl.numDatSetEntries = 6;
 	ItlPositions_Itl.encodeDataset = &ber_encode_Itl;
 	ItlPositions_Itl.getDatasetLength = &ber_get_length_Itl;
+	AnotherPositions_Itl.ethHeaderData.destMACAddress[0] = 0x01;
+	AnotherPositions_Itl.ethHeaderData.destMACAddress[1] = 0x0C;
+	AnotherPositions_Itl.ethHeaderData.destMACAddress[2] = 0xCD;
+	AnotherPositions_Itl.ethHeaderData.destMACAddress[3] = 0x01;
+	AnotherPositions_Itl.ethHeaderData.destMACAddress[4] = 0x00;
+	AnotherPositions_Itl.ethHeaderData.destMACAddress[5] = 0x04;
+	AnotherPositions_Itl.ethHeaderData.APPID = 0x3000;
+	AnotherPositions_Itl.ethHeaderData.VLAN_PRIORITY = 0x4;
+	AnotherPositions_Itl.ethHeaderData.VLAN_ID = 4;
+	AnotherPositions_Itl.goID = (unsigned char *) malloc(4);
+	strncpy((char *) AnotherPositions_Itl.goID, "Itl\0", 4);
+	AnotherPositions_Itl.t = 0;
+	AnotherPositions_Itl.gocbRef = (unsigned char *) malloc(32);
+	strncpy((char *) AnotherPositions_Itl.gocbRef, "E1Q1SB1C1/LLN0$AnotherPositions\0", 32);
+	AnotherPositions_Itl.datSet = (unsigned char *) malloc(25);
+	strncpy((char *) AnotherPositions_Itl.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
+	AnotherPositions_Itl.timeAllowedToLive = 0;
+	AnotherPositions_Itl.stNum = 0;
+	AnotherPositions_Itl.sqNum = 0;
+	AnotherPositions_Itl.test = 0;
+	AnotherPositions_Itl.confRev = 1;
+	AnotherPositions_Itl.ndsCom = 0;
+	AnotherPositions_Itl.numDatSetEntries = 6;
+	AnotherPositions_Itl.encodeDataset = &ber_encode_Itl;
+	AnotherPositions_Itl.getDatasetLength = &ber_get_length_Itl;
 	SyckResult_SynChk.ethHeaderData.destMACAddress[0] = 0x01;
 	SyckResult_SynChk.ethHeaderData.destMACAddress[1] = 0x0C;
 	SyckResult_SynChk.ethHeaderData.destMACAddress[2] = 0xCD;

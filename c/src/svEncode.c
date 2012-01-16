@@ -197,21 +197,21 @@ int encode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 int encode_11(unsigned char *buf) {
 	int offset = 0;
 
-	offset += encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTR_1.Vol.instMag);
-	offset += encode_myMod(&buf[offset], &E1Q1SB1.S1.C1.CSWI_1.Mod);
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXU_1.Mod.stVal);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1.S1.C1.MMXU_1.Volts.q);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXU_1.Amps);
-	offset += encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWI_2.Pos);
+//	offset += encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTR_1.Vol.instMag);
+//	offset += encode_myMod(&buf[offset], &E1Q1SB1.S1.C1.CSWI_1.Mod);
+//	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXU_1.Mod.stVal);
+//	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1.S1.C1.MMXU_1.Volts.q);
+//	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXU_1.Amps);
+//	offset += encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWI_2.Pos);
 
 	return offset;
 }
 int encode_rmxu(unsigned char *buf) {
 	int offset = 0;
 
-	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsA);
-	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsB);
-	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsC);
+//	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsA);
+//	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsB);
+//	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.RMXU_1.AmpLocPhsC);
 
 	return offset;
 }
