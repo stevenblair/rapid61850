@@ -22,6 +22,8 @@
 #define HAVE_REMOTE
 #define WIN32_LEAN_AND_MEAN
 
+#define TEST_LOCAL_SV_GSE	1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -158,7 +160,32 @@ int main() {
 	initialise_iec61850();
 	fp = initWinpcap();
 
-	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 0;
+#if TEST_LOCAL_SV_GSE == 1
+	float valueGSE = 7.15;
+	float valueSV = 32.74;
+
+	//printf("GSE instMag.f: %f\n"
+	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = valueGSE;
+	len = gse_send_ItlPositions_Itl(buf, 0, 512);
+	gse_sv_packet_filter(buf, len);
+
+	printf("GSE test: %s\n", D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1__TVTR_1_Vol_instMag.f == valueGSE ? "passed" : "failed");
+	fflush(stdout);
+
+	E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA.instMag.f = valueSV;
+	int i = 0;
+	for (i = 0; i < rmxuCB_rmxu.noASDU; i++) {
+		len = sv_update_rmxuCB_rmxu(buf);
+
+		if (len > 0) {
+			gse_sv_packet_filter(buf, len);
+
+			printf("SV test: %s\n", D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu[15].C1__RMXU_1_AmpLocPhsA.instMag.f == valueSV ? "passed" : "failed");
+			fflush(stdout);
+		}
+	}
+	return 0;
+#endif
 
 	while (1) {
 		pcap_loop(fp, 1, packet_handler, NULL);    // capture SV packet

@@ -38,7 +38,6 @@ int encode_D1Q1SB4_C1_SyckResult(unsigned char *buf);
 int encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf);
 int encode_control_Volt(unsigned char *buf);
 int encode_control_rmxuCB(unsigned char *buf);
-int encode_control_Volt(unsigned char *buf);
 
 int svEncodePacket(struct svControl *svControl, unsigned char *buf);
 

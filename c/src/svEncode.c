@@ -255,3 +255,5 @@ int encode_control_Volt(unsigned char *buf) {
 int encode_control_rmxuCB(unsigned char *buf) {
 	return encode_E1Q1SB1_C1_rmxu(buf);
 }
+
+

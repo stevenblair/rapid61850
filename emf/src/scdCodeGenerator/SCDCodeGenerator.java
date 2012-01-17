@@ -284,6 +284,9 @@ public class SCDCodeGenerator {
 		dataTypesHeader.appendDatatypes("\n\n// logical nodes\n");
 		svDecodeDatasetFunction.append("void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {\n");
 		gseDecodeDatasetFunction.append("void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *gocbRef, int gocbRefLength) {\n");
+
+		List<String> svControlConsumed = new ArrayList<String>();
+		List<String> gseControlConsumed = new ArrayList<String>();
 		
 		while (lnTypes.hasNext()) {
 			TLNodeType lnType = lnTypes.next();
@@ -315,8 +318,7 @@ public class SCDCodeGenerator {
 							
 							while (lds.hasNext()) {
 								TLDevice ld = lds.next();
-								List<String> svControlConsumed = new ArrayList<String>();
-								List<String> gseControlConsumed = new ArrayList<String>();
+								
 								/*Iterator<TSampledValueControl> svControls = ln0.getSampledValueControl().iterator();
 								Iterator<TGSEControl> gseControls = ln0.getGSEControl().iterator();
 								
@@ -362,9 +364,9 @@ public class SCDCodeGenerator {
 														if (!svControlConsumed.contains(svControl.getName())) {
 															svControlConsumed.add(svControl.getName());
 															
-															//System.out.println("\tadding sv control: " + sv.getName() + " size: " + svControlConsumed.size());
+															System.out.println("\tadding sv control: " + svControl.getName() + " size: " + svControlConsumed.size());
 															svEncodeSource.appendFunctionObject(new CFunctionControl(svControl, CommsType.SV));
-															
+														
 															dataTypesHeader.appendDatatypes("\n\tstruct {");
 															
 															svDecodeDatasetFunction.append("\n\tif (strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");

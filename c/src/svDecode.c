@@ -265,12 +265,6 @@ void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsign
 			D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone(smpCnt);
 		}
 	}
-	if (strncmp((const char *) svID, "11", svIDLength) == 0) {
-		decode_E1Q1SB1_C1_smv(dataset, ASDU, smpCnt, &D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.E1Q1SB1_C1_smv[ASDU]);
-		if (D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.datasetDecodeDone(smpCnt);
-		}
-	}
 }
 
 
