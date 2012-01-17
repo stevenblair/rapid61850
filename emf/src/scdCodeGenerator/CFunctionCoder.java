@@ -35,10 +35,9 @@ import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TDataTypeTemplates;
 import ch.iec._61850._2006.scl.TExtRef;
 import ch.iec._61850._2006.scl.TFCDA;
-import ch.iec._61850._2006.scl.TGSEControl;
 import ch.iec._61850._2006.scl.TIED;
-import ch.iec._61850._2006.scl.TLN;
 import ch.iec._61850._2006.scl.TLDevice;
+import ch.iec._61850._2006.scl.TLN;
 import ch.iec._61850._2006.scl.TSDO;
 import ch.iec._61850._2006.scl.TSampledValueControl;
 
@@ -74,7 +73,6 @@ public class CFunctionCoder extends CFunction {
 	
 	public CFunctionCoder(EObject obj, TExtRef extRef, CommsType commsType, CoderType coderType) {
 		this(obj, commsType, coderType);
-		
 		this.extRef = extRef;
 	}
 	
@@ -85,11 +83,11 @@ public class CFunctionCoder extends CFunction {
 			String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
 			String datasetName = iedName + "_" + ldInst + "_" + dataset.getName();
 			
-			if (commsType == CommsType.SV && coderType == CoderType.DECODER) {
-				return "unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct " + datasetName + " *dest";
+			if (commsType == CommsType.SV/* && coderType == CoderType.DECODER*/) {
+				return "unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct " + datasetName + " *" + datasetName;
 			}
-			else if (commsType == CommsType.GSE && coderType == CoderType.DECODER) {
-				return "unsigned char *buf, struct " + datasetName + " *dest";
+			else if (commsType == CommsType.GSE/* && coderType == CoderType.DECODER*/) {
+				return "unsigned char *buf, struct " + datasetName + " *" + datasetName;
 			}
 			else {
 				return "unsigned char *buf";
@@ -112,43 +110,50 @@ public class CFunctionCoder extends CFunction {
 			return ((TDOType) dataType).getId();
 		}
 		else  if (dataType.eClass().getName().equals("TDataSet")) {
-			if (commsType == CommsType.SV) {
-				if (coderType == CoderType.DECODER && extRef != null) {
-					/*String uriFragment = extRef.eResource().getURIFragment(extRef);
-					String lnNameUri = uriFragment.substring(0, uriFragment.indexOf("/@inputs"));
-					TLN ln = (TLN) extRef.eResource().getEObject(lnNameUri);
-					
-					return ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst();*/
-					TDataSet dataset = (TDataSet) dataType;
-					String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
-					String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
-					
-					return iedName + "_" + ldInst + "_" + dataset.getName();
-				}
-				else {
-					return SCDCodeGenerator.getSVControl((TDataSet) dataType).getSmvID();
-				}
-			}
-			else if (commsType == CommsType.GSE) {
-				if (coderType == CoderType.DECODER && extRef != null) {
-					/*String uriFragment = extRef.eResource().getURIFragment(extRef);
-					String lnNameUri = uriFragment.substring(0, uriFragment.indexOf("/@inputs"));
-					TLN ln = (TLN) extRef.eResource().getEObject(lnNameUri);
-					
-					//System.out.println("GSE decoder, " + ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst());
-					
-					return ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst();*/
-					TDataSet dataset = (TDataSet) dataType;
-					String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
-					String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
-					
-					return iedName + "_" + ldInst + "_" + dataset.getName();
-				}
-				else {
-					//System.out.println(coderType + ", other type of GSE, appID: " + SCLCodeGenerator.getGSEControl((TDataSet) dataType).getAppID() + " extref: " + extRef);
-					return SCDCodeGenerator.getGSEControl((TDataSet) dataType).getAppID();
-				}
-			}
+
+			TDataSet dataset = (TDataSet) dataType;
+			String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+			String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
+			
+			return iedName + "_" + ldInst + "_" + dataset.getName();
+			
+//			if (commsType == CommsType.SV) {
+//				if (coderType == CoderType.DECODER && extRef != null) {
+//					/*String uriFragment = extRef.eResource().getURIFragment(extRef);
+//					String lnNameUri = uriFragment.substring(0, uriFragment.indexOf("/@inputs"));
+//					TLN ln = (TLN) extRef.eResource().getEObject(lnNameUri);
+//					
+//					return ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst();*/
+//					TDataSet dataset = (TDataSet) dataType;
+//					String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+//					String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
+//					
+//					return iedName + "_" + ldInst + "_" + dataset.getName();
+//				}
+//				else {
+//					return "";//SCDCodeGenerator.getSVControl((TDataSet) dataType).getSmvID();
+//				}
+//			}
+//			else if (commsType == CommsType.GSE) {
+//				if (coderType == CoderType.DECODER && extRef != null) {
+//					/*String uriFragment = extRef.eResource().getURIFragment(extRef);
+//					String lnNameUri = uriFragment.substring(0, uriFragment.indexOf("/@inputs"));
+//					TLN ln = (TLN) extRef.eResource().getEObject(lnNameUri);
+//					
+//					//System.out.println("GSE decoder, " + ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst());
+//					
+//					return ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst();*/
+//					TDataSet dataset = (TDataSet) dataType;
+//					String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+//					String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
+//					
+//					return iedName + "_" + ldInst + "_" + dataset.getName();
+//				}
+//				else {
+//					//System.out.println(coderType + ", other type of GSE, appID: " + SCLCodeGenerator.getGSEControl((TDataSet) dataType).getAppID() + " extref: " + extRef);
+//					return "";//return SCDCodeGenerator.getGSEControl((TDataSet) dataType).getAppID();
+//				}
+//			}
 		}
 		
 		return null;
@@ -383,11 +388,6 @@ public class CFunctionCoder extends CFunction {
 		Iterator<EObject> objects = dataType.eContents().iterator();
 		String body = "\tint offset = 0;\n\n";
 		Boolean gseDecodeNotDataset = false;
-		Boolean decodeDataset = false;
-		
-		if (!dataType.eClass().getName().equals("TDAType") && !dataType.eClass().getName().equals("TDOType")) {
-			decodeDataset = true;
-		}
 
 		// add tag/length code required for GSE encoding/decoding
 		if (commsType == CommsType.GSE) {
@@ -416,36 +416,6 @@ public class CFunctionCoder extends CFunction {
 		if (gseDecodeNotDataset) {
 			body = body.concat("\t}\n");
 		}
-		
-//		if (decodeDataset == true) {
-//			if (coderType == CoderType.DECODER) {
-//				// call (optional) callback after dataset decode
-//				if (commsType == CommsType.GSE) {
-//					
-//					//iedName + "." + apName + "." + ldName + "." + lnPrefix + lnName + "_" + extRef.getLnInst() + ".gse_inputs.";
-//					/*TGSEControl gseControl = SCLCodeGenerator.getGSEControl((TDataSet)dataType);
-//					String gseName = gseControl.getName() + "_" + gseControl.getAppID();*/
-//					
-//					body = body.concat("\n\tif (" + GSESVInputPath + "datasetDecodeDone != NULL) {\n");
-//					body = body.concat("\t\t" + GSESVInputPath + "datasetDecodeDone();\n");
-//					body = body.concat("\t}\n");
-//				}
-//				else if (commsType == CommsType.SV) {
-//					/*if (dataType != null) {
-//						TSampledValueControl svControl = SCLCodeGenerator.getSVControl((TDataSet)dataType);
-//						
-//						if (svControl != null) {
-//							String svName = svControl.getName() + "_" + svControl.getSmvID();
-//			*/
-//							body = body.concat("\n\tif (" + GSESVInputPath + "datasetDecodeDone != NULL) {\n");
-//							body = body.concat("\t\t" + GSESVInputPath + "datasetDecodeDone(smpCnt);\n");
-//							body = body.concat("\t}\n");
-//							/*
-//						}
-//					}*/
-//				}
-//			}
-//		}
 		
 		body = body.concat("\n\treturn offset;\n");
 		

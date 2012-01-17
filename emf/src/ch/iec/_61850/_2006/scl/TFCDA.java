@@ -27,6 +27,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getDaType <em>Da Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getPrintedType <em>Printed Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getCoderType <em>Coder Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getVariableName <em>Variable Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -366,5 +368,59 @@ public interface TFCDA extends EObject {
 	 * @generated
 	 */
 	void setBType(TPredefinedBasicTypeEnum value);
+
+	/**
+	 * Returns the value of the '<em><b>Coder Type</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Coder Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Coder Type</em>' attribute.
+	 * @see #setCoderType(String)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_CoderType()
+	 * @model default="" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @generated
+	 */
+	String getCoderType();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getCoderType <em>Coder Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Coder Type</em>' attribute.
+	 * @see #getCoderType()
+	 * @generated
+	 */
+	void setCoderType(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Variable Name</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Variable Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Variable Name</em>' attribute.
+	 * @see #setVariableName(String)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_VariableName()
+	 * @model default="" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @generated
+	 */
+	String getVariableName();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getVariableName <em>Variable Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Variable Name</em>' attribute.
+	 * @see #getVariableName()
+	 * @generated
+	 */
+	void setVariableName(String value);
 
 } // TFCDA

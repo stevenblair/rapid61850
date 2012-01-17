@@ -138,8 +138,8 @@ void init_gse() {
 	ItlPositions_Itl.confRev = 1;
 	ItlPositions_Itl.ndsCom = 0;
 	ItlPositions_Itl.numDatSetEntries = 6;
-	ItlPositions_Itl.encodeDataset = &ber_encode_Itl;
-	ItlPositions_Itl.getDatasetLength = &ber_get_length_Itl;
+//	ItlPositions_Itl.encodeDataset = &ber_encode_Itl;
+//	ItlPositions_Itl.getDatasetLength = &ber_get_length_Itl;
 	AnotherPositions_Itl.ethHeaderData.destMACAddress[0] = 0x01;
 	AnotherPositions_Itl.ethHeaderData.destMACAddress[1] = 0x0C;
 	AnotherPositions_Itl.ethHeaderData.destMACAddress[2] = 0xCD;
@@ -163,8 +163,8 @@ void init_gse() {
 	AnotherPositions_Itl.confRev = 1;
 	AnotherPositions_Itl.ndsCom = 0;
 	AnotherPositions_Itl.numDatSetEntries = 6;
-	AnotherPositions_Itl.encodeDataset = &ber_encode_Itl;
-	AnotherPositions_Itl.getDatasetLength = &ber_get_length_Itl;
+//	AnotherPositions_Itl.encodeDataset = &ber_encode_Itl;
+//	AnotherPositions_Itl.getDatasetLength = &ber_get_length_Itl;
 	SyckResult_SynChk.ethHeaderData.destMACAddress[0] = 0x01;
 	SyckResult_SynChk.ethHeaderData.destMACAddress[1] = 0x0C;
 	SyckResult_SynChk.ethHeaderData.destMACAddress[2] = 0xCD;
@@ -188,8 +188,8 @@ void init_gse() {
 	SyckResult_SynChk.confRev = 0;
 	SyckResult_SynChk.ndsCom = 0;
 	SyckResult_SynChk.numDatSetEntries = 1;
-	SyckResult_SynChk.encodeDataset = &ber_encode_SynChk;
-	SyckResult_SynChk.getDatasetLength = &ber_get_length_SynChk;
+//	SyckResult_SynChk.encodeDataset = &ber_encode_SynChk;
+//	SyckResult_SynChk.getDatasetLength = &ber_get_length_SynChk;
 	MMXUResult_MMXUResult.ethHeaderData.destMACAddress[0] = 0x01;
 	MMXUResult_MMXUResult.ethHeaderData.destMACAddress[1] = 0x0C;
 	MMXUResult_MMXUResult.ethHeaderData.destMACAddress[2] = 0xCD;
@@ -213,7 +213,7 @@ void init_gse() {
 	MMXUResult_MMXUResult.confRev = 0;
 	MMXUResult_MMXUResult.ndsCom = 0;
 	MMXUResult_MMXUResult.numDatSetEntries = 1;
-	MMXUResult_MMXUResult.encodeDataset = &ber_encode_MMXUResult;
-	MMXUResult_MMXUResult.getDatasetLength = &ber_get_length_MMXUResult;
+//	MMXUResult_MMXUResult.encodeDataset = &ber_encode_MMXUResult;
+//	MMXUResult_MMXUResult.getDatasetLength = &ber_get_length_MMXUResult;
 }
 

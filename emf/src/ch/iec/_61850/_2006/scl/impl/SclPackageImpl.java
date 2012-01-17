@@ -2198,6 +2198,15 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTAbstractDataAttribute_CoderType() {
+        return (EAttribute)getTAbstractDataAttribute().getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getTAccessControl() {
 		if (tAccessControlEClass == null) {
 			tAccessControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(13);
@@ -3853,6 +3862,24 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EAttribute getTFCDA_BType() {
         return (EAttribute)getTFCDA().getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTFCDA_CoderType() {
+        return (EAttribute)getTFCDA().getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTFCDA_VariableName() {
+        return (EAttribute)getTFCDA().getEStructuralFeatures().get(12);
 	}
 
 	/**

@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getType <em>Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getValKind <em>Val Kind</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getPrintedType <em>Printed Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getCoderType <em>Coder Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -297,5 +298,32 @@ public interface TAbstractDataAttribute extends TUnNaming {
 	 * @generated
 	 */
 	void setPrintedType(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Coder Type</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Coder Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Coder Type</em>' attribute.
+	 * @see #setCoderType(String)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTAbstractDataAttribute_CoderType()
+	 * @model default="" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @generated
+	 */
+	String getCoderType();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getCoderType <em>Coder Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Coder Type</em>' attribute.
+	 * @see #getCoderType()
+	 * @generated
+	 */
+	void setCoderType(String value);
 
 } // TAbstractDataAttribute

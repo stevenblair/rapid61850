@@ -30,36 +30,36 @@ struct svControl rmxuCB_rmxu;
 
 
 // returns 1 if buf contains valid packet data
-int sv_update_Volt_11(unsigned char *buf) {
-	int size = encode_11(Volt_11.ASDU[Volt_11.ASDUCount].data.data);
-	Volt_11.ASDU[Volt_11.ASDUCount].data.size = size;
-
-	Volt_11.ASDU[Volt_11.ASDUCount].smpCnt = Volt_11.sampleCountMaster;
-	Volt_11.sampleCountMaster++;
-
-	if (++Volt_11.ASDUCount == Volt_11.noASDU) {
-		Volt_11.ASDUCount = 0;
-		return svEncodePacket(&Volt_11, buf);
-	}
-
-	return 0;
-}
-
-// returns 1 if buf contains valid packet data
-int sv_update_rmxuCB_rmxu(unsigned char *buf) {
-	int size = encode_rmxu(rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].data.data);
-	rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].data.size = size;
-
-	rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].smpCnt = rmxuCB_rmxu.sampleCountMaster;
-	rmxuCB_rmxu.sampleCountMaster++;
-
-	if (++rmxuCB_rmxu.ASDUCount == rmxuCB_rmxu.noASDU) {
-		rmxuCB_rmxu.ASDUCount = 0;
-		return svEncodePacket(&rmxuCB_rmxu, buf);
-	}
-
-	return 0;
-}
+//int sv_update_Volt_11(unsigned char *buf) {
+//	int size = encode_11(Volt_11.ASDU[Volt_11.ASDUCount].data.data);
+//	Volt_11.ASDU[Volt_11.ASDUCount].data.size = size;
+//
+//	Volt_11.ASDU[Volt_11.ASDUCount].smpCnt = Volt_11.sampleCountMaster;
+//	Volt_11.sampleCountMaster++;
+//
+//	if (++Volt_11.ASDUCount == Volt_11.noASDU) {
+//		Volt_11.ASDUCount = 0;
+//		return svEncodePacket(&Volt_11, buf);
+//	}
+//
+//	return 0;
+//}
+//
+//// returns 1 if buf contains valid packet data
+//int sv_update_rmxuCB_rmxu(unsigned char *buf) {
+//	int size = encode_rmxu(rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].data.data);
+//	rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].data.size = size;
+//
+//	rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].smpCnt = rmxuCB_rmxu.sampleCountMaster;
+//	rmxuCB_rmxu.sampleCountMaster++;
+//
+//	if (++rmxuCB_rmxu.ASDUCount == rmxuCB_rmxu.noASDU) {
+//		rmxuCB_rmxu.ASDUCount = 0;
+//		return svEncodePacket(&rmxuCB_rmxu, buf);
+//	}
+//
+//	return 0;
+//}
 
 void init_sv() {
 	int i = 0;

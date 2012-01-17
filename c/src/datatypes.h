@@ -275,11 +275,11 @@ struct RSYNa {
 	struct {
 		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
 		void (*datasetDecodeDone)();
-	} gse_inputs_AnotherPositions;
+	} gse_inputs_ItlPositions;
 	struct {
 		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
 		void (*datasetDecodeDone)();
-	} gse_inputs_ItlPositions;
+	} gse_inputs_AnotherPositions;
 };
 
 void init_datatypes();

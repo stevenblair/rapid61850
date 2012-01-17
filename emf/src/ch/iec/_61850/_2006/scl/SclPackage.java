@@ -1724,13 +1724,22 @@ public interface SclPackage extends EPackage {
 	int TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE = TUN_NAMING_FEATURE_COUNT + 7;
 
 	/**
+	 * The feature id for the '<em><b>Coder Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TABSTRACT_DATA_ATTRIBUTE__CODER_TYPE = TUN_NAMING_FEATURE_COUNT + 8;
+
+	/**
 	 * The number of structural features of the '<em>TAbstract Data Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TABSTRACT_DATA_ATTRIBUTE_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 8;
+	int TABSTRACT_DATA_ATTRIBUTE_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 9;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TAnyContentFromOtherNamespaceImpl <em>TAny Content From Other Namespace</em>}' class.
@@ -2405,6 +2414,15 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TBDA__PRINTED_TYPE = TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Coder Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TBDA__CODER_TYPE = TABSTRACT_DATA_ATTRIBUTE__CODER_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>TBDA</em>' class.
@@ -3634,6 +3652,15 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TDA__PRINTED_TYPE = TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Coder Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TDA__CODER_TYPE = TABSTRACT_DATA_ATTRIBUTE__CODER_TYPE;
 
 	/**
 	 * The feature id for the '<em><b>Dchg</b></em>' attribute.
@@ -5019,13 +5046,31 @@ public interface SclPackage extends EPackage {
 	int TFCDA__BTYPE = 10;
 
 	/**
+	 * The feature id for the '<em><b>Coder Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TFCDA__CODER_TYPE = 11;
+
+	/**
+	 * The feature id for the '<em><b>Variable Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TFCDA__VARIABLE_NAME = 12;
+
+	/**
 	 * The number of structural features of the '<em>TFCDA</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TFCDA_FEATURE_COUNT = 11;
+	int TFCDA_FEATURE_COUNT = 13;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TFunctionImpl <em>TFunction</em>}' class.
@@ -11674,6 +11719,17 @@ public interface SclPackage extends EPackage {
 	EAttribute getTAbstractDataAttribute_PrintedType();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getCoderType <em>Coder Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Coder Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TAbstractDataAttribute#getCoderType()
+	 * @see #getTAbstractDataAttribute()
+	 * @generated
+	 */
+	EAttribute getTAbstractDataAttribute_CoderType();
+
+	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TAccessControl <em>TAccess Control</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -13526,6 +13582,28 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTFCDA_BType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getCoderType <em>Coder Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Coder Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TFCDA#getCoderType()
+	 * @see #getTFCDA()
+	 * @generated
+	 */
+	EAttribute getTFCDA_CoderType();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getVariableName <em>Variable Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Variable Name</em>'.
+	 * @see ch.iec._61850._2006.scl.TFCDA#getVariableName()
+	 * @see #getTFCDA()
+	 * @generated
+	 */
+	EAttribute getTFCDA_VariableName();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TFunction <em>TFunction</em>}'.

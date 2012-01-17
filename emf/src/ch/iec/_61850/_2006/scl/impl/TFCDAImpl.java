@@ -40,6 +40,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDaType <em>Da Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getPrintedType <em>Printed Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getBType <em>BType</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getCoderType <em>Coder Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getVariableName <em>Variable Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -254,6 +256,46 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * @ordered
 	 */
 	protected TPredefinedBasicTypeEnum bType = BTYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getCoderType() <em>Coder Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoderType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CODER_TYPE_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getCoderType() <em>Coder Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCoderType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String coderType = CODER_TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getVariableName() <em>Variable Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVariableName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String VARIABLE_NAME_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getVariableName() <em>Variable Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getVariableName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String variableName = VARIABLE_NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -613,6 +655,48 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getCoderType() {
+		return coderType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCoderType(String newCoderType) {
+		String oldCoderType = coderType;
+		coderType = newCoderType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__CODER_TYPE, oldCoderType, coderType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getVariableName() {
+		return variableName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVariableName(String newVariableName) {
+		String oldVariableName = variableName;
+		variableName = newVariableName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__VARIABLE_NAME, oldVariableName, variableName));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -676,6 +760,10 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return getPrintedType();
 			case SclPackage.TFCDA__BTYPE:
 				return getBType();
+			case SclPackage.TFCDA__CODER_TYPE:
+				return getCoderType();
+			case SclPackage.TFCDA__VARIABLE_NAME:
+				return getVariableName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -720,6 +808,12 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return;
 			case SclPackage.TFCDA__BTYPE:
 				setBType((TPredefinedBasicTypeEnum)newValue);
+				return;
+			case SclPackage.TFCDA__CODER_TYPE:
+				setCoderType((String)newValue);
+				return;
+			case SclPackage.TFCDA__VARIABLE_NAME:
+				setVariableName((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -766,6 +860,12 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__BTYPE:
 				setBType(BTYPE_EDEFAULT);
 				return;
+			case SclPackage.TFCDA__CODER_TYPE:
+				setCoderType(CODER_TYPE_EDEFAULT);
+				return;
+			case SclPackage.TFCDA__VARIABLE_NAME:
+				setVariableName(VARIABLE_NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -800,6 +900,10 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return PRINTED_TYPE_EDEFAULT == null ? printedType != null : !PRINTED_TYPE_EDEFAULT.equals(printedType);
 			case SclPackage.TFCDA__BTYPE:
 				return bType != BTYPE_EDEFAULT;
+			case SclPackage.TFCDA__CODER_TYPE:
+				return CODER_TYPE_EDEFAULT == null ? coderType != null : !CODER_TYPE_EDEFAULT.equals(coderType);
+			case SclPackage.TFCDA__VARIABLE_NAME:
+				return VARIABLE_NAME_EDEFAULT == null ? variableName != null : !VARIABLE_NAME_EDEFAULT.equals(variableName);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -832,6 +936,10 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 		result.append(printedType);
 		result.append(", bType: ");
 		result.append(bType);
+		result.append(", coderType: ");
+		result.append(coderType);
+		result.append(", variableName: ");
+		result.append(variableName);
 		result.append(')');
 		return result.toString();
 	}

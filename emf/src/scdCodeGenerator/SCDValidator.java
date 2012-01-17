@@ -326,24 +326,29 @@ public class SCDValidator {
 				TAbstractDataAttribute da = (TAbstractDataAttribute) o;
 				TPredefinedBasicTypeEnum bTypePredefined = TPredefinedBasicTypeEnum.getByName(da.getBType().toString());
 				String bType = da.getBType().toString();
-				String finalType = "";
+				String printedType = "";
+				String coderType = "";
 				
 				if (bType.equals("Struct")) {
-					finalType = "struct " + da.getType();
+					printedType = "struct " + da.getType();
+					coderType = da.getType();
 					//System.out.println("\tvalid Struct type: '" + finalType + "'");
 				}
 				else if (bType.equals("Enum")) {
-					finalType = "enum " + da.getType();
+					printedType = "enum " + da.getType();
+					coderType = "CTYPE_ENUM";
 					//System.out.println("\tvalid Enum type: '" + finalType + "'");
 				}
 				else if (bTypePredefined != null) {
-					finalType = "CTYPE_" + bTypePredefined.getName().toUpperCase();
+					printedType = "CTYPE_" + bTypePredefined.getName().toUpperCase();
+					coderType = printedType;
 					//System.out.println("\tvalid basic type: '" + finalType + "'");
 				}
 				else {
 					error("unknown bType attribute for DA: '" + da + "'");
 				}
-				da.setPrintedType(finalType);
+				da.setPrintedType(printedType);
+				da.setCoderType(coderType);
 			}
 		}
 	}
@@ -504,12 +509,15 @@ public class SCDValidator {
 						
 						if (doTypeObjectResult.size() >= 1) {
 							TDOType doType = ((TDOType) doTypeObjectResult.iterator().next());
+							String fcdaVariableName = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
 							//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
 							
 							// set reference to DOType or DAType
 							if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
 								fcda.setDoType(doType);
 								fcda.setPrintedType("struct " + doType.getId());
+								fcda.setCoderType(doType.getId());
+								fcda.setVariableName(fcdaVariableName);
 								//System.out.println("\tvalid DO type: '" + fcda.getType() + "'");
 							}
 							else {
@@ -544,6 +552,8 @@ public class SCDValidator {
 									}
 									else {
 										fcda.setPrintedType(da.getPrintedType());
+										fcda.setCoderType(da.getCoderType());
+										fcda.setVariableName(fcdaVariableName + "_" + fcda.getDaName());
 									}
 								}
 							}

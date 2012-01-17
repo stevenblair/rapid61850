@@ -29,9 +29,12 @@ extern "C" {
 
 
 
-int decode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *dest);
-int decode_E1Q1SB1_C1_rmxu(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_rmxu *dest);
-int decode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *dest);
+int decode_E1Q1SB1_C1_Positions(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions);
+int decode_E1Q1SB1_C1_Measurands(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands);
+int decode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv);
+int decode_E1Q1SB1_C1_rmxu(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu);
+int decode_D1Q1SB4_C1_SyckResult(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult);
+int decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult);
 
 void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt);
 

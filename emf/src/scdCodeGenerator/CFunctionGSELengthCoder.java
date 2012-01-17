@@ -24,27 +24,25 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 
-public class CFunctionLengthCoder extends CFunctionCoder {
+public class CFunctionGSELengthCoder extends CFunctionGSECoder {
 
-	public CFunctionLengthCoder(EObject obj, CommsType commsType, CoderType coderType) {
-		super(obj, commsType, coderType);
+	public CFunctionGSELengthCoder(EObject obj, CoderType coderType) {
+		super(obj, coderType);
 		
 		this.prefix = "ber_get_length_";
+		this.buffer = "";
+		this.accumulator = "len";
 	}
-	/*public String getFunctionDefinition() {
-		return this.returnType + " ber_get_length_" + getName() + "()";
-	}*/
-	
-	/*public String getFunctionPrototype() {
-		return getFunctionName() + ";\n";
-	}*/
 	
 	public String getArgs() {
 		if (this.dataType.eClass().getName().equals("TDataSet")) {
-			return "";
+		/*	return "";
+		}
+		else {*/
+			return "struct " + getName() + " *" + getName();
 		}
 		else {
-			return "struct " + getName() + " *" + getName();
+			return "struct " + getName() + " *" + getName(); // TODO confirm all get_length args are correct
 		}
 	}
 	

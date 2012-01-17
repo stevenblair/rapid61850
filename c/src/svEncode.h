@@ -30,8 +30,12 @@ extern "C" {
 
 
 
-int encode_11(unsigned char *buf);
-int encode_rmxu(unsigned char *buf);
+int encode_E1Q1SB1_C1_Positions(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions);
+int encode_E1Q1SB1_C1_Measurands(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands);
+int encode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv);
+int encode_E1Q1SB1_C1_rmxu(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu);
+int encode_D1Q1SB4_C1_SyckResult(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult);
+int encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult);
 
 int svEncodePacket(struct svControl *svControl, unsigned char *buf);
 
