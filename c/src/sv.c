@@ -31,7 +31,7 @@ struct svControl rmxuCB_rmxu;
 
 // returns 1 if buf contains valid packet data
 int sv_update_Volt_11(unsigned char *buf) {
-	int size = encode_11(Volt_11.ASDU[Volt_11.ASDUCount].data.data);
+	int size = encode_control_Volt(Volt_11.ASDU[Volt_11.ASDUCount].data.data);
 	Volt_11.ASDU[Volt_11.ASDUCount].data.size = size;
 
 	Volt_11.ASDU[Volt_11.ASDUCount].smpCnt = Volt_11.sampleCountMaster;
@@ -47,7 +47,7 @@ int sv_update_Volt_11(unsigned char *buf) {
 
 // returns 1 if buf contains valid packet data
 int sv_update_rmxuCB_rmxu(unsigned char *buf) {
-	int size = encode_rmxu(rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].data.data);
+	int size = encode_control_rmxuCB(rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].data.data);
 	rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].data.size = size;
 
 	rmxuCB_rmxu.ASDU[rmxuCB_rmxu.ASDUCount].smpCnt = rmxuCB_rmxu.sampleCountMaster;

@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getCoderType <em>Coder Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getVariableName <em>Variable Name</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getLnType <em>Ln Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -422,5 +423,31 @@ public interface TFCDA extends EObject {
 	 * @generated
 	 */
 	void setVariableName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Ln Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Ln Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Ln Type</em>' reference.
+	 * @see #setLnType(TLN)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_LnType()
+	 * @model
+	 * @generated
+	 */
+	TLN getLnType();
+
+	/**
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getLnType <em>Ln Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ln Type</em>' reference.
+	 * @see #getLnType()
+	 * @generated
+	 */
+	void setLnType(TLN value);
 
 } // TFCDA

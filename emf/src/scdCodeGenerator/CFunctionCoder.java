@@ -24,22 +24,11 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 
-import ch.iec._61850._2006.scl.TAbstractDataAttribute;
-import ch.iec._61850._2006.scl.TAccessPoint;
-import ch.iec._61850._2006.scl.TBDA;
-import ch.iec._61850._2006.scl.TDA;
 import ch.iec._61850._2006.scl.TDAType;
-import ch.iec._61850._2006.scl.TDO;
 import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TDataTypeTemplates;
 import ch.iec._61850._2006.scl.TExtRef;
-import ch.iec._61850._2006.scl.TFCDA;
-import ch.iec._61850._2006.scl.TIED;
-import ch.iec._61850._2006.scl.TLDevice;
-import ch.iec._61850._2006.scl.TLN;
-import ch.iec._61850._2006.scl.TSDO;
-import ch.iec._61850._2006.scl.TSampledValueControl;
 
 public abstract class CFunctionCoder extends CFunction {
 	
@@ -79,14 +68,12 @@ public abstract class CFunctionCoder extends CFunction {
 	public String getArgs() {
 		if (this.dataType.eClass().getName().equals("TDataSet")) {
 			TDataSet dataset = (TDataSet) dataType;
-			String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
-			String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
-			String datasetName = iedName + "_" + ldInst + "_" + dataset.getName();
+			String datasetName = SCDCodeGenerator.getUniqueDatasetName(dataset);
 			
-			if (commsType == CommsType.SV/* && coderType == CoderType.DECODER*/) {
+			if (commsType == CommsType.SV && coderType == CoderType.DECODER) {
 				return "unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct " + datasetName + " *" + datasetName;
 			}
-			else if (commsType == CommsType.GSE/* && coderType == CoderType.DECODER*/) {
+			else if (commsType == CommsType.GSE && coderType == CoderType.DECODER) {
 				return "unsigned char *buf, struct " + datasetName + " *" + datasetName;
 			}
 			else {
@@ -110,11 +97,7 @@ public abstract class CFunctionCoder extends CFunction {
 			return ((TDOType) dataType).getId();
 		}
 		else  if (dataType.eClass().getName().equals("TDataSet")) {
-			TDataSet dataset = (TDataSet) dataType;
-			String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
-			String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
-			
-			return iedName + "_" + ldInst + "_" + dataset.getName();
+			return SCDCodeGenerator.getUniqueDatasetName((TDataSet) dataType);
 		}
 		
 		return null;

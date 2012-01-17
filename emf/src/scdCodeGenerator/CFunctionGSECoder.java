@@ -4,8 +4,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import ch.iec._61850._2006.scl.SclPackage;
+import ch.iec._61850._2006.scl.TAccessPoint;
 import ch.iec._61850._2006.scl.TExtRef;
 import ch.iec._61850._2006.scl.TFCDA;
+import ch.iec._61850._2006.scl.TIED;
 import ch.iec._61850._2006.scl.TSDO;
 import ch.iec._61850._2006.scl.TDO;
 import ch.iec._61850._2006.scl.TDA;
@@ -40,6 +42,8 @@ public class CFunctionGSECoder extends CFunctionCoder {
 		String enumCast = "";
 		String coder = getPrefix();
 		Boolean basicDataType = false;
+		String source = getName();
+		String subItemLinker = "->";
 		
 		if (objectClass == SclPackage.eINSTANCE.getTBDA()) {
 			TBDA bda = (TBDA) obj;
@@ -94,12 +98,28 @@ public class CFunctionGSECoder extends CFunctionCoder {
 			if (fcda.getPrintedType().contains("enum")) {
 				enumCast = "(CTYPE_ENUM *) ";
 			}
+			
+			if (coderType == CoderType.ENCODER) {
+				String iedName = ((TIED) fcda.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+				String apName = ((TAccessPoint) fcda.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+				
+				source =  iedName + "." + apName + "." + fcda.getLdInst() + "." + fcda.getLnType().getLnType() + "_" + fcda.getLnType().getInst();
+				
+				if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
+					variableName = fcda.getDoName();
+				}
+				else {
+					source = source + "." + fcda.getDoName();
+					variableName = fcda.getDaName();
+				}
+				subItemLinker = ".";
+			}
 		}
 
 		if (basicDataType) {
 			coder = coder.toUpperCase();
 		}
 
-		return "\t" + accumulator + " += " + coder + itemType + "(" + buffer + enumCast + "&" + getName() + "->" + variableName + ");\n";
+		return "\t" + accumulator + " += " + coder + itemType + "(" + buffer + enumCast + "&" + source + subItemLinker + variableName + ");\n";
 	}
 }

@@ -5064,13 +5064,22 @@ public interface SclPackage extends EPackage {
 	int TFCDA__VARIABLE_NAME = 12;
 
 	/**
+	 * The feature id for the '<em><b>Ln Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TFCDA__LN_TYPE = 13;
+
+	/**
 	 * The number of structural features of the '<em>TFCDA</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TFCDA_FEATURE_COUNT = 13;
+	int TFCDA_FEATURE_COUNT = 14;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TFunctionImpl <em>TFunction</em>}' class.
@@ -13604,6 +13613,17 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTFCDA_VariableName();
+
+	/**
+	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TFCDA#getLnType <em>Ln Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ln Type</em>'.
+	 * @see ch.iec._61850._2006.scl.TFCDA#getLnType()
+	 * @see #getTFCDA()
+	 * @generated
+	 */
+	EReference getTFCDA_LnType();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TFunction <em>TFunction</em>}'.

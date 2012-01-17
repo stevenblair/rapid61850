@@ -24,15 +24,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.query.conditions.ObjectInstanceCondition;
-import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
-import org.eclipse.emf.query.conditions.eobjects.structuralfeatures.EObjectAttributeValueCondition;
-import org.eclipse.emf.query.conditions.strings.StringValue;
-import org.eclipse.emf.query.statements.FROM;
-import org.eclipse.emf.query.statements.IQueryResult;
-import org.eclipse.emf.query.statements.SELECT;
-import org.eclipse.emf.query.statements.WHERE;
-
 import ch.iec._61850._2006.scl.DocumentRoot;
 import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TAbstractDataAttribute;
@@ -383,7 +374,9 @@ public class SCDCodeGenerator {
 															svControlConsumed.add(svControl.getName());
 															
 															//System.out.println("\tadding sv dataset: " + dataset.getName() + " size: " + svDatasetsConsumed.size());
-	
+
+															svEncodeSource.appendFunctionObject(new CFunctionControl(svControl, CommsType.SV));
+															
 															dataTypesHeader.appendDatatypes("\n\tstruct {");
 															
 															//svDecodeSource.appendFunctionObject(new CFunctionSVCoder(dataset, extRef, CommsType.SV, CoderType.DECODER));
@@ -432,7 +425,9 @@ public class SCDCodeGenerator {
 															//gseDatasetsConsumed.add(dataset.getName());
 															gseControlConsumed.add(gseControl.getName());
 															System.out.println("\tadding gse control: " + gseControl.getName() + ", size: " + gseControlConsumed.size());
-	
+															
+															gseEncodeSource.appendFunctionObject(new CFunctionControl(gseControl, CommsType.GSE));
+															
 															dataTypesHeader.appendDatatypes("\n\tstruct {");
 															
 															//TODO Ensure gocbRef string encoded correctly
@@ -682,7 +677,7 @@ public class SCDCodeGenerator {
 													
 													svSource.appendFunctions("\n// returns 1 if buf contains valid packet data");
 													svSource.appendFunctions("\n" + svUpdateFunctionPrototype + " {\n");
-													svSource.appendFunctions("\tint size = encode_" + /*dataset.getName()*/svControl.getSmvID() + "(" + svName + ".ASDU[" + svName + ".ASDUCount].data.data);\n");
+													svSource.appendFunctions("\tint size = encode_control_" + /*dataset.getName()*/svControl.getName()/*getSmvID()*/ + "(" + svName + ".ASDU[" + svName + ".ASDUCount].data.data);\n");
 													svSource.appendFunctions("\t" + svName + ".ASDU[" + svName + ".ASDUCount].data.size = size;\n\n");
 
 													svSource.appendFunctions("\t" + svName + ".ASDU[" + svName + ".ASDUCount].smpCnt = " + svName + ".sampleCountMaster;\n");
@@ -951,62 +946,7 @@ public class SCDCodeGenerator {
 		dataTypesHeader.saveFile();
 	}
 
-
-	private void createDatasetTypes(DocumentRoot root, CHeader dataTypesHeader, CSource gseDecodeSource, CSource svDecodeSource, CSource gseEncodeSource, CSource svEncodeSource) {
-		dataTypesHeader.appendDatatypes("\n\n// datasets");
-		Iterator<TIED> ieds = root.getSCL().getIED().iterator();
-		
-		while (ieds.hasNext()) {
-			TIED ied = ieds.next();
-			
-			if (ied.getAccessPoint() != null) {
-				Iterator<TAccessPoint> aps = ied.getAccessPoint().iterator();
-				
-				while (aps.hasNext()) {
-					TAccessPoint ap = aps.next();
-					
-					if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
-						Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
-						
-						while (lds.hasNext()) {
-							TLDevice ld = lds.next();
-							
-							Iterator<TDataSet> datasets = ld.getLN0().getDataSet().iterator();
-							
-							while (datasets.hasNext()) {
-								TDataSet dataset = datasets.next();
-								
-								gseEncodeSource.appendFunctionObject(new CFunctionGSELengthCoder(dataset, CoderType.ENCODER));
-								gseDecodeSource.appendFunctionObject((new CFunctionGSECoder(dataset, CoderType.DECODER)));
-								gseEncodeSource.appendFunctionObject((new CFunctionGSECoder(dataset, CoderType.ENCODER)));
-								svDecodeSource.appendFunctionObject((new CFunctionSVCoder(dataset, CoderType.DECODER)));
-								svEncodeSource.appendFunctionObject((new CFunctionSVCoder(dataset, CoderType.ENCODER)));
-
-								dataTypesHeader.appendDatatypes("\nstruct " + ied.getName() + "_" + ld.getInst() + "_" + dataset.getName() + " {\n");
-								
-								Iterator<TFCDA> fcdas = dataset.getFCDA().iterator();
-								
-								while (fcdas.hasNext()) {
-									TFCDA fcda = fcdas.next();
-									//ldInst="C1" prefix="" lnClass="MMXU" lnInst="1" doName="Mod" daName="stVal"
-									String name = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + fcda.getLnClass() + "_" + fcda.getLnInst() + "_" + fcda.getDoName();
-									
-									if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
-										name = name + "_" + fcda.getDaName();
-									}
-									
-									dataTypesHeader.appendDatatypes("\t" + fcda.getPrintedType() + " " + name + ";\n");
-								}
-								
-								dataTypesHeader.appendDatatypes("};");
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
+	
 	private static void processDA(TDataTypeTemplates dataTypeTemplates, TLN ln, TDO dataObject, TDA da, List<String> initDATypes) {
 
 	}

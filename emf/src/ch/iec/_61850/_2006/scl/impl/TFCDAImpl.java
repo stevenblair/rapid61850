@@ -12,6 +12,7 @@ import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TFCDA;
 import ch.iec._61850._2006.scl.TFCEnum;
 
+import ch.iec._61850._2006.scl.TLN;
 import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -42,6 +43,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getBType <em>BType</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getCoderType <em>Coder Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getVariableName <em>Variable Name</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getLnType <em>Ln Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -296,6 +298,16 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * @ordered
 	 */
 	protected String variableName = VARIABLE_NAME_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getLnType() <em>Ln Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLnType()
+	 * @generated
+	 * @ordered
+	 */
+	protected TLN lnType;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -697,6 +709,44 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public TLN getLnType() {
+		if (lnType != null && lnType.eIsProxy()) {
+			InternalEObject oldLnType = (InternalEObject)lnType;
+			lnType = (TLN)eResolveProxy(oldLnType);
+			if (lnType != oldLnType) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TFCDA__LN_TYPE, oldLnType, lnType));
+			}
+		}
+		return lnType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TLN basicGetLnType() {
+		return lnType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLnType(TLN newLnType) {
+		TLN oldLnType = lnType;
+		lnType = newLnType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__LN_TYPE, oldLnType, lnType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -764,6 +814,9 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return getCoderType();
 			case SclPackage.TFCDA__VARIABLE_NAME:
 				return getVariableName();
+			case SclPackage.TFCDA__LN_TYPE:
+				if (resolve) return getLnType();
+				return basicGetLnType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -814,6 +867,9 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return;
 			case SclPackage.TFCDA__VARIABLE_NAME:
 				setVariableName((String)newValue);
+				return;
+			case SclPackage.TFCDA__LN_TYPE:
+				setLnType((TLN)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -866,6 +922,9 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__VARIABLE_NAME:
 				setVariableName(VARIABLE_NAME_EDEFAULT);
 				return;
+			case SclPackage.TFCDA__LN_TYPE:
+				setLnType((TLN)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -904,6 +963,8 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return CODER_TYPE_EDEFAULT == null ? coderType != null : !CODER_TYPE_EDEFAULT.equals(coderType);
 			case SclPackage.TFCDA__VARIABLE_NAME:
 				return VARIABLE_NAME_EDEFAULT == null ? variableName != null : !VARIABLE_NAME_EDEFAULT.equals(variableName);
+			case SclPackage.TFCDA__LN_TYPE:
+				return lnType != null;
 		}
 		return super.eIsSet(featureID);
 	}
