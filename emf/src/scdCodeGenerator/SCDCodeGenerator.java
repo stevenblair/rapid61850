@@ -223,7 +223,6 @@ public class SCDCodeGenerator {
 		}
 		
 		// create dataset types
-		//createDatasetTypes(root, dataTypesHeader, gseDecodeSource, svDecodeSource, gseEncodeSource, svEncodeSource);
 		{
 			dataTypesHeader.appendDatatypes("\n\n// datasets");
 			Iterator<TIED> ieds = root.getSCL().getIED().iterator();
@@ -260,7 +259,6 @@ public class SCDCodeGenerator {
 									
 									while (fcdas.hasNext()) {
 										TFCDA fcda = fcdas.next();
-										//ldInst="C1" prefix="" lnClass="MMXU" lnInst="1" doName="Mod" daName="stVal"
 										String name = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + fcda.getLnClass() + "_" + fcda.getLnInst() + "_" + fcda.getDoName();
 										
 										if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
@@ -295,9 +293,9 @@ public class SCDCodeGenerator {
 			Iterator<TDO> dos = lnType.getDO().iterator();
 			
 			while (dos.hasNext()) {
-				TDO dataObject = dos.next();				
+				TDO dataObject = dos.next();
 				String doString = "struct " + dataObject.getType() + " " + dataObject.getName() + ";";
-
+				
 				dataTypesHeader.appendDatatypes("\n\t" + doString);
 			}
 			
@@ -715,7 +713,7 @@ public class SCDCodeGenerator {
 													gsePacketDataInit.append("\t" + gseName + ".confRev = " + gseControl.getConfRev() + ";\n");
 													gsePacketDataInit.append("\t" + gseName + ".ndsCom = 0;\n");
 													gsePacketDataInit.append("\t" + gseName + ".numDatSetEntries = " + dataset.getFCDA().size() + ";\n");
-													gsePacketDataInit.append("\t" + gseName + ".encodeDataset = &ber_encode_" + getUniqueDatasetName(dataset) + ";\n");			//TODO map controls to these functions, rather than dataset
+													gsePacketDataInit.append("\t" + gseName + ".encodeDataset = &ber_encode_" + getUniqueDatasetName(dataset) + ";\n");
 													gsePacketDataInit.append("\t" + gseName + ".getDatasetLength = &ber_get_length_" + getUniqueDatasetName(dataset) + ";\n");
 													//gsePacketDataInit.append("\t" + gseName + ".datasetDecodeDone = NULL;\n\n");
 													
@@ -755,7 +753,7 @@ public class SCDCodeGenerator {
 								TLN ln = lns.next();
 								StringBuilder lnName = new StringBuilder();
 								
-								if (ln.getPrefix() != null && !ln.getPrefix().equals("")) {
+								if (ln.getPrefix() != null) {
 									lnName.append(ln.getPrefix());
 								}
 								
