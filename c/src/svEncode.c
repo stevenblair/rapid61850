@@ -58,8 +58,8 @@ int encode_simpleVector(unsigned char *buf, struct simpleVector *simpleVector) {
 int encode_myMod(unsigned char *buf, struct myMod *myMod) {
 	int offset = 0;
 
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], &myMod->ctlVal);
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], &myMod->stVal);
+	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->ctlVal);
+	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->stVal);
 	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &myMod->q);
 	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myMod->t);
 
@@ -68,14 +68,14 @@ int encode_myMod(unsigned char *buf, struct myMod *myMod) {
 int encode_myHealth(unsigned char *buf, struct myHealth *myHealth) {
 	int offset = 0;
 
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], &myHealth->stVal);
+	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myHealth->stVal);
 
 	return offset;
 }
 int encode_myBeh(unsigned char *buf, struct myBeh *myBeh) {
 	int offset = 0;
 
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], &myBeh->stVal);
+	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myBeh->stVal);
 
 	return offset;
 }
@@ -174,7 +174,7 @@ int encode_mySEQ(unsigned char *buf, struct mySEQ *mySEQ) {
 	offset += encode_myCMV(&buf[offset], &mySEQ->c1);
 	offset += encode_myCMV(&buf[offset], &mySEQ->c2);
 	offset += encode_myCMV(&buf[offset], &mySEQ->c3);
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], &mySEQ->seqT);
+	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &mySEQ->seqT);
 
 	return offset;
 }
@@ -200,7 +200,7 @@ int encode_E1Q1SB1_C1_Positions(unsigned char *buf, int noASDU, CTYPE_INT16U smp
 	offset += encode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Positions->C1__TVTR_1_Vol_instMag);
 	offset += encode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_1_Pos);
 	offset += encode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_2_Pos);
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
+	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
 	offset += encode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Amps);
 	offset += encode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Volts);
 
@@ -219,7 +219,7 @@ int encode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, s
 
 	offset += encode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1__TVTR_1_Vol_instMag);
 	offset += encode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_1_Mod);
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
+	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
 	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Volts_q);
 	offset += encode_myMV(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Amps);
 	offset += encode_myPos(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_2_Pos);

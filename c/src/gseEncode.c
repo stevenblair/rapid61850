@@ -113,9 +113,9 @@ int ber_get_length_myMod(struct myMod *myMod) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_ENUM(&myMod->ctlVal);
+	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myMod->ctlVal);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_ENUM(&myMod->stVal);
+	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myMod->stVal);
 	total += len + getLengthBytes(len) + 1;
 	len += BER_GET_LENGTH_CTYPE_QUALITY(&myMod->q);
 	total += len + getLengthBytes(len) + 1;
@@ -130,8 +130,8 @@ int ber_encode_myMod(unsigned char *buf, struct myMod *myMod) {
 	buf[offset++] = 0xA2;
 	offset += encodeLength(&buf[offset], ber_get_length_myMod(myMod));
 
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], &myMod->ctlVal);
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], &myMod->stVal);
+	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->ctlVal);
+	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->stVal);
 	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &myMod->q);
 	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myMod->t);
 
@@ -141,7 +141,7 @@ int ber_get_length_myHealth(struct myHealth *myHealth) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_ENUM(&myHealth->stVal);
+	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myHealth->stVal);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -152,7 +152,7 @@ int ber_encode_myHealth(unsigned char *buf, struct myHealth *myHealth) {
 	buf[offset++] = 0xA2;
 	offset += encodeLength(&buf[offset], ber_get_length_myHealth(myHealth));
 
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], &myHealth->stVal);
+	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myHealth->stVal);
 
 	return offset;
 }
@@ -160,7 +160,7 @@ int ber_get_length_myBeh(struct myBeh *myBeh) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_ENUM(&myBeh->stVal);
+	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myBeh->stVal);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -171,7 +171,7 @@ int ber_encode_myBeh(unsigned char *buf, struct myBeh *myBeh) {
 	buf[offset++] = 0xA2;
 	offset += encodeLength(&buf[offset], ber_get_length_myBeh(myBeh));
 
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], &myBeh->stVal);
+	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myBeh->stVal);
 
 	return offset;
 }
@@ -432,7 +432,7 @@ int ber_get_length_mySEQ(struct mySEQ *mySEQ) {
 	total += len + getLengthBytes(len) + 1;
 	len += ber_get_length_myCMV(&mySEQ->c3);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_ENUM(&mySEQ->seqT);
+	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &mySEQ->seqT);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -446,7 +446,7 @@ int ber_encode_mySEQ(unsigned char *buf, struct mySEQ *mySEQ) {
 	offset += ber_encode_myCMV(&buf[offset], &mySEQ->c1);
 	offset += ber_encode_myCMV(&buf[offset], &mySEQ->c2);
 	offset += ber_encode_myCMV(&buf[offset], &mySEQ->c3);
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], &mySEQ->seqT);
+	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &mySEQ->seqT);
 
 	return offset;
 }
@@ -504,7 +504,7 @@ int ber_get_length_E1Q1SB1_C1_Positions(struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_
 	total += len + getLengthBytes(len) + 1;
 	len += ber_get_length_myPos(&E1Q1SB1_C1_Positions->C1__CSWI_2_Pos);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_ENUM(&E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
+	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
 	total += len + getLengthBytes(len) + 1;
 	len += ber_get_length_myMV(&E1Q1SB1_C1_Positions->C1__MMXU_1_Amps);
 	total += len + getLengthBytes(len) + 1;
@@ -519,7 +519,7 @@ int ber_encode_E1Q1SB1_C1_Positions(unsigned char *buf, struct E1Q1SB1_C1_Positi
 	offset += ber_encode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Positions->C1__TVTR_1_Vol_instMag);
 	offset += ber_encode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_1_Pos);
 	offset += ber_encode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_2_Pos);
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
+	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
 	offset += ber_encode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Amps);
 	offset += ber_encode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Volts);
 
@@ -552,7 +552,7 @@ int ber_get_length_E1Q1SB1_C1_smv(struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv) {
 	total += len + getLengthBytes(len) + 1;
 	len += ber_get_length_myMod(&E1Q1SB1_C1_smv->C1__CSWI_1_Mod);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_ENUM(&E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
+	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
 	total += len + getLengthBytes(len) + 1;
 	len += BER_GET_LENGTH_CTYPE_QUALITY(&E1Q1SB1_C1_smv->C1__MMXU_1_Volts_q);
 	total += len + getLengthBytes(len) + 1;
@@ -568,7 +568,7 @@ int ber_encode_E1Q1SB1_C1_smv(unsigned char *buf, struct E1Q1SB1_C1_smv *E1Q1SB1
 
 	offset += ber_encode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1__TVTR_1_Vol_instMag);
 	offset += ber_encode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_1_Mod);
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
+	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
 	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Volts_q);
 	offset += ber_encode_myMV(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Amps);
 	offset += ber_encode_myPos(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_2_Pos);

@@ -34,6 +34,7 @@ public class CFunctionSVCoder extends CFunctionCoder {
 		EClass objectClass = obj.eClass();
 		String itemType = "";
 		String variableName = "";
+		String enumCast = "";
 		String coder = getPrefix();
 		Boolean basicDataType = false;
 		
@@ -44,6 +45,9 @@ public class CFunctionSVCoder extends CFunctionCoder {
 			if (!bda.getBType().toString().equals("Struct")) {
 				basicDataType = true;
 			}
+			if (bda.getBType().toString().equals("Enum")) {
+				enumCast = "(CTYPE_ENUM *) ";
+			}
 			
 			variableName = bda.getName().toString();
 		}
@@ -53,6 +57,9 @@ public class CFunctionSVCoder extends CFunctionCoder {
 			
 			if (!da.getBType().toString().equals("Struct")) {
 				basicDataType = true;
+			}
+			if (da.getBType().toString().equals("Enum")) {
+				enumCast = "(CTYPE_ENUM *) ";
 			}
 			
 			variableName = da.getName().toString();
@@ -81,12 +88,15 @@ public class CFunctionSVCoder extends CFunctionCoder {
 			if (!fcda.getPrintedType().contains("struct")) {
 				basicDataType = true;
 			}
+			if (fcda.getPrintedType().contains("enum")) {
+				enumCast = "(CTYPE_ENUM *) ";
+			}
 		}
 		
 		if (basicDataType) {
 			coder = coder.toUpperCase();
 		}
 		
-		return "\toffset += " + coder + itemType + "(&buf[offset], &" + getName() + "->" + variableName + ");\n";
+		return "\toffset += " + coder + itemType + "(&buf[offset], " + enumCast + "&" + getName() + "->" + variableName + ");\n";
 	}
 }

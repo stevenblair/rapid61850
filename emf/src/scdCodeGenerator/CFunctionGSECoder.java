@@ -37,6 +37,7 @@ public class CFunctionGSECoder extends CFunctionCoder {
 		EClass objectClass = obj.eClass();
 		String itemType = "";
 		String variableName = "";
+		String enumCast = "";
 		String coder = getPrefix();
 		Boolean basicDataType = false;
 		
@@ -47,6 +48,9 @@ public class CFunctionGSECoder extends CFunctionCoder {
 			if (!bda.getBType().toString().equals("Struct")) {
 				basicDataType = true;
 			}
+			if (bda.getBType().toString().equals("Enum")) {
+				enumCast = "(CTYPE_ENUM *) ";
+			}
 			
 			variableName = bda.getName().toString();
 		}
@@ -56,6 +60,9 @@ public class CFunctionGSECoder extends CFunctionCoder {
 			
 			if (!da.getBType().toString().equals("Struct")) {
 				basicDataType = true;
+			}
+			if (da.getBType().toString().equals("Enum")) {
+				enumCast = "(CTYPE_ENUM *) ";
 			}
 			
 			variableName = da.getName().toString();
@@ -84,41 +91,15 @@ public class CFunctionGSECoder extends CFunctionCoder {
 			if (!fcda.getPrintedType().contains("struct")) {
 				basicDataType = true;
 			}
+			if (fcda.getPrintedType().contains("enum")) {
+				enumCast = "(CTYPE_ENUM *) ";
+			}
 		}
 
 		if (basicDataType) {
 			coder = coder.toUpperCase();
 		}
-		
-//		offset += ber_decode_myAnalogValue(&buf[offset], &dest->C1__TVTR_1_Vol_instMag);
-//		offset += ber_decode_myPos(&buf[offset], &dest->C1__CSWI_1_Pos);
-//		offset += ber_decode_myPos(&buf[offset], &dest->C1__CSWI_2_Pos);
-//		offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &dest->C1__MMXU_1_Mod_stVal);
 
-		return "\t" + accumulator + " += " + coder + itemType + "(" + buffer + "&" + getName() + "->" + variableName + ");\n";
+		return "\t" + accumulator + " += " + coder + itemType + "(" + buffer + enumCast + "&" + getName() + "->" + variableName + ");\n";
 	}
-	
-	/*public String getName() {
-		return null;
-	}*/
-	
-
-	/*public String getBody() {
-		Iterator<EObject> objects = dataType.eContents().iterator();
-		String func = "\tint total = 0;\n\tint len = 0;\n\n";
-		
-		while (objects.hasNext()) {
-			EObject obj = objects.next();
-			
-			if (obj == null) {
-				return null;
-			}
-
-			func = func.concat(getItemCoder(obj, false));
-		}
-		
-		func = func.concat("\n\treturn total;\n");
-		
-		return func;
-	}*/
 }

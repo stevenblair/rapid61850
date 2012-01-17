@@ -59,8 +59,8 @@ int decode_simpleVector(unsigned char *buf, struct simpleVector *simpleVector) {
 int decode_myMod(unsigned char *buf, struct myMod *myMod) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_ENUM(&buf[offset], &myMod->ctlVal);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], &myMod->stVal);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->ctlVal);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->stVal);
 	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myMod->q);
 	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myMod->t);
 
@@ -69,14 +69,14 @@ int decode_myMod(unsigned char *buf, struct myMod *myMod) {
 int decode_myHealth(unsigned char *buf, struct myHealth *myHealth) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_ENUM(&buf[offset], &myHealth->stVal);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myHealth->stVal);
 
 	return offset;
 }
 int decode_myBeh(unsigned char *buf, struct myBeh *myBeh) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_ENUM(&buf[offset], &myBeh->stVal);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myBeh->stVal);
 
 	return offset;
 }
@@ -175,7 +175,7 @@ int decode_mySEQ(unsigned char *buf, struct mySEQ *mySEQ) {
 	offset += decode_myCMV(&buf[offset], &mySEQ->c1);
 	offset += decode_myCMV(&buf[offset], &mySEQ->c2);
 	offset += decode_myCMV(&buf[offset], &mySEQ->c3);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], &mySEQ->seqT);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &mySEQ->seqT);
 
 	return offset;
 }
@@ -201,7 +201,7 @@ int decode_E1Q1SB1_C1_Positions(unsigned char *buf, int noASDU, CTYPE_INT16U smp
 	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Positions->C1__TVTR_1_Vol_instMag);
 	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_1_Pos);
 	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_2_Pos);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
 	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Amps);
 	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Volts);
 
@@ -220,7 +220,7 @@ int decode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, s
 
 	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1__TVTR_1_Vol_instMag);
 	offset += decode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_1_Mod);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
 	offset += DECODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Volts_q);
 	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Amps);
 	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_2_Pos);
