@@ -62,9 +62,9 @@ void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_cha
     if (header->len == 737) {	// hardcoded packet length for demo
 		svDecode((unsigned char *) pkt_data, header->len);
 
-		DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu.C1__RMXU_1_AmpLocPhsA, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA.cVal, 16);
-		DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu.C1__RMXU_1_AmpLocPhsB, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB.cVal, 16);
-		DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu.C1__RMXU_1_AmpLocPhsC, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC.cVal, 16);
+		//DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA.cVal, 16);
+		//DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB.cVal, 16);
+		//DFT(D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu, &D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC.cVal, 16);
     }
 }
 

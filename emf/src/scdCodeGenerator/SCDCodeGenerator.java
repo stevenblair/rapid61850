@@ -781,8 +781,8 @@ public class SCDCodeGenerator {
 													gsePacketDataInit.append("\t" + gseName + ".confRev = " + gseControl.getConfRev() + ";\n");
 													gsePacketDataInit.append("\t" + gseName + ".ndsCom = 0;\n");
 													gsePacketDataInit.append("\t" + gseName + ".numDatSetEntries = " + dataset.getFCDA().size() + ";\n");
-													gsePacketDataInit.append("\t" + gseName + ".encodeDataset = &ber_encode_" + gseControl.getAppID() + ";\n");			//TODO map to these functions
-													gsePacketDataInit.append("\t" + gseName + ".getDatasetLength = &ber_get_length_" + gseControl.getAppID() + ";\n");
+													gsePacketDataInit.append("\t" + gseName + ".encodeDataset = &ber_encode_" + getUniqueDatasetName(dataset) + ";\n");			//TODO map controls to these functions, rather than dataset
+													gsePacketDataInit.append("\t" + gseName + ".getDatasetLength = &ber_get_length_" + getUniqueDatasetName(dataset) + ";\n");
 													//gsePacketDataInit.append("\t" + gseName + ".datasetDecodeDone = NULL;\n\n");
 													
 													// send GSE function
@@ -1120,55 +1120,6 @@ public class SCDCodeGenerator {
 		return compound;
 	}
 	
-	public static TSampledValueControl getSVControl(TDataSet dataset) {
-		if (dataset == null) {
-			return null;
-		}
-		
-		TLN0 ln0 = (TLN0) (dataset.eContainer());
-		
-		if (ln0 == null) {
-			return null;
-		}
-		
-		Iterator<TSampledValueControl> svControls =  ln0.getSampledValueControl().iterator();
-		
-		while (svControls.hasNext()) {
-			TSampledValueControl svControl = svControls.next();
-			
-			if (svControl.getDatSet().equals(dataset.getName())) {
-				return svControl;
-			}
-		}
-		
-		return null;
-	}
-	
-	/*public static List<TSampledValueControl> getSVControls(TDataSet dataset) {
-		if (dataset == null) {
-			return null;
-		}
-		
-		TLN0 ln0 = (TLN0) (dataset.eContainer());
-		
-		if (ln0 == null) {
-			return null;
-		}
-		
-		Iterator<TSampledValueControl> svControls =  ln0.getSampledValueControl().iterator();
-		List<TSampledValueControl> matchingSvControls = new ArrayList<TSampledValueControl>();
-		
-		while (svControls.hasNext()) {
-			TSampledValueControl svControl = svControls.next();
-			
-			if (svControl.getDatSet().equals(dataset.getName())) {
-				matchingSvControls.add(svControl);
-			}
-		}
-		
-		return matchingSvControls;
-	}*/
-	
 	public static TGSEControl getGSEControl(TDataSet dataset) {
 		if (dataset == null) {
 			return null;
@@ -1187,151 +1138,6 @@ public class SCDCodeGenerator {
 			if (gseControl.getDatSet().equals(dataset.getName())) {
 				return gseControl;
 			}
-		}
-		
-		return null;
-	}
-	
-	public static Boolean datasetIsConsumed(List<String> datasetsConsumed, TDataSet dataset) {
-		Iterator<String> iter = datasetsConsumed.iterator();
-		
-		while (iter.hasNext()) {
-			if (iter.next().equals(dataset.getName())) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
-
-	public static TDO getDO2(TDataTypeTemplates dataTypeTemplates, String lnClass, String doName) {
-		ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) lnClass) {
-			@Override
-			public boolean isSatisfied(Object obj) {
-				return getObject().toString().equals(obj.toString());
-			}
-		};
-		final EObjectCondition isLNClass = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTLNodeType_LnClass(),
-			sc
-		);
-		final EObjectCondition isDOName = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTDO_Name(),
-			new StringValue(doName)
-		);
-
-		// find DO name, then extract DO type
-		IQueryResult result = new SELECT(
-			new FROM(
-				new SELECT(
-					new FROM(dataTypeTemplates),
-					new WHERE(isLNClass)
-				)
-			), new WHERE(isDOName)
-		).execute();
-		
-		System.out.println("results: " + result.size());
-
-		return null;
-	}
-
-	public static TDO getDO(TDataTypeTemplates dataTypeTemplates, String lnClass, String doName) {
-		Iterator<TLNodeType> lnTypes = dataTypeTemplates.getLNodeType().iterator();
-		
-		while (lnTypes.hasNext()) {
-			TLNodeType lnType = lnTypes.next();
-			
-			Iterator<TDO> dos = lnType.getDO().iterator();
-
-			while (dos.hasNext()) {
-				TDO doType = dos.next();
-				
-				if (doType.getName().equals(doName)) {
-					return doType;
-				}
-			}
-		}
-		
-		return null;
-	}
-
-	public static TAbstractDataAttribute getDA(TDataTypeTemplates dataTypeTemplates, String lnInst, String lnClass, String doName, String daName) {
-		ObjectInstanceCondition sc = new ObjectInstanceCondition((Object) lnClass) {
-			@Override
-			public boolean isSatisfied(Object obj) {
-				return getObject().toString().equals(obj.toString());
-			}
-		};
-		final EObjectCondition isLNClass = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTLNodeType_LnClass(),
-			sc
-		);
-		final EObjectCondition isDOName = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTDO_Name(),
-			new StringValue(doName)
-		);
-		final EObjectCondition isDAName = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTAbstractDataAttribute_Name(),
-			new StringValue(daName)
-		);
-
-		// find DO name, then extract DO type
-		IQueryResult result = new SELECT(
-			new FROM(
-				new SELECT(
-					new FROM(dataTypeTemplates),
-					new WHERE(isLNClass)
-				)
-			), new WHERE(isDOName)
-		).execute();
-		
-		String DOType = "";
-		if (result.getException() != null) {
-			return null;
-		} else {
-	        if (result.size() >= Integer.parseInt(lnInst)) {
-	        	int i = 1;
-			    for (Object next : result) {
-			        if (i == Integer.parseInt(lnInst)) {
-				        DOType = ((TDO) next).getType();
-				        break;
-			        }
-			        i++;
-			    }
-	        }
-	        else {
-	        	//System.out.println("result = " + result.size() + ", " + Integer.parseInt(lnInst));
-	        	return null;
-	        }
-		}
-		final EObjectCondition isDOType = new EObjectAttributeValueCondition(
-			SclPackage.eINSTANCE.getTIDNaming_Id(),
-			new StringValue(DOType)
-		);
-		
-		// find DA from DO type (the id attribute) and DA name
-		IQueryResult result2 = 	new SELECT(
-			new FROM(
-				new SELECT(
-					new FROM(dataTypeTemplates),
-					new WHERE(isDOType)
-				)
-			), new WHERE(isDAName)
-		).execute();
-    	//System.out.println("result1 = " + result.size() + ", result2 = " + result2.size());
-		
-		if (result2.getException() != null) {
-			return null;
-		} else {
-	        if (result2.size() == 1) {
-			    for (Object next : result2) {
-			        return (TAbstractDataAttribute) next;
-			    }
-	        }
-	        else {
-	        	return null;
-	        }
 		}
 		
 		return null;
@@ -1403,5 +1209,12 @@ public class SCDCodeGenerator {
 		}
 		
 		return null;
+	}
+
+	public static String getUniqueDatasetName(TDataSet dataset) {
+		String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+		String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
+		
+		return iedName + "_" + ldInst + "_" + dataset.getName();
 	}
 }

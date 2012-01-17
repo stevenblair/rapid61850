@@ -41,7 +41,7 @@ import ch.iec._61850._2006.scl.TLN;
 import ch.iec._61850._2006.scl.TSDO;
 import ch.iec._61850._2006.scl.TSampledValueControl;
 
-public class CFunctionCoder extends CFunction {
+public abstract class CFunctionCoder extends CFunction {
 	
 	protected EObject		dataType;	// may be DO, DA, or DataSet
 	protected CommsType		commsType;
@@ -110,50 +110,11 @@ public class CFunctionCoder extends CFunction {
 			return ((TDOType) dataType).getId();
 		}
 		else  if (dataType.eClass().getName().equals("TDataSet")) {
-
 			TDataSet dataset = (TDataSet) dataType;
 			String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
 			String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
 			
 			return iedName + "_" + ldInst + "_" + dataset.getName();
-			
-//			if (commsType == CommsType.SV) {
-//				if (coderType == CoderType.DECODER && extRef != null) {
-//					/*String uriFragment = extRef.eResource().getURIFragment(extRef);
-//					String lnNameUri = uriFragment.substring(0, uriFragment.indexOf("/@inputs"));
-//					TLN ln = (TLN) extRef.eResource().getEObject(lnNameUri);
-//					
-//					return ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst();*/
-//					TDataSet dataset = (TDataSet) dataType;
-//					String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
-//					String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
-//					
-//					return iedName + "_" + ldInst + "_" + dataset.getName();
-//				}
-//				else {
-//					return "";//SCDCodeGenerator.getSVControl((TDataSet) dataType).getSmvID();
-//				}
-//			}
-//			else if (commsType == CommsType.GSE) {
-//				if (coderType == CoderType.DECODER && extRef != null) {
-//					/*String uriFragment = extRef.eResource().getURIFragment(extRef);
-//					String lnNameUri = uriFragment.substring(0, uriFragment.indexOf("/@inputs"));
-//					TLN ln = (TLN) extRef.eResource().getEObject(lnNameUri);
-//					
-//					//System.out.println("GSE decoder, " + ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst());
-//					
-//					return ((TDataSet) dataType).getName() + "_" + ln.getLnClass().toString() + "_" + ln.getInst();*/
-//					TDataSet dataset = (TDataSet) dataType;
-//					String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
-//					String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
-//					
-//					return iedName + "_" + ldInst + "_" + dataset.getName();
-//				}
-//				else {
-//					//System.out.println(coderType + ", other type of GSE, appID: " + SCLCodeGenerator.getGSEControl((TDataSet) dataType).getAppID() + " extref: " + extRef);
-//					return "";//return SCDCodeGenerator.getGSEControl((TDataSet) dataType).getAppID();
-//				}
-//			}
 		}
 		
 		return null;
@@ -163,216 +124,7 @@ public class CFunctionCoder extends CFunction {
 		return this.prefix + getName();
 	}
 	
-	public String getItemCoder(EObject obj, Boolean getLength) {
-		String item = "";
-		String name = "";
-		String bType = null;
-		String type = null;
-		String variableName = "";
-		String buf = "";
-		String prefix = "";
-		String accumulator = "offset +=";
-		String noASDUIndex = "";
-		String instanceSuffix = "";
-		String compoundName = null;
-		
-		if (obj == null) {
-			return "";
-		}
-		
-		if (getLength) {
-			prefix = "ber_get_length_";
-			accumulator = "len =";
-		}
-		else {
-			buf = "&buf[offset], ";
-			prefix = getPrefix();
-		}
-		
-		if (obj.eClass().getName().equals("TFCDA")) {
-			String iedName = "ied";
-			String apName = "ap";
-			String ldName = "ld";
-			String lnName = "ln";
-			
-			TFCDA fcda = ((TFCDA) obj);
-			TDataTypeTemplates dtt = getTDataTypeTemplates();
-			
-			
-//			String fcdaName = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + fcda.getLnClass() + "_" + fcda.getLnInst() + "_" + fcda.getDoName();
-//			
-//			if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
-//				fcdaName = fcdaName + "_" + fcda.getDaName();
-//			}
-//			//System.out.println("fcdaName: " + fcdaName);
-//			variableName = "dest." + fcdaName;
-//			GSESVInputPath = variableName;
-			
-			if (commsType == CommsType.SV && extRef != null) {
-				TSampledValueControl svControl = SCDCodeGenerator.getSVControl((TDataSet) dataType);
-				
-				if (svControl != null) {
-					long noASDU = 0;//svControl.getNofASDU();
-					
-					if (noASDU > 1) {
-						noASDUIndex = "_" + fcda.getLnInst() + "[noASDU]"; 
-					}
-					String uriFragment = extRef.eResource().getURIFragment(extRef);
-					
-					// find IED, AP, LD, and LN name using EMF URI lookup
-					String iedNameUri = uriFragment.substring(0, uriFragment.indexOf("/@accessPoint"));
-					String apNameUri = uriFragment.substring(0, uriFragment.indexOf("/@server"));
-					String ldNameUri = uriFragment.substring(0, uriFragment.indexOf("/@lN"));
-					String lnNameUri = uriFragment.substring(0, uriFragment.indexOf("/@inputs"));
-					iedName = (((TIED) extRef.eResource().getEObject(iedNameUri)).getName());
-					apName = (((TAccessPoint) extRef.eResource().getEObject(apNameUri)).getName());
-					ldName = (((TLDevice) extRef.eResource().getEObject(ldNameUri)).getInst());
-					lnName = (((TLN) extRef.eResource().getEObject(lnNameUri)).getLnType());
-					
-					variableName = iedName + "." + apName + "." + ldName + "." + extRef.getPrefix() + lnName + "_" + extRef.getLnInst() + ".sv_inputs.";
-					GSESVInputPath = variableName;
-				}
-			}
-//			else if (commsType == CommsType.GSE && extRef != null) {
-//				TGSEControl gseControl = SCDCodeGenerator.getGSEControl((TDataSet) dataType);
-//				
-//				if (gseControl != null) {
-//					String uriFragment = extRef.eResource().getURIFragment(extRef);
-//					
-//					// find IED, AP, LD, and LN name using EMF URI lookup
-//					String iedNameUri = uriFragment.substring(0, uriFragment.indexOf("/@accessPoint"));
-//					String apNameUri = uriFragment.substring(0, uriFragment.indexOf("/@server"));
-//					String ldNameUri = uriFragment.substring(0, uriFragment.indexOf("/@lN"));
-//					String lnNameUri = uriFragment.substring(0, uriFragment.indexOf("/@inputs"));
-//					TLN ln = (((TLN) extRef.eResource().getEObject(lnNameUri)));					//TODO: this is null
-//					iedName = (((TIED) extRef.eResource().getEObject(iedNameUri)).getName());
-//					apName = (((TAccessPoint) extRef.eResource().getEObject(apNameUri)).getName());
-//					ldName = (((TLDevice) extRef.eResource().getEObject(ldNameUri)).getInst());
-//					lnName = ln.getLnType();
-//					
-//					String lnPrefix = "";
-//					if (ln.getPrefix() != null) {
-//						lnPrefix = ln.getPrefix();
-//					}
-//					
-//					//TODO: part after ".gse_inputs." needs to be expanded
-//					//variableName = iedName + "." + apName + "." + ldName + "." + /*ln.getPrefix() +*/ lnName + "_" + extRef.getLnInst() + ".gse_inputs."/* + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix()*/;
-//					GSESVInputPath = iedName + "." + apName + "." + ldName + "." + lnPrefix + lnName + "_" + extRef.getLnInst() + ".gse_inputs.";
-//					variableName = GSESVInputPath + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix();
-//					instanceSuffix = "_" + fcda.getLnInst();
-//				}
-//			}
-			else {
-				//System.out.println("coder: " + coderType + ", comms: " + commsType + " fcda: " + fcda);
-				String uriFragment = fcda.eResource().getURIFragment(fcda);
-				String iedNameUri = uriFragment.substring(0, uriFragment.indexOf("/@accessPoint"));
-				String apNameUri = uriFragment.substring(0, uriFragment.indexOf("/@server"));
-				//String ldNameUri = uriFragment.substring(0, uriFragment.indexOf("/@lN0"));
-				iedName = (((TIED) fcda.eResource().getEObject(iedNameUri)).getName());
-				apName = (((TAccessPoint) fcda.eResource().getEObject(apNameUri)).getName());
-				//ldName = (((TLDevice) fcda.eResource().getEObject(ldNameUri)).getInst());
-				
-				//TODO get lnType from FCDA, not lnClass
-				variableName = iedName + "." + apName + "." + fcda.getLdInst() + "." + fcda.getPrefix() + fcda.getLnClass().toString() + "_" + fcda.getLnInst() + ".";
-			}
-			
-			if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
-				TAbstractDataAttribute da = SCDCodeGenerator.getDA(dtt, fcda.getLnInst(), fcda.getLnClass().toString(), fcda.getDoName(), fcda.getDaName());
-				obj = da;
-				
-				if (obj != null && obj.eClass().getName().equals("TBDA")) {
-					if (fcda.getDaName().contains(".")) {
-						compoundName = fcda.getDaName();	// ensure we use the full name, e.g., "foo.bar"
-						
-						if (!dataType.eClass().getName().equals("TDataSet") || coderType != CoderType.ENCODER) {
-							compoundName = compoundName.replaceAll("[^A-Za-z0-9]", "_");
-						}
-					}
-				}
-				
-				if (coderType == CoderType.ENCODER) {
-					variableName = variableName.concat(fcda.getDoName() + ".");
-				}
-				else {
-					String fcdaName = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + fcda.getLnClass() + "_" + fcda.getLnInst() + "_" + fcda.getDoName();
-					
-					if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
-						fcdaName = fcdaName + "_" + fcda.getDaName();
-					}
-					//System.out.println("fcdaName: " + fcdaName);
-					variableName = "dest." + fcdaName;
-					GSESVInputPath = variableName;
-				}
-			}
-			else {
-				TDO dataObject = SCDCodeGenerator.getDO(dtt, fcda.getLnClass().toString(), fcda.getDoName());
-				obj = dataObject;
-			}
-		}
-		else {
-			variableName = getName() + "->";
-		}
-		
-		if (obj.eClass().getName().equals("TBDA")) {
-			if (compoundName == null) {
-				name = ((TBDA) obj).getName().toString();
-			}
-			else {
-				name = compoundName;
-			}
-			bType = ((TBDA) obj).getBType().toString();
-			if (((TBDA) obj).getType() != null) {
-				type = ((TBDA) obj).getType().toString();
-			}
-		}
-		else if (obj.eClass().getName().equals("TDA")) {
-			if (compoundName == null) {
-				name = ((TDA) obj).getName().toString();
-			}
-			else {
-				name = compoundName;
-			}
-			bType = ((TDA) obj).getBType().toString();
-			if (((TDA) obj).getType() != null) {
-				type = ((TDA) obj).getType().toString();
-			}
-		}
-		else if (obj.eClass().getName().equals("TDO")) {
-			name = ((TDO) obj).getName().toString();
-			if (((TDO) obj).getType() != null) {
-				type = ((TDO) obj).getType().toString();
-			}
-		}
-		else if (obj.eClass().getName().equals("TSDO")) {
-			name = ((TSDO) obj).getName().toString();
-			if (((TSDO) obj).getType() != null) {
-				type = ((TSDO) obj).getType().toString();
-			}
-		}
-		//System.out.println(instanceSuffix);
-		name = name.concat(instanceSuffix);
-		
-		if (bType == null || bType.equals("Struct")) {
-			if (coderType == CoderType.ENCODER || !obj.eClass().getName().equals("TDataSet")) {
-				item = "\t" + accumulator + " " + prefix + type + "(" + buf + "&" + variableName + name + noASDUIndex + ");\n";
-			}
-			else {
-				item = "\t" + accumulator + " " + prefix + type + "(" + buf + "&" + variableName + /*name + */noASDUIndex + ");\n";
-			}
-			//System.out.println(name);
-		}
-		else {
-			String enumCast = "";
-			if (bType.equals("Enum")) {
-				enumCast = "(CTYPE_ENUM *) ";
-			}
-			item = "\t" + accumulator + " " + prefix.toUpperCase() + "CTYPE_" + bType.toUpperCase() + "(" + buf + enumCast + "&" + variableName + name + noASDUIndex + ");\n";
-		}
-		
-		//System.out.println(item);
-		
-		return item;
-	}
+	public abstract String getItemCoder(EObject obj, Boolean getLength);
 	
 	public TDataTypeTemplates getTDataTypeTemplates() {
 		String uriFragment = "//@sCL/@dataTypeTemplates";
