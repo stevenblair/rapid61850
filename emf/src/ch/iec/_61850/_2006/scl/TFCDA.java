@@ -29,7 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getCoderType <em>Coder Type</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getVariableName <em>Variable Name</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getLnType <em>Ln Type</em>}</li>
+ *   <li>{@link ch.iec._61850._2006.scl.TFCDA#getLnRef <em>Ln Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -425,29 +425,29 @@ public interface TFCDA extends EObject {
 	void setVariableName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Ln Type</b></em>' reference.
+	 * Returns the value of the '<em><b>Ln Ref</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Ln Type</em>' reference isn't clear,
+	 * If the meaning of the '<em>Ln Ref</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ln Type</em>' reference.
-	 * @see #setLnType(TLN)
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_LnType()
+	 * @return the value of the '<em>Ln Ref</em>' reference.
+	 * @see #setLnRef(TLN)
+	 * @see ch.iec._61850._2006.scl.SclPackage#getTFCDA_LnRef()
 	 * @model
 	 * @generated
 	 */
-	TLN getLnType();
+	TLN getLnRef();
 
 	/**
-	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getLnType <em>Ln Type</em>}' reference.
+	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TFCDA#getLnRef <em>Ln Ref</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Ln Type</em>' reference.
-	 * @see #getLnType()
+	 * @param value the new value of the '<em>Ln Ref</em>' reference.
+	 * @see #getLnRef()
 	 * @generated
 	 */
-	void setLnType(TLN value);
+	void setLnRef(TLN value);
 
 } // TFCDA

@@ -3887,7 +3887,7 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTFCDA_LnType() {
+	public EReference getTFCDA_LnRef() {
         return (EReference)getTFCDA().getEStructuralFeatures().get(13);
 	}
 

@@ -1883,7 +1883,7 @@
         defaultValueLiteral=""/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="variableName" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
         defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="lnType" eType="#//TLN"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lnRef" eType="#//TLN"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TFCEnum">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
