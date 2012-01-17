@@ -309,15 +309,12 @@ public class SCDCodeGenerator {
 					
 					while (aps.hasNext()) {
 						TAccessPoint ap = aps.next();
-						List<String> svDatasetsConsumed = new ArrayList<String>();
-						List<String> gseDatasetsConsumed = new ArrayList<String>();
 						
 						if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
 							Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
 							
 							while (lds.hasNext()) {
 								TLDevice ld = lds.next();
-								TLN0 ln0 = ld.getLN0();
 								List<String> svControlConsumed = new ArrayList<String>();
 								List<String> gseControlConsumed = new ArrayList<String>();
 								/*Iterator<TSampledValueControl> svControls = ln0.getSampledValueControl().iterator();
@@ -346,12 +343,7 @@ public class SCDCodeGenerator {
 											while (extRefs.hasNext()) {
 												TExtRef extRef = extRefs.next();
 												TDataSet dataset = extRef.getDataSet();
-												//String uniqueDatasetName = ied.getName() + "_" + ld.getInst() + "_" + dataset.getName();
-												//TSampledValueControl svControl = getSVControl(dataset);
-												//TGSEControl gseControl = getGSEControl(dataset);
-												String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
-												String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();
-												String datasetName = iedName + "_" + ldInst + "_" + dataset.getName();
+												String datasetName = getUniqueDatasetName(dataset);
 												
 												Iterator<TControl> controls = dataset.getControl().iterator();
 												
@@ -368,50 +360,24 @@ public class SCDCodeGenerator {
 														}
 														
 														if (!svControlConsumed.contains(svControl.getName())) {
-														//if (!datasetIsConsumed(svDatasetsConsumed, dataset)) {
-															Iterator<TFCDA> fcdas = dataset.getFCDA().iterator();
-															svDatasetsConsumed.add(dataset.getName());
 															svControlConsumed.add(svControl.getName());
 															
-															//System.out.println("\tadding sv dataset: " + dataset.getName() + " size: " + svDatasetsConsumed.size());
-
+															//System.out.println("\tadding sv control: " + sv.getName() + " size: " + svControlConsumed.size());
 															svEncodeSource.appendFunctionObject(new CFunctionControl(svControl, CommsType.SV));
 															
 															dataTypesHeader.appendDatatypes("\n\tstruct {");
 															
-															//svDecodeSource.appendFunctionObject(new CFunctionSVCoder(dataset, extRef, CommsType.SV, CoderType.DECODER));
 															svDecodeDatasetFunction.append("\n\tif (strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");
-
-															//decode_E1Q1SB1_C1_rmxu(dataset, ASDU, smpCnt, &D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu[ASDU]);
 															
 															String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getLnType() + "_" + ln.getInst() + ".sv_inputs_" + svControl.getName() + ".";
+															
 															svDecodeDatasetFunction.append("\n\t\tdecode_" + datasetName + "(dataset, ASDU, smpCnt, &" + inputsPath + datasetName + "[ASDU]);");
 															svDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
 															svDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone(smpCnt);");
 															svDecodeDatasetFunction.append("\n\t\t}");
 															svDecodeDatasetFunction.append("\n\t}");
+															
 															dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + noASDUString + ";");
-															
-															/*while (fcdas.hasNext()) {
-																TFCDA fcda = fcdas.next();
-																String dataElementName = "";
-																StringBuilder dataInstanceName = new StringBuilder(ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".");
-																
-																if (fcda.getPrefix() != null) {
-																	dataInstanceName.append(fcda.getPrefix());
-																}
-																dataInstanceName.append(ln.getLnClass().toString() + "_" + ln.getInst() + ".sv_inputs.");
-																
-																if (fcda.getDaName() != null) {
-																	dataElementName = fcda.getDaName();
-																}
-																else if (fcda.getDoName() != null) {
-																	dataElementName = fcda.getDoName();
-																}
-																dataInstanceName.append(dataElementName);
-																dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getPrintedType() + " " + dataElementName + "_" + fcda.getLnInst() + noASDUString + ";");
-															}*/
-															
 															dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)(CTYPE_INT16U smpCnt);");
 															dataTypesHeader.appendDatatypes("\n\t} sv_inputs_" + svControl.getName() + ";");
 														}
@@ -420,54 +386,25 @@ public class SCDCodeGenerator {
 														TGSEControl gseControl = (TGSEControl) control;
 														// GSE dataset decode functions
 														if (!gseControlConsumed.contains(gseControl.getName())) {
-														//if (!datasetIsConsumed(gseDatasetsConsumed, dataset)) {
-															Iterator<TFCDA> fcdas = dataset.getFCDA().iterator();
-															//gseDatasetsConsumed.add(dataset.getName());
 															gseControlConsumed.add(gseControl.getName());
-															System.out.println("\tadding gse control: " + gseControl.getName() + ", size: " + gseControlConsumed.size());
 															
+															System.out.println("\tadding gse control: " + gseControl.getName() + ", size: " + gseControlConsumed.size());
 															gseEncodeSource.appendFunctionObject(new CFunctionControl(gseControl, CommsType.GSE));
 															
 															dataTypesHeader.appendDatatypes("\n\tstruct {");
 															
-															//TODO Ensure gocbRef string encoded correctly
-															String gocbRef = /*extRef.getIedName() + */ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName()/*gseControl.getDatSet()*/;
-															
-															//gseDecodeSource.appendFunctionObject(new CFunctionGSECoder(dataset, extRef, CoderType.DECODER));
-															
+															String gocbRef = /*extRef.getIedName() + */ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
 															String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getLnType() + "_" + ln.getInst() + ".gse_inputs_" + gseControl.getName() + ".";
-															gseDecodeDatasetFunction.append("\n\tif (strncmp((const char *) gocbRef, \"" + /*gseControl.getDatSet()*/gocbRef + "\", gocbRefLength) == 0) {");
+															
+															gseDecodeDatasetFunction.append("\n\tif (strncmp((const char *) gocbRef, \"" + gocbRef + "\", gocbRefLength) == 0) {");
 															//gseDecodeDatasetFunction.append("\n\t\tber_decode_" + gseControl.getDatSet() + "_" + ln.getLnClass().toString() + "_" + ln.getInst() + "(dataset);");
 															gseDecodeDatasetFunction.append("\n\t\tber_decode_" + datasetName + "(dataset, &" + inputsPath + datasetName + ");");
 															gseDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
 															gseDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone();");
 															gseDecodeDatasetFunction.append("\n\t\t}");
 															gseDecodeDatasetFunction.append("\n\t}");
-															dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + ";");
 															
-															/*while (fcdas.hasNext()) {
-																TFCDA fcda = fcdas.next();
-																String dataElementName = "";
-																String fcdaName = "";
-																StringBuilder dataInstanceName = new StringBuilder(ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".");
-																
-																if (fcda.getPrefix() != null) {
-																	dataInstanceName.append(fcda.getPrefix());
-																}
-																dataInstanceName.append(ln.getLnClass().toString() + "_" + ln.getInst() + ".gse_inputs.");
-																
-																if (fcda.getDaName() != null) {
-																	dataElementName = fcda.getDaName().replaceAll("[^A-Za-z0-9]", "_");
-																	fcdaName = ied.getName() + "_" + ld.getInst() + "_" + fcda.getPrefix() + fcda.getDaName() + "_" + fcda.getLnInst();
-																	dataInstanceName.append(fcdaName);
-																}
-																else {
-																	dataElementName = fcda.getDoName();
-																	dataInstanceName.append(extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getDoName());
-																}
-																dataTypesHeader.appendDatatypes("\n\t\t" + fcda.getPrintedType() + " " + extRef.getIedName() + "_" + fcda.getLdInst() + "_" + fcda.getPrefix() + dataElementName + "_" + fcda.getLnInst() + ";");
-															}*/
-	
+															dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + ";");
 															dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
 															dataTypesHeader.appendDatatypes("\n\t} gse_inputs_" + gseControl.getName() + ";");
 														}
