@@ -1,3 +1,4 @@
+<img style="float:right" src="http://personal.strath.ac.uk/steven.m.blair/mbed-cropped-small.jpg" />
 # Rapid-prototyping protection schemes with IEC 61850 #
 
 The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers. It's ideal for rapid-prototyping new power system protection and control systems that require communications. But the software could also be used to implement the communications for any general purpose system.
@@ -5,7 +6,6 @@ The goal of this software is to automatically generate C/C++ code which reads an
 This readme file describes how to set up the software, and its basic use.
 
 *The code is meant to be a proof of concept, and is highly experimental. It has not been tested on many SCD files. The code is also still in development at the moment, so some features may be broken or incomplete.*
-
 
 ## Installation ##
 
