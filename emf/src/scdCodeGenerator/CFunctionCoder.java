@@ -71,7 +71,7 @@ public abstract class CFunctionCoder extends CFunction {
 			String datasetName = SCDCodeGenerator.getUniqueDatasetName(dataset);
 			
 			if (commsType == CommsType.SV && coderType == CoderType.DECODER) {
-				return "unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct " + datasetName + " *" + datasetName;
+				return "unsigned char *buf, CTYPE_INT16U smpCnt, struct " + datasetName + " *" + datasetName;
 			}
 			else if (commsType == CommsType.GSE && coderType == CoderType.DECODER) {
 				return "unsigned char *buf, struct " + datasetName + " *" + datasetName;

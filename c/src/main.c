@@ -112,6 +112,8 @@ int main() {
 	initialise_iec61850();
 	fp = initWinpcap();
 
+	Send.S1.D1.sendUD_1.ud.bbTVTR = 11000;
+
 	for (i = 0; i < Send.S1.D1.LN0.udCB.noASDU; i++) {
 		len = Send.S1.D1.LN0.udCB.update(buf);
 	}
@@ -120,8 +122,8 @@ int main() {
 		pcap_sendpacket(fp, buf, len);
 		gse_sv_packet_filter(buf, len);
 
-		//printf("SV test: %s\n", Recv.S1.D1.LN0.LLN0);
-		//fflush(stdout);
+		printf("SV value [0]: %d, SV value [15]: %d", Recv.S1.D1.recvUD_1.sv_inputs_udCB.Send_D1_ud[0].D1__GGIO_1_ud.bbTVTR, Recv.S1.D1.recvUD_1.sv_inputs_udCB.Send_D1_ud[15].D1__GGIO_1_ud.bbTVTR);
+		fflush(stdout);
 	}
 
 

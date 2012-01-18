@@ -93,7 +93,7 @@ int decode_myLPL(unsigned char *buf, struct myLPL *myLPL) {
 
 	return offset;
 }
-int decode_Send_D1_ud(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct Send_D1_ud *Send_D1_ud) {
+int decode_Send_D1_ud(unsigned char *buf, CTYPE_INT16U smpCnt, struct Send_D1_ud *Send_D1_ud) {
 	int offset = 0;
 
 	offset += decode_ud(&buf[offset], &Send_D1_ud->D1__GGIO_1_ud);
@@ -104,7 +104,7 @@ int decode_Send_D1_ud(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struc
 void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {
 
 	if (strncmp((const char *) svID, "ud", svIDLength) == 0) {
-		decode_Send_D1_ud(dataset, ASDU, smpCnt, &Recv.S1.D1.recvUD_1.sv_inputs_udCB.Send_D1_ud[ASDU]);
+		decode_Send_D1_ud(dataset, smpCnt, &Recv.S1.D1.recvUD_1.sv_inputs_udCB.Send_D1_ud[ASDU]);
 		Recv.S1.D1.recvUD_1.sv_inputs_udCB.smpCnt = smpCnt;
 		if (Recv.S1.D1.recvUD_1.sv_inputs_udCB.datasetDecodeDone != NULL) {
 			Recv.S1.D1.recvUD_1.sv_inputs_udCB.datasetDecodeDone(smpCnt);

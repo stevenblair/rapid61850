@@ -29,7 +29,7 @@ extern "C" {
 
 
 
-int decode_Send_D1_ud(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct Send_D1_ud *Send_D1_ud);
+int decode_Send_D1_ud(unsigned char *buf, CTYPE_INT16U smpCnt, struct Send_D1_ud *Send_D1_ud);
 
 void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt);
 

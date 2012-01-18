@@ -90,7 +90,7 @@ void svDecodeAPDU(unsigned char *buf, int len, unsigned int ASDU, unsigned int t
 	unsigned int noASDU = 0;
 	//static unsigned int ASDU = 0;
 
-	//printf("tag: %x, noASDU: %u, lengthFieldSize: %i, lengthValue: %i, offset: %i\n", tag, noASDU, lengthFieldSize, lengthValue, offsetForNonSequence);
+	//printf("tag: %x, ASDU: %u,  totalASDUs: %u, lengthFieldSize: %i, lengthValue: %i, offset: %i\n", tag, ASDU, totalASDUs, lengthFieldSize, lengthValue, offsetForNonSequence);
 
 	switch (tag) {
 		case SV_TAG_SAVPDU:
@@ -105,11 +105,11 @@ void svDecodeAPDU(unsigned char *buf, int len, unsigned int ASDU, unsigned int t
 			svDecodeAPDU(&buf[offsetForSequence], lengthValue, ASDU, totalASDUs);
 			break;
 		case SV_TAG_ASDU:
-			ASDU++;
 			svDecodeASDU(&buf[offsetForSequence], lengthValue, ASDU);
+			ASDU++;
 
 			// process any more ASDUs, until max number
-			if (ASDU + 1 < totalASDUs) {
+			if (ASDU < totalASDUs) {
 				svDecodeAPDU(&buf[offsetForNonSequence], len - offsetForNonSequence, ASDU, totalASDUs);
 			}
 			break;
