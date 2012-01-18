@@ -28,7 +28,7 @@ int ber_get_length_myAnalogValue(struct myAnalogValue *myAnalogValue) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_FLOAT32(&myAnalogValue->f);
+	len = BER_GET_LENGTH_CTYPE_FLOAT32(&myAnalogValue->f);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -47,9 +47,9 @@ int ber_get_length_ScaledValueConfig(struct ScaledValueConfig *ScaledValueConfig
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_FLOAT32(&ScaledValueConfig->scaleFactor);
+	len = BER_GET_LENGTH_CTYPE_FLOAT32(&ScaledValueConfig->scaleFactor);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_FLOAT32(&ScaledValueConfig->offset);
+	len = BER_GET_LENGTH_CTYPE_FLOAT32(&ScaledValueConfig->offset);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -69,9 +69,9 @@ int ber_get_length_myVector(struct myVector *myVector) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myAnalogValue(&myVector->mag);
+	len = ber_get_length_myAnalogValue(&myVector->mag);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myAnalogValue(&myVector->ang);
+	len = ber_get_length_myAnalogValue(&myVector->ang);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -91,9 +91,9 @@ int ber_get_length_simpleVector(struct simpleVector *simpleVector) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myAnalogValue(&simpleVector->mag);
+	len = ber_get_length_myAnalogValue(&simpleVector->mag);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myAnalogValue(&simpleVector->ang);
+	len = ber_get_length_myAnalogValue(&simpleVector->ang);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -113,13 +113,13 @@ int ber_get_length_myMod(struct myMod *myMod) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myMod->ctlVal);
+	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myMod->ctlVal);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myMod->stVal);
+	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myMod->stVal);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&myMod->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&myMod->q);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_TIMESTAMP(&myMod->t);
+	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&myMod->t);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -141,7 +141,7 @@ int ber_get_length_myHealth(struct myHealth *myHealth) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myHealth->stVal);
+	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myHealth->stVal);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -160,7 +160,7 @@ int ber_get_length_myBeh(struct myBeh *myBeh) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myBeh->stVal);
+	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myBeh->stVal);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -179,7 +179,7 @@ int ber_get_length_myINS(struct myINS *myINS) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_INT32(&myINS->stVal);
+	len = BER_GET_LENGTH_CTYPE_INT32(&myINS->stVal);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -198,9 +198,9 @@ int ber_get_length_myLPL(struct myLPL *myLPL) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_VISSTRING255(&myLPL->ldNs);
+	len = BER_GET_LENGTH_CTYPE_VISSTRING255(&myLPL->ldNs);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_VISSTRING255(&myLPL->configRev);
+	len = BER_GET_LENGTH_CTYPE_VISSTRING255(&myLPL->configRev);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -220,9 +220,9 @@ int ber_get_length_myDPL(struct myDPL *myDPL) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_VISSTRING255(&myDPL->vendor);
+	len = BER_GET_LENGTH_CTYPE_VISSTRING255(&myDPL->vendor);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_VISSTRING255(&myDPL->hwRev);
+	len = BER_GET_LENGTH_CTYPE_VISSTRING255(&myDPL->hwRev);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -242,13 +242,13 @@ int ber_get_length_myPos(struct myPos *myPos) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_DBPOS(&myPos->stVal);
+	len = BER_GET_LENGTH_CTYPE_DBPOS(&myPos->stVal);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&myPos->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&myPos->q);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_TIMESTAMP(&myPos->t);
+	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&myPos->t);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_BOOLEAN(&myPos->ctlVal);
+	len = BER_GET_LENGTH_CTYPE_BOOLEAN(&myPos->ctlVal);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -270,11 +270,11 @@ int ber_get_length_mySPS(struct mySPS *mySPS) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_INT32(&mySPS->stVal);
+	len = BER_GET_LENGTH_CTYPE_INT32(&mySPS->stVal);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&mySPS->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&mySPS->q);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_TIMESTAMP(&mySPS->t);
+	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&mySPS->t);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -295,13 +295,13 @@ int ber_get_length_myMV(struct myMV *myMV) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myAnalogValue(&myMV->mag);
+	len = ber_get_length_myAnalogValue(&myMV->mag);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&myMV->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&myMV->q);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_TIMESTAMP(&myMV->t);
+	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&myMV->t);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_ScaledValueConfig(&myMV->sVC);
+	len = ber_get_length_ScaledValueConfig(&myMV->sVC);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -323,13 +323,13 @@ int ber_get_length_simpleMV(struct simpleMV *simpleMV) {
 	int total = 0;
 	int len = 0;
 
-	len += BER_GET_LENGTH_CTYPE_FLOAT32(&simpleMV->mag);
+	len = BER_GET_LENGTH_CTYPE_FLOAT32(&simpleMV->mag);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&simpleMV->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&simpleMV->q);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_TIMESTAMP(&simpleMV->t);
+	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&simpleMV->t);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_ScaledValueConfig(&simpleMV->sVC);
+	len = ber_get_length_ScaledValueConfig(&simpleMV->sVC);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -351,11 +351,11 @@ int ber_get_length_simpleCMV(struct simpleCMV *simpleCMV) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_simpleVector(&simpleCMV->cVal);
+	len = ber_get_length_simpleVector(&simpleCMV->cVal);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&simpleCMV->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&simpleCMV->q);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_TIMESTAMP(&simpleCMV->t);
+	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&simpleCMV->t);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -376,11 +376,11 @@ int ber_get_length_simpleWYE(struct simpleWYE *simpleWYE) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_simpleCMV(&simpleWYE->phsA);
+	len = ber_get_length_simpleCMV(&simpleWYE->phsA);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_simpleCMV(&simpleWYE->phsB);
+	len = ber_get_length_simpleCMV(&simpleWYE->phsB);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_simpleCMV(&simpleWYE->phsC);
+	len = ber_get_length_simpleCMV(&simpleWYE->phsC);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -401,11 +401,11 @@ int ber_get_length_myCMV(struct myCMV *myCMV) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myVector(&myCMV->cVal);
+	len = ber_get_length_myVector(&myCMV->cVal);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&myCMV->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&myCMV->q);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_TIMESTAMP(&myCMV->t);
+	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&myCMV->t);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -426,13 +426,13 @@ int ber_get_length_mySEQ(struct mySEQ *mySEQ) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myCMV(&mySEQ->c1);
+	len = ber_get_length_myCMV(&mySEQ->c1);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myCMV(&mySEQ->c2);
+	len = ber_get_length_myCMV(&mySEQ->c2);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myCMV(&mySEQ->c3);
+	len = ber_get_length_myCMV(&mySEQ->c3);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &mySEQ->seqT);
+	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &mySEQ->seqT);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -454,9 +454,9 @@ int ber_get_length_mySAV(struct mySAV *mySAV) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myAnalogValue(&mySAV->instMag);
+	len = ber_get_length_myAnalogValue(&mySAV->instMag);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&mySAV->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&mySAV->q);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -476,9 +476,9 @@ int ber_get_length_simpleSAV(struct simpleSAV *simpleSAV) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myAnalogValue(&simpleSAV->instMag);
+	len = ber_get_length_myAnalogValue(&simpleSAV->instMag);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&simpleSAV->q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&simpleSAV->q);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -498,17 +498,17 @@ int ber_get_length_E1Q1SB1_C1_Positions(struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
+	len = ber_get_length_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myPos(&E1Q1SB1.S1.C1.CSWIa_1.Pos);
+	len = ber_get_length_myPos(&E1Q1SB1.S1.C1.CSWIa_1.Pos);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myPos(&E1Q1SB1.S1.C1.CSWIa_2.Pos);
+	len = ber_get_length_myPos(&E1Q1SB1.S1.C1.CSWIa_2.Pos);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
+	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Amps);
+	len = ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Amps);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Volts);
+	len = ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Volts);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -535,9 +535,9 @@ int ber_get_length_E1Q1SB1_C1_Measurands(struct E1Q1SB1_C1_Measurands *E1Q1SB1_C
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Amps);
+	len = ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Amps);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Volts);
+	len = ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Volts);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -554,17 +554,17 @@ int ber_get_length_E1Q1SB1_C1_smv(struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
+	len = ber_get_length_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myMod(&E1Q1SB1.S1.C1.CSWIa_1.Mod);
+	len = ber_get_length_myMod(&E1Q1SB1.S1.C1.CSWIa_1.Mod);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
+	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
 	total += len + getLengthBytes(len) + 1;
-	len += BER_GET_LENGTH_CTYPE_QUALITY(&E1Q1SB1.S1.C1.MMXUa_1.Volts.q);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&E1Q1SB1.S1.C1.MMXUa_1.Volts.q);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Amps);
+	len = ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Amps);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_myPos(&E1Q1SB1.S1.C1.CSWIa_2.Pos);
+	len = ber_get_length_myPos(&E1Q1SB1.S1.C1.CSWIa_2.Pos);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -585,11 +585,11 @@ int ber_get_length_E1Q1SB1_C1_rmxu(struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu) {
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA);
+	len = ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsB);
+	len = ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsB);
 	total += len + getLengthBytes(len) + 1;
-	len += ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC);
+	len = ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -607,7 +607,7 @@ int ber_get_length_D1Q1SB4_C1_SyckResult(struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_mySPS(&D1Q1SB4.S1.C1.RSYNa_1.Rel);
+	len = ber_get_length_mySPS(&D1Q1SB4.S1.C1.RSYNa_1.Rel);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -626,7 +626,7 @@ int ber_get_length_D1Q1SB4_C1_MMXUResult(struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C
 	int total = 0;
 	int len = 0;
 
-	len += ber_get_length_simpleWYE(&D1Q1SB4.S1.C1.exampleMMXU_1.A);
+	len = ber_get_length_simpleWYE(&D1Q1SB4.S1.C1.exampleMMXU_1.A);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;

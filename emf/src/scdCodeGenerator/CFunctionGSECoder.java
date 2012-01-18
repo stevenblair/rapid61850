@@ -44,6 +44,11 @@ public class CFunctionGSECoder extends CFunctionCoder {
 		Boolean basicDataType = false;
 		String source = getName();
 		String subItemLinker = "->";
+		String assignment = "+=";
+		
+		if (getLength == true) {
+			assignment = "=";
+		}
 		
 		if (objectClass == SclPackage.eINSTANCE.getTBDA()) {
 			TBDA bda = (TBDA) obj;
@@ -120,6 +125,6 @@ public class CFunctionGSECoder extends CFunctionCoder {
 			coder = coder.toUpperCase();
 		}
 
-		return "\t" + accumulator + " += " + coder + itemType + "(" + buffer + enumCast + "&" + source + subItemLinker + variableName + ");\n";
+		return "\t" + accumulator + " " + assignment + " " + coder + itemType + "(" + buffer + enumCast + "&" + source + subItemLinker + variableName + ");\n";
 	}
 }
