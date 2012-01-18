@@ -29,10 +29,10 @@
 
 
 void init_gse();
-int gse_send_ItlPositions_Itl(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
-int gse_send_AnotherPositions_Itl(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
-int gse_send_SyckResult_SynChk(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
-int gse_send_MMXUResult_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
+int gse_send_E1Q1SB1_C1_ItlPositions(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
+int gse_send_E1Q1SB1_C1_AnotherPositions(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
+int gse_send_D1Q1SB4_C1_SyckResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
+int gse_send_D1Q1SB4_C1_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
 void gseDecode(unsigned char *buf, int len);
 
 

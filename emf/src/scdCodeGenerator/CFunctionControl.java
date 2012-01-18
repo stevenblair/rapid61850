@@ -1,6 +1,8 @@
 package scdCodeGenerator;
 
 import ch.iec._61850._2006.scl.TControl;
+import ch.iec._61850._2006.scl.TIED;
+import ch.iec._61850._2006.scl.TLDevice;
 
 public class CFunctionControl extends CFunction {
 	
@@ -21,7 +23,10 @@ public class CFunctionControl extends CFunction {
 
 	@Override
 	public String getName() {
-		return "control_" + control.getName();
+		String iedName = ((TIED) control.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+		String ldInst = ((TLDevice) control.eContainer().eContainer()).getInst();
+		
+		return "control_" + iedName + "_" + ldInst + "_" + control.getName();
 	}
 
 	@Override

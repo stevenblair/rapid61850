@@ -76,7 +76,7 @@ public class SCDValidator {
 		System.out.println("Warning: " + warning);
 	}
 	
-	public static void error(String error) {
+	public void error(String error) {
 		System.err.println("Error: " + error);
 		System.exit(1);
 	}

@@ -166,7 +166,7 @@ int main() {
 
 	//printf("GSE instMag.f: %f\n"
 	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = valueGSE;
-	len = E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.send(buf, 0, 512);
+	len = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buf, 0, 512);
 	gse_sv_packet_filter(buf, len);
 
 	printf("GSE test: %s\n", D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1__TVTR_1_Vol_instMag.f == valueGSE ? "passed" : "failed");
@@ -174,8 +174,8 @@ int main() {
 
 	E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA.instMag.f = valueSV;
 	int i = 0;
-	for (i = 0; i < E1Q1SB1.S1.C1.LN0.rmxuCB_rmxu.noASDU; i++) {
-		len = E1Q1SB1.S1.C1.LN0.rmxuCB_rmxu.update(buf);
+	for (i = 0; i < E1Q1SB1.S1.C1.LN0.rmxuCB.noASDU; i++) {
+		len = E1Q1SB1.S1.C1.LN0.rmxuCB.update(buf);
 
 		if (len > 0) {
 			gse_sv_packet_filter(buf, len);
@@ -196,7 +196,7 @@ int main() {
 			if (++gooseLoop >= 10) {
 				gooseLoop = 0;
 
-				len = gse_send_ItlPositions_Itl(buf, 0, 512);
+				len = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buf, 0, 512);
 
 				if (pcap_sendpacket(fp, buf, len) != 0) {
 					fprintf(stderr,"\nError sending the packet: %s\n", pcap_geterr(fp));
@@ -230,7 +230,7 @@ int main() {
 							E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 0;
 						}
 
-						len = gse_send_ItlPositions_Itl(buf, 0, 512);
+						len = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buf, 0, 512);
 
 						if (pcap_sendpacket(fp, buf, len) != 0) {
 							fprintf(stderr,"\nError sending the packet: %s\n", pcap_geterr(fp));

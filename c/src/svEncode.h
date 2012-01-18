@@ -33,9 +33,9 @@ extern "C" {
 int encode_E1Q1SB1_C1_Positions(unsigned char *buf);
 int encode_E1Q1SB1_C1_Measurands(unsigned char *buf);
 int encode_E1Q1SB1_C1_smv(unsigned char *buf);
-int encode_control_Volt(unsigned char *buf);
+int encode_control_E1Q1SB1_C1_Volt(unsigned char *buf);
 int encode_E1Q1SB1_C1_rmxu(unsigned char *buf);
-int encode_control_rmxuCB(unsigned char *buf);
+int encode_control_E1Q1SB1_C1_rmxuCB(unsigned char *buf);
 int encode_D1Q1SB4_C1_SyckResult(unsigned char *buf);
 int encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf);
 

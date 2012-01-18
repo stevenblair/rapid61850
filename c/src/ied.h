@@ -34,10 +34,10 @@ struct E1Q1SB1 {
 		struct {
 			struct {
 				struct LN0 LLN0;
-				struct gseControl ItlPositions_Itl;
-				struct gseControl AnotherPositions_Itl;
-				struct svControl Volt_11;
-				struct svControl rmxuCB_rmxu;
+				struct gseControl ItlPositions;
+				struct gseControl AnotherPositions;
+				struct svControl Volt;
+				struct svControl rmxuCB;
 			} LN0;
 			struct exampleRMXU exampleRMXU_1;
 			struct LPHDa LPHDa_1;
@@ -104,8 +104,8 @@ struct D1Q1SB4 {
 		struct {
 			struct {
 				struct LN0 LLN0;
-				struct gseControl SyckResult_SynChk;
-				struct gseControl MMXUResult_MMXUResult;
+				struct gseControl SyckResult;
+				struct gseControl MMXUResult;
 			} LN0;
 			struct exampleMMXU exampleMMXU_1;
 			struct LPHDa LPHDa_1;

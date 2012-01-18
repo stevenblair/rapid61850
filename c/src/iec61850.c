@@ -24,7 +24,4 @@ void initialise_iec61850() {
 	init_datatypes();
 	init_sv();
 	init_gse();
-
-	//E1Q1SB1.S1.C1.MMXU_1.Volts.sVC.offset = 10;
-	//E1Q1SB1.S1.C1.MMXU_1.Volts.sVC.scaleFactor = 200;
 }

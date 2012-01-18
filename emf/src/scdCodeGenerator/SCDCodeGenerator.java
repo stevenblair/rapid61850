@@ -332,12 +332,11 @@ public class SCDCodeGenerator {
 												if (svControl.getDatSet().equals(dataset.getName())) {
 													svEncodeSource.appendFunctionObject(new CFunctionControl(svControl, CommsType.SV));
 													
-													String svName = svControl.getName() + "_" + svControl.getSmvID();
+													String svName = svControl.getName()/* + "_" + svControl.getSmvID()*/;
 													String svPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".LN0.";
 													
 													iedHeader.appendDatatypes("\t\t\t\tstruct svControl " + svName + ";\n");
 
-													svPacketDataInit.append("\t" + svPath + svName + ".update = &sv_update_" + svName + ";\n");
 													svPacketDataInit.append("\t" + svPath + svName + ".noASDU = " + svControl.getNofASDU() + ";\n");
 													
 													TSMV smv = getCommunicationSMV(comms, iedName, apName, ldName, svControl.getName());
@@ -383,7 +382,6 @@ public class SCDCodeGenerator {
 													svPacketDataInit.append("\t" + svPath + svName + ".ASDU = (struct ASDU *) malloc(" + svControl.getNofASDU() + " * sizeof(struct ASDU));\n");
 													
 													// assume all ASDUs refer to the same dataset
-													//svPacketDataInit.append("\tint i = 0;\n");
 													svPacketDataInit.append("\tfor (i = 0; i < " + svControl.getNofASDU() + "; i++) {\n");
 													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].svID = (unsigned char *) malloc(" + (svControl.getSmvID().length() + 1) + ");\n");
 													svPacketDataInit.append("\t\tstrncpy((char *) " + svPath + svName + ".ASDU[i].svID, \"" + svControl.getSmvID() + "\\0\", " + (svControl.getSmvID().length() + 1) + ");\n");
@@ -417,19 +415,19 @@ public class SCDCodeGenerator {
 													svPacketDataInit.append("\t}\n");
 
 													svPacketDataInit.append("\t" + svPath + svName + ".ASDUCount = 0;\n");
-													//svPacketDataInit.append("\t" + svName + ".datasetDecodeDone = NULL;\n");
+													svPacketDataInit.append("\t" + svPath + svName + ".update = &sv_update_" + ied.getName() + "_" + ld.getInst() + "_" + svName + ";\n");
 
 													if (svControls.hasNext()) {
 														svPacketDataInit.append("\n");
 													}
 													
 													// update SV values function (which sends packet if noASDU reached)
-													String svUpdateFunctionPrototype = "int sv_update_" + svName + "(unsigned char *buf)";
+													String svUpdateFunctionPrototype = "int sv_update_" + ied.getName() + "_" + ld.getInst() + "_" + svName + "(unsigned char *buf)";
 													svHeader.appendFunctionPrototypes(svUpdateFunctionPrototype + ";\n");
 													
 													svSource.appendFunctions("\n// returns 1 if buf contains valid packet data");
 													svSource.appendFunctions("\n" + svUpdateFunctionPrototype + " {\n");
-													svSource.appendFunctions("\tint size = encode_control_" + /*dataset.getName()*/svControl.getName()/*getSmvID()*/ + "(" + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].data.data);\n");
+													svSource.appendFunctions("\tint size = encode_control_" + ied.getName() + "_" + ld.getInst() + "_" + svName + "(" + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].data.data);\n");
 													svSource.appendFunctions("\t" + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].data.size = size;\n\n");
 
 													svSource.appendFunctions("\t" + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].smpCnt = " + svPath + svName + ".sampleCountMaster;\n");
@@ -455,12 +453,10 @@ public class SCDCodeGenerator {
 												if (gseControl.getDatSet().equals(dataset.getName())) {
 													gseEncodeSource.appendFunctionObject(new CFunctionControl(gseControl, CommsType.GSE));
 													
-													String gseName = gseControl.getName() + "_" + gseControl.getAppID();
+													String gseName = gseControl.getName()/* + "_" + gseControl.getAppID()*/;
 													String gsePath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".LN0.";
 													
 													iedHeader.appendDatatypes("\t\t\t\tstruct gseControl " + gseName + ";\n");
-													
-													gsePacketDataInit.append("\t" + gsePath + gseName + ".send = &gse_send_" + gseName + ";\n");
 													
 													TGSE gse = getCommunicationGSE(comms, iedName, apName, ldName, gseControl.getName());
 													Iterator<TP> ps = gse.getAddress().getP().iterator();
@@ -528,10 +524,10 @@ public class SCDCodeGenerator {
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".numDatSetEntries = " + dataset.getFCDA().size() + ";\n");
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".encodeDataset = &ber_encode_" + getUniqueDatasetName(dataset) + ";\n");
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".getDatasetLength = &ber_get_length_" + getUniqueDatasetName(dataset) + ";\n");
-													//gsePacketDataInit.append("\t" + gseName + ".datasetDecodeDone = NULL;\n\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".send = &gse_send_" + ied.getName() + "_" + ld.getInst() + "_" + gseName + ";\n");
 													
 													// send GSE function
-													String gseUpdateFunctionPrototype = "int gse_send_" + gseName + "(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive)";
+													String gseUpdateFunctionPrototype = "int gse_send_" + ied.getName() + "_" + ld.getInst() + "_" + gseName + "(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive)";
 													gseHeader.appendFunctionPrototypes(gseUpdateFunctionPrototype + ";\n");
 													
 													gseSource.appendFunctions("\n// returns 1 if buf contains valid packet data");
@@ -970,11 +966,6 @@ public class SCDCodeGenerator {
 	}
 
 	public static TSMV getCommunicationSMV(TCommunication comms, String iedName, String apName, String ldName, String cbName) {
-		if (comms == null) {
-			SCDValidator.error("Communication element does not exist in SCD file");
-			return null;
-		}
-		
 		Iterator<TSubNetwork> subnets = comms.getSubNetwork().iterator();
 		
 		while (subnets.hasNext()) {
@@ -1004,11 +995,6 @@ public class SCDCodeGenerator {
 	}
 	
 	public static TGSE getCommunicationGSE(TCommunication comms, String iedName, String apName, String ldName, String cbName) {
-		if (comms == null) {
-			SCDValidator.error("Communication element does not exist in SCD file");
-			return null;
-		}
-		
 		Iterator<TSubNetwork> subnets = comms.getSubNetwork().iterator();
 		
 		while (subnets.hasNext()) {

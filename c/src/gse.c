@@ -28,193 +28,193 @@
 
 
 // returns 1 if buf contains valid packet data
-int gse_send_ItlPositions_Itl(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.timeAllowedToLive = timeAllowedToLive;
+int gse_send_E1Q1SB1_C1_ItlPositions(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
+	E1Q1SB1.S1.C1.LN0.ItlPositions.timeAllowedToLive = timeAllowedToLive;
 
 	if (statusChange) {
-		E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.stNum++;
-		if (E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.stNum == 0) {
-			E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.stNum = 1;
+		E1Q1SB1.S1.C1.LN0.ItlPositions.stNum++;
+		if (E1Q1SB1.S1.C1.LN0.ItlPositions.stNum == 0) {
+			E1Q1SB1.S1.C1.LN0.ItlPositions.stNum = 1;
 		}
-		E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.sqNum = 0;
+		E1Q1SB1.S1.C1.LN0.ItlPositions.sqNum = 0;
 	}
 	else {
-		E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.sqNum++;
-		if (E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.sqNum == 0) {
-			E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.sqNum = 1;
+		E1Q1SB1.S1.C1.LN0.ItlPositions.sqNum++;
+		if (E1Q1SB1.S1.C1.LN0.ItlPositions.sqNum == 0) {
+			E1Q1SB1.S1.C1.LN0.ItlPositions.sqNum = 1;
 		}
 	}
 
-	return gseEncodePacket(&E1Q1SB1.S1.C1.LN0.ItlPositions_Itl, buf);
+	return gseEncodePacket(&E1Q1SB1.S1.C1.LN0.ItlPositions, buf);
 }
 
 // returns 1 if buf contains valid packet data
-int gse_send_AnotherPositions_Itl(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.timeAllowedToLive = timeAllowedToLive;
+int gse_send_E1Q1SB1_C1_AnotherPositions(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.timeAllowedToLive = timeAllowedToLive;
 
 	if (statusChange) {
-		E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.stNum++;
-		if (E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.stNum == 0) {
-			E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.stNum = 1;
+		E1Q1SB1.S1.C1.LN0.AnotherPositions.stNum++;
+		if (E1Q1SB1.S1.C1.LN0.AnotherPositions.stNum == 0) {
+			E1Q1SB1.S1.C1.LN0.AnotherPositions.stNum = 1;
 		}
-		E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.sqNum = 0;
+		E1Q1SB1.S1.C1.LN0.AnotherPositions.sqNum = 0;
 	}
 	else {
-		E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.sqNum++;
-		if (E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.sqNum == 0) {
-			E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.sqNum = 1;
+		E1Q1SB1.S1.C1.LN0.AnotherPositions.sqNum++;
+		if (E1Q1SB1.S1.C1.LN0.AnotherPositions.sqNum == 0) {
+			E1Q1SB1.S1.C1.LN0.AnotherPositions.sqNum = 1;
 		}
 	}
 
-	return gseEncodePacket(&E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl, buf);
+	return gseEncodePacket(&E1Q1SB1.S1.C1.LN0.AnotherPositions, buf);
 }
 
 // returns 1 if buf contains valid packet data
-int gse_send_SyckResult_SynChk(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.timeAllowedToLive = timeAllowedToLive;
+int gse_send_D1Q1SB4_C1_SyckResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
+	D1Q1SB4.S1.C1.LN0.SyckResult.timeAllowedToLive = timeAllowedToLive;
 
 	if (statusChange) {
-		D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.stNum++;
-		if (D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.stNum == 0) {
-			D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.stNum = 1;
+		D1Q1SB4.S1.C1.LN0.SyckResult.stNum++;
+		if (D1Q1SB4.S1.C1.LN0.SyckResult.stNum == 0) {
+			D1Q1SB4.S1.C1.LN0.SyckResult.stNum = 1;
 		}
-		D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.sqNum = 0;
+		D1Q1SB4.S1.C1.LN0.SyckResult.sqNum = 0;
 	}
 	else {
-		D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.sqNum++;
-		if (D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.sqNum == 0) {
-			D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.sqNum = 1;
+		D1Q1SB4.S1.C1.LN0.SyckResult.sqNum++;
+		if (D1Q1SB4.S1.C1.LN0.SyckResult.sqNum == 0) {
+			D1Q1SB4.S1.C1.LN0.SyckResult.sqNum = 1;
 		}
 	}
 
-	return gseEncodePacket(&D1Q1SB4.S1.C1.LN0.SyckResult_SynChk, buf);
+	return gseEncodePacket(&D1Q1SB4.S1.C1.LN0.SyckResult, buf);
 }
 
 // returns 1 if buf contains valid packet data
-int gse_send_MMXUResult_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.timeAllowedToLive = timeAllowedToLive;
+int gse_send_D1Q1SB4_C1_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
+	D1Q1SB4.S1.C1.LN0.MMXUResult.timeAllowedToLive = timeAllowedToLive;
 
 	if (statusChange) {
-		D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.stNum++;
-		if (D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.stNum == 0) {
-			D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.stNum = 1;
+		D1Q1SB4.S1.C1.LN0.MMXUResult.stNum++;
+		if (D1Q1SB4.S1.C1.LN0.MMXUResult.stNum == 0) {
+			D1Q1SB4.S1.C1.LN0.MMXUResult.stNum = 1;
 		}
-		D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.sqNum = 0;
+		D1Q1SB4.S1.C1.LN0.MMXUResult.sqNum = 0;
 	}
 	else {
-		D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.sqNum++;
-		if (D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.sqNum == 0) {
-			D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.sqNum = 1;
+		D1Q1SB4.S1.C1.LN0.MMXUResult.sqNum++;
+		if (D1Q1SB4.S1.C1.LN0.MMXUResult.sqNum == 0) {
+			D1Q1SB4.S1.C1.LN0.MMXUResult.sqNum = 1;
 		}
 	}
 
-	return gseEncodePacket(&D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult, buf);
+	return gseEncodePacket(&D1Q1SB4.S1.C1.LN0.MMXUResult, buf);
 }
 
 void init_gse() {
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.send = &gse_send_ItlPositions_Itl;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.destMACAddress[0] = 0x01;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.destMACAddress[1] = 0x0C;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.destMACAddress[2] = 0xCD;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.destMACAddress[3] = 0x01;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.destMACAddress[4] = 0x00;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.destMACAddress[5] = 0x04;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.APPID = 0x3000;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ethHeaderData.VLAN_ID = 4;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.goID = (unsigned char *) malloc(4);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.goID, "Itl\0", 4);
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.t = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.gocbRef = (unsigned char *) malloc(28);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.gocbRef, "E1Q1SB1.S1.C1.LN0.ItlPositions_Itl\0", 28);
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.datSet = (unsigned char *) malloc(25);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.timeAllowedToLive = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.stNum = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.sqNum = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.test = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.confRev = 1;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.ndsCom = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.numDatSetEntries = 6;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.encodeDataset = &ber_encode_E1Q1SB1_C1_Positions;
-	E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.getDatasetLength = &ber_get_length_E1Q1SB1_C1_Positions;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.send = &gse_send_AnotherPositions_Itl;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.destMACAddress[0] = 0x01;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.destMACAddress[1] = 0x0C;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.destMACAddress[2] = 0xCD;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.destMACAddress[3] = 0x01;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.destMACAddress[4] = 0x00;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.destMACAddress[5] = 0x04;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.APPID = 0x3000;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ethHeaderData.VLAN_ID = 4;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.goID = (unsigned char *) malloc(4);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.goID, "Itl\0", 4);
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.t = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.gocbRef = (unsigned char *) malloc(32);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.gocbRef, "E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl\0", 32);
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.datSet = (unsigned char *) malloc(25);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.timeAllowedToLive = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.stNum = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.sqNum = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.test = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.confRev = 1;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.ndsCom = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.numDatSetEntries = 6;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.encodeDataset = &ber_encode_E1Q1SB1_C1_Positions;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions_Itl.getDatasetLength = &ber_get_length_E1Q1SB1_C1_Positions;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.send = &gse_send_SyckResult_SynChk;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.destMACAddress[0] = 0x01;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.destMACAddress[1] = 0x0C;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.destMACAddress[2] = 0xCD;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.destMACAddress[3] = 0x01;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.destMACAddress[4] = 0x00;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.destMACAddress[5] = 0x02;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.APPID = 0x3001;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.VLAN_PRIORITY = 0x4;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ethHeaderData.VLAN_ID = 4;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.goID = (unsigned char *) malloc(7);
-	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.goID, "SynChk\0", 7);
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.t = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.gocbRef = (unsigned char *) malloc(26);
-	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.gocbRef, "D1Q1SB4.S1.C1.LN0.SyckResult_SynChk\0", 26);
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.datSet = (unsigned char *) malloc(26);
-	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.datSet, "D1Q1SB4C1/LLN0$SyckResult\0", 26);
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.timeAllowedToLive = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.stNum = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.sqNum = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.test = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.confRev = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.ndsCom = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.numDatSetEntries = 1;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.encodeDataset = &ber_encode_D1Q1SB4_C1_SyckResult;
-	D1Q1SB4.S1.C1.LN0.SyckResult_SynChk.getDatasetLength = &ber_get_length_D1Q1SB4_C1_SyckResult;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.send = &gse_send_MMXUResult_MMXUResult;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.destMACAddress[0] = 0x01;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.destMACAddress[1] = 0x0C;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.destMACAddress[2] = 0xCD;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.destMACAddress[3] = 0x01;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.destMACAddress[4] = 0x00;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.destMACAddress[5] = 0x02;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.APPID = 0x3001;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.VLAN_PRIORITY = 0x4;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ethHeaderData.VLAN_ID = 4;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.goID = (unsigned char *) malloc(11);
-	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.goID, "MMXUResult\0", 11);
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.t = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.gocbRef = (unsigned char *) malloc(26);
-	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.gocbRef, "D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult\0", 26);
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.datSet = (unsigned char *) malloc(26);
-	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.datSet, "D1Q1SB4C1/LLN0$MMXUResult\0", 26);
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.timeAllowedToLive = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.stNum = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.sqNum = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.test = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.confRev = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.ndsCom = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.numDatSetEntries = 1;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.encodeDataset = &ber_encode_D1Q1SB4_C1_MMXUResult;
-	D1Q1SB4.S1.C1.LN0.MMXUResult_MMXUResult.getDatasetLength = &ber_get_length_D1Q1SB4_C1_MMXUResult;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[0] = 0x01;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[1] = 0x0C;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[2] = 0xCD;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[3] = 0x01;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[4] = 0x00;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[5] = 0x04;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.APPID = 0x3000;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.VLAN_PRIORITY = 0x4;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.VLAN_ID = 4;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.goID = (unsigned char *) malloc(4);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.goID, "Itl\0", 4);
+	E1Q1SB1.S1.C1.LN0.ItlPositions.t = 0;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.gocbRef = (unsigned char *) malloc(28);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.gocbRef, "E1Q1SB1.S1.C1.LN0.ItlPositions\0", 28);
+	E1Q1SB1.S1.C1.LN0.ItlPositions.datSet = (unsigned char *) malloc(25);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
+	E1Q1SB1.S1.C1.LN0.ItlPositions.timeAllowedToLive = 0;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.stNum = 0;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.sqNum = 0;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.test = 0;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.confRev = 1;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ndsCom = 0;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.numDatSetEntries = 6;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.encodeDataset = &ber_encode_E1Q1SB1_C1_Positions;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.getDatasetLength = &ber_get_length_E1Q1SB1_C1_Positions;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.send = &gse_send_E1Q1SB1_C1_ItlPositions;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.destMACAddress[0] = 0x01;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.destMACAddress[1] = 0x0C;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.destMACAddress[2] = 0xCD;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.destMACAddress[3] = 0x01;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.destMACAddress[4] = 0x00;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.destMACAddress[5] = 0x04;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.APPID = 0x3000;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.VLAN_PRIORITY = 0x4;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.VLAN_ID = 4;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.goID = (unsigned char *) malloc(4);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.goID, "Itl\0", 4);
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.t = 0;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.gocbRef = (unsigned char *) malloc(32);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.gocbRef, "E1Q1SB1.S1.C1.LN0.AnotherPositions\0", 32);
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.datSet = (unsigned char *) malloc(25);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.timeAllowedToLive = 0;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.stNum = 0;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.sqNum = 0;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.test = 0;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.confRev = 1;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ndsCom = 0;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.numDatSetEntries = 6;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.encodeDataset = &ber_encode_E1Q1SB1_C1_Positions;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.getDatasetLength = &ber_get_length_E1Q1SB1_C1_Positions;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.send = &gse_send_E1Q1SB1_C1_AnotherPositions;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.destMACAddress[0] = 0x01;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.destMACAddress[1] = 0x0C;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.destMACAddress[2] = 0xCD;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.destMACAddress[3] = 0x01;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.destMACAddress[4] = 0x00;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.destMACAddress[5] = 0x02;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.APPID = 0x3001;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.VLAN_PRIORITY = 0x4;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.VLAN_ID = 4;
+	D1Q1SB4.S1.C1.LN0.SyckResult.goID = (unsigned char *) malloc(7);
+	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.goID, "SynChk\0", 7);
+	D1Q1SB4.S1.C1.LN0.SyckResult.t = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.gocbRef = (unsigned char *) malloc(26);
+	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.gocbRef, "D1Q1SB4.S1.C1.LN0.SyckResult\0", 26);
+	D1Q1SB4.S1.C1.LN0.SyckResult.datSet = (unsigned char *) malloc(26);
+	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.datSet, "D1Q1SB4C1/LLN0$SyckResult\0", 26);
+	D1Q1SB4.S1.C1.LN0.SyckResult.timeAllowedToLive = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.stNum = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.sqNum = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.test = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.confRev = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ndsCom = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.numDatSetEntries = 1;
+	D1Q1SB4.S1.C1.LN0.SyckResult.encodeDataset = &ber_encode_D1Q1SB4_C1_SyckResult;
+	D1Q1SB4.S1.C1.LN0.SyckResult.getDatasetLength = &ber_get_length_D1Q1SB4_C1_SyckResult;
+	D1Q1SB4.S1.C1.LN0.SyckResult.send = &gse_send_D1Q1SB4_C1_SyckResult;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.destMACAddress[0] = 0x01;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.destMACAddress[1] = 0x0C;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.destMACAddress[2] = 0xCD;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.destMACAddress[3] = 0x01;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.destMACAddress[4] = 0x00;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.destMACAddress[5] = 0x02;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.APPID = 0x3001;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.VLAN_PRIORITY = 0x4;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.VLAN_ID = 4;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.goID = (unsigned char *) malloc(11);
+	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.goID, "MMXUResult\0", 11);
+	D1Q1SB4.S1.C1.LN0.MMXUResult.t = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.gocbRef = (unsigned char *) malloc(26);
+	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.gocbRef, "D1Q1SB4.S1.C1.LN0.MMXUResult\0", 26);
+	D1Q1SB4.S1.C1.LN0.MMXUResult.datSet = (unsigned char *) malloc(26);
+	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.datSet, "D1Q1SB4C1/LLN0$MMXUResult\0", 26);
+	D1Q1SB4.S1.C1.LN0.MMXUResult.timeAllowedToLive = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.stNum = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.sqNum = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.test = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.confRev = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ndsCom = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.numDatSetEntries = 1;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.encodeDataset = &ber_encode_D1Q1SB4_C1_MMXUResult;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.getDatasetLength = &ber_get_length_D1Q1SB4_C1_MMXUResult;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.send = &gse_send_D1Q1SB4_C1_MMXUResult;
 }
 

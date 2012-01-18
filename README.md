@@ -130,6 +130,6 @@ In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in o
  - FCDAs cannot use the syntax "vector.mag.f" as values for data attribute references.
  - Data types cannot contain arrays.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
- - Does not initialise to default values (including DOI and DAI), or allocate memory for strings
+ - Does not initialise data to default values (including DOI and DAI), or allocate memory for strings
     - typical values are set in DataTypeTemplates section (i.e., DA and BDA, both sub-types of AbstractDataType, may have Val elements)
     - special case values are set in LN definition
