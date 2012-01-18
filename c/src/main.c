@@ -37,7 +37,7 @@
 
 #define PI				3.1415926535897932384626433832795
 #define TWO_PI			6.283185307179586476925286766559
-#define BUFFFER_LENGTH	1024
+#define BUFFFER_LENGTH	2048
 
 pcap_t *fp;
 char errbuf[PCAP_ERRBUF_SIZE];
@@ -167,8 +167,9 @@ int main() {
 	//printf("GSE instMag.f: %f\n"
 	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = valueGSE;
 	len = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buf, 0, 512);
-	gse_sv_packet_filter(buf, len);
+	pcap_sendpacket(fp, buf, len);
 
+	gse_sv_packet_filter(buf, len);
 	printf("GSE test: %s\n", D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1__TVTR_1_Vol_instMag.f == valueGSE ? "passed" : "failed");
 	fflush(stdout);
 
@@ -176,6 +177,7 @@ int main() {
 	int i = 0;
 	for (i = 0; i < E1Q1SB1.S1.C1.LN0.rmxuCB.noASDU; i++) {
 		len = E1Q1SB1.S1.C1.LN0.rmxuCB.update(buf);
+		pcap_sendpacket(fp, buf, len);
 
 		if (len > 0) {
 			gse_sv_packet_filter(buf, len);

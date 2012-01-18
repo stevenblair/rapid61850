@@ -93,6 +93,7 @@ extern "C" {
 #define BER_GET_LENGTH_CTYPE_DBPOS(x)			(SV_GET_LENGTH_DBPOS)
 #endif
 
+#define ASN1_TAG_SEQUENCE						0x61
 #define ASN1_TAG_ARRAY							0x81
 #define ASN1_TAG_STRUCTURE						0x82
 #define ASN1_TAG_BOOLEAN						0x83
@@ -103,6 +104,19 @@ extern "C" {
 #define ASN1_TAG_REAL							0x88
 #define ASN1_TAG_OCTET_STRING					0x89
 #define ASN1_TAG_VISIBLE_STRING					0x8A
+
+#define GSE_TAG_GOCBREF							0x80
+#define GSE_TAG_TIME_ALLOWED_TO_LIVE			0x81
+#define GSE_TAG_DATSET							0x82
+#define GSE_TAG_GOID							0x83
+#define GSE_TAG_T								0x84
+#define GSE_TAG_STNUM							0x85
+#define GSE_TAG_SQNUM							0x86
+#define GSE_TAG_SIMULATION						0x87
+#define GSE_TAG_CONFREV							0x88
+#define GSE_TAG_NDSCOM							0x89
+#define GSE_TAG_NUMDATSETENTRIES				0x8a
+#define GSE_TAG_ALLDATA							0x8b
 
 #define QUALITY_UNUSED_BITS						3		// total_bits (16) - used_bits (13) = 3
 

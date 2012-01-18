@@ -26,55 +26,71 @@
 #include "decodePacket.h"
 #include <stddef.h>
 
-
-
-//temp
+//TODO: remove temp includes
 //#include <stdio.h>
 //#include <stdlib.h>
 
-
-//TODO move these inside gseDecodePDU() and loop, rather than recurse to ensure re-entrant
-unsigned char	datasetName[65] = {0};		// maximum length of 65 bytes
-CTYPE_INT16U	datasetNameLength = 0;
-unsigned char	gocbRef[129] = {0};			// maximum length of 129 bytes
-CTYPE_INT16U	gocbRefLength = 0;
-
-
 void gseDecodePDU(unsigned char *buf) {
-	unsigned char	tag = (unsigned char) buf[0];	// assumes only one byte is used
-	CTYPE_INT16U	lengthFieldSize = getLengthFieldSize((unsigned char) buf[1]);
-	CTYPE_INT16U	lengthValue = decodeLength((unsigned char *) &buf[1]);
-	CTYPE_INT16U	offsetForSequence = 1 + lengthFieldSize;
-	CTYPE_INT16U	offsetForNonSequence = 1 + lengthFieldSize + lengthValue;
+	unsigned char	tag;
+	CTYPE_INT16U	lengthFieldSize;
+	CTYPE_INT16U	lengthValue;
+	CTYPE_INT16U	offsetForSequence;
+	CTYPE_INT16U	offsetForNonSequence;
+	unsigned char	*gocbRef = NULL;
+	CTYPE_INT16U	gocbRefLength = 0;
+	CTYPE_INT32U	timeAllowedToLive;
+	CTYPE_TIMESTAMP	T;
+	CTYPE_INT32U	sqNum;
+	CTYPE_INT32U	stNum;
 
-	//printf("tag: %x, lengthFieldSize: %i, lengthValue: %i, offset: %i\n", tag, lengthFieldSize, lengthValue, offsetForNonSequence);
+	while (1) {
+		tag = (unsigned char) buf[0];	// assumes only one byte is used
+		lengthFieldSize = getLengthFieldSize((unsigned char) buf[1]);
+		lengthValue = decodeLength((unsigned char *) &buf[1]);
+		offsetForSequence = 1 + lengthFieldSize;
+		offsetForNonSequence = 1 + lengthFieldSize + lengthValue;
 
-	switch (tag) {
-	case 0x80:
-		// save gocbRef name
-		memcpy(datasetName, &buf[offsetForSequence], lengthValue);
-		datasetNameLength = lengthValue;
-		gseDecodePDU(&buf[offsetForNonSequence]);
-		break;
-	case 0x61:
-		gseDecodePDU(&buf[offsetForSequence]);
-		break;
-	case 0x82:
-		// save dataset name
-		memcpy(datasetName, &buf[offsetForSequence], lengthValue);
-		datasetNameLength = lengthValue;
-		//printf("%s, %d\n", datasetName, datasetNameLength);
-		//fflush(stdout);
+		switch (tag) {
+		case GSE_TAG_GOCBREF:
+			// save gocbRef name
+			gocbRef = &buf[offsetForSequence];
+			gocbRefLength = lengthValue;
+			//printf("gocbRef: %s, length: %d\n", gocbRef, gocbRefLength);
+			//fflush(stdout);
 
-		gseDecodePDU(&buf[offsetForNonSequence]);
-		break;
-	case 0xAB:
-		gseDecodeDataset(&buf[offsetForSequence], lengthValue, gocbRef, gocbRefLength);
-		return;
-		break;
-	default:
-		gseDecodePDU(&buf[offsetForNonSequence]);
-		break;
+			buf = &buf[offsetForNonSequence];
+			break;
+		case GSE_TAG_TIME_ALLOWED_TO_LIVE:
+			ber_decode_integer(&buf[offsetForSequence], lengthValue, &timeAllowedToLive, SV_GET_LENGTH_INT32U);
+			buf = &buf[offsetForNonSequence];
+			break;
+		case ASN1_TAG_SEQUENCE:
+			buf = &buf[offsetForSequence];
+			break;
+		case GSE_TAG_DATSET:
+			// save dataset name
+			buf = &buf[offsetForNonSequence];
+			break;
+		case GSE_TAG_T:
+			memcpy(&T, &buf[offsetForSequence], BER_GET_LENGTH_CTYPE_TIMESTAMP(&T));
+			buf = &buf[offsetForNonSequence];
+			break;
+		case GSE_TAG_STNUM:
+			ber_decode_integer(&buf[offsetForSequence], lengthValue, &stNum, SV_GET_LENGTH_INT32U);
+			buf = &buf[offsetForNonSequence];
+			break;
+		case GSE_TAG_SQNUM:
+			ber_decode_integer(&buf[offsetForSequence], lengthValue, &sqNum, SV_GET_LENGTH_INT32U);
+			buf = &buf[offsetForNonSequence];
+			break;
+		case GSE_TAG_ALLDATA:
+			gseDecodeDataset(&buf[offsetForSequence], lengthValue, gocbRef, gocbRefLength, timeAllowedToLive, T, stNum, sqNum);
+			return;
+			break;
+		default:
+			buf = &buf[offsetForNonSequence];
+			break;
+		}
 	}
 }
 

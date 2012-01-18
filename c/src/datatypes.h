@@ -215,6 +215,7 @@ struct LPHDa {
 	struct {
 		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
+		CTYPE_INT16U smpCnt;
 	} sv_inputs_Volt;
 };
 struct CSWIa {
@@ -239,6 +240,7 @@ struct exampleMMXU {
 	struct {
 		struct E1Q1SB1_C1_rmxu E1Q1SB1_C1_rmxu[16];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
+		CTYPE_INT16U smpCnt;
 	} sv_inputs_rmxuCB;
 };
 struct exampleRMXU {
@@ -271,15 +273,24 @@ struct RSYNa {
 	struct {
 		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
+		CTYPE_INT16U smpCnt;
 	} sv_inputs_Volt;
 	struct {
 		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
-		void (*datasetDecodeDone)();
-	} gse_inputs_AnotherPositions;
+		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
+		CTYPE_INT32U timeAllowedToLive;
+		CTYPE_TIMESTAMP T;
+		CTYPE_INT32U stNum;
+		CTYPE_INT32U sqNum;
+	} gse_inputs_ItlPositions;
 	struct {
 		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
-		void (*datasetDecodeDone)();
-	} gse_inputs_ItlPositions;
+		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
+		CTYPE_INT32U timeAllowedToLive;
+		CTYPE_TIMESTAMP T;
+		CTYPE_INT32U stNum;
+		CTYPE_INT32U sqNum;
+	} gse_inputs_AnotherPositions;
 };
 
 void init_datatypes();

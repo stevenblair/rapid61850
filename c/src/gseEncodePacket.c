@@ -102,63 +102,63 @@ int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf) {
 	buf[offset++] = 0x00;	// reserved 2
 	buf[offset++] = 0x00;
 
-	buf[offset++] = 0x61;
+	buf[offset++] = ASN1_TAG_SEQUENCE;
 	offset += encodeLength(&buf[offset], ADPULength /*+ getLengthBytes(ADPULength) + 1*/);
 
-	buf[offset++] = 0x80;
+	buf[offset++] = GSE_TAG_GOCBREF;
 	size = strlen((const char *) gseControl->gocbRef);
 	buf[offset++] = size;
 	memcpy(&buf[offset], gseControl->gocbRef, size);
 	offset += size;
 
-	buf[offset++] = 0x81;
+	buf[offset++] = GSE_TAG_TIME_ALLOWED_TO_LIVE;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->timeAllowedToLive));
 	//offset += BER_ENCODE_CTYPE_INT32U(&buf[offset], &gseControl->timeAllowedToLive);
 	offset += ber_encode_integer(&buf[offset], &gseControl->timeAllowedToLive, SV_GET_LENGTH_INT32U);
 
-	buf[offset++] = 0x82;
+	buf[offset++] = GSE_TAG_DATSET;
 	size = strlen((const char *) gseControl->datSet);
 	buf[offset++] = size;
 	memcpy(&buf[offset], gseControl->datSet, size);
 	offset += size;
 
-	buf[offset++] = 0x83;
+	buf[offset++] = GSE_TAG_GOID;
 	size = strlen((const char *) gseControl->goID);
 	buf[offset++] = size;
 	memcpy(&buf[offset], gseControl->goID, size);
 	offset += size;
 
-	buf[offset++] = 0x84;
+	buf[offset++] = GSE_TAG_T;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_TIMESTAMP(&gseControl->t));
 	setTimestamp(&gseControl->t);
 	memcpy(&buf[offset], &gseControl->t, BER_GET_LENGTH_CTYPE_TIMESTAMP(&gseControl->t));
 	offset += BER_GET_LENGTH_CTYPE_TIMESTAMP(&gseControl->t);
 
-	buf[offset++] = 0x85;
+	buf[offset++] = GSE_TAG_STNUM;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->stNum));
 	offset += ber_encode_integer(&buf[offset], &gseControl->stNum, SV_GET_LENGTH_INT32U);
 
-	buf[offset++] = 0x86;
+	buf[offset++] = GSE_TAG_SQNUM;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->sqNum));
 	offset += ber_encode_integer(&buf[offset], &gseControl->sqNum, SV_GET_LENGTH_INT32U);
 
-	buf[offset++] = 0x87;
+	buf[offset++] = GSE_TAG_SIMULATION;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_BOOLEAN(&gseControl->test));
 	offset += ber_encode_integer(&buf[offset], &gseControl->test, SV_GET_LENGTH_BOOLEAN);
 
-	buf[offset++] = 0x88;
+	buf[offset++] = GSE_TAG_CONFREV;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->confRev));
 	offset += ber_encode_integer(&buf[offset], &gseControl->confRev, SV_GET_LENGTH_INT32U);
 
-	buf[offset++] = 0x89;
+	buf[offset++] = GSE_TAG_NDSCOM;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_BOOLEAN(&gseControl->ndsCom));
 	offset += ber_encode_integer(&buf[offset], &gseControl->ndsCom, SV_GET_LENGTH_BOOLEAN);
 
-	buf[offset++] = 0x8A;
+	buf[offset++] = GSE_TAG_NUMDATSETENTRIES;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->numDatSetEntries));
 	offset += ber_encode_integer(&buf[offset], &gseControl->numDatSetEntries, SV_GET_LENGTH_INT32U);
 
-	buf[offset++] = 0xAB;
+	buf[offset++] = GSE_TAG_ALLDATA;
 	offset += encodeLength(&buf[offset], (gseControl->getDatasetLength)());
 	offset += (gseControl->encodeDataset)(&buf[offset]);
 

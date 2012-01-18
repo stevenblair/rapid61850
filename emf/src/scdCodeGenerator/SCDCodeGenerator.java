@@ -501,12 +501,12 @@ public class SCDCodeGenerator {
 	
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".t = 0;\n");
 													
-													String gocbRef = iedName + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
+													String gocbRef = /*iedName + */ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
 													if (gocbRef.length() > 65) {
 														gocbRef = gocbRef.substring(0, 64);
 													}
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".gocbRef = (unsigned char *) malloc(" + (gocbRef.length() + 1) + ");\n");
-													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".gocbRef, \"" + gsePath + gseName + "\\0\", " + (gocbRef.length() + 1) + ");\n");
+													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".gocbRef, \"" + gocbRef + "\\0\", " + (gocbRef.length() + 1) + ");\n");
 													
 													String datSet = iedName + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getDatSet();
 													if (datSet.length() > 65) {
@@ -658,7 +658,7 @@ public class SCDCodeGenerator {
 		Iterator<TLNodeType> lnTypes = dataTypeTemplates.getLNodeType().iterator();
 		dataTypesHeader.appendDatatypes("\n\n// logical nodes\n");
 		svDecodeDatasetFunction.append("void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {\n");
-		gseDecodeDatasetFunction.append("void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *gocbRef, int gocbRefLength) {\n");
+		gseDecodeDatasetFunction.append("void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {\n");
 		
 		while (lnTypes.hasNext()) {
 			TLNodeType lnType = lnTypes.next();
@@ -731,6 +731,7 @@ public class SCDCodeGenerator {
 
 																svDecodeDatasetFunction.append("\n\tif (strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");
 																svDecodeDatasetFunction.append("\n\t\tdecode_" + datasetName + "(dataset, ASDU, smpCnt, &" + inputsPath + datasetName + "[ASDU]);");
+																svDecodeDatasetFunction.append("\n\t\t" + inputsPath + "smpCnt = smpCnt;");
 																svDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
 																svDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone(smpCnt);");
 																svDecodeDatasetFunction.append("\n\t\t}");
@@ -739,6 +740,7 @@ public class SCDCodeGenerator {
 																dataTypesHeader.appendDatatypes("\n\tstruct {");
 																dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + noASDUString + ";");
 																dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)(CTYPE_INT16U smpCnt);");
+																dataTypesHeader.appendDatatypes("\n\t\tCTYPE_INT16U smpCnt;");
 																dataTypesHeader.appendDatatypes("\n\t} sv_inputs_" + svControl.getName() + ";");
 															}
 														}
@@ -754,14 +756,22 @@ public class SCDCodeGenerator {
 																
 																gseDecodeDatasetFunction.append("\n\tif (strncmp((const char *) gocbRef, \"" + gocbRef + "\", gocbRefLength) == 0) {");
 																gseDecodeDatasetFunction.append("\n\t\tber_decode_" + datasetName + "(dataset, &" + inputsPath + datasetName + ");");
+																gseDecodeDatasetFunction.append("\n\t\t" + inputsPath + "timeAllowedToLive = timeAllowedToLive;");
+																gseDecodeDatasetFunction.append("\n\t\t" + inputsPath + "T = T;");
+																gseDecodeDatasetFunction.append("\n\t\t" + inputsPath + "stNum = stNum;");
+																gseDecodeDatasetFunction.append("\n\t\t" + inputsPath + "sqNum = sqNum;");
 																gseDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
-																gseDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone();");
+																gseDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);");
 																gseDecodeDatasetFunction.append("\n\t\t}");
 																gseDecodeDatasetFunction.append("\n\t}");
 
 																dataTypesHeader.appendDatatypes("\n\tstruct {");
 																dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + ";");
-																dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
+																dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);");
+																dataTypesHeader.appendDatatypes("\n\t\tCTYPE_INT32U timeAllowedToLive;");
+																dataTypesHeader.appendDatatypes("\n\t\tCTYPE_TIMESTAMP T;");
+																dataTypesHeader.appendDatatypes("\n\t\tCTYPE_INT32U stNum;");
+																dataTypesHeader.appendDatatypes("\n\t\tCTYPE_INT32U sqNum;");
 																dataTypesHeader.appendDatatypes("\n\t} gse_inputs_" + gseControl.getName() + ";");
 															}
 														}
@@ -803,7 +813,7 @@ public class SCDCodeGenerator {
 		gseEncodeHeader = gseEncodeSource.populateHeaderFilePrototypes(gseEncodeHeader);
 		gseDecodeHeader = gseDecodeSource.populateHeaderFilePrototypes(gseDecodeHeader);
 		svDecodeHeader.appendFunctionPrototypes("\nvoid svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt);");
-		gseDecodeHeader.appendFunctionPrototypes("\nvoid gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *gocbRef, int gocbRefLength);");
+		gseDecodeHeader.appendFunctionPrototypes("\nvoid gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);");
 		svEncodeHeader.appendFunctionPrototypes("\nint svEncodePacket(struct svControl *svControl, unsigned char *buf);");
 		gseEncodeHeader.appendFunctionPrototypes("int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf);");
 		svHeader.appendFunctionPrototypes("void svDecode(unsigned char *buf, int len);\n");

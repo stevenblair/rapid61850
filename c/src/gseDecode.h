@@ -37,7 +37,7 @@ int ber_decode_E1Q1SB1_C1_rmxu(unsigned char *buf, struct E1Q1SB1_C1_rmxu *E1Q1S
 int ber_decode_D1Q1SB4_C1_SyckResult(unsigned char *buf, struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult);
 int ber_decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult);
 
-void gseDecodeDataset(unsigned char *dataset, int datasetLength, unsigned char *gocbRef, int gocbRefLength);
+void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
 
 
 

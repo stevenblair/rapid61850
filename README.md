@@ -71,20 +71,20 @@ int length = 0;
 unsigned char buffer[2048] = {0};
 
 int main() {
-	initialise_iec61850();												// initialise all data structures
+	initialise_iec61850();											// initialise all data structures
 
 	// send GOOSE packet
-	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 1.024;						// set a value that appears in the dataset used by the "ItlPositions" GOOSE Control
-	length = E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.send(buffer, 1, 512);	// generate a goose packet, and store the bytes in "buffer"
-	send_ethernet_packet(buffer, length);								// platform-specific call to send an Ethernet packet
+	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 1.024;					// set a value that appears in the dataset used by the "ItlPositions" GOOSE Control
+	length = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buffer, 1, 512);	// generate a goose packet, and store the bytes in "buffer"
+	send_ethernet_packet(buffer, length);							// platform-specific call to send an Ethernet packet
 
 
 	// in another IED...
 
 
 	// receive GOOSE or SV packet
-	length = recv_ethernet_packet(buffer);								// platform-specific call to receive an Ethernet packet
-	gse_sv_packet_filter(buffer, length);								// deals with any GOOSE or SV dataset that is able to be processed
+	length = recv_ethernet_packet(buffer);							// platform-specific call to receive an Ethernet packet
+	gse_sv_packet_filter(buffer, length);							// deals with any GOOSE or SV dataset that is able to be processed
 
 	// read value that was updated by the packet (it will equal 1.024)
 	float inputValue = D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1__TVTR_1_Vol_instMag.f;
@@ -105,7 +105,14 @@ void SVcallbackFunction(CTYPE_INT16U smpCont) {
 	;
 }
 
-D1Q1SB4.S1.C1.MMXU_1.sv_inputs_rmxuCB.datasetDecodeDone = &SVcallbackFunction;
+void GSEcallbackFunction(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {
+	;
+}
+
+//...
+
+D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone = &SVcallbackFunction;
+D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &GSEcallbackFunction;
 ```
 
 where `D1Q1SB4.S1.C1.exampleMMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). "rmxuCB" is the name of the `SampledValueControl`, in a different IED, which send the SV packets. After being initialised, the callback function will be executed after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a separate memory buffer.
