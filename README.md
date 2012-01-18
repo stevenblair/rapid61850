@@ -93,10 +93,10 @@ void SVcallbackFunction(CTYPE_INT16U smpCont) {
 	;
 }
 
-D1Q1SB4.S1.C1.MMXU_1.sv_inputs.datasetDecodeDone = &SVcallbackFunction;
+D1Q1SB4.S1.C1.MMXU_1.sv_inputs_rmxuCB.datasetDecodeDone = &SVcallbackFunction;
 ```
 
-where `D1Q1SB4.S1.C1.MMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). After being initialised, this function will be called after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a seperate memory buffer.
+where `D1Q1SB4.S1.C1.exampleMMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). "rmxuCB" is the name of the `SampledValueControl`, in a different IED, which send the SV packets. After being initialised, the callback function will be executed after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a separate memory buffer.
 
 ### Platform-specific options ###
 
@@ -118,9 +118,9 @@ In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in o
 
 ## Known issues and possible features ##
 
- - Inputs - find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset
- - initialise default values (including DOI and DAI), and allocate memory for strings
+ - FCDAs cannot use the syntax "vector.mag.f" as values for data attribute references.
+ - Data types cannot contain arrays.
+ - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
+ - Does not initialise to default values (including DOI and DAI), or allocate memory for strings
     - typical values are set in DataTypeTemplates section (i.e., DA and BDA, both sub-types of AbstractDataType, may have Val elements)
     - special case values are set in LN definition
- - ensure C string literals are "safe", i.e. `\\` instead of `\`
- - put svControl and gseControl instances inside LLN0 definition?
