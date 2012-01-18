@@ -60,7 +60,7 @@ The accompanying mbed microcontroller example code is available [here](http://mb
 
 ## Using the code ##
 
-First open the file `Main.java`. In the `main()` function, set the argument of `generateCode(filename)` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation.
+First open the file `Main.java`. In the `Main` class, set the value of `SCD_FILENAME` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation.
 
 A basic C `main()` function will look something like:
 
@@ -78,10 +78,14 @@ int main() {
 	length = E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.send(buffer, 1, 512);	// generate a goose packet, and store the bytes in "buffer"
 	send_ethernet_packet(buffer, length);								// platform-specific call to send an Ethernet packet
 
+
+	// in another IED...
+
+
 	// receive GOOSE or SV packet
 	length = recv_ethernet_packet(buffer);								// platform-specific call to receive an Ethernet packet
 	gse_sv_packet_filter(buffer, length);								// deals with any GOOSE or SV dataset that is able to be processed
-	
+
 	// read value that was updated by the packet (it will equal 1.024)
 	float inputValue = D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1__TVTR_1_Vol_instMag.f;
 
