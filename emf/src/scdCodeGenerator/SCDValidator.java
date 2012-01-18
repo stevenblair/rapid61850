@@ -20,6 +20,8 @@
 
 package scdCodeGenerator;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -772,15 +774,20 @@ public class SCDValidator {
 				return;
 			} else {
 				if (result.size() == 0) {
-					warning("no dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+					error("no dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
 				}
 				else {
 					if (result.size() > 1) {
-						warning("more than dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+						warning(result.size() + " datasets satisfy ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
 					}
-					
-					// map ExtRef to the DataSet of the first FCDA in results
-					extRef.setDataSet((TDataSet) ((TFCDA) result.toArray()[0]).eContainer());
+					Iterator<EObject> fcdas = result.iterator();
+
+					// map ExtRef to the DataSets of the FCDAs in results
+					while (fcdas.hasNext()) {
+						TFCDA fcda = (TFCDA) fcdas.next();
+
+						extRef.getDataSet().add((TDataSet) fcda.eContainer());
+					}
 				}
 			}
 		}

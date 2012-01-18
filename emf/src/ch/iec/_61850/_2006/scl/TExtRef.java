@@ -6,6 +6,7 @@
  */
 package ch.iec._61850._2006.scl;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -252,7 +253,8 @@ public interface TExtRef extends EObject {
 	void setPrefix(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Data Set</b></em>' reference.
+	 * Returns the value of the '<em><b>Data Set</b></em>' reference list.
+	 * The list contents are of type {@link ch.iec._61850._2006.scl.TDataSet}.
 	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TDataSet#getExtRef <em>Ext Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -260,24 +262,13 @@ public interface TExtRef extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Data Set</em>' reference.
-	 * @see #setDataSet(TDataSet)
+	 * @return the value of the '<em>Data Set</em>' reference list.
 	 * @see ch.iec._61850._2006.scl.SclPackage#getTExtRef_DataSet()
 	 * @see ch.iec._61850._2006.scl.TDataSet#getExtRef
 	 * @model opposite="extRef"
 	 * @generated
 	 */
-	TDataSet getDataSet();
-
-	/**
-	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TExtRef#getDataSet <em>Data Set</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Data Set</em>' reference.
-	 * @see #getDataSet()
-	 * @generated
-	 */
-	void setDataSet(TDataSet value);
+	EList<TDataSet> getDataSet();
 
 	/**
 	 * Returns the value of the '<em><b>Do Type</b></em>' reference.

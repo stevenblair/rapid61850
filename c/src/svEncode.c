@@ -194,6 +194,12 @@ int encode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 
 	return offset;
 }
+int encode_control_Volt(unsigned char *buf) {
+	return encode_E1Q1SB1_C1_smv(buf);
+}
+int encode_control_rmxuCB(unsigned char *buf) {
+	return encode_E1Q1SB1_C1_rmxu(buf);
+}
 int encode_E1Q1SB1_C1_Positions(unsigned char *buf) {
 	int offset = 0;
 
@@ -248,12 +254,6 @@ int encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf) {
 	offset += encode_simpleWYE(&buf[offset], &D1Q1SB4.S1.C1.exampleMMXU_1.A);
 
 	return offset;
-}
-int encode_control_Volt(unsigned char *buf) {
-	return encode_E1Q1SB1_C1_smv(buf);
-}
-int encode_control_rmxuCB(unsigned char *buf) {
-	return encode_E1Q1SB1_C1_rmxu(buf);
 }
 
 

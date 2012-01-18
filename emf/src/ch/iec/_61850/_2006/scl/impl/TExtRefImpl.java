@@ -12,14 +12,19 @@ import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TExtRef;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -206,14 +211,14 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 	protected String prefix = PREFIX_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getDataSet() <em>Data Set</em>}' reference.
+	 * The cached value of the '{@link #getDataSet() <em>Data Set</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getDataSet()
 	 * @generated
 	 * @ordered
 	 */
-	protected TDataSet dataSet;
+	protected EList<TDataSet> dataSet;
 
 	/**
 	 * The cached value of the '{@link #getDoType() <em>Do Type</em>}' reference.
@@ -427,59 +432,11 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TDataSet getDataSet() {
-		if (dataSet != null && dataSet.eIsProxy()) {
-			InternalEObject oldDataSet = (InternalEObject)dataSet;
-			dataSet = (TDataSet)eResolveProxy(oldDataSet);
-			if (dataSet != oldDataSet) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TEXT_REF__DATA_SET, oldDataSet, dataSet));
-			}
+	public EList<TDataSet> getDataSet() {
+		if (dataSet == null) {
+			dataSet = new EObjectWithInverseResolvingEList.ManyInverse<TDataSet>(TDataSet.class, this, SclPackage.TEXT_REF__DATA_SET, SclPackage.TDATA_SET__EXT_REF);
 		}
 		return dataSet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDataSet basicGetDataSet() {
-		return dataSet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetDataSet(TDataSet newDataSet, NotificationChain msgs) {
-		TDataSet oldDataSet = dataSet;
-		dataSet = newDataSet;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TEXT_REF__DATA_SET, oldDataSet, newDataSet);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDataSet(TDataSet newDataSet) {
-		if (newDataSet != dataSet) {
-			NotificationChain msgs = null;
-			if (dataSet != null)
-				msgs = ((InternalEObject)dataSet).eInverseRemove(this, SclPackage.TDATA_SET__EXT_REF, TDataSet.class, msgs);
-			if (newDataSet != null)
-				msgs = ((InternalEObject)newDataSet).eInverseAdd(this, SclPackage.TDATA_SET__EXT_REF, TDataSet.class, msgs);
-			msgs = basicSetDataSet(newDataSet, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TEXT_REF__DATA_SET, newDataSet, newDataSet));
 	}
 
 	/**
@@ -607,13 +564,12 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SclPackage.TEXT_REF__DATA_SET:
-				if (dataSet != null)
-					msgs = ((InternalEObject)dataSet).eInverseRemove(this, SclPackage.TDATA_SET__EXT_REF, TDataSet.class, msgs);
-				return basicSetDataSet((TDataSet)otherEnd, msgs);
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getDataSet()).basicAdd(otherEnd, msgs);
 			case SclPackage.TEXT_REF__DO_TYPE:
 				if (doType != null)
 					msgs = ((InternalEObject)doType).eInverseRemove(this, SclPackage.TDO_TYPE__EXT_REF, TDOType.class, msgs);
@@ -635,7 +591,7 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SclPackage.TEXT_REF__DATA_SET:
-				return basicSetDataSet(null, msgs);
+				return ((InternalEList<?>)getDataSet()).basicRemove(otherEnd, msgs);
 			case SclPackage.TEXT_REF__DO_TYPE:
 				return basicSetDoType(null, msgs);
 			case SclPackage.TEXT_REF__DA_TYPE:
@@ -669,8 +625,7 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 			case SclPackage.TEXT_REF__PREFIX:
 				return getPrefix();
 			case SclPackage.TEXT_REF__DATA_SET:
-				if (resolve) return getDataSet();
-				return basicGetDataSet();
+				return getDataSet();
 			case SclPackage.TEXT_REF__DO_TYPE:
 				if (resolve) return getDoType();
 				return basicGetDoType();
@@ -686,6 +641,7 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -714,7 +670,8 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 				setPrefix((String)newValue);
 				return;
 			case SclPackage.TEXT_REF__DATA_SET:
-				setDataSet((TDataSet)newValue);
+				getDataSet().clear();
+				getDataSet().addAll((Collection<? extends TDataSet>)newValue);
 				return;
 			case SclPackage.TEXT_REF__DO_TYPE:
 				setDoType((TDOType)newValue);
@@ -759,7 +716,7 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 				setPrefix(PREFIX_EDEFAULT);
 				return;
 			case SclPackage.TEXT_REF__DATA_SET:
-				setDataSet((TDataSet)null);
+				getDataSet().clear();
 				return;
 			case SclPackage.TEXT_REF__DO_TYPE:
 				setDoType((TDOType)null);
@@ -796,7 +753,7 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 			case SclPackage.TEXT_REF__PREFIX:
 				return PREFIX_EDEFAULT == null ? prefix != null : !PREFIX_EDEFAULT.equals(prefix);
 			case SclPackage.TEXT_REF__DATA_SET:
-				return dataSet != null;
+				return dataSet != null && !dataSet.isEmpty();
 			case SclPackage.TEXT_REF__DO_TYPE:
 				return doType != null;
 			case SclPackage.TEXT_REF__DA_TYPE:

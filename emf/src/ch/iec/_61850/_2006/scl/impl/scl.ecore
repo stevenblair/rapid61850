@@ -1761,8 +1761,8 @@
         <details key="name" value="prefix"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dataSet" eType="#//TDataSet"
-        eOpposite="#//TDataSet/extRef"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataSet" upperBound="-1"
+        eType="#//TDataSet" eOpposite="#//TDataSet/extRef"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="doType" eType="#//TDOType"
         eOpposite="#//TDOType/extRef"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="daType" eType="#//TDAType"

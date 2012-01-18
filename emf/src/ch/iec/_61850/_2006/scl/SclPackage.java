@@ -4819,7 +4819,7 @@ public interface SclPackage extends EPackage {
 	int TEXT_REF__PREFIX = 7;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' reference.
+	 * The feature id for the '<em><b>Data Set</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -13342,10 +13342,10 @@ public interface SclPackage extends EPackage {
 	EAttribute getTExtRef_Prefix();
 
 	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TExtRef#getDataSet <em>Data Set</em>}'.
+	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TExtRef#getDataSet <em>Data Set</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Data Set</em>'.
+	 * @return the meta object for the reference list '<em>Data Set</em>'.
 	 * @see ch.iec._61850._2006.scl.TExtRef#getDataSet()
 	 * @see #getTExtRef()
 	 * @generated

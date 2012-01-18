@@ -269,6 +269,10 @@ struct RSYNa {
 	struct myLPL NamPlt;
 	struct mySPS Rel;
 	struct {
+		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
+		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
+	} sv_inputs_Volt;
+	struct {
 		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
 		void (*datasetDecodeDone)();
 	} gse_inputs_ItlPositions;
