@@ -91,6 +91,18 @@ int BER_ENCODE_CTYPE_ENUM(unsigned char *buf, CTYPE_ENUM *value) {	// assuming e
 
 	return offset + len;
 }
+int BER_ENCODE_CTYPE_INT8(unsigned char *buf, CTYPE_INT8 *value) {
+	CTYPE_INT16U offset = 0;
+	CTYPE_INT16U len = BER_GET_LENGTH_CTYPE_INT8(value);
+
+	buf[offset++] = ASN1_TAG_INTEGER;
+	offset += encodeLength(&buf[offset], len);
+
+	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT8);
+	//netmemcpy(&buf[offset], value, len);
+
+	return offset + len;
+}
 int BER_ENCODE_CTYPE_INT16(unsigned char *buf, CTYPE_INT16 *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = BER_GET_LENGTH_CTYPE_INT16(value);

@@ -30,7 +30,7 @@ import ch.iec._61850._2006.scl.util.SclXMLProcessor;
 public class Main {
 	
 	final static String PATH_TO_SOURCE	= "src\\scdCodeGenerator\\";
-	final static String SCD_FILENAME	= "scd.xml";					// edit this to match the input SCD filename
+	final static String SCD_FILENAME	= "ud.xml";					// edit this to match the input SCD filename
 	
 	public static void main(String[] args) {
 		SCDValidator validator = new SCDValidator();
@@ -51,7 +51,7 @@ public class Main {
 			}
 		}
 		catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			validator.error("EMF cannot parse SCD file");
 		}
 		

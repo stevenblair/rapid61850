@@ -25,34 +25,32 @@
 
 
 
-int decode_myAnalogValue(unsigned char *buf, struct myAnalogValue *myAnalogValue) {
+int decode_ud(unsigned char *buf, struct ud *ud) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &myAnalogValue->f);
-
-	return offset;
-}
-int decode_ScaledValueConfig(unsigned char *buf, struct ScaledValueConfig *ScaledValueConfig) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->scaleFactor);
-	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->offset);
-
-	return offset;
-}
-int decode_myVector(unsigned char *buf, struct myVector *myVector) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &myVector->mag);
-	offset += decode_myAnalogValue(&buf[offset], &myVector->ang);
-
-	return offset;
-}
-int decode_simpleVector(unsigned char *buf, struct simpleVector *simpleVector) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &simpleVector->mag);
-	offset += decode_myAnalogValue(&buf[offset], &simpleVector->ang);
+	offset += DECODE_CTYPE_INT8(&buf[offset], &ud->LNName);
+	offset += DECODE_CTYPE_INT8(&buf[offset], &ud->DataSetName);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->LDName);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phsaTCTRrated);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->neutTCTRrated);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phsaTVTRrated);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->Tdr);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phsaTCTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phsbTCTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phscTCTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->neutTCTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phsaTCTR1);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phsbTCTR1);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phscTCTR1);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phsaTVTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phsbTVTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->phscTVTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->neutTVTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->bbTVTR);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->statusWord1);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->statusWord2);
+	offset += DECODE_CTYPE_INT16(&buf[offset], &ud->samplingRate);
+	offset += DECODE_CTYPE_INT8(&buf[offset], &ud->ConfigurationRevisionNumber);
 
 	return offset;
 }
@@ -95,183 +93,21 @@ int decode_myLPL(unsigned char *buf, struct myLPL *myLPL) {
 
 	return offset;
 }
-int decode_myDPL(unsigned char *buf, struct myDPL *myDPL) {
+int decode_Send_D1_ud(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct Send_D1_ud *Send_D1_ud) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->vendor);
-	offset += DECODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->hwRev);
-
-	return offset;
-}
-int decode_myPos(unsigned char *buf, struct myPos *myPos) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_DBPOS(&buf[offset], &myPos->stVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myPos->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myPos->t);
-	offset += DECODE_CTYPE_BOOLEAN(&buf[offset], &myPos->ctlVal);
-
-	return offset;
-}
-int decode_mySPS(unsigned char *buf, struct mySPS *mySPS) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_INT32(&buf[offset], &mySPS->stVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &mySPS->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &mySPS->t);
-
-	return offset;
-}
-int decode_myMV(unsigned char *buf, struct myMV *myMV) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &myMV->mag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myMV->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myMV->t);
-	offset += decode_ScaledValueConfig(&buf[offset], &myMV->sVC);
-
-	return offset;
-}
-int decode_simpleMV(unsigned char *buf, struct simpleMV *simpleMV) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &simpleMV->mag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &simpleMV->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &simpleMV->t);
-	offset += decode_ScaledValueConfig(&buf[offset], &simpleMV->sVC);
-
-	return offset;
-}
-int decode_simpleCMV(unsigned char *buf, struct simpleCMV *simpleCMV) {
-	int offset = 0;
-
-	offset += decode_simpleVector(&buf[offset], &simpleCMV->cVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &simpleCMV->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &simpleCMV->t);
-
-	return offset;
-}
-int decode_simpleWYE(unsigned char *buf, struct simpleWYE *simpleWYE) {
-	int offset = 0;
-
-	offset += decode_simpleCMV(&buf[offset], &simpleWYE->phsA);
-	offset += decode_simpleCMV(&buf[offset], &simpleWYE->phsB);
-	offset += decode_simpleCMV(&buf[offset], &simpleWYE->phsC);
-
-	return offset;
-}
-int decode_myCMV(unsigned char *buf, struct myCMV *myCMV) {
-	int offset = 0;
-
-	offset += decode_myVector(&buf[offset], &myCMV->cVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myCMV->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myCMV->t);
-
-	return offset;
-}
-int decode_mySEQ(unsigned char *buf, struct mySEQ *mySEQ) {
-	int offset = 0;
-
-	offset += decode_myCMV(&buf[offset], &mySEQ->c1);
-	offset += decode_myCMV(&buf[offset], &mySEQ->c2);
-	offset += decode_myCMV(&buf[offset], &mySEQ->c3);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &mySEQ->seqT);
-
-	return offset;
-}
-int decode_mySAV(unsigned char *buf, struct mySAV *mySAV) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &mySAV->instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &mySAV->q);
-
-	return offset;
-}
-int decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &simpleSAV->instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &simpleSAV->q);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_Positions(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Positions->C1__TVTR_1_Vol_instMag);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_1_Pos);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_2_Pos);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Amps);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Volts);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_Measurands(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands) {
-	int offset = 0;
-
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1__MMXU_1_Amps);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1__MMXU_1_Volts);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_smv(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1__TVTR_1_Vol_instMag);
-	offset += decode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_1_Mod);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Volts_q);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Amps);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_2_Pos);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_rmxu(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu) {
-	int offset = 0;
-
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1__RMXU_1_AmpLocPhsA);
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1__RMXU_1_AmpLocPhsB);
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1__RMXU_1_AmpLocPhsC);
-
-	return offset;
-}
-int decode_D1Q1SB4_C1_SyckResult(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult) {
-	int offset = 0;
-
-	offset += decode_mySPS(&buf[offset], &D1Q1SB4_C1_SyckResult->C1__RSYN_1_Rel);
-
-	return offset;
-}
-int decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, int noASDU, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult) {
-	int offset = 0;
-
-	offset += decode_simpleWYE(&buf[offset], &D1Q1SB4_C1_MMXUResult->C1__MMXU_1_A);
+	offset += decode_ud(&buf[offset], &Send_D1_ud->D1__GGIO_1_ud);
 
 	return offset;
 }
 
 void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {
 
-	if (strncmp((const char *) svID, "11", svIDLength) == 0) {
-		decode_E1Q1SB1_C1_smv(dataset, ASDU, smpCnt, &D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.E1Q1SB1_C1_smv[ASDU]);
-		D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.smpCnt = smpCnt;
-		if (D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.datasetDecodeDone(smpCnt);
-		}
-	}
-	if (strncmp((const char *) svID, "rmxu", svIDLength) == 0) {
-		decode_E1Q1SB1_C1_rmxu(dataset, ASDU, smpCnt, &D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu[ASDU]);
-		D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.smpCnt = smpCnt;
-		if (D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone(smpCnt);
-		}
-	}
-	if (strncmp((const char *) svID, "11", svIDLength) == 0) {
-		decode_E1Q1SB1_C1_smv(dataset, ASDU, smpCnt, &D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.E1Q1SB1_C1_smv[ASDU]);
-		D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.smpCnt = smpCnt;
-		if (D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.datasetDecodeDone(smpCnt);
+	if (strncmp((const char *) svID, "ud", svIDLength) == 0) {
+		decode_Send_D1_ud(dataset, ASDU, smpCnt, &Recv.S1.D1.recvUD_1.sv_inputs_udCB.Send_D1_ud[ASDU]);
+		Recv.S1.D1.recvUD_1.sv_inputs_udCB.smpCnt = smpCnt;
+		if (Recv.S1.D1.recvUD_1.sv_inputs_udCB.datasetDecodeDone != NULL) {
+			Recv.S1.D1.recvUD_1.sv_inputs_udCB.datasetDecodeDone(smpCnt);
 		}
 	}
 }

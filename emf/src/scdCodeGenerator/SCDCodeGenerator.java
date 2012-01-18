@@ -573,64 +573,64 @@ public class SCDCodeGenerator {
 								
 								
 								// initialise LN data
-								Iterator<TDO> dos = getLNTypeDOs(dataTypeTemplates, ln.getLnType()).iterator();
-								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + lnName + ".");
-								
-								// look up lists of DOs and DAs and initialise if required
-								while (dos.hasNext()) {
-									TDO dataObject = dos.next();
-									
-									if (listContains(initDOTypes, dataObject.getType())) {
-										dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + accumulatedName.toString() + dataObject.getName() + ");\n");
-									}
-									
-									Iterator<TDA> das = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).iterator();
-									
-									while (das.hasNext()) {
-										TDA da = das.next();
-										
-										if (listContains(initDATypes, da.getType())) {
-											dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + accumulatedName.toString() + dataObject.getName() + "." + da.getName().toString() + ");\n");
-										}
-										
-										//TODO make recursive; add SDO
-										processDA(dataTypeTemplates, ln, dataObject, da, initDATypes);
-										
-										//System.out.println("DA: " + getDA(dataTypeTemplates, ln.getLnClass().toString(), dataObject.getName(), da.getName().toString()));
-									}
-								}
-								
-								// override specific LN data
-								Iterator<TDOI> dois = ln.getDOI().iterator();
-								accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + lnName + ".");
-								
-								while (dois.hasNext()) {
-									TDOI doi = dois.next();
-									Iterator<TDAI> dais = doi.getDAI().iterator();
-									Iterator<TSDI> sdis = doi.getSDI().iterator();
-									accumulatedName.append(doi.getName() + ".");
-									
-									while (dais.hasNext()) {
-										TDAI dai = dais.next();
-										Iterator<TVal> vals = dai.getVal().iterator();
-										
-										// only supports single values
-										if (dai.getVal().size() == 1) {
-											while (vals.hasNext()) {
-												TVal val = vals.next();
-											
-												//dataTypesSource.appendFunctions("\t" + accumulatedName.toString() + dai.getName().toString() + " = " + val.getValue() + ";\n");
-												dataTypesSource.appendFunctions(initDAI(accumulatedName.toString(), dai, val));
-											}
-										}
-									}
-									
-									while (sdis.hasNext()) {
-										TSDI sdi = sdis.next();
-										
-										processSDI(sdi, new StringBuilder(accumulatedName + sdi.getName().toString() + "."), dataTypesSource);
-									}
-								}
+//								Iterator<TDO> dos = getLNTypeDOs(dataTypeTemplates, ln.getLnType()).iterator();
+//								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + lnName + ".");
+//								
+//								// look up lists of DOs and DAs and initialise if required
+//								while (dos.hasNext()) {
+//									TDO dataObject = dos.next();
+//									
+//									if (listContains(initDOTypes, dataObject.getType())) {
+//										dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + accumulatedName.toString() + dataObject.getName() + ");\n");
+//									}
+//									
+//									Iterator<TDA> das = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).iterator();
+//									
+//									while (das.hasNext()) {
+//										TDA da = das.next();
+//										
+//										if (listContains(initDATypes, da.getType())) {
+//											dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + accumulatedName.toString() + dataObject.getName() + "." + da.getName().toString() + ");\n");
+//										}
+//										
+//										//TODO make recursive; add SDO
+//										processDA(dataTypeTemplates, ln, dataObject, da, initDATypes);
+//										
+//										//System.out.println("DA: " + getDA(dataTypeTemplates, ln.getLnClass().toString(), dataObject.getName(), da.getName().toString()));
+//									}
+//								}
+//								
+//								// override specific LN data
+//								Iterator<TDOI> dois = ln.getDOI().iterator();
+//								accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + lnName + ".");
+//								
+//								while (dois.hasNext()) {
+//									TDOI doi = dois.next();
+//									Iterator<TDAI> dais = doi.getDAI().iterator();
+//									Iterator<TSDI> sdis = doi.getSDI().iterator();
+//									accumulatedName.append(doi.getName() + ".");
+//									
+//									while (dais.hasNext()) {
+//										TDAI dai = dais.next();
+//										Iterator<TVal> vals = dai.getVal().iterator();
+//										
+//										// only supports single values
+//										if (dai.getVal().size() == 1) {
+//											while (vals.hasNext()) {
+//												TVal val = vals.next();
+//											
+//												//dataTypesSource.appendFunctions("\t" + accumulatedName.toString() + dai.getName().toString() + " = " + val.getValue() + ";\n");
+//												dataTypesSource.appendFunctions(initDAI(accumulatedName.toString(), dai, val));
+//											}
+//										}
+//									}
+//									
+//									while (sdis.hasNext()) {
+//										TSDI sdi = sdis.next();
+//										
+//										processSDI(sdi, new StringBuilder(accumulatedName + sdi.getName().toString() + "."), dataTypesSource);
+//									}
+//								}
 							}
 
 							iedHeader.appendDatatypes("\t\t} " + ldName + ";\n");

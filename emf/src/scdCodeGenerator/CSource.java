@@ -70,13 +70,15 @@ public class CSource extends CFile {
 		while (funcs.hasNext()) {
 			CFunction func = funcs.next();
 			
-			if (func instanceof CFunctionCoder) {
-				if (!(((CFunctionCoder) func).dataType instanceof TDataSet)) {
-					continue;
+			if (func != null) {
+				if (func instanceof CFunctionCoder) {
+					if (!(((CFunctionCoder) func).dataType instanceof TDataSet)) {
+						continue;
+					}
 				}
+				
+				h.appendFunctionPrototypes(func.getPrototype());
 			}
-			
-			h.appendFunctionPrototypes(func.getPrototype());
 		}
 		
 		return h;

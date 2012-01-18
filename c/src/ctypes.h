@@ -54,8 +54,10 @@ extern "C" {
 #define SV_GET_LENGTH_FLOAT32				4
 #define SV_GET_LENGTH_FLOAT64				8
 #define SV_GET_LENGTH_TIMESTAMP				8
+#define SV_GET_LENGTH_INT8					1
 #define SV_GET_LENGTH_INT16					2
 #define SV_GET_LENGTH_INT32					4
+#define SV_GET_LENGTH_INT8U					1
 #define SV_GET_LENGTH_INT16U				2
 #define SV_GET_LENGTH_INT32U				4
 #define SV_GET_LENGTH_VISSTRING255			35
@@ -69,6 +71,7 @@ extern "C" {
 #define BER_GET_LENGTH_CTYPE_FLOAT32(x)			(SV_GET_LENGTH_FLOAT32)
 #define BER_GET_LENGTH_CTYPE_FLOAT64(x)			(SV_GET_LENGTH_FLOAT64)
 #define BER_GET_LENGTH_CTYPE_TIMESTAMP(x)		(SV_GET_LENGTH_TIMESTAMP)
+#define BER_GET_LENGTH_CTYPE_INT8(x)			(2)								// 16-bit datatypes are encoded in 24 bits!
 #define BER_GET_LENGTH_CTYPE_INT16(x)			(3)								// 16-bit datatypes are encoded in 24 bits!
 #define BER_GET_LENGTH_CTYPE_INT32(x)			(5)
 #define BER_GET_LENGTH_CTYPE_INT16U(x)			(3)
@@ -82,6 +85,7 @@ extern "C" {
 #define BER_GET_LENGTH_CTYPE_FLOAT32(x)			(SV_GET_LENGTH_FLOAT32 + 1)		// + 1 byte for number of exponent bits
 #define BER_GET_LENGTH_CTYPE_FLOAT64(x)			(SV_GET_LENGTH_FLOAT64 + 1)		// + 1 byte for number of exponent bits
 #define BER_GET_LENGTH_CTYPE_TIMESTAMP(x)		(SV_GET_LENGTH_TIMESTAMP)
+#define BER_GET_LENGTH_CTYPE_INT8(x)			(ber_integer_length((x), SV_GET_LENGTH_INT8))
 #define BER_GET_LENGTH_CTYPE_INT16(x)			(ber_integer_length((x), SV_GET_LENGTH_INT16))
 #define BER_GET_LENGTH_CTYPE_INT32(x)			(ber_integer_length((x), SV_GET_LENGTH_INT32))
 #define BER_GET_LENGTH_CTYPE_INT16U(x)			(ber_integer_length((x), SV_GET_LENGTH_INT16U))

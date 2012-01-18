@@ -24,34 +24,32 @@
 
 
 
-int encode_myAnalogValue(unsigned char *buf, struct myAnalogValue *myAnalogValue) {
+int encode_ud(unsigned char *buf, struct ud *ud) {
 	int offset = 0;
 
-	offset += ENCODE_CTYPE_FLOAT32(&buf[offset], &myAnalogValue->f);
-
-	return offset;
-}
-int encode_ScaledValueConfig(unsigned char *buf, struct ScaledValueConfig *ScaledValueConfig) {
-	int offset = 0;
-
-	offset += ENCODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->scaleFactor);
-	offset += ENCODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->offset);
-
-	return offset;
-}
-int encode_myVector(unsigned char *buf, struct myVector *myVector) {
-	int offset = 0;
-
-	offset += encode_myAnalogValue(&buf[offset], &myVector->mag);
-	offset += encode_myAnalogValue(&buf[offset], &myVector->ang);
-
-	return offset;
-}
-int encode_simpleVector(unsigned char *buf, struct simpleVector *simpleVector) {
-	int offset = 0;
-
-	offset += encode_myAnalogValue(&buf[offset], &simpleVector->mag);
-	offset += encode_myAnalogValue(&buf[offset], &simpleVector->ang);
+	offset += ENCODE_CTYPE_INT8(&buf[offset], &ud->LNName);
+	offset += ENCODE_CTYPE_INT8(&buf[offset], &ud->DataSetName);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->LDName);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phsaTCTRrated);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->neutTCTRrated);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phsaTVTRrated);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->Tdr);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phsaTCTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phsbTCTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phscTCTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->neutTCTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phsaTCTR1);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phsbTCTR1);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phscTCTR1);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phsaTVTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phsbTVTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->phscTVTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->neutTVTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->bbTVTR);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->statusWord1);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->statusWord2);
+	offset += ENCODE_CTYPE_INT16(&buf[offset], &ud->samplingRate);
+	offset += ENCODE_CTYPE_INT8(&buf[offset], &ud->ConfigurationRevisionNumber);
 
 	return offset;
 }
@@ -94,166 +92,15 @@ int encode_myLPL(unsigned char *buf, struct myLPL *myLPL) {
 
 	return offset;
 }
-int encode_myDPL(unsigned char *buf, struct myDPL *myDPL) {
+int encode_Send_D1_ud(unsigned char *buf) {
 	int offset = 0;
 
-	offset += ENCODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->vendor);
-	offset += ENCODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->hwRev);
+	offset += encode_ud(&buf[offset], &Send.S1.D1.sendUD_1.ud);
 
 	return offset;
 }
-int encode_myPos(unsigned char *buf, struct myPos *myPos) {
-	int offset = 0;
-
-	offset += ENCODE_CTYPE_DBPOS(&buf[offset], &myPos->stVal);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &myPos->q);
-	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myPos->t);
-	offset += ENCODE_CTYPE_BOOLEAN(&buf[offset], &myPos->ctlVal);
-
-	return offset;
-}
-int encode_mySPS(unsigned char *buf, struct mySPS *mySPS) {
-	int offset = 0;
-
-	offset += ENCODE_CTYPE_INT32(&buf[offset], &mySPS->stVal);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &mySPS->q);
-	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &mySPS->t);
-
-	return offset;
-}
-int encode_myMV(unsigned char *buf, struct myMV *myMV) {
-	int offset = 0;
-
-	offset += encode_myAnalogValue(&buf[offset], &myMV->mag);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &myMV->q);
-	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myMV->t);
-	offset += encode_ScaledValueConfig(&buf[offset], &myMV->sVC);
-
-	return offset;
-}
-int encode_simpleMV(unsigned char *buf, struct simpleMV *simpleMV) {
-	int offset = 0;
-
-	offset += ENCODE_CTYPE_FLOAT32(&buf[offset], &simpleMV->mag);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &simpleMV->q);
-	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &simpleMV->t);
-	offset += encode_ScaledValueConfig(&buf[offset], &simpleMV->sVC);
-
-	return offset;
-}
-int encode_simpleCMV(unsigned char *buf, struct simpleCMV *simpleCMV) {
-	int offset = 0;
-
-	offset += encode_simpleVector(&buf[offset], &simpleCMV->cVal);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &simpleCMV->q);
-	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &simpleCMV->t);
-
-	return offset;
-}
-int encode_simpleWYE(unsigned char *buf, struct simpleWYE *simpleWYE) {
-	int offset = 0;
-
-	offset += encode_simpleCMV(&buf[offset], &simpleWYE->phsA);
-	offset += encode_simpleCMV(&buf[offset], &simpleWYE->phsB);
-	offset += encode_simpleCMV(&buf[offset], &simpleWYE->phsC);
-
-	return offset;
-}
-int encode_myCMV(unsigned char *buf, struct myCMV *myCMV) {
-	int offset = 0;
-
-	offset += encode_myVector(&buf[offset], &myCMV->cVal);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &myCMV->q);
-	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myCMV->t);
-
-	return offset;
-}
-int encode_mySEQ(unsigned char *buf, struct mySEQ *mySEQ) {
-	int offset = 0;
-
-	offset += encode_myCMV(&buf[offset], &mySEQ->c1);
-	offset += encode_myCMV(&buf[offset], &mySEQ->c2);
-	offset += encode_myCMV(&buf[offset], &mySEQ->c3);
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &mySEQ->seqT);
-
-	return offset;
-}
-int encode_mySAV(unsigned char *buf, struct mySAV *mySAV) {
-	int offset = 0;
-
-	offset += encode_myAnalogValue(&buf[offset], &mySAV->instMag);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &mySAV->q);
-
-	return offset;
-}
-int encode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
-	int offset = 0;
-
-	offset += encode_myAnalogValue(&buf[offset], &simpleSAV->instMag);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &simpleSAV->q);
-
-	return offset;
-}
-int encode_E1Q1SB1_C1_Positions(unsigned char *buf) {
-	int offset = 0;
-
-	offset += encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
-	offset += encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_1.Pos);
-	offset += encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_2.Pos);
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Amps);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts);
-
-	return offset;
-}
-int encode_E1Q1SB1_C1_Measurands(unsigned char *buf) {
-	int offset = 0;
-
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Amps);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts);
-
-	return offset;
-}
-int encode_E1Q1SB1_C1_smv(unsigned char *buf) {
-	int offset = 0;
-
-	offset += encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
-	offset += encode_myMod(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_1.Mod);
-	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts.q);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Amps);
-	offset += encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_2.Pos);
-
-	return offset;
-}
-int encode_control_E1Q1SB1_C1_Volt(unsigned char *buf) {
-	return encode_E1Q1SB1_C1_smv(buf);
-}
-int encode_E1Q1SB1_C1_rmxu(unsigned char *buf) {
-	int offset = 0;
-
-	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA);
-	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsB);
-	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC);
-
-	return offset;
-}
-int encode_control_E1Q1SB1_C1_rmxuCB(unsigned char *buf) {
-	return encode_E1Q1SB1_C1_rmxu(buf);
-}
-int encode_D1Q1SB4_C1_SyckResult(unsigned char *buf) {
-	int offset = 0;
-
-	offset += encode_mySPS(&buf[offset], &D1Q1SB4.S1.C1.RSYNa_1.Rel);
-
-	return offset;
-}
-int encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf) {
-	int offset = 0;
-
-	offset += encode_simpleWYE(&buf[offset], &D1Q1SB4.S1.C1.exampleMMXU_1.A);
-
-	return offset;
+int encode_control_Send_D1_udCB(unsigned char *buf) {
+	return encode_Send_D1_ud(buf);
 }
 
 

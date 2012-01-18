@@ -32,6 +32,7 @@ int BER_DECODE_CTYPE_FLOAT32(unsigned char *buf, CTYPE_FLOAT32 *value);
 int BER_DECODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value);
 int BER_DECODE_CTYPE_TIMESTAMP(unsigned char *buf, CTYPE_TIMESTAMP *value);
 int BER_DECODE_CTYPE_ENUM(unsigned char *buf, CTYPE_ENUM *value);
+int BER_DECODE_CTYPE_INT8(unsigned char *buf, CTYPE_INT8 *value);
 int BER_DECODE_CTYPE_INT16(unsigned char *buf, CTYPE_INT16 *value);
 int BER_DECODE_CTYPE_INT32(unsigned char *buf, CTYPE_INT32 *value);
 int BER_DECODE_CTYPE_INT16U(unsigned char *buf, CTYPE_INT16U *value);

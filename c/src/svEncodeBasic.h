@@ -32,6 +32,7 @@ int ENCODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value);
 int ENCODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value);
 int ENCODE_CTYPE_TIMESTAMP(unsigned char *buf, CTYPE_TIMESTAMP *value);
 int ENCODE_CTYPE_ENUM(unsigned char *buf, CTYPE_ENUM *value);
+int ENCODE_CTYPE_INT8(unsigned char *buf, CTYPE_INT8 *value);
 int ENCODE_CTYPE_INT16(unsigned char *buf, CTYPE_INT16 *value);
 int ENCODE_CTYPE_INT32(unsigned char *buf, CTYPE_INT32 *value);
 int ENCODE_CTYPE_INT16U(unsigned char *buf, CTYPE_INT16U *value);

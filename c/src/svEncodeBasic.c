@@ -49,6 +49,11 @@ int ENCODE_CTYPE_ENUM(unsigned char *buf, CTYPE_ENUM *value) {	// assuming enum 
 
 	return SV_GET_LENGTH_ENUM;
 }
+int ENCODE_CTYPE_INT8(unsigned char *buf, CTYPE_INT8 *value) {
+	netmemcpy(buf, value, SV_GET_LENGTH_INT8);
+
+	return SV_GET_LENGTH_INT8;
+}
 int ENCODE_CTYPE_INT16(unsigned char *buf, CTYPE_INT16 *value) {
 	netmemcpy(buf, value, SV_GET_LENGTH_INT16);
 
