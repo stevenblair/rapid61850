@@ -494,12 +494,6 @@ int ber_encode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 
 	return offset;
 }
-int ber_encode_control_ItlPositions(unsigned char *buf) {
-	return ber_encode_E1Q1SB1_C1_Positions(buf);
-}
-int ber_encode_control_AnotherPositions(unsigned char *buf) {
-	return ber_encode_E1Q1SB1_C1_Positions(buf);
-}
 int ber_get_length_E1Q1SB1_C1_Positions(struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions) {
 	int total = 0;
 	int len = 0;
@@ -530,6 +524,12 @@ int ber_encode_E1Q1SB1_C1_Positions(unsigned char *buf) {
 	offset += ber_encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts);
 
 	return offset;
+}
+int ber_encode_control_ItlPositions(unsigned char *buf) {
+	return ber_encode_E1Q1SB1_C1_Positions(buf);
+}
+int ber_encode_control_AnotherPositions(unsigned char *buf) {
+	return ber_encode_E1Q1SB1_C1_Positions(buf);
 }
 int ber_get_length_E1Q1SB1_C1_Measurands(struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands) {
 	int total = 0;
@@ -603,12 +603,6 @@ int ber_encode_E1Q1SB1_C1_rmxu(unsigned char *buf) {
 
 	return offset;
 }
-int ber_encode_control_SyckResult(unsigned char *buf) {
-	return ber_encode_D1Q1SB4_C1_SyckResult(buf);
-}
-int ber_encode_control_MMXUResult(unsigned char *buf) {
-	return ber_encode_D1Q1SB4_C1_MMXUResult(buf);
-}
 int ber_get_length_D1Q1SB4_C1_SyckResult(struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult) {
 	int total = 0;
 	int len = 0;
@@ -625,6 +619,9 @@ int ber_encode_D1Q1SB4_C1_SyckResult(unsigned char *buf) {
 
 	return offset;
 }
+int ber_encode_control_SyckResult(unsigned char *buf) {
+	return ber_encode_D1Q1SB4_C1_SyckResult(buf);
+}
 int ber_get_length_D1Q1SB4_C1_MMXUResult(struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult) {
 	int total = 0;
 	int len = 0;
@@ -640,6 +637,9 @@ int ber_encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf) {
 	offset += ber_encode_simpleWYE(&buf[offset], &D1Q1SB4.S1.C1.exampleMMXU_1.A);
 
 	return offset;
+}
+int ber_encode_control_MMXUResult(unsigned char *buf) {
+	return ber_encode_D1Q1SB4_C1_MMXUResult(buf);
 }
 
 

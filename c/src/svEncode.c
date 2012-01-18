@@ -194,12 +194,6 @@ int encode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 
 	return offset;
 }
-int encode_control_Volt(unsigned char *buf) {
-	return encode_E1Q1SB1_C1_smv(buf);
-}
-int encode_control_rmxuCB(unsigned char *buf) {
-	return encode_E1Q1SB1_C1_rmxu(buf);
-}
 int encode_E1Q1SB1_C1_Positions(unsigned char *buf) {
 	int offset = 0;
 
@@ -232,6 +226,9 @@ int encode_E1Q1SB1_C1_smv(unsigned char *buf) {
 
 	return offset;
 }
+int encode_control_Volt(unsigned char *buf) {
+	return encode_E1Q1SB1_C1_smv(buf);
+}
 int encode_E1Q1SB1_C1_rmxu(unsigned char *buf) {
 	int offset = 0;
 
@@ -240,6 +237,9 @@ int encode_E1Q1SB1_C1_rmxu(unsigned char *buf) {
 	offset += encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC);
 
 	return offset;
+}
+int encode_control_rmxuCB(unsigned char *buf) {
+	return encode_E1Q1SB1_C1_rmxu(buf);
 }
 int encode_D1Q1SB4_C1_SyckResult(unsigned char *buf) {
 	int offset = 0;
