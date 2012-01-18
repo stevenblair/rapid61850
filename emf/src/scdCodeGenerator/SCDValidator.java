@@ -72,11 +72,11 @@ public class SCDValidator {
 		mapFCDAToDataType(root);
 	}
 	
-	public void warning(String warning) {
+	public static void warning(String warning) {
 		System.out.println("Warning: " + warning);
 	}
 	
-	public void error(String error) {
+	public static void error(String error) {
 		System.err.println("Error: " + error);
 		System.exit(1);
 	}
@@ -679,7 +679,7 @@ public class SCDValidator {
 			//}
 			if (resultMapped.getException() == null) {
 				if (resultMapped.size() == 0) {
-					warning("no dataset named '" + control.getDatSet() + "' for " + control.eClass().getName() + " '" + control.getName() + "'");
+					error("no dataset named '" + control.getDatSet() + "' for " + control.eClass().getName() + " '" + control.getName() + "'");
 				}
 				else {
 					if (resultMapped.size() == 1) {
@@ -688,7 +688,7 @@ public class SCDValidator {
 						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
 					}
 					else {
-						warning("more than one dataset named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
+						warning(resultMapped.size() + " datasets named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
 					}
 				}
 			}

@@ -46,6 +46,7 @@ struct gseControl {
 	CTYPE_INT32U maxTime;						// stored in milliseconds
 	int (*encodeDataset)(unsigned char *buf);	// function pointer to dataset-specific encoder
 	int (*getDatasetLength)();					// function pointer to dataset-specific getLength function
+	int (*send)(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);	// function pointer to send GSE packet
 };
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

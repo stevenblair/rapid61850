@@ -36,10 +36,6 @@ int gse_send_MMXUResult_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChang
 void gseDecode(unsigned char *buf, int len);
 
 
-extern struct gseControl ItlPositions_Itl;
-extern struct gseControl AnotherPositions_Itl;
-extern struct gseControl SyckResult_SynChk;
-extern struct gseControl MMXUResult_MMXUResult;
 
 
 

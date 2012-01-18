@@ -8,6 +8,13 @@ This readme file describes how to set up the software, and its basic use.
 
 <img style="float:right" src="http://personal.strath.ac.uk/steven.m.blair/mbed-cropped-small.jpg" />
 
+## Features ##
+
+ - Implements sending and receiving GOOSE and Sampled Value packets
+ - Lightweight, and suitable for low-cost microcontrollers
+ - Platform-independent, and any C/C++ compiler should work
+ - Performs validation of the SCD file, and reports any problems
+
 ## Installation ##
 
 The software requires Eclipse, with the Eclipse Modeling Framework (EMF). Java Emitter Templates (JET) is needed for development, but not to run the code. It's easiest to start with the version of Eclipse that comes with the Modeling Tools bundle (see here: http://www.eclipse.org/downloads/).
@@ -64,22 +71,23 @@ int length = 0;
 unsigned char buffer[2048] = {0};
 
 int main() {
-	initialise_iec61850();											// initialise all data structures
+	initialise_iec61850();												// initialise all data structures
 
 	// send GOOSE packet
-	PC_IED4.P1.CTRL.OUT_GGIO_1.SPCSO.stVal = TRUE;					// set a value that appears in the "GOOSE_outputs" Dataset
-	length = gse_send_GOOSE_outputs_control_GT1(buffer, 1, 512);	// generate a goose packet, and store the bytes in "buffer"
-	send_ethernet_packet(buffer, length);							// platform-specific call to send an Ethernet packet
+	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 1.024;						// set a value that appears in the dataset used by the "ItlPositions" GOOSE Control
+	length = E1Q1SB1.S1.C1.LN0.ItlPositions_Itl.send(buffer, 1, 512);	// generate a goose packet, and store the bytes in "buffer"
+	send_ethernet_packet(buffer, length);								// platform-specific call to send an Ethernet packet
 
 	// receive GOOSE or SV packet
-	length = recv_ethernet_packet(buffer);							// platform-specific call to receive an Ethernet packet
-	gse_sv_packet_filter(buffer, length);							// deals with any GOOSE or SV dataset that is able to be processed
-	boolean inputValue = IED_B.P1.CTRL.B_IN_GGIO_1.gse_inputs.PC_IED4_CTRL_OUT_stVal_1;		// read value that was updated by the packet
+	length = recv_ethernet_packet(buffer);								// platform-specific call to receive an Ethernet packet
+	gse_sv_packet_filter(buffer, length);								// deals with any GOOSE or SV dataset that is able to be processed
+	
+	// read value that was updated by the packet (it will equal 1.024)
+	float inputValue = D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1__TVTR_1_Vol_instMag.f;
 
 	return 0;
 }
 ```
-
 Clearly, a real implementation might include the use of platform-specific timers, interrupts and callbacks, where needed.
 
 The generated code implements all IEDs specified in the SCD file. You can use the code to emulate the communications between several IEDs, or just use one IED's implementation.
@@ -118,6 +126,7 @@ In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in o
 
 ## Known issues and possible features ##
 
+ - Several data types are not yet supported.
  - FCDAs cannot use the syntax "vector.mag.f" as values for data attribute references.
  - Data types cannot contain arrays.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.

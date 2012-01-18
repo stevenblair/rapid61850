@@ -34,8 +34,6 @@ int sv_update_rmxuCB_rmxu(unsigned char *buf);
 void svDecode(unsigned char *buf, int len);
 
 
-extern struct svControl Volt_11;
-extern struct svControl rmxuCB_rmxu;
 
 
 

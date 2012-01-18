@@ -51,8 +51,9 @@ struct svControl {
 	struct ethHeaderData ethHeaderData;
 	short noASDU;
 	struct ASDU *ASDU;
-	CTYPE_INT16U ASDUCount;			// stores present ASDU count; transmit a packet when equals "noASDU"
+	CTYPE_INT16U ASDUCount;				// stores present ASDU count; transmit a packet when equals "noASDU"
 	CTYPE_INT16U sampleCountMaster;
+	int (*update)(unsigned char *buf);	// function pointer to save next ASDU, and possible send SV packet
 };
 
 #endif

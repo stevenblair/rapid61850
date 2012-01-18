@@ -67,8 +67,8 @@ public class SCDCodeGenerator {
 		CSource svDecodeSource = new CSource("svDecode.c", "#include \"sv.h\"\n#include \"svDecodeBasic.h\"\n#include \"ied.h\"\n#include \"svDecode.h\"");
 		CSource gseEncodeSource = new CSource("gseEncode.c", "#include \"gseEncodeBasic.h\"\n#include \"ied.h\"\n#include \"gseEncode.h\"");
 		CSource gseDecodeSource = new CSource("gseDecode.c", "#include \"gseDecodeBasic.h\"\n#include \"gse.h\"\n#include \"ied.h\"\n#include \"gseDecode.h\"");
-		CSource svSource = new CSource("sv.c", "#include \"sv.h\"\n#include \"svPacketData.h\"\n#include \"svDecode.h\"\n#include \"svEncode.h\"");
-		CSource gseSource = new CSource("gse.c", "#include \"gsePacketData.h\"\n#include \"gseDecode.h\"\n#include \"gseEncode.h\"");
+		CSource svSource = new CSource("sv.c", "#include \"ied.h\"\n#include \"sv.h\"\n#include \"svPacketData.h\"\n#include \"svDecode.h\"\n#include \"svEncode.h\"");
+		CSource gseSource = new CSource("gse.c", "#include \"ied.h\"\n#include \"gsePacketData.h\"\n#include \"gseDecode.h\"\n#include \"gseEncode.h\"");
 		CSource iedSource = new CSource("ied.c", "#include \"ied.h\"\n#include \"datatypes.h\"");
 		CSource dataTypesSource = new CSource("datatypes.c", "#include \"ctypes.h\"\n#include \"datatypes.h\"\n#include \"ied.h\"\n#include <stdlib.h>");
 
@@ -78,7 +78,7 @@ public class SCDCodeGenerator {
 		CHeader gseDecodeHeader = new CHeader("gseDecode.h", "GSE_DECODE_H", "#include \"gsePacketData.h\"\n#include \"datatypes.h\"");
 		CHeader svHeader = new CHeader("sv.h", "SV_H", "#include \"svEncode.h\"\n#include \"svDecode.h\"\n#include \"svPacketData.h\"", false);
 		CHeader gseHeader = new CHeader("gse.h", "GSE_H", "#include \"gseEncode.h\"\n#include \"gseDecode.h\"\n#include \"gsePacketData.h\"", false);
-		CHeader iedHeader = new CHeader("ied.h", "IED_H", "#include \"datatypes.h\"");
+		CHeader iedHeader = new CHeader("ied.h", "IED_H", "#include \"datatypes.h\"\n#include \"sv.h\"\n#include \"gse.h\"");
 		CHeader dataTypesHeader = new CHeader("datatypes.h", "DATATYPES_H", "#include \"ctypes.h\"");
 		
 		svHeader.appendFunctionPrototypes("void init_sv();\n");
@@ -328,9 +328,6 @@ public class SCDCodeGenerator {
 							
 							while (lds.hasNext()) {
 								TLDevice ld = lds.next();
-								
-								
-
 								Iterator<TLN> lns = ld.getLN().iterator();
 								
 								while (lns.hasNext()) {
@@ -462,7 +459,8 @@ public class SCDCodeGenerator {
 							// generate SV and GOOSE dataset encoders
 							if (ld.getLN0() != null) {
 								// add LLN0 to IED definition
-								iedHeader.appendDatatypes("\t\t\tstruct " + ld.getLN0().getLnType().replaceAll("[^A-Za-z0-9]", "_") + " LLN0;\n");
+								iedHeader.appendDatatypes("\t\t\tstruct {\n");
+								iedHeader.appendDatatypes("\t\t\t\tstruct " + ld.getLN0().getLnType().replaceAll("[^A-Za-z0-9]", "_") + " LLN0;\n");
 								
 								if (ld.getLN0().getDataSet() != null) {
 									Iterator<TDataSet> datasets = ld.getLN0().getDataSet().iterator();
@@ -485,7 +483,7 @@ public class SCDCodeGenerator {
 												TDO dataObject = dos.next();
 												
 												if (listContains(initDOTypes, dataObject.getType())) {
-													dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LLN0"/* + lnName*/ + "." + dataObject.getName() + ");\n");
+													dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LN0.LLN0"/* + lnName*/ + "." + dataObject.getName() + ");\n");
 												}
 												
 												if (getDOTypeDAs(dataTypeTemplates, dataObject.getType()) != null) {
@@ -496,7 +494,7 @@ public class SCDCodeGenerator {
 															TDA da = das.next();
 															
 															if (listContains(initDATypes, da.getType())) {
-																dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LNN0"/* + lnName*/ + "." + dataObject.getName() + "." + da.getName().toString() + ");\n");
+																dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LN0.LNN0"/* + lnName*/ + "." + dataObject.getName() + "." + da.getName().toString() + ");\n");
 															}
 														}
 													}
@@ -516,10 +514,12 @@ public class SCDCodeGenerator {
 												
 												if (svControl.getDatSet().equals(dataset.getName())) {
 													String svName = svControl.getName() + "_" + svControl.getSmvID();
-													svSource.appendInstances("struct svControl " + svName + ";\n");
-													svHeader.appendExtern("extern struct svControl " + svName + ";\n");
+													String svPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".LN0.";
+													
+													iedHeader.appendDatatypes("\t\t\t\tstruct svControl " + svName + ";\n");
 
-													svPacketDataInit.append("\t" + svName + ".noASDU = " + svControl.getNofASDU() + ";\n");
+													svPacketDataInit.append("\t" + svPath + svName + ".update = &sv_update_" + svName + ";\n");
+													svPacketDataInit.append("\t" + svPath + svName + ".noASDU = " + svControl.getNofASDU() + ";\n");
 													
 													TSMV smv = getCommunicationSMV(comms, iedName, apName, ldName, svControl.getName());
 													
@@ -536,42 +536,42 @@ public class SCDCodeGenerator {
 															
 															if (macSplit.length == 6) {
 																for (int i = 0; i < 6; i++) {
-																	svPacketDataInit.append("\t" + svName + ".ethHeaderData.destMACAddress[" + i + "] = 0x" + macSplit[i] + ";\n");	// must be big-endian
+																	svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.destMACAddress[" + i + "] = 0x" + macSplit[i] + ";\n");	// must be big-endian
 																}
 															}
 														}
 														else if (p.getType().toString().equals("APPID")) {
-															svPacketDataInit.append("\t" + svName + ".ethHeaderData.APPID = 0x" + p.getValue() + ";\n");
+															svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.APPID = 0x" + p.getValue() + ";\n");
 														}
 														else if (p.getType().toString().equals("VLAN-ID")) {
-															svPacketDataInit.append("\t" + svName + ".ethHeaderData.VLAN_ID = 0x" + p.getValue() + ";\n");
+															svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_ID = 0x" + p.getValue() + ";\n");
 															useDefaultVlanID = false;
 														}
 														else if (p.getType().toString().equals("VLAN-PRIORITY")) {
-															svPacketDataInit.append("\t" + svName + ".ethHeaderData.VLAN_PRIORITY = 0x" + p.getValue() + ";\n");
+															svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_PRIORITY = 0x" + p.getValue() + ";\n");
 															useDefaultVlanPriority = false;
 														}
 													}
 
 													// default values specified in 9-2, 5.3.3
 													if (useDefaultVlanPriority) {
-														svPacketDataInit.append("\t" + svName + ".ethHeaderData.VLAN_PRIORITY = 0;\n");
+														svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_PRIORITY = 0;\n");
 													}
 													if (useDefaultVlanID) {
-														svPacketDataInit.append("\t" + svName + ".ethHeaderData.VLAN_ID = 4;\n");
+														svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_ID = 4;\n");
 													}
 													
-													svPacketDataInit.append("\t" + svName + ".ASDU = (struct ASDU *) malloc(" + svControl.getNofASDU() + " * sizeof(struct ASDU));\n");
+													svPacketDataInit.append("\t" + svPath + svName + ".ASDU = (struct ASDU *) malloc(" + svControl.getNofASDU() + " * sizeof(struct ASDU));\n");
 													
 													// assume all ASDUs refer to the same dataset
 													//svPacketDataInit.append("\tint i = 0;\n");
 													svPacketDataInit.append("\tfor (i = 0; i < " + svControl.getNofASDU() + "; i++) {\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].svID = (unsigned char *) malloc(" + (svControl.getSmvID().length() + 1) + ");\n");
-													svPacketDataInit.append("\t\tstrncpy((char *) " + svName + ".ASDU[i].svID, \"" + svControl.getSmvID() + "\\0\", " + (svControl.getSmvID().length() + 1) + ");\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].datset = (unsigned char *) malloc(" + (dataset.getName().length() + 1) + ");\n");
-													svPacketDataInit.append("\t\tstrncpy((char *) " + svName + ".ASDU[i].datset, \"" + dataset.getName() + "\\0\", " + (dataset.getName().length() + 1) + ");\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].smpCnt = 0;\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].confRev = " + svControl.getConfRev() + ";\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].svID = (unsigned char *) malloc(" + (svControl.getSmvID().length() + 1) + ");\n");
+													svPacketDataInit.append("\t\tstrncpy((char *) " + svPath + svName + ".ASDU[i].svID, \"" + svControl.getSmvID() + "\\0\", " + (svControl.getSmvID().length() + 1) + ");\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].datset = (unsigned char *) malloc(" + (dataset.getName().length() + 1) + ");\n");
+													svPacketDataInit.append("\t\tstrncpy((char *) " + svPath + svName + ".ASDU[i].datset, \"" + dataset.getName() + "\\0\", " + (dataset.getName().length() + 1) + ");\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].smpCnt = 0;\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].confRev = " + svControl.getConfRev() + ";\n");
 													
 													int smpSynch = 0, showRefrTm = 0, showDatset = 0, showSmpRate = 0;
 													if (svControl.getSmvOpts() != null) {
@@ -588,16 +588,16 @@ public class SCDCodeGenerator {
 															showSmpRate = 1;
 														}
 													}
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].smpSynch = " + smpSynch + ";\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].showRefrTm = " + showRefrTm + ";\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].showDatset = " + showDatset + ";\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].showSmpRate = " + showSmpRate + ";\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].smpRate = " + svControl.getSmpRate() + ";\n");
-													svPacketDataInit.append("\t\t" + svName + ".ASDU[i].data.size = 0;\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].smpSynch = " + smpSynch + ";\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].showRefrTm = " + showRefrTm + ";\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].showDatset = " + showDatset + ";\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].showSmpRate = " + showSmpRate + ";\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].smpRate = " + svControl.getSmpRate() + ";\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].data.size = 0;\n");
 													
 													svPacketDataInit.append("\t}\n");
 
-													svPacketDataInit.append("\t" + svName + ".ASDUCount = 0;\n");
+													svPacketDataInit.append("\t" + svPath + svName + ".ASDUCount = 0;\n");
 													//svPacketDataInit.append("\t" + svName + ".datasetDecodeDone = NULL;\n");
 
 													if (svControls.hasNext()) {
@@ -610,15 +610,15 @@ public class SCDCodeGenerator {
 													
 													svSource.appendFunctions("\n// returns 1 if buf contains valid packet data");
 													svSource.appendFunctions("\n" + svUpdateFunctionPrototype + " {\n");
-													svSource.appendFunctions("\tint size = encode_control_" + /*dataset.getName()*/svControl.getName()/*getSmvID()*/ + "(" + svName + ".ASDU[" + svName + ".ASDUCount].data.data);\n");
-													svSource.appendFunctions("\t" + svName + ".ASDU[" + svName + ".ASDUCount].data.size = size;\n\n");
+													svSource.appendFunctions("\tint size = encode_control_" + /*dataset.getName()*/svControl.getName()/*getSmvID()*/ + "(" + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].data.data);\n");
+													svSource.appendFunctions("\t" + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].data.size = size;\n\n");
 
-													svSource.appendFunctions("\t" + svName + ".ASDU[" + svName + ".ASDUCount].smpCnt = " + svName + ".sampleCountMaster;\n");
-													svSource.appendFunctions("\t" + svName + ".sampleCountMaster++;\n\n");
+													svSource.appendFunctions("\t" + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].smpCnt = " + svPath + svName + ".sampleCountMaster;\n");
+													svSource.appendFunctions("\t" + svPath + svName + ".sampleCountMaster++;\n\n");
 													
-													svSource.appendFunctions("\tif (++" + svName + ".ASDUCount == " + svName + ".noASDU) {\n");
-													svSource.appendFunctions("\t\t" + svName + ".ASDUCount = 0;\n");
-													svSource.appendFunctions("\t\treturn svEncodePacket(&" + svName + ", buf);\n");
+													svSource.appendFunctions("\tif (++" + svPath + svName + ".ASDUCount == " + svPath + svName + ".noASDU) {\n");
+													svSource.appendFunctions("\t\t" + svPath + svName + ".ASDUCount = 0;\n");
+													svSource.appendFunctions("\t\treturn svEncodePacket(&" + svPath + svName + ", buf);\n");
 													svSource.appendFunctions("\t}\n");
 													svSource.appendFunctions("\n\treturn 0;\n");
 													svSource.appendFunctions("}\n");
@@ -641,9 +641,11 @@ public class SCDCodeGenerator {
 												
 												if (gseControl.getDatSet().equals(dataset.getName())) {
 													String gseName = gseControl.getName() + "_" + gseControl.getAppID();
-													gseSource.appendInstances("struct gseControl " + gseName + ";\n");
-													gseHeader.appendExtern("extern struct gseControl " + gseName + ";\n");
-													//gsePacketDataInit.append("\t" + gseName + ".noASDU = " + svControl.getNofASDU() + ";\n");
+													String gsePath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".LN0.";
+													
+													iedHeader.appendDatatypes("\t\t\t\tstruct gseControl " + gseName + ";\n");
+													
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".send = &gse_send_" + gseName + ";\n");
 													
 													TGSE gse = getCommunicationGSE(comms, iedName, apName, ldName, gseControl.getName());
 													Iterator<TP> ps = gse.getAddress().getP().iterator();
@@ -658,59 +660,59 @@ public class SCDCodeGenerator {
 															
 															if (macSplit.length == 6) {
 																for (int i = 0; i < 6; i++) {
-																	gsePacketDataInit.append("\t" + gseName + ".ethHeaderData.destMACAddress[" + i + "] = 0x" + macSplit[i] + ";\n");	// must be big-endian
+																	gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.destMACAddress[" + i + "] = 0x" + macSplit[i] + ";\n");	// must be big-endian
 																}
 															}
 														}
 														else if (p.getType().toString().equals("APPID")) {
-															gsePacketDataInit.append("\t" + gseName + ".ethHeaderData.APPID = 0x" + p.getValue() + ";\n");
+															gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.APPID = 0x" + p.getValue() + ";\n");
 														}
 														else if (p.getType().toString().equals("VLAN-ID")) {
-															gsePacketDataInit.append("\t" + gseName + ".ethHeaderData.VLAN_ID = 0x" + p.getValue() + ";\n");
+															gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_ID = 0x" + p.getValue() + ";\n");
 															useDefaultVlanID = false;
 														}
 														else if (p.getType().toString().equals("VLAN-PRIORITY")) {
-															gsePacketDataInit.append("\t" + gseName + ".ethHeaderData.VLAN_PRIORITY = 0x" + p.getValue() + ";\n");
+															gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_PRIORITY = 0x" + p.getValue() + ";\n");
 															useDefaultVlanPriority = false;
 														}
 													}
 													
 													// default values specified in 8-1, Annex C
 													if (useDefaultVlanPriority) {
-														gsePacketDataInit.append("\t" + gseName + ".ethHeaderData.VLAN_PRIORITY = 0;\n");
+														gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_PRIORITY = 0;\n");
 													}
 													if (useDefaultVlanID) {
-														gsePacketDataInit.append("\t" + gseName + ".ethHeaderData.VLAN_ID = 4;\n");
+														gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_ID = 4;\n");
 													}
 	
-													gsePacketDataInit.append("\t" + gseName + ".goID = (unsigned char *) malloc(" + (gseControl.getAppID().length() + 1) + ");\n");
-													gsePacketDataInit.append("\tstrncpy((char *) " + gseName + ".goID, \"" + gseControl.getAppID() + "\\0\", " + (gseControl.getAppID().length() + 1) + ");\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".goID = (unsigned char *) malloc(" + (gseControl.getAppID().length() + 1) + ");\n");
+													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".goID, \"" + gseControl.getAppID() + "\\0\", " + (gseControl.getAppID().length() + 1) + ");\n");
 	
-													gsePacketDataInit.append("\t" + gseName + ".t = 0;\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".t = 0;\n");
 													
 													String gocbRef = iedName + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
 													if (gocbRef.length() > 65) {
 														gocbRef = gocbRef.substring(0, 64);
 													}
-													gsePacketDataInit.append("\t" + gseName + ".gocbRef = (unsigned char *) malloc(" + (gocbRef.length() + 1) + ");\n");
-													gsePacketDataInit.append("\tstrncpy((char *) " + gseName + ".gocbRef, \"" + gocbRef + "\\0\", " + (gocbRef.length() + 1) + ");\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".gocbRef = (unsigned char *) malloc(" + (gocbRef.length() + 1) + ");\n");
+													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".gocbRef, \"" + gsePath + gseName + "\\0\", " + (gocbRef.length() + 1) + ");\n");
 													
 													String datSet = iedName + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getDatSet();
 													if (datSet.length() > 65) {
 														datSet = datSet.substring(0, 64);
 													}
-													gsePacketDataInit.append("\t" + gseName + ".datSet = (unsigned char *) malloc(" + (datSet.length() + 1) + ");\n");
-													gsePacketDataInit.append("\tstrncpy((char *) " + gseName + ".datSet, \"" + datSet + "\\0\", " + (datSet.length() + 1) + ");\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".datSet = (unsigned char *) malloc(" + (datSet.length() + 1) + ");\n");
+													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".datSet, \"" + datSet + "\\0\", " + (datSet.length() + 1) + ");\n");
 	
-													gsePacketDataInit.append("\t" + gseName + ".timeAllowedToLive = 0;\n");
-													gsePacketDataInit.append("\t" + gseName + ".stNum = 0;\n");
-													gsePacketDataInit.append("\t" + gseName + ".sqNum = 0;\n");
-													gsePacketDataInit.append("\t" + gseName + ".test = 0;\n");
-													gsePacketDataInit.append("\t" + gseName + ".confRev = " + gseControl.getConfRev() + ";\n");
-													gsePacketDataInit.append("\t" + gseName + ".ndsCom = 0;\n");
-													gsePacketDataInit.append("\t" + gseName + ".numDatSetEntries = " + dataset.getFCDA().size() + ";\n");
-													gsePacketDataInit.append("\t" + gseName + ".encodeDataset = &ber_encode_" + getUniqueDatasetName(dataset) + ";\n");
-													gsePacketDataInit.append("\t" + gseName + ".getDatasetLength = &ber_get_length_" + getUniqueDatasetName(dataset) + ";\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".timeAllowedToLive = 0;\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".stNum = 0;\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".sqNum = 0;\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".test = 0;\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".confRev = " + gseControl.getConfRev() + ";\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".ndsCom = 0;\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".numDatSetEntries = " + dataset.getFCDA().size() + ";\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".encodeDataset = &ber_encode_" + getUniqueDatasetName(dataset) + ";\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".getDatasetLength = &ber_get_length_" + getUniqueDatasetName(dataset) + ";\n");
 													//gsePacketDataInit.append("\t" + gseName + ".datasetDecodeDone = NULL;\n\n");
 													
 													// send GSE function
@@ -720,27 +722,28 @@ public class SCDCodeGenerator {
 													gseSource.appendFunctions("\n// returns 1 if buf contains valid packet data");
 													gseSource.appendFunctions("\n" + gseUpdateFunctionPrototype + " {\n");
 													
-													gseSource.appendFunctions("\t" + gseName + ".timeAllowedToLive = timeAllowedToLive;\n\n");
+													gseSource.appendFunctions("\t" + gsePath + gseName + ".timeAllowedToLive = timeAllowedToLive;\n\n");
 													gseSource.appendFunctions("\tif (statusChange) {\n");
-													gseSource.appendFunctions("\t\t" + gseName + ".stNum++;\n");
-													gseSource.appendFunctions("\t\tif (" + gseName + ".stNum == 0) {\n");
-													gseSource.appendFunctions("\t\t\t" + gseName + ".stNum = 1;\n");
+													gseSource.appendFunctions("\t\t" + gsePath + gseName + ".stNum++;\n");
+													gseSource.appendFunctions("\t\tif (" + gsePath + gseName + ".stNum == 0) {\n");
+													gseSource.appendFunctions("\t\t\t" + gsePath + gseName + ".stNum = 1;\n");
 													gseSource.appendFunctions("\t\t}\n");
-													gseSource.appendFunctions("\t\t" + gseName + ".sqNum = 0;\n");
+													gseSource.appendFunctions("\t\t" + gsePath + gseName + ".sqNum = 0;\n");
 													gseSource.appendFunctions("\t}\n");
 													gseSource.appendFunctions("\telse {\n");
-													gseSource.appendFunctions("\t\t" + gseName + ".sqNum++;\n");
-													gseSource.appendFunctions("\t\tif (" + gseName + ".sqNum == 0) {\n");
-													gseSource.appendFunctions("\t\t\t" + gseName + ".sqNum = 1;\n");
+													gseSource.appendFunctions("\t\t" + gsePath + gseName + ".sqNum++;\n");
+													gseSource.appendFunctions("\t\tif (" + gsePath + gseName + ".sqNum == 0) {\n");
+													gseSource.appendFunctions("\t\t\t" + gsePath + gseName + ".sqNum = 1;\n");
 													gseSource.appendFunctions("\t\t}\n\t}\n\n");
 													
-													gseSource.appendFunctions("\treturn gseEncodePacket(&" + gseName + ", buf);\n");
+													gseSource.appendFunctions("\treturn gseEncodePacket(&" + gsePath + gseName + ", buf);\n");
 													gseSource.appendFunctions("}\n");
 												}
 											}
 										}
 									}
 								}
+								iedHeader.appendDatatypes("\t\t\t} LN0;\n");
 							}
 							
 							Iterator<TLN> lns = ld.getLN().iterator();
@@ -1018,7 +1021,7 @@ public class SCDCodeGenerator {
 
 	public static TSMV getCommunicationSMV(TCommunication comms, String iedName, String apName, String ldName, String cbName) {
 		if (comms == null) {
-			System.out.println("comms null!");
+			SCDValidator.error("Communication element does not exist in SCD file");
 			return null;
 		}
 		
@@ -1052,7 +1055,7 @@ public class SCDCodeGenerator {
 	
 	public static TGSE getCommunicationGSE(TCommunication comms, String iedName, String apName, String ldName, String cbName) {
 		if (comms == null) {
-			System.out.println("comms null!");
+			SCDValidator.error("Communication element does not exist in SCD file");
 			return null;
 		}
 		

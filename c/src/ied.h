@@ -26,11 +26,19 @@ extern "C" {
 #endif
 
 #include "datatypes.h"
+#include "sv.h"
+#include "gse.h"
 
 struct E1Q1SB1 {
 	struct {
 		struct {
-			struct LN0 LLN0;
+			struct {
+				struct LN0 LLN0;
+				struct gseControl ItlPositions_Itl;
+				struct gseControl AnotherPositions_Itl;
+				struct svControl Volt_11;
+				struct svControl rmxuCB_rmxu;
+			} LN0;
 			struct exampleRMXU exampleRMXU_1;
 			struct LPHDa LPHDa_1;
 			struct CSWIa CSWIa_1;
@@ -94,7 +102,11 @@ struct D1Q1BP3 {
 struct D1Q1SB4 {
 	struct {
 		struct {
-			struct LN0 LLN0;
+			struct {
+				struct LN0 LLN0;
+				struct gseControl SyckResult_SynChk;
+				struct gseControl MMXUResult_MMXUResult;
+			} LN0;
 			struct exampleMMXU exampleMMXU_1;
 			struct LPHDa LPHDa_1;
 			struct RSYNa RSYNa_1;
