@@ -20,8 +20,6 @@
 
 package scdCodeGenerator;
 
-import java.awt.List;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.BasicEList;

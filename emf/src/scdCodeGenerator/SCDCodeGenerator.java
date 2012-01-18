@@ -364,21 +364,18 @@ public class SCDCodeGenerator {
 															
 															if (!svControlConsumed.contains(svControl.getName())) {
 																svControlConsumed.add(svControl.getName());
+																//System.out.println("\tadding sv control: " + svControl.getName() + " size: " + svControlConsumed.size());
 																
-																System.out.println("\tadding sv control: " + svControl.getName() + " size: " + svControlConsumed.size());
-															
-																dataTypesHeader.appendDatatypes("\n\tstruct {");
-																
+																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + ln.getInst() + ".sv_inputs_" + svControl.getName() + ".";
+
 																svDecodeDatasetFunction.append("\n\tif (strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");
-																
-																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getLnType() + "_" + ln.getInst() + ".sv_inputs_" + svControl.getName() + ".";
-																
 																svDecodeDatasetFunction.append("\n\t\tdecode_" + datasetName + "(dataset, ASDU, smpCnt, &" + inputsPath + datasetName + "[ASDU]);");
 																svDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
 																svDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone(smpCnt);");
 																svDecodeDatasetFunction.append("\n\t\t}");
 																svDecodeDatasetFunction.append("\n\t}");
-																
+
+																dataTypesHeader.appendDatatypes("\n\tstruct {");
 																dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + noASDUString + ";");
 																dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)(CTYPE_INT16U smpCnt);");
 																dataTypesHeader.appendDatatypes("\n\t} sv_inputs_" + svControl.getName() + ";");
@@ -389,22 +386,19 @@ public class SCDCodeGenerator {
 															// GSE dataset decode functions
 															if (!gseControlConsumed.contains(gseControl.getName())) {
 																gseControlConsumed.add(gseControl.getName());
-																
-																System.out.println("\tadding gse control: " + gseControl.getName() + ", size: " + gseControlConsumed.size());
-																
-																dataTypesHeader.appendDatatypes("\n\tstruct {");
+																//System.out.println("\tadding gse control: " + gseControl.getName() + ", size: " + gseControlConsumed.size());
 																
 																String gocbRef = /*extRef.getIedName() + */ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
-																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getLnType() + "_" + ln.getInst() + ".gse_inputs_" + gseControl.getName() + ".";
+																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getPrefix() + ln.getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + ln.getInst() + ".gse_inputs_" + gseControl.getName() + ".";
 																
 																gseDecodeDatasetFunction.append("\n\tif (strncmp((const char *) gocbRef, \"" + gocbRef + "\", gocbRefLength) == 0) {");
-																//gseDecodeDatasetFunction.append("\n\t\tber_decode_" + gseControl.getDatSet() + "_" + ln.getLnClass().toString() + "_" + ln.getInst() + "(dataset);");
 																gseDecodeDatasetFunction.append("\n\t\tber_decode_" + datasetName + "(dataset, &" + inputsPath + datasetName + ");");
 																gseDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
 																gseDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone();");
 																gseDecodeDatasetFunction.append("\n\t\t}");
 																gseDecodeDatasetFunction.append("\n\t}");
-																
+
+																dataTypesHeader.appendDatatypes("\n\tstruct {");
 																dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + ";");
 																dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)();");
 																dataTypesHeader.appendDatatypes("\n\t} gse_inputs_" + gseControl.getName() + ";");

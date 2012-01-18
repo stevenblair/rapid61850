@@ -52,7 +52,7 @@ public class Main {
 		}
 		catch (Exception e) {
 			//e.printStackTrace();
-			validator.error("cannot parse SCD file");
+			validator.error("EMF cannot parse SCD file");
 		}
 		
 		// get root of XML document

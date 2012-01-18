@@ -103,7 +103,7 @@ public class CFunctionGSECoder extends CFunctionCoder {
 				String iedName = ((TIED) fcda.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
 				String apName = ((TAccessPoint) fcda.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
 				
-				source =  iedName + "." + apName + "." + fcda.getLdInst() + "." + fcda.getLnRef().getPrefix() + fcda.getLnRef().getLnType() + "_" + fcda.getLnRef().getInst();
+				source =  iedName + "." + apName + "." + fcda.getLdInst() + "." + fcda.getLnRef().getPrefix() + fcda.getLnRef().getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + fcda.getLnRef().getInst();
 				
 				if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
 					variableName = fcda.getDoName();
