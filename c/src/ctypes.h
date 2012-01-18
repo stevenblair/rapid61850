@@ -118,6 +118,20 @@ extern "C" {
 #define GSE_TAG_NUMDATSETENTRIES				0x8a
 #define GSE_TAG_ALLDATA							0x8b
 
+#define SV_TAG_SAVPDU							0x60
+#define SV_TAG_NOASDU							0x80
+#define SV_TAG_SECURITY							0x81
+#define SV_TAG_SEQUENCEOFASDU					0xA2
+#define SV_TAG_ASDU								0x30
+#define SV_TAG_SVID								0x80
+#define SV_TAG_DATSET							0x81
+#define SV_TAG_SMPCNT							0x82
+#define SV_TAG_CONFREV							0x83
+#define SV_TAG_REFRTM							0x84
+#define SV_TAG_SMPSYNCH							0x85
+#define SV_TAG_SMPRATE							0x86
+#define SV_TAG_SEQUENCEOFDATA					0x87
+
 #define QUALITY_UNUSED_BITS						3		// total_bits (16) - used_bits (13) = 3
 
 int ber_integer_length(void *value, int maxLength);

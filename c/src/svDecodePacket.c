@@ -46,29 +46,29 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 		//printf("\ttag: %x, noASDU: %u, lengthFieldSize: %i, lengthValue: %i, offset: %i\n", tag, noASDU, lengthFieldSize, lengthValue, offsetForNonSequence);
 
 		switch (tag) {
-			case 0x80:
+			case SV_TAG_SVID:
 				svID = &buf[i + 1 + lengthFieldSize];
 				svIDLength = lengthValue;
 				break;
-			case 0x81:
+			case SV_TAG_DATSET:
 
 				break;
-			case 0x82:
+			case SV_TAG_SMPCNT:
 				BER_DECODE_CTYPE_INT16U(&buf[i + 1 + lengthFieldSize], &smpCnt);
 				break;
-			case 0x83:
+			case SV_TAG_CONFREV:
 
 				break;
-			case 0x84:
+			case SV_TAG_REFRTM:
 
 				break;
-			case 0x85:
+			case SV_TAG_SMPSYNCH:
 
 				break;
-			case 0x86:
+			case SV_TAG_SMPRATE:
 
 				break;
-			case 0x87:
+			case SV_TAG_SEQUENCEOFDATA:
 				if (svID != NULL) {
 					svDecodeDataset(&buf[i + 1 + lengthFieldSize], lengthValue, noASDU, svID, svIDLength, smpCnt);
 				}
@@ -93,18 +93,18 @@ void svDecodeAPDU(unsigned char *buf, int len, unsigned int ASDU, unsigned int t
 	//printf("tag: %x, noASDU: %u, lengthFieldSize: %i, lengthValue: %i, offset: %i\n", tag, noASDU, lengthFieldSize, lengthValue, offsetForNonSequence);
 
 	switch (tag) {
-		case 0x60:
+		case SV_TAG_SAVPDU:
 			svDecodeAPDU(&buf[offsetForSequence], lengthValue, ASDU, totalASDUs);
 			break;
-		case 0x80:
+		case SV_TAG_NOASDU:
 			noASDU = (unsigned int) buf[1 + lengthFieldSize];	// assuming noASDU is < 126
 			//ASDU = 0;
 			svDecodeAPDU(&buf[offsetForNonSequence], len - offsetForNonSequence, ASDU, noASDU);
 			break;
-		case 0xA2:
+		case SV_TAG_SEQUENCEOFASDU:
 			svDecodeAPDU(&buf[offsetForSequence], lengthValue, ASDU, totalASDUs);
 			break;
-		case 0x30:
+		case SV_TAG_ASDU:
 			ASDU++;
 			svDecodeASDU(&buf[offsetForSequence], lengthValue, ASDU);
 

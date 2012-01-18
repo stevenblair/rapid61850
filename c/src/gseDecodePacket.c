@@ -26,22 +26,19 @@
 #include "decodePacket.h"
 #include <stddef.h>
 
-//TODO: remove temp includes
-//#include <stdio.h>
-//#include <stdlib.h>
 
 void gseDecodePDU(unsigned char *buf) {
-	unsigned char	tag;
-	CTYPE_INT16U	lengthFieldSize;
-	CTYPE_INT16U	lengthValue;
-	CTYPE_INT16U	offsetForSequence;
-	CTYPE_INT16U	offsetForNonSequence;
+	unsigned char	tag = 0;
+	CTYPE_INT16U	lengthFieldSize = 0;
+	CTYPE_INT16U	lengthValue = 0;
+	CTYPE_INT16U	offsetForSequence = 0;
+	CTYPE_INT16U	offsetForNonSequence = 0;
 	unsigned char	*gocbRef = NULL;
 	CTYPE_INT16U	gocbRefLength = 0;
-	CTYPE_INT32U	timeAllowedToLive;
-	CTYPE_TIMESTAMP	T;
-	CTYPE_INT32U	sqNum;
-	CTYPE_INT32U	stNum;
+	CTYPE_INT32U	timeAllowedToLive = 0;
+	CTYPE_TIMESTAMP	T = 0;
+	CTYPE_INT32U	sqNum = 0;
+	CTYPE_INT32U	stNum = 0;
 
 	while (1) {
 		tag = (unsigned char) buf[0];	// assumes only one byte is used
@@ -52,11 +49,9 @@ void gseDecodePDU(unsigned char *buf) {
 
 		switch (tag) {
 		case GSE_TAG_GOCBREF:
-			// save gocbRef name
+			// save pointer to gocbRef name
 			gocbRef = &buf[offsetForSequence];
 			gocbRefLength = lengthValue;
-			//printf("gocbRef: %s, length: %d\n", gocbRef, gocbRefLength);
-			//fflush(stdout);
 
 			buf = &buf[offsetForNonSequence];
 			break;
@@ -68,7 +63,6 @@ void gseDecodePDU(unsigned char *buf) {
 			buf = &buf[offsetForSequence];
 			break;
 		case GSE_TAG_DATSET:
-			// save dataset name
 			buf = &buf[offsetForNonSequence];
 			break;
 		case GSE_TAG_T:

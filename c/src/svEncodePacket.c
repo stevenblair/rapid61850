@@ -95,24 +95,24 @@ int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 	buf[offset++] = 0x00;	// reserved 2
 	buf[offset++] = 0x00;
 
-	buf[offset++] = 0x60;
+	buf[offset++] = SV_TAG_SAVPDU;
 	offset += encodeLength(&buf[offset], svAPDULength(svControl));
 
-	buf[offset++] = 0x80;
+	buf[offset++] = SV_TAG_NOASDU;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svControl->noASDU));
 	offset += ber_encode_integer(&buf[offset], &svControl->noASDU, BER_GET_LENGTH_CTYPE_INT16U(&svControl->noASDU));
 
-	buf[offset++] = 0xA2;
+	buf[offset++] = SV_TAG_SEQUENCEOFASDU;
 	offset += encodeLength(&buf[offset], svSeqLength(svControl));
 
 	int i = 0;
 	int size = 0;
 	for (i = 0; i < svControl->noASDU; i++) {
-		buf[offset++] = 0x30;
+		buf[offset++] = SV_TAG_ASDU;
 		offset += encodeLength(&buf[offset], svASDULength(svControl));
 
 		size = strlen((const char *) svControl->ASDU[i].svID);
-		buf[offset++] = 0x80;
+		buf[offset++] = SV_TAG_SVID;
 		buf[offset++] = size;
 		memcpy(&buf[offset], svControl->ASDU[i].svID, size);
 		offset += size;
@@ -120,24 +120,24 @@ int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 #if SV_OPTIONAL_SUPPORTED == 1
 		if (svControl->ASDU[i].showDatset) {
 			size = strlen(svControl->ASDU[i].datset);
-			buf[offset++] = 0x81;
+			buf[offset++] = SV_TAG_DATSET;
 			buf[offset++] = size;
 			memcpy(&buf[offset], svControl->ASDU[i].datset, size);
 			offset += size;
 		}
 #endif
 
-		buf[offset++] = 0x82;
+		buf[offset++] = SV_TAG_SMPCNT;
 		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[i].smpCnt));
 		offset += ber_encode_integer(&buf[offset], &svControl->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U);
 
-		buf[offset++] = 0x83;
+		buf[offset++] = SV_TAG_CONFREV;
 		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&svControl->ASDU[i].confRev));
 		offset += ber_encode_integer(&buf[offset], &svControl->ASDU[i].confRev, SV_GET_LENGTH_INT32U);
 
 #if SV_OPTIONAL_SUPPORTED == 1
 		if (svControl->ASDU[i].showRefrTm) {
-			buf[offset++] = 0x84;
+			buf[offset++] = SV_TAG_REFRTM;
 			offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_TIMESTAMP(&svControl->ASDU[i].refrTm));
 			setTimestamp(&svControl->ASDU[i].refrTm);
 			memcpy(&buf[offset], &svControl->ASDU[i].refrTm, BER_GET_LENGTH_CTYPE_TIMESTAMP(&svControl->ASDU[i].refrTm));
@@ -145,19 +145,19 @@ int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 		}
 #endif
 
-		buf[offset++] = 0x85;
+		buf[offset++] = SV_TAG_SMPSYNCH;
 		buf[offset++] = SV_GET_LENGTH_BOOLEAN;
 		offset += ENCODE_CTYPE_BOOLEAN(&buf[offset], &svControl->ASDU[i].smpSynch);
 
 #if SV_OPTIONAL_SUPPORTED == 1
 		if (svControl->ASDU[i].showSmpRate) {
-			buf[offset++] = 0x86;
+			buf[offset++] = SV_TAG_SMPRATE;
 			buf[offset++] = SV_GET_LENGTH_INT16U;
 			offset += ENCODE_CTYPE_INT16U(&buf[offset], &svControl->ASDU[i].smpRate);
 		}
 #endif
 
-		buf[offset++] = 0x87;
+		buf[offset++] = SV_TAG_SEQUENCEOFDATA;
 		offset += encodeLength(&buf[offset], svControl->ASDU[i].data.size);
 		memcpy(&buf[offset], svControl->ASDU[i].data.data, svControl->ASDU[i].data.size);
 		offset += svControl->ASDU[i].data.size;
