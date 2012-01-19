@@ -21,6 +21,9 @@
 #ifndef GSE_H
 #define GSE_H
 
+#ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
+extern "C" {
+#endif
 
 #include "gseEncode.h"
 #include "gseDecode.h"
@@ -34,5 +37,8 @@ void gseDecode(unsigned char *buf, int len);
 
 
 
+#ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
+}
+#endif
 
 #endif

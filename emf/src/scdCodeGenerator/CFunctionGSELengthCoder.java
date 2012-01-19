@@ -35,15 +35,7 @@ public class CFunctionGSELengthCoder extends CFunctionGSECoder {
 	}
 	
 	public String getArgs() {
-		if (this.dataType.eClass().getName().equals("TDataSet")) {
-		/*	return "";
-		}
-		else {*/
-			return "struct " + getName() + " *" + getName();
-		}
-		else {
-			return "struct " + getName() + " *" + getName(); // TODO confirm all get_length args are correct
-		}
+		return "struct " + getName() + " *" + getName();
 	}
 	
 	public String getBody() {

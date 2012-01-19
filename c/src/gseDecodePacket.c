@@ -80,7 +80,6 @@ void gseDecodePDU(unsigned char *buf) {
 		case GSE_TAG_ALLDATA:
 			gseDecodeDataset(&buf[offsetForSequence], lengthValue, gocbRef, gocbRefLength, timeAllowedToLive, T, stNum, sqNum);
 			return;
-			break;
 		default:
 			buf = &buf[offsetForNonSequence];
 			break;

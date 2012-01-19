@@ -21,6 +21,9 @@
 #ifndef SV_H
 #define SV_H
 
+#ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
+extern "C" {
+#endif
 
 #include "svEncode.h"
 #include "svDecode.h"
@@ -35,5 +38,8 @@ void svDecode(unsigned char *buf, int len);
 
 
 
+#ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
+}
+#endif
 
 #endif
