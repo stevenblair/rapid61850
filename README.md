@@ -14,6 +14,7 @@ This readme file describes how to set up the software, and its basic use.
  - Lightweight, and suitable for low-cost microcontrollers
  - Platform-independent, and any C/C++ compiler should work
  - Performs validation of the SCD file, and reports any problems
+ - Open source, under the GPL 2 license
 
 ## Installation ##
 

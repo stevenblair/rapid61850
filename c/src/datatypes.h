@@ -71,34 +71,23 @@ enum Health {
 };
 
 // data attributes
-
+struct myAnalogValue {
+	CTYPE_FLOAT32 f;
+};
+struct ScaledValueConfig {
+	CTYPE_FLOAT32 scaleFactor;
+	CTYPE_FLOAT32 offset;
+};
+struct myVector {
+	struct myAnalogValue mag;
+	struct myAnalogValue ang;
+};
+struct simpleVector {
+	struct myAnalogValue mag;
+	struct myAnalogValue ang;
+};
 
 // data objects
-struct ud {
-	CTYPE_INT8 LNName;
-	CTYPE_INT8 DataSetName;
-	CTYPE_INT16 LDName;
-	CTYPE_INT16 phsaTCTRrated;
-	CTYPE_INT16 neutTCTRrated;
-	CTYPE_INT16 phsaTVTRrated;
-	CTYPE_INT16 Tdr;
-	CTYPE_INT16 phsaTCTR;
-	CTYPE_INT16 phsbTCTR;
-	CTYPE_INT16 phscTCTR;
-	CTYPE_INT16 neutTCTR;
-	CTYPE_INT16 phsaTCTR1;
-	CTYPE_INT16 phsbTCTR1;
-	CTYPE_INT16 phscTCTR1;
-	CTYPE_INT16 phsaTVTR;
-	CTYPE_INT16 phsbTVTR;
-	CTYPE_INT16 phscTVTR;
-	CTYPE_INT16 neutTVTR;
-	CTYPE_INT16 bbTVTR;
-	CTYPE_INT16 statusWord1;
-	CTYPE_INT16 statusWord2;
-	CTYPE_INT16 samplingRate;
-	CTYPE_INT8 ConfigurationRevisionNumber;
-};
 struct myMod {
 	enum Mod ctlVal;
 	enum Mod stVal;
@@ -118,10 +107,94 @@ struct myLPL {
 	CTYPE_VISSTRING255 ldNs;
 	CTYPE_VISSTRING255 configRev;
 };
+struct myDPL {
+	CTYPE_VISSTRING255 vendor;
+	CTYPE_VISSTRING255 hwRev;
+};
+struct myPos {
+	CTYPE_DBPOS stVal;
+	CTYPE_QUALITY q;
+	CTYPE_TIMESTAMP t;
+	CTYPE_BOOLEAN ctlVal;
+};
+struct mySPS {
+	CTYPE_INT32 stVal;
+	CTYPE_QUALITY q;
+	CTYPE_TIMESTAMP t;
+};
+struct myMV {
+	struct myAnalogValue mag;
+	CTYPE_QUALITY q;
+	CTYPE_TIMESTAMP t;
+	struct ScaledValueConfig sVC;
+};
+struct simpleMV {
+	CTYPE_FLOAT32 mag;
+	CTYPE_QUALITY q;
+	CTYPE_TIMESTAMP t;
+	struct ScaledValueConfig sVC;
+};
+struct simpleCMV {
+	struct simpleVector cVal;
+	CTYPE_QUALITY q;
+	CTYPE_TIMESTAMP t;
+};
+struct simpleWYE {
+	struct simpleCMV phsA;
+	struct simpleCMV phsB;
+	struct simpleCMV phsC;
+};
+struct myCMV {
+	struct myVector cVal;
+	CTYPE_QUALITY q;
+	CTYPE_TIMESTAMP t;
+};
+struct mySEQ {
+	struct myCMV c1;
+	struct myCMV c2;
+	struct myCMV c3;
+	enum seqT seqT;
+};
+struct mySAV {
+	struct myAnalogValue instMag;
+	CTYPE_QUALITY q;
+};
+struct simpleSAV {
+	struct myAnalogValue instMag;
+	CTYPE_QUALITY q;
+};
 
 // datasets
-struct Send_D1_ud {
-	struct ud D1__GGIO_1_ud;
+struct E1Q1SB1_C1_Positions {
+	struct myAnalogValue C1__TVTR_1_Vol_instMag;
+	struct myPos C1__CSWI_1_Pos;
+	struct myPos C1__CSWI_2_Pos;
+	enum Mod C1__MMXU_1_Mod_stVal;
+	struct myMV C1__MMXU_1_Amps;
+	struct myMV C1__MMXU_1_Volts;
+};
+struct E1Q1SB1_C1_Measurands {
+	struct myMV C1__MMXU_1_Amps;
+	struct myMV C1__MMXU_1_Volts;
+};
+struct E1Q1SB1_C1_smv {
+	struct myAnalogValue C1__TVTR_1_Vol_instMag;
+	struct myMod C1__CSWI_1_Mod;
+	enum Mod C1__MMXU_1_Mod_stVal;
+	CTYPE_QUALITY C1__MMXU_1_Volts_q;
+	struct myMV C1__MMXU_1_Amps;
+	struct myPos C1__CSWI_2_Pos;
+};
+struct E1Q1SB1_C1_rmxu {
+	struct simpleSAV C1__RMXU_1_AmpLocPhsA;
+	struct simpleSAV C1__RMXU_1_AmpLocPhsB;
+	struct simpleSAV C1__RMXU_1_AmpLocPhsC;
+};
+struct D1Q1SB4_C1_SyckResult {
+	struct mySPS C1__RSYN_1_Rel;
+};
+struct D1Q1SB4_C1_MMXUResult {
+	struct simpleWYE C1__MMXU_1_A;
 };
 
 // logical nodes
@@ -131,16 +204,93 @@ struct LN0 {
 	struct myBeh Beh;
 	struct myLPL NamPlt;
 };
-struct sendUD {
-	struct ud ud;
-};
-struct recvUD {
-	struct ud ud;
+struct LPHDa {
+	struct myMod Mod;
+	struct myHealth Health;
+	struct myBeh Beh;
+	struct myLPL NamPlt;
+	struct myDPL PhyNam;
+	struct myINS PhyHealth;
+	struct mySPS Proxy;
 	struct {
-		struct Send_D1_ud Send_D1_ud[16];
+		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 		CTYPE_INT16U smpCnt;
-	} sv_inputs_udCB;
+	} sv_inputs_Volt;
+};
+struct CSWIa {
+	struct myMod Mod;
+	struct myHealth Health;
+	struct myBeh Beh;
+	struct myPos Pos;
+	struct mySPS GrpAl;
+};
+struct MMXUa {
+	struct myMod Mod;
+	struct myHealth Beh;
+	struct myBeh Health;
+	struct myMV Amps;
+	struct myMV Volts;
+};
+struct exampleMMXU {
+	struct myMod Mod;
+	struct myHealth Beh;
+	struct myBeh Health;
+	struct simpleWYE A;
+	struct {
+		struct E1Q1SB1_C1_rmxu E1Q1SB1_C1_rmxu[16];
+		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
+		CTYPE_INT16U smpCnt;
+	} sv_inputs_rmxuCB;
+};
+struct exampleRMXU {
+	struct myMod Mod;
+	struct myHealth Beh;
+	struct myBeh Health;
+	struct simpleSAV AmpLocPhsA;
+	struct simpleSAV AmpLocPhsB;
+	struct simpleSAV AmpLocPhsC;
+};
+struct CILOa {
+	struct myHealth Mod;
+	struct myBeh Beh;
+	struct myINS Health;
+	struct mySPS EnaOpen;
+	struct mySPS EnaClose;
+};
+struct TVTRa {
+	struct myMod Mod;
+	struct myHealth Health;
+	struct myBeh Beh;
+	struct mySAV Vol;
+};
+struct RSYNa {
+	struct myMod Mod;
+	struct myHealth Health;
+	struct myBeh Beh;
+	struct myLPL NamPlt;
+	struct mySPS Rel;
+	struct {
+		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
+		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
+		CTYPE_INT16U smpCnt;
+	} sv_inputs_Volt;
+	struct {
+		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
+		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
+		CTYPE_INT32U timeAllowedToLive;
+		CTYPE_TIMESTAMP T;
+		CTYPE_INT32U stNum;
+		CTYPE_INT32U sqNum;
+	} gse_inputs_AnotherPositions;
+	struct {
+		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
+		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
+		CTYPE_INT32U timeAllowedToLive;
+		CTYPE_TIMESTAMP T;
+		CTYPE_INT32U stNum;
+		CTYPE_INT32U sqNum;
+	} gse_inputs_ItlPositions;
 };
 
 void init_datatypes();

@@ -29,16 +29,32 @@
 
 
 // returns 1 if buf contains valid packet data
-int sv_update_Send_D1_udCB(unsigned char *buf) {
-	int size = encode_control_Send_D1_udCB(Send.S1.D1.LN0.udCB.ASDU[Send.S1.D1.LN0.udCB.ASDUCount].data.data);
-	Send.S1.D1.LN0.udCB.ASDU[Send.S1.D1.LN0.udCB.ASDUCount].data.size = size;
+int sv_update_E1Q1SB1_C1_Volt(unsigned char *buf) {
+	int size = encode_control_E1Q1SB1_C1_Volt(E1Q1SB1.S1.C1.LN0.Volt.ASDU[E1Q1SB1.S1.C1.LN0.Volt.ASDUCount].data.data);
+	E1Q1SB1.S1.C1.LN0.Volt.ASDU[E1Q1SB1.S1.C1.LN0.Volt.ASDUCount].data.size = size;
 
-	Send.S1.D1.LN0.udCB.ASDU[Send.S1.D1.LN0.udCB.ASDUCount].smpCnt = Send.S1.D1.LN0.udCB.sampleCountMaster;
-	Send.S1.D1.LN0.udCB.sampleCountMaster++;
+	E1Q1SB1.S1.C1.LN0.Volt.ASDU[E1Q1SB1.S1.C1.LN0.Volt.ASDUCount].smpCnt = E1Q1SB1.S1.C1.LN0.Volt.sampleCountMaster;
+	E1Q1SB1.S1.C1.LN0.Volt.sampleCountMaster++;
 
-	if (++Send.S1.D1.LN0.udCB.ASDUCount == Send.S1.D1.LN0.udCB.noASDU) {
-		Send.S1.D1.LN0.udCB.ASDUCount = 0;
-		return svEncodePacket(&Send.S1.D1.LN0.udCB, buf);
+	if (++E1Q1SB1.S1.C1.LN0.Volt.ASDUCount == E1Q1SB1.S1.C1.LN0.Volt.noASDU) {
+		E1Q1SB1.S1.C1.LN0.Volt.ASDUCount = 0;
+		return svEncodePacket(&E1Q1SB1.S1.C1.LN0.Volt, buf);
+	}
+
+	return 0;
+}
+
+// returns 1 if buf contains valid packet data
+int sv_update_E1Q1SB1_C1_rmxuCB(unsigned char *buf) {
+	int size = encode_control_E1Q1SB1_C1_rmxuCB(E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount].data.data);
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount].data.size = size;
+
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount].smpCnt = E1Q1SB1.S1.C1.LN0.rmxuCB.sampleCountMaster;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.sampleCountMaster++;
+
+	if (++E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount == E1Q1SB1.S1.C1.LN0.rmxuCB.noASDU) {
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount = 0;
+		return svEncodePacket(&E1Q1SB1.S1.C1.LN0.rmxuCB, buf);
 	}
 
 	return 0;
@@ -47,32 +63,60 @@ int sv_update_Send_D1_udCB(unsigned char *buf) {
 void init_sv() {
 	int i = 0;
 
-	Send.S1.D1.LN0.udCB.noASDU = 16;
-	Send.S1.D1.LN0.udCB.ethHeaderData.destMACAddress[0] = 0x01;
-	Send.S1.D1.LN0.udCB.ethHeaderData.destMACAddress[1] = 0x0C;
-	Send.S1.D1.LN0.udCB.ethHeaderData.destMACAddress[2] = 0xCD;
-	Send.S1.D1.LN0.udCB.ethHeaderData.destMACAddress[3] = 0x04;
-	Send.S1.D1.LN0.udCB.ethHeaderData.destMACAddress[4] = 0x00;
-	Send.S1.D1.LN0.udCB.ethHeaderData.destMACAddress[5] = 0x01;
-	Send.S1.D1.LN0.udCB.ethHeaderData.APPID = 0x4000;
-	Send.S1.D1.LN0.udCB.ethHeaderData.VLAN_ID = 0x123;
-	Send.S1.D1.LN0.udCB.ethHeaderData.VLAN_PRIORITY = 0x4;
-	Send.S1.D1.LN0.udCB.ASDU = (struct ASDU *) malloc(16 * sizeof(struct ASDU));
-	for (i = 0; i < 16; i++) {
-		Send.S1.D1.LN0.udCB.ASDU[i].svID = (unsigned char *) malloc(3);
-		strncpy((char *) Send.S1.D1.LN0.udCB.ASDU[i].svID, "ud\0", 3);
-		Send.S1.D1.LN0.udCB.ASDU[i].datset = (unsigned char *) malloc(3);
-		strncpy((char *) Send.S1.D1.LN0.udCB.ASDU[i].datset, "ud\0", 3);
-		Send.S1.D1.LN0.udCB.ASDU[i].smpCnt = 0;
-		Send.S1.D1.LN0.udCB.ASDU[i].confRev = 1;
-		Send.S1.D1.LN0.udCB.ASDU[i].smpSynch = 1;
-		Send.S1.D1.LN0.udCB.ASDU[i].showRefrTm = 1;
-		Send.S1.D1.LN0.udCB.ASDU[i].showDatset = 0;
-		Send.S1.D1.LN0.udCB.ASDU[i].showSmpRate = 1;
-		Send.S1.D1.LN0.udCB.ASDU[i].smpRate = 16;
-		Send.S1.D1.LN0.udCB.ASDU[i].data.size = 0;
+	E1Q1SB1.S1.C1.LN0.Volt.noASDU = 2;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.destMACAddress[0] = 0x01;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.destMACAddress[1] = 0x0C;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.destMACAddress[2] = 0xCD;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.destMACAddress[3] = 0x04;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.destMACAddress[4] = 0x00;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.destMACAddress[5] = 0x01;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.APPID = 0x4000;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.VLAN_ID = 0x123;
+	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.VLAN_PRIORITY = 0x4;
+	E1Q1SB1.S1.C1.LN0.Volt.ASDU = (struct ASDU *) malloc(2 * sizeof(struct ASDU));
+	for (i = 0; i < 2; i++) {
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].svID = (unsigned char *) malloc(3);
+		strncpy((char *) E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].svID, "11\0", 3);
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].datset = (unsigned char *) malloc(4);
+		strncpy((char *) E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].datset, "smv\0", 4);
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].smpCnt = 0;
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].confRev = 1;
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].smpSynch = 1;
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].showRefrTm = 1;
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].showDatset = 0;
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].showSmpRate = 1;
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].smpRate = 4800;
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].data.size = 0;
 	}
-	Send.S1.D1.LN0.udCB.ASDUCount = 0;
-	Send.S1.D1.LN0.udCB.update = &sv_update_Send_D1_udCB;
+	E1Q1SB1.S1.C1.LN0.Volt.ASDUCount = 0;
+	E1Q1SB1.S1.C1.LN0.Volt.update = &sv_update_E1Q1SB1_C1_Volt;
+
+	E1Q1SB1.S1.C1.LN0.rmxuCB.noASDU = 16;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.destMACAddress[0] = 0x01;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.destMACAddress[1] = 0x0C;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.destMACAddress[2] = 0xCD;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.destMACAddress[3] = 0x04;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.destMACAddress[4] = 0x00;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.destMACAddress[5] = 0x01;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.APPID = 0x4000;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.VLAN_ID = 0x123;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.VLAN_PRIORITY = 0x4;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU = (struct ASDU *) malloc(16 * sizeof(struct ASDU));
+	for (i = 0; i < 16; i++) {
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].svID = (unsigned char *) malloc(5);
+		strncpy((char *) E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].svID, "rmxu\0", 5);
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].datset = (unsigned char *) malloc(5);
+		strncpy((char *) E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].datset, "rmxu\0", 5);
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].smpCnt = 0;
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].confRev = 1;
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].smpSynch = 1;
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].showRefrTm = 1;
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].showDatset = 0;
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].showSmpRate = 1;
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].smpRate = 16;
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].data.size = 0;
+	}
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount = 0;
+	E1Q1SB1.S1.C1.LN0.rmxuCB.update = &sv_update_E1Q1SB1_C1_rmxuCB;
 }
 

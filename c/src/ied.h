@@ -29,34 +29,106 @@ extern "C" {
 #include "sv.h"
 #include "gse.h"
 
-struct Send {
+struct E1Q1SB1 {
 	struct {
 		struct {
 			struct {
 				struct LN0 LLN0;
-				struct svControl udCB;
+				struct gseControl ItlPositions;
+				struct gseControl AnotherPositions;
+				struct svControl Volt;
+				struct svControl rmxuCB;
 			} LN0;
-			struct sendUD sendUD_1;
-		} D1;
+			struct exampleRMXU exampleRMXU_1;
+			struct LPHDa LPHDa_1;
+			struct CSWIa CSWIa_1;
+			struct CSWIa CSWIa_2;
+			struct MMXUa MMXUa_1;
+			struct TVTRa TVTRa_1;
+		} C1;
 	} S1;
 };
 
-struct Recv {
+struct E1Q1BP2 {
+	struct {
+	} S1;
+};
+
+struct E1Q1BP3 {
+	struct {
+	} S1;
+};
+
+struct E1Q2SB1 {
+	struct {
+	} S1;
+};
+
+struct E1Q3SB1 {
+	struct {
+	} S1;
+};
+
+struct E1Q3KA1 {
+	struct {
+	} S1;
+};
+
+struct E1Q3KA2 {
+	struct {
+	} S1;
+};
+
+struct E1Q3KA3 {
+	struct {
+	} S1;
+};
+
+struct D1Q1SB1 {
+	struct {
+	} S1;
+};
+
+struct D1Q1BP2 {
+	struct {
+	} S1;
+};
+
+struct D1Q1BP3 {
+	struct {
+	} S1;
+};
+
+struct D1Q1SB4 {
 	struct {
 		struct {
 			struct {
 				struct LN0 LLN0;
+				struct gseControl SyckResult;
+				struct gseControl MMXUResult;
 			} LN0;
-			struct recvUD recvUD_1;
-		} D1;
+			struct exampleMMXU exampleMMXU_1;
+			struct LPHDa LPHDa_1;
+			struct RSYNa RSYNa_1;
+		} C1;
 	} S1;
 };
 
 
 
 
-extern struct Send Send;
-extern struct Recv Recv;
+extern struct E1Q1SB1 E1Q1SB1;
+extern struct E1Q1BP2 E1Q1BP2;
+extern struct E1Q1BP3 E1Q1BP3;
+extern struct E1Q2SB1 E1Q2SB1;
+extern struct E1Q3SB1 E1Q3SB1;
+extern struct E1Q3KA1 E1Q3KA1;
+extern struct E1Q3KA2 E1Q3KA2;
+extern struct E1Q3KA3 E1Q3KA3;
+extern struct D1Q1SB1 D1Q1SB1;
+extern struct D1Q1BP2 D1Q1BP2;
+extern struct D1Q1BP3 D1Q1BP3;
+extern struct D1Q1SB4 D1Q1SB4;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
