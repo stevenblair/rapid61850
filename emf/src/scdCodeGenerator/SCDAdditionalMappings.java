@@ -1,22 +1,19 @@
 package scdCodeGenerator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.eclipse.emf.common.util.EList;
-
-import ch.iec._61850._2006.scl.TAbstractDataAttribute;
 import ch.iec._61850._2006.scl.TBaseElement;
 import ch.iec._61850._2006.scl.TControl;
 import ch.iec._61850._2006.scl.TDataSet;
+import ch.iec._61850._2006.scl.TExtRef;
 import ch.iec._61850._2006.scl.TFCDA;
 import ch.iec._61850._2006.scl.TLN;
-import ch.iec._61850._2006.scl.TUnNaming;
 
 public class SCDAdditionalMappings {
 
@@ -26,6 +23,7 @@ public class SCDAdditionalMappings {
 	private Map<TFCDA, TBaseElement> fcdaToDataAttribute;
 	private Map<TFCDA, String> fcdaToVariableName;
 	private Map<TFCDA, TLN> fcdaToLN;
+	private Map<TExtRef, List<TDataSet>> extRefToDatasets;
 
 	public SCDAdditionalMappings() {
 		controlToDataset = new HashMap<>();
@@ -34,6 +32,18 @@ public class SCDAdditionalMappings {
 		fcdaToDataAttribute = new HashMap<>();
 		fcdaToVariableName = new HashMap<>();
 		fcdaToLN = new HashMap<>();
+		extRefToDatasets = new HashMap<>();
+	}
+	
+	public Iterator<TDataSet> getDatasets(TExtRef extRef) {
+		return extRefToDatasets.get(extRef).iterator();
+	}
+
+
+	public void setDatasets(TExtRef key, List<TDataSet> value) {
+		if (key != null && value != null) {
+			extRefToDatasets.put(key, value);
+		}
 	}
 	
 	public TDataSet getDataset(TControl control) {

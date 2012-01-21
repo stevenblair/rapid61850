@@ -4783,40 +4783,13 @@ public interface SclPackage extends EPackage {
 	int TEXT_REF__PREFIX = 7;
 
 	/**
-	 * The feature id for the '<em><b>Data Set</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_REF__DATA_SET = 8;
-
-	/**
-	 * The feature id for the '<em><b>Do Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_REF__DO_TYPE = 9;
-
-	/**
-	 * The feature id for the '<em><b>Da Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEXT_REF__DA_TYPE = 10;
-
-	/**
 	 * The number of structural features of the '<em>TExt Ref</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEXT_REF_FEATURE_COUNT = 11;
+	int TEXT_REF_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TFCCBImpl <em>TFCCB</em>}' class.
@@ -13183,39 +13156,6 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTExtRef_Prefix();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TExtRef#getDataSet <em>Data Set</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Data Set</em>'.
-	 * @see ch.iec._61850._2006.scl.TExtRef#getDataSet()
-	 * @see #getTExtRef()
-	 * @generated
-	 */
-	EReference getTExtRef_DataSet();
-
-	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TExtRef#getDoType <em>Do Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Do Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TExtRef#getDoType()
-	 * @see #getTExtRef()
-	 * @generated
-	 */
-	EReference getTExtRef_DoType();
-
-	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TExtRef#getDaType <em>Da Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Da Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TExtRef#getDaType()
-	 * @see #getTExtRef()
-	 * @generated
-	 */
-	EReference getTExtRef_DaType();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TFCCB <em>TFCCB</em>}'.

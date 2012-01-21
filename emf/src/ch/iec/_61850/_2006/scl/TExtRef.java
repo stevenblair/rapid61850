@@ -25,9 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ch.iec._61850._2006.scl.TExtRef#getLnClass <em>Ln Class</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TExtRef#getLnInst <em>Ln Inst</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TExtRef#getPrefix <em>Prefix</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TExtRef#getDataSet <em>Data Set</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TExtRef#getDoType <em>Do Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TExtRef#getDaType <em>Da Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -251,79 +248,5 @@ public interface TExtRef extends EObject {
 	 * @generated
 	 */
 	void setPrefix(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Data Set</b></em>' reference list.
-	 * The list contents are of type {@link ch.iec._61850._2006.scl.TDataSet}.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TDataSet#getExtRef <em>Ext Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Data Set</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Data Set</em>' reference list.
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTExtRef_DataSet()
-	 * @see ch.iec._61850._2006.scl.TDataSet#getExtRef
-	 * @model opposite="extRef"
-	 * @generated
-	 */
-	EList<TDataSet> getDataSet();
-
-	/**
-	 * Returns the value of the '<em><b>Do Type</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TDOType#getExtRef <em>Ext Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Do Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Do Type</em>' reference.
-	 * @see #setDoType(TDOType)
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTExtRef_DoType()
-	 * @see ch.iec._61850._2006.scl.TDOType#getExtRef
-	 * @model opposite="extRef"
-	 * @generated
-	 */
-	TDOType getDoType();
-
-	/**
-	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TExtRef#getDoType <em>Do Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Do Type</em>' reference.
-	 * @see #getDoType()
-	 * @generated
-	 */
-	void setDoType(TDOType value);
-
-	/**
-	 * Returns the value of the '<em><b>Da Type</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TDAType#getExtRef <em>Ext Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Da Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Da Type</em>' reference.
-	 * @see #setDaType(TDAType)
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTExtRef_DaType()
-	 * @see ch.iec._61850._2006.scl.TDAType#getExtRef
-	 * @model opposite="extRef"
-	 * @generated
-	 */
-	TDAType getDaType();
-
-	/**
-	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TExtRef#getDaType <em>Da Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Da Type</em>' reference.
-	 * @see #getDaType()
-	 * @generated
-	 */
-	void setDaType(TDAType value);
 
 } // TExtRef

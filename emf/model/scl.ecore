@@ -1145,7 +1145,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
-        eType="#//TExtRef" eOpposite="#//TExtRef/dataSet"/>
+        eType="#//TExtRef"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TDataTypeTemplates">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1206,7 +1206,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
-        eType="#//TExtRef" eOpposite="#//TExtRef/daType"/>
+        eType="#//TExtRef"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fcda" upperBound="-1" eType="#//TFCDA"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TDO" eSuperTypes="#//TUnNaming">
@@ -1561,7 +1561,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
-        eType="#//TExtRef" eOpposite="#//TExtRef/doType"/>
+        eType="#//TExtRef"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="fcda" upperBound="-1" eType="#//TFCDA"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TDurationInMilliSec" eSuperTypes="#//TValueWithUnit">
@@ -1758,12 +1758,6 @@
         <details key="name" value="prefix"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dataSet" upperBound="-1"
-        eType="#//TDataSet" eOpposite="#//TDataSet/extRef"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="doType" eType="#//TDOType"
-        eOpposite="#//TDOType/extRef"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="daType" eType="#//TDAType"
-        eOpposite="#//TDAType/extRef"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TFCCB">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

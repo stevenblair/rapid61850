@@ -41,9 +41,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TExtRefImpl#getLnClass <em>Ln Class</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TExtRefImpl#getLnInst <em>Ln Inst</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TExtRefImpl#getPrefix <em>Prefix</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TExtRefImpl#getDataSet <em>Data Set</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TExtRefImpl#getDoType <em>Do Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TExtRefImpl#getDaType <em>Da Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -209,36 +206,6 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 	 * @ordered
 	 */
 	protected String prefix = PREFIX_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getDataSet() <em>Data Set</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDataSet()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<TDataSet> dataSet;
-
-	/**
-	 * The cached value of the '{@link #getDoType() <em>Do Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDoType()
-	 * @generated
-	 * @ordered
-	 */
-	protected TDOType doType;
-
-	/**
-	 * The cached value of the '{@link #getDaType() <em>Da Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDaType()
-	 * @generated
-	 * @ordered
-	 */
-	protected TDAType daType;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -432,179 +399,6 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<TDataSet> getDataSet() {
-		if (dataSet == null) {
-			dataSet = new EObjectWithInverseResolvingEList.ManyInverse<TDataSet>(TDataSet.class, this, SclPackage.TEXT_REF__DATA_SET, SclPackage.TDATA_SET__EXT_REF);
-		}
-		return dataSet;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDOType getDoType() {
-		if (doType != null && doType.eIsProxy()) {
-			InternalEObject oldDoType = (InternalEObject)doType;
-			doType = (TDOType)eResolveProxy(oldDoType);
-			if (doType != oldDoType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TEXT_REF__DO_TYPE, oldDoType, doType));
-			}
-		}
-		return doType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDOType basicGetDoType() {
-		return doType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetDoType(TDOType newDoType, NotificationChain msgs) {
-		TDOType oldDoType = doType;
-		doType = newDoType;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TEXT_REF__DO_TYPE, oldDoType, newDoType);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDoType(TDOType newDoType) {
-		if (newDoType != doType) {
-			NotificationChain msgs = null;
-			if (doType != null)
-				msgs = ((InternalEObject)doType).eInverseRemove(this, SclPackage.TDO_TYPE__EXT_REF, TDOType.class, msgs);
-			if (newDoType != null)
-				msgs = ((InternalEObject)newDoType).eInverseAdd(this, SclPackage.TDO_TYPE__EXT_REF, TDOType.class, msgs);
-			msgs = basicSetDoType(newDoType, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TEXT_REF__DO_TYPE, newDoType, newDoType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDAType getDaType() {
-		if (daType != null && daType.eIsProxy()) {
-			InternalEObject oldDaType = (InternalEObject)daType;
-			daType = (TDAType)eResolveProxy(oldDaType);
-			if (daType != oldDaType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TEXT_REF__DA_TYPE, oldDaType, daType));
-			}
-		}
-		return daType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDAType basicGetDaType() {
-		return daType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetDaType(TDAType newDaType, NotificationChain msgs) {
-		TDAType oldDaType = daType;
-		daType = newDaType;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TEXT_REF__DA_TYPE, oldDaType, newDaType);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDaType(TDAType newDaType) {
-		if (newDaType != daType) {
-			NotificationChain msgs = null;
-			if (daType != null)
-				msgs = ((InternalEObject)daType).eInverseRemove(this, SclPackage.TDA_TYPE__EXT_REF, TDAType.class, msgs);
-			if (newDaType != null)
-				msgs = ((InternalEObject)newDaType).eInverseAdd(this, SclPackage.TDA_TYPE__EXT_REF, TDAType.class, msgs);
-			msgs = basicSetDaType(newDaType, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TEXT_REF__DA_TYPE, newDaType, newDaType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SclPackage.TEXT_REF__DATA_SET:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getDataSet()).basicAdd(otherEnd, msgs);
-			case SclPackage.TEXT_REF__DO_TYPE:
-				if (doType != null)
-					msgs = ((InternalEObject)doType).eInverseRemove(this, SclPackage.TDO_TYPE__EXT_REF, TDOType.class, msgs);
-				return basicSetDoType((TDOType)otherEnd, msgs);
-			case SclPackage.TEXT_REF__DA_TYPE:
-				if (daType != null)
-					msgs = ((InternalEObject)daType).eInverseRemove(this, SclPackage.TDA_TYPE__EXT_REF, TDAType.class, msgs);
-				return basicSetDaType((TDAType)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SclPackage.TEXT_REF__DATA_SET:
-				return ((InternalEList<?>)getDataSet()).basicRemove(otherEnd, msgs);
-			case SclPackage.TEXT_REF__DO_TYPE:
-				return basicSetDoType(null, msgs);
-			case SclPackage.TEXT_REF__DA_TYPE:
-				return basicSetDaType(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -624,14 +418,6 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 				return getLnInst();
 			case SclPackage.TEXT_REF__PREFIX:
 				return getPrefix();
-			case SclPackage.TEXT_REF__DATA_SET:
-				return getDataSet();
-			case SclPackage.TEXT_REF__DO_TYPE:
-				if (resolve) return getDoType();
-				return basicGetDoType();
-			case SclPackage.TEXT_REF__DA_TYPE:
-				if (resolve) return getDaType();
-				return basicGetDaType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -669,16 +455,6 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 			case SclPackage.TEXT_REF__PREFIX:
 				setPrefix((String)newValue);
 				return;
-			case SclPackage.TEXT_REF__DATA_SET:
-				getDataSet().clear();
-				getDataSet().addAll((Collection<? extends TDataSet>)newValue);
-				return;
-			case SclPackage.TEXT_REF__DO_TYPE:
-				setDoType((TDOType)newValue);
-				return;
-			case SclPackage.TEXT_REF__DA_TYPE:
-				setDaType((TDAType)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -715,15 +491,6 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 			case SclPackage.TEXT_REF__PREFIX:
 				setPrefix(PREFIX_EDEFAULT);
 				return;
-			case SclPackage.TEXT_REF__DATA_SET:
-				getDataSet().clear();
-				return;
-			case SclPackage.TEXT_REF__DO_TYPE:
-				setDoType((TDOType)null);
-				return;
-			case SclPackage.TEXT_REF__DA_TYPE:
-				setDaType((TDAType)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -752,12 +519,6 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 				return LN_INST_EDEFAULT == null ? lnInst != null : !LN_INST_EDEFAULT.equals(lnInst);
 			case SclPackage.TEXT_REF__PREFIX:
 				return PREFIX_EDEFAULT == null ? prefix != null : !PREFIX_EDEFAULT.equals(prefix);
-			case SclPackage.TEXT_REF__DATA_SET:
-				return dataSet != null && !dataSet.isEmpty();
-			case SclPackage.TEXT_REF__DO_TYPE:
-				return doType != null;
-			case SclPackage.TEXT_REF__DA_TYPE:
-				return daType != null;
 		}
 		return super.eIsSet(featureID);
 	}

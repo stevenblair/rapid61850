@@ -169,7 +169,6 @@ public interface TDOType extends TIDNaming {
 	/**
 	 * Returns the value of the '<em><b>Ext Ref</b></em>' reference list.
 	 * The list contents are of type {@link ch.iec._61850._2006.scl.TExtRef}.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TExtRef#getDoType <em>Do Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ext Ref</em>' reference list isn't clear,
@@ -178,8 +177,7 @@ public interface TDOType extends TIDNaming {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ext Ref</em>' reference list.
 	 * @see ch.iec._61850._2006.scl.SclPackage#getTDOType_ExtRef()
-	 * @see ch.iec._61850._2006.scl.TExtRef#getDoType
-	 * @model opposite="doType"
+	 * @model
 	 * @generated
 	 */
 	EList<TExtRef> getExtRef();

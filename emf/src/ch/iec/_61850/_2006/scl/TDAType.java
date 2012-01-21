@@ -103,7 +103,6 @@ public interface TDAType extends TIDNaming {
 	/**
 	 * Returns the value of the '<em><b>Ext Ref</b></em>' reference list.
 	 * The list contents are of type {@link ch.iec._61850._2006.scl.TExtRef}.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TExtRef#getDaType <em>Da Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ext Ref</em>' reference list isn't clear,
@@ -112,8 +111,7 @@ public interface TDAType extends TIDNaming {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ext Ref</em>' reference list.
 	 * @see ch.iec._61850._2006.scl.SclPackage#getTDAType_ExtRef()
-	 * @see ch.iec._61850._2006.scl.TExtRef#getDaType
-	 * @model opposite="daType"
+	 * @model
 	 * @generated
 	 */
 	EList<TExtRef> getExtRef();

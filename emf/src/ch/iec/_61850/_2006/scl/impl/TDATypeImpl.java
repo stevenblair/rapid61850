@@ -189,7 +189,7 @@ public class TDATypeImpl extends TIDNamingImpl implements TDAType {
 	 */
 	public EList<TExtRef> getExtRef() {
 		if (extRef == null) {
-			extRef = new EObjectWithInverseResolvingEList<TExtRef>(TExtRef.class, this, SclPackage.TDA_TYPE__EXT_REF, SclPackage.TEXT_REF__DA_TYPE);
+			extRef = new EObjectResolvingEList<TExtRef>(TExtRef.class, this, SclPackage.TDA_TYPE__EXT_REF);
 		}
 		return extRef;
 	}
@@ -211,28 +211,11 @@ public class TDATypeImpl extends TIDNamingImpl implements TDAType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SclPackage.TDA_TYPE__EXT_REF:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getExtRef()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SclPackage.TDA_TYPE__BDA:
 				return ((InternalEList<?>)getBDA()).basicRemove(otherEnd, msgs);
-			case SclPackage.TDA_TYPE__EXT_REF:
-				return ((InternalEList<?>)getExtRef()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

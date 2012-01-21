@@ -703,7 +703,7 @@ public class SCDCodeGenerator {
 											
 											while (extRefs.hasNext()) {
 												TExtRef extRef = extRefs.next();
-												Iterator<TDataSet> datasets = extRef.getDataSet().iterator();
+												Iterator<TDataSet> datasets = map.getDatasets(extRef);//extRef.getDataSet().iterator();
 												
 												while (datasets.hasNext()) {
 													TDataSet dataset = datasets.next();

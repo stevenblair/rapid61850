@@ -253,7 +253,7 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 	 */
 	public EList<TExtRef> getExtRef() {
 		if (extRef == null) {
-			extRef = new EObjectWithInverseResolvingEList<TExtRef>(TExtRef.class, this, SclPackage.TDO_TYPE__EXT_REF, SclPackage.TEXT_REF__DO_TYPE);
+			extRef = new EObjectResolvingEList<TExtRef>(TExtRef.class, this, SclPackage.TDO_TYPE__EXT_REF);
 		}
 		return extRef;
 	}
@@ -275,21 +275,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SclPackage.TDO_TYPE__EXT_REF:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getExtRef()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -299,8 +284,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 				return ((InternalEList<?>)getSDO()).basicRemove(otherEnd, msgs);
 			case SclPackage.TDO_TYPE__DA:
 				return ((InternalEList<?>)getDA()).basicRemove(otherEnd, msgs);
-			case SclPackage.TDO_TYPE__EXT_REF:
-				return ((InternalEList<?>)getExtRef()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

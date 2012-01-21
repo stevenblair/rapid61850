@@ -84,7 +84,6 @@ public interface TDataSet extends TNaming {
 	/**
 	 * Returns the value of the '<em><b>Ext Ref</b></em>' reference list.
 	 * The list contents are of type {@link ch.iec._61850._2006.scl.TExtRef}.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TExtRef#getDataSet <em>Data Set</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ext Ref</em>' reference list isn't clear,
@@ -93,8 +92,7 @@ public interface TDataSet extends TNaming {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ext Ref</em>' reference list.
 	 * @see ch.iec._61850._2006.scl.SclPackage#getTDataSet_ExtRef()
-	 * @see ch.iec._61850._2006.scl.TExtRef#getDataSet
-	 * @model opposite="dataSet"
+	 * @model
 	 * @generated
 	 */
 	EList<TExtRef> getExtRef();

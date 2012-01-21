@@ -20,6 +20,7 @@
 
 package scdCodeGenerator;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -68,7 +69,7 @@ public class SCDValidator {
 		
 		setPrintedType(root, map);
 		mapDataSetToControl(root, map);
-		mapExtRefToDataSet(root);
+		mapExtRefToDataSet(root, map);
 		mapFCDAToDataType(root, map);
 	}
 	
@@ -347,8 +348,6 @@ public class SCDValidator {
 				else {
 					error("unknown bType attribute for DA: '" + da + "'");
 				}
-				//da.setPrintedType(printedType);
-				//da.setCoderType(coderType);
 				map.setPrintedType(da, new String(printedType));
 				map.setCoderType(da, new String(coderType));		// TODO: repeat for DOTypes?
 			}
@@ -548,16 +547,10 @@ public class SCDValidator {
 							String fcdaVariableName = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
 							//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
 							
-							//fcda.setLnRef(ln);
 							map.setLN(fcda, ln);
 							
 							// set reference to DOType or DAType
 							if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
-								//fcda.setDoType(doType);
-								//fcda.setPrintedType("struct " + doType.getId());
-								//fcda.setCoderType(doType.getId());
-								//fcda.setVariableName(fcdaVariableName);
-								//map.setCoderType(fcda, doType.getId());
 								map.setDataAttribute(fcda, doType);
 								map.setVariableName(fcda, new String(fcdaVariableName));
 								//System.out.println("\tvalid DO type: '" + fcda.getType() + "'");
@@ -593,10 +586,6 @@ public class SCDValidator {
 										warning("unknown printedType for DA '" + da.getName().toString() + "'");
 									}
 									else {
-										//fcda.setPrintedType(da.getPrintedType());
-										//fcda.setCoderType(da.getCoderType());
-										//fcda.setVariableName(fcdaVariableName + "_" + fcda.getDaName());
-										
 										String coderType = map.getCoderType(da);
 										if (coderType.contains("struct")) {
 											coderType = coderType.replace("struct ", "");
@@ -734,13 +723,11 @@ public class SCDValidator {
 				else {
 					if (resultMapped.size() == 1) {
 						TDataSet dataSet = ((TDataSet) resultMapped.toArray()[0]);
-						//control.setDataSetRef(dataSet);
 						map.setDataset(control, dataSet);
 						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
 					}
 					else {
-						//TODO: should be an error?
-						warning(resultMapped.size() + " datasets named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
+						error(resultMapped.size() + " datasets named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
 					}
 				}
 			}
@@ -748,7 +735,7 @@ public class SCDValidator {
 	}
 	
 
-	public void mapExtRefToDataSet(DocumentRoot root) {
+	public void mapExtRefToDataSet(DocumentRoot root, SCDAdditionalMappings map) {
 		// find all ExtRefs
 		final EObjectCondition isExtRef = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTExtRef()
@@ -833,11 +820,12 @@ public class SCDValidator {
 					Iterator<EObject> fcdas = result.iterator();
 
 					// map ExtRef to the DataSets of the FCDAs in results
+					ArrayList<TDataSet> datasets = new ArrayList<TDataSet>();
 					while (fcdas.hasNext()) {
 						TFCDA fcda = (TFCDA) fcdas.next();
-
-						extRef.getDataSet().add((TDataSet) fcda.eContainer());
+						datasets.add((TDataSet) fcda.eContainer());
 					}
+					map.setDatasets(extRef, datasets);
 				}
 			}
 		}

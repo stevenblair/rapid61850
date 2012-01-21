@@ -3638,33 +3638,6 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTExtRef_DataSet() {
-        return (EReference)getTExtRef().getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTExtRef_DoType() {
-        return (EReference)getTExtRef().getEStructuralFeatures().get(9);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTExtRef_DaType() {
-        return (EReference)getTExtRef().getEStructuralFeatures().get(10);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTFCCB() {
 		if (tfccbEClass == null) {
 			tfccbEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(91);

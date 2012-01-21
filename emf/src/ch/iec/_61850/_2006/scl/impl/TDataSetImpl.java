@@ -124,24 +124,9 @@ public class TDataSetImpl extends TNamingImpl implements TDataSet {
 	 */
 	public EList<TExtRef> getExtRef() {
 		if (extRef == null) {
-			extRef = new EObjectWithInverseResolvingEList.ManyInverse<TExtRef>(TExtRef.class, this, SclPackage.TDATA_SET__EXT_REF, SclPackage.TEXT_REF__DATA_SET);
+			extRef = new EObjectResolvingEList<TExtRef>(TExtRef.class, this, SclPackage.TDATA_SET__EXT_REF);
 		}
 		return extRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SclPackage.TDATA_SET__EXT_REF:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getExtRef()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -158,8 +143,6 @@ public class TDataSetImpl extends TNamingImpl implements TDataSet {
 				return ((InternalEList<?>)getFCDA()).basicRemove(otherEnd, msgs);
 			case SclPackage.TDATA_SET__FCCB:
 				return ((InternalEList<?>)getFCCB()).basicRemove(otherEnd, msgs);
-			case SclPackage.TDATA_SET__EXT_REF:
-				return ((InternalEList<?>)getExtRef()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
