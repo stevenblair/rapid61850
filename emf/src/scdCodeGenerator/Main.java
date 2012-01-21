@@ -34,6 +34,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		SCDValidator validator = new SCDValidator();
+		SCDAdditionalMappings map = new SCDAdditionalMappings();
 		SCDCodeGenerator scdCodeGenerator = new SCDCodeGenerator();
 		
 		// import SCD file
@@ -58,11 +59,11 @@ public class Main {
 		// get root of XML document
 		DocumentRoot root = ((DocumentRoot) resource.getContents().get(0));
 		
-		// model validation and pre-caching
-		validator.validate(root);
+		// model validation and additional mappings
+		validator.validate(root, map);
 		
 		// generate code
-		scdCodeGenerator.generateCode(root);
+		scdCodeGenerator.generateCode(root, map);
 		
 		/*try {
 			resource.save(System.out, null);

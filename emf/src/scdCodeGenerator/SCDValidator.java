@@ -60,7 +60,7 @@ import ch.iec._61850._2006.scl.TSDO;
 
 public class SCDValidator {
 
-	public void validate(DocumentRoot root) {
+	public void validate(DocumentRoot root, SCDAdditionalMappings map) {
 		checkForDuplicateNames(root);
 		checkForCircularSDOReferences(root);
 		checkDataTypeOrder(root);
@@ -381,7 +381,7 @@ public class SCDValidator {
 		}
 	}
 
-	public void mapFCDAToDataType(DocumentRoot root) {
+	public void mapFCDAToDataType(DocumentRoot root, SCDAdditionalMappings map) {
 		final EObjectCondition isFCDA = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTFCDA()
 		);
@@ -513,6 +513,7 @@ public class SCDValidator {
 							//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
 							
 							fcda.setLnRef(ln);
+							map.setLN(fcda, ln);
 							
 							// set reference to DOType or DAType
 							if (fcda.getDaName() == null || fcda.getDaName().equals("")) {

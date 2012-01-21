@@ -61,7 +61,7 @@ import ch.iec._61850._2006.scl.TVal;
 
 public class SCDCodeGenerator {
 
-	public void generateCode(DocumentRoot root) {
+	public void generateCode(DocumentRoot root, SCDAdditionalMappings map) {
 		// initialise C files
 		CSource svEncodeSource = new CSource("svEncode.c", "#include \"svEncodeBasic.h\"\n#include \"ied.h\"\n#include \"svEncode.h\"");
 		CSource svDecodeSource = new CSource("svDecode.c", "#include \"sv.h\"\n#include \"svDecodeBasic.h\"\n#include \"ied.h\"\n#include \"svDecode.h\"");
@@ -952,28 +952,28 @@ public class SCDCodeGenerator {
 		return compound;
 	}
 	
-	public static TGSEControl getGSEControl(TDataSet dataset) {
-		if (dataset == null) {
-			return null;
-		}
-		TLN0 ln0 = (TLN0) (dataset.eContainer());
-		
-		if (ln0 == null) {
-			return null;
-		}
-		
-		Iterator<TGSEControl> gseControls =  ln0.getGSEControl().iterator();
-		
-		while (gseControls.hasNext()) {
-			TGSEControl gseControl = gseControls.next();
-			
-			if (gseControl.getDatSet().equals(dataset.getName())) {
-				return gseControl;
-			}
-		}
-		
-		return null;
-	}
+//	public static TGSEControl getGSEControl(TDataSet dataset) {
+//		if (dataset == null) {
+//			return null;
+//		}
+//		TLN0 ln0 = (TLN0) (dataset.eContainer());
+//		
+//		if (ln0 == null) {
+//			return null;
+//		}
+//		
+//		Iterator<TGSEControl> gseControls =  ln0.getGSEControl().iterator();
+//		
+//		while (gseControls.hasNext()) {
+//			TGSEControl gseControl = gseControls.next();
+//			
+//			if (gseControl.getDatSet().equals(dataset.getName())) {
+//				return gseControl;
+//			}
+//		}
+//		
+//		return null;
+//	}
 
 	public static TSMV getCommunicationSMV(TCommunication comms, String iedName, String apName, String ldName, String cbName) {
 		Iterator<TSubNetwork> subnets = comms.getSubNetwork().iterator();

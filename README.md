@@ -95,7 +95,7 @@ int main() {
 ```
 Clearly, a real implementation might include the use of platform-specific timers, interrupts and callbacks, where needed.
 
-The generated code implements all IEDs specified in the SCD file. You can use the code to emulate the communications between several IEDs, or just use one IED's implementation.
+The generated C code implements all IEDs specified in the SCD file. You can use the code to emulate the communications between several IEDs, or just use one IED's implementation.
 
 ### Callbacks after a dataset is decoded ###
 
@@ -116,7 +116,7 @@ D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone = &SVcallbackFunc
 D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &GSEcallbackFunction;
 ```
 
-where `D1Q1SB4.S1.C1.exampleMMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). "rmxuCB" is the name of the `SampledValueControl`, in a different IED, which send the SV packets. After being initialised, the callback function will be executed after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a separate memory buffer.
+where `D1Q1SB4.S1.C1.exampleMMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). `rmxuCB` is the name of the `SampledValueControl`, in a different IED, which send the SV packets. After being initialised, the callback function will be executed after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a separate memory buffer.
 
 ### Platform-specific options ###
 
