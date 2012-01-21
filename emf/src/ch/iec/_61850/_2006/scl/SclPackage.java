@@ -3173,22 +3173,13 @@ public interface SclPackage extends EPackage {
 	int TCONTROL__CONTROL_BLOCK = TNAMING_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TCONTROL__DATA_SET_REF = TNAMING_FEATURE_COUNT + 2;
-
-	/**
 	 * The number of structural features of the '<em>TControl</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TCONTROL_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 3;
+	int TCONTROL_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TControlBlockImpl <em>TControl Block</em>}' class.
@@ -3373,15 +3364,6 @@ public interface SclPackage extends EPackage {
 	int TCONTROL_WITH_IED_NAME__CONTROL_BLOCK = TCONTROL__CONTROL_BLOCK;
 
 	/**
-	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TCONTROL_WITH_IED_NAME__DATA_SET_REF = TCONTROL__DATA_SET_REF;
-
-	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3489,15 +3471,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK = TCONTROL__CONTROL_BLOCK;
-
-	/**
-	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TCONTROL_WITH_TRIGGER_OPT__DATA_SET_REF = TCONTROL__DATA_SET_REF;
 
 	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
@@ -3908,22 +3881,13 @@ public interface SclPackage extends EPackage {
 	int TDATA_SET__FCCB = TNAMING_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Control</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TDATA_SET__CONTROL = TNAMING_FEATURE_COUNT + 3;
-
-	/**
 	 * The feature id for the '<em><b>Ext Ref</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TDATA_SET__EXT_REF = TNAMING_FEATURE_COUNT + 4;
+	int TDATA_SET__EXT_REF = TNAMING_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>TData Set</em>' class.
@@ -3932,7 +3896,7 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TDATA_SET_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 5;
+	int TDATA_SET_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TDataTypeTemplatesImpl <em>TData Type Templates</em>}' class.
@@ -5419,15 +5383,6 @@ public interface SclPackage extends EPackage {
 	int TGSE_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_IED_NAME__CONTROL_BLOCK;
 
 	/**
-	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TGSE_CONTROL__DATA_SET_REF = TCONTROL_WITH_IED_NAME__DATA_SET_REF;
-
-	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -6556,15 +6511,6 @@ public interface SclPackage extends EPackage {
 	int TLOG_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK;
 
 	/**
-	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TLOG_CONTROL__DATA_SET_REF = TCONTROL_WITH_TRIGGER_OPT__DATA_SET_REF;
-
-	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7576,15 +7522,6 @@ public interface SclPackage extends EPackage {
 	int TREPORT_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK;
 
 	/**
-	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TREPORT_CONTROL__DATA_SET_REF = TCONTROL_WITH_TRIGGER_OPT__DATA_SET_REF;
-
-	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7910,15 +7847,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TSAMPLED_VALUE_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_IED_NAME__CONTROL_BLOCK;
-
-	/**
-	 * The feature id for the '<em><b>Data Set Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TSAMPLED_VALUE_CONTROL__DATA_SET_REF = TCONTROL_WITH_IED_NAME__DATA_SET_REF;
 
 	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
@@ -12417,17 +12345,6 @@ public interface SclPackage extends EPackage {
 	EReference getTControl_ControlBlock();
 
 	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TControl#getDataSetRef <em>Data Set Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Data Set Ref</em>'.
-	 * @see ch.iec._61850._2006.scl.TControl#getDataSetRef()
-	 * @see #getTControl()
-	 * @generated
-	 */
-	EReference getTControl_DataSetRef();
-
-	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TControlBlock <em>TControl Block</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12706,17 +12623,6 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTDataSet_FCCB();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDataSet#getControl <em>Control</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Control</em>'.
-	 * @see ch.iec._61850._2006.scl.TDataSet#getControl()
-	 * @see #getTDataSet()
-	 * @generated
-	 */
-	EReference getTDataSet_Control();
 
 	/**
 	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDataSet#getExtRef <em>Ext Ref</em>}'.

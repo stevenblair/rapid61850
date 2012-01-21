@@ -2882,15 +2882,6 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTControl_DataSetRef() {
-        return (EReference)getTControl().getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTControlBlock() {
 		if (tControlBlockEClass == null) {
 			tControlBlockEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(40);
@@ -3143,17 +3134,8 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTDataSet_Control() {
-        return (EReference)getTDataSet().getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getTDataSet_ExtRef() {
-        return (EReference)getTDataSet().getEStructuralFeatures().get(4);
+        return (EReference)getTDataSet().getEStructuralFeatures().get(3);
 	}
 
 	/**

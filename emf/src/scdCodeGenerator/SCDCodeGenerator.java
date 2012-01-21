@@ -709,7 +709,7 @@ public class SCDCodeGenerator {
 													TDataSet dataset = datasets.next();
 													String datasetName = getUniqueDatasetName(dataset);
 													
-													Iterator<TControl> controls = dataset.getControl().iterator();
+													Iterator<TControl> controls = map.getControls(dataset);//dataset.getControl().iterator();
 													
 													while (controls.hasNext()) {
 														TControl control = controls.next();

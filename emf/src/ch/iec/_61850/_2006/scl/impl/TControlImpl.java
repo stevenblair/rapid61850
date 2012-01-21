@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TControlImpl#getDatSet <em>Dat Set</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TControlImpl#getControlBlock <em>Control Block</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TControlImpl#getDataSetRef <em>Data Set Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -64,16 +63,6 @@ public abstract class TControlImpl extends TNamingImpl implements TControl {
 	 * @ordered
 	 */
 	protected TControlBlock controlBlock;
-
-	/**
-	 * The cached value of the '{@link #getDataSetRef() <em>Data Set Ref</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDataSetRef()
-	 * @generated
-	 * @ordered
-	 */
-	protected TDataSet dataSetRef;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -180,66 +169,6 @@ public abstract class TControlImpl extends TNamingImpl implements TControl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TDataSet getDataSetRef() {
-		if (dataSetRef != null && dataSetRef.eIsProxy()) {
-			InternalEObject oldDataSetRef = (InternalEObject)dataSetRef;
-			dataSetRef = (TDataSet)eResolveProxy(oldDataSetRef);
-			if (dataSetRef != oldDataSetRef) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TCONTROL__DATA_SET_REF, oldDataSetRef, dataSetRef));
-			}
-		}
-		return dataSetRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDataSet basicGetDataSetRef() {
-		return dataSetRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetDataSetRef(TDataSet newDataSetRef, NotificationChain msgs) {
-		TDataSet oldDataSetRef = dataSetRef;
-		dataSetRef = newDataSetRef;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TCONTROL__DATA_SET_REF, oldDataSetRef, newDataSetRef);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDataSetRef(TDataSet newDataSetRef) {
-		if (newDataSetRef != dataSetRef) {
-			NotificationChain msgs = null;
-			if (dataSetRef != null)
-				msgs = ((InternalEObject)dataSetRef).eInverseRemove(this, SclPackage.TDATA_SET__CONTROL, TDataSet.class, msgs);
-			if (newDataSetRef != null)
-				msgs = ((InternalEObject)newDataSetRef).eInverseAdd(this, SclPackage.TDATA_SET__CONTROL, TDataSet.class, msgs);
-			msgs = basicSetDataSetRef(newDataSetRef, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TCONTROL__DATA_SET_REF, newDataSetRef, newDataSetRef));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -247,10 +176,6 @@ public abstract class TControlImpl extends TNamingImpl implements TControl {
 				if (controlBlock != null)
 					msgs = ((InternalEObject)controlBlock).eInverseRemove(this, SclPackage.TCONTROL_BLOCK__CONTROL, TControlBlock.class, msgs);
 				return basicSetControlBlock((TControlBlock)otherEnd, msgs);
-			case SclPackage.TCONTROL__DATA_SET_REF:
-				if (dataSetRef != null)
-					msgs = ((InternalEObject)dataSetRef).eInverseRemove(this, SclPackage.TDATA_SET__CONTROL, TDataSet.class, msgs);
-				return basicSetDataSetRef((TDataSet)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -265,8 +190,6 @@ public abstract class TControlImpl extends TNamingImpl implements TControl {
 		switch (featureID) {
 			case SclPackage.TCONTROL__CONTROL_BLOCK:
 				return basicSetControlBlock(null, msgs);
-			case SclPackage.TCONTROL__DATA_SET_REF:
-				return basicSetDataSetRef(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -284,9 +207,6 @@ public abstract class TControlImpl extends TNamingImpl implements TControl {
 			case SclPackage.TCONTROL__CONTROL_BLOCK:
 				if (resolve) return getControlBlock();
 				return basicGetControlBlock();
-			case SclPackage.TCONTROL__DATA_SET_REF:
-				if (resolve) return getDataSetRef();
-				return basicGetDataSetRef();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -304,9 +224,6 @@ public abstract class TControlImpl extends TNamingImpl implements TControl {
 				return;
 			case SclPackage.TCONTROL__CONTROL_BLOCK:
 				setControlBlock((TControlBlock)newValue);
-				return;
-			case SclPackage.TCONTROL__DATA_SET_REF:
-				setDataSetRef((TDataSet)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -326,9 +243,6 @@ public abstract class TControlImpl extends TNamingImpl implements TControl {
 			case SclPackage.TCONTROL__CONTROL_BLOCK:
 				setControlBlock((TControlBlock)null);
 				return;
-			case SclPackage.TCONTROL__DATA_SET_REF:
-				setDataSetRef((TDataSet)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -345,8 +259,6 @@ public abstract class TControlImpl extends TNamingImpl implements TControl {
 				return DAT_SET_EDEFAULT == null ? datSet != null : !DAT_SET_EDEFAULT.equals(datSet);
 			case SclPackage.TCONTROL__CONTROL_BLOCK:
 				return controlBlock != null;
-			case SclPackage.TCONTROL__DATA_SET_REF:
-				return dataSetRef != null;
 		}
 		return super.eIsSet(featureID);
 	}

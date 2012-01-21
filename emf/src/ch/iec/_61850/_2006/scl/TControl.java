@@ -17,7 +17,6 @@ package ch.iec._61850._2006.scl;
  * <ul>
  *   <li>{@link ch.iec._61850._2006.scl.TControl#getDatSet <em>Dat Set</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TControl#getControlBlock <em>Control Block</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TControl#getDataSetRef <em>Data Set Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -81,33 +80,5 @@ public interface TControl extends TNaming {
 	 * @generated
 	 */
 	void setControlBlock(TControlBlock value);
-
-	/**
-	 * Returns the value of the '<em><b>Data Set Ref</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TDataSet#getControl <em>Control</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Data Set Ref</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Data Set Ref</em>' reference.
-	 * @see #setDataSetRef(TDataSet)
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTControl_DataSetRef()
-	 * @see ch.iec._61850._2006.scl.TDataSet#getControl
-	 * @model opposite="control"
-	 * @generated
-	 */
-	TDataSet getDataSetRef();
-
-	/**
-	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TControl#getDataSetRef <em>Data Set Ref</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Data Set Ref</em>' reference.
-	 * @see #getDataSetRef()
-	 * @generated
-	 */
-	void setDataSetRef(TDataSet value);
 
 } // TControl

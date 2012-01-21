@@ -1,7 +1,14 @@
 package scdCodeGenerator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.eclipse.emf.common.util.EList;
 
 import ch.iec._61850._2006.scl.TAbstractDataAttribute;
 import ch.iec._61850._2006.scl.TBaseElement;
@@ -19,7 +26,6 @@ public class SCDAdditionalMappings {
 	private Map<TFCDA, TBaseElement> fcdaToDataAttribute;
 	private Map<TFCDA, String> fcdaToVariableName;
 	private Map<TFCDA, TLN> fcdaToLN;
-	//private Map<TFCDA, String> fcdaToCoderType;
 
 	public SCDAdditionalMappings() {
 		controlToDataset = new HashMap<>();
@@ -28,11 +34,20 @@ public class SCDAdditionalMappings {
 		fcdaToDataAttribute = new HashMap<>();
 		fcdaToVariableName = new HashMap<>();
 		fcdaToLN = new HashMap<>();
-		//fcdaToCoderType = new HashMap<>();
 	}
 	
 	public TDataSet getDataset(TControl control) {
 		return controlToDataset.get(control);
+	}
+	
+	public Iterator<TControl> getControls(TDataSet value) {
+	     Set<TControl> keys = new HashSet<TControl>();
+	     for (Entry<TControl, TDataSet> entry : controlToDataset.entrySet()) {
+	         if (value.equals(entry.getValue())) {
+	             keys.add(entry.getKey());
+	         }
+	     }
+	     return keys.iterator();
 	}
 
 	public void setDataset(TControl key, TDataSet value) {
@@ -60,16 +75,6 @@ public class SCDAdditionalMappings {
 			dataAttibuteToCoderType.put(key, value);
 		}
 	}
-
-	/*public String getCoderType(TFCDA fcda) {
-		return fcdaToCoderType.get(fcda);
-	}
-	
-	public void setCoderType(TFCDA key, String value) {
-		if (key != null && value != null) {
-			fcdaToCoderType.put(key, value);
-		}
-	}*/
 	
 	public String getPrintedType(TBaseElement da) {
 		return dataAttibuteToPrintedType.get(da);

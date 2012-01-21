@@ -596,8 +596,6 @@ public class SCDValidator {
 										//fcda.setPrintedType(da.getPrintedType());
 										//fcda.setCoderType(da.getCoderType());
 										//fcda.setVariableName(fcdaVariableName + "_" + fcda.getDaName());
-										//System.out.println("getCoderType: " + map.getCoderType(da));
-										//map.setCoderType(fcda, map.getCoderType(da));
 										
 										String coderType = map.getCoderType(da);
 										if (coderType.contains("struct")) {
@@ -606,8 +604,6 @@ public class SCDValidator {
 										else if (coderType.contains("enum")) {
 											coderType = coderType.replace("enum ", "");
 										}
-										//System.out.println("\tmap.getCoderType(da): " + map.getCoderType(da) + " " + coderType);
-										//map.setCoderType(fcda, coderType);
 										map.setDataAttribute(fcda, da);
 										map.setVariableName(fcda, new String(fcdaVariableName + "_" + fcda.getDaName()));
 									}
@@ -738,7 +734,7 @@ public class SCDValidator {
 				else {
 					if (resultMapped.size() == 1) {
 						TDataSet dataSet = ((TDataSet) resultMapped.toArray()[0]);
-						control.setDataSetRef(dataSet);
+						//control.setDataSetRef(dataSet);
 						map.setDataset(control, dataSet);
 						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
 					}

@@ -963,8 +963,6 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="controlBlock" eType="#//TControlBlock"
         eOpposite="#//TControlBlock/control"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dataSetRef" eType="#//TDataSet"
-        eOpposite="#//TDataSet/control"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TControlBlock" abstract="true" eSuperTypes="#//TUnNaming">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1143,8 +1141,6 @@
         <details key="group" value="#group:6"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="control" upperBound="-1"
-        eType="#//TControl" eOpposite="#//TControl/dataSetRef"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
         eType="#//TExtRef" eOpposite="#//TExtRef/dataSet"/>
   </eClassifiers>
