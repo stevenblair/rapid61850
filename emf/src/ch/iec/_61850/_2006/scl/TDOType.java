@@ -187,7 +187,6 @@ public interface TDOType extends TIDNaming {
 	/**
 	 * Returns the value of the '<em><b>Fcda</b></em>' reference list.
 	 * The list contents are of type {@link ch.iec._61850._2006.scl.TFCDA}.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TFCDA#getDoType <em>Do Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Fcda</em>' reference list isn't clear,
@@ -196,8 +195,7 @@ public interface TDOType extends TIDNaming {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fcda</em>' reference list.
 	 * @see ch.iec._61850._2006.scl.SclPackage#getTDOType_Fcda()
-	 * @see ch.iec._61850._2006.scl.TFCDA#getDoType
-	 * @model opposite="doType"
+	 * @model
 	 * @generated
 	 */
 	EList<TFCDA> getFcda();

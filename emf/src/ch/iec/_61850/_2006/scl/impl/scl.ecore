@@ -1208,8 +1208,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
         eType="#//TExtRef" eOpposite="#//TExtRef/daType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fcda" upperBound="-1" eType="#//TFCDA"
-        eOpposite="#//TFCDA/daType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fcda" upperBound="-1" eType="#//TFCDA"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TDO" eSuperTypes="#//TUnNaming">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1564,8 +1563,7 @@
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
         eType="#//TExtRef" eOpposite="#//TExtRef/doType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fcda" upperBound="-1" eType="#//TFCDA"
-        eOpposite="#//TFCDA/doType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="fcda" upperBound="-1" eType="#//TFCDA"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TDurationInMilliSec" eSuperTypes="#//TValueWithUnit">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1868,19 +1866,6 @@
         <details key="name" value="prefix"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="doType" eType="#//TDOType"
-        eOpposite="#//TDOType/fcda"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="daType" eType="#//TDAType"
-        eOpposite="#//TDAType/fcda"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="printedType" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
-        defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="bType" eType="#//TPredefinedBasicTypeEnum"
-        defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coderType" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
-        defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="variableName" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
-        defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="lnRef" eType="#//TLN"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TFCEnum">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

@@ -37,13 +37,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getLnClass <em>Ln Class</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getLnInst <em>Ln Inst</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getPrefix <em>Prefix</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDoType <em>Do Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getDaType <em>Da Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getPrintedType <em>Printed Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getBType <em>BType</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getCoderType <em>Coder Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getVariableName <em>Variable Name</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TFCDAImpl#getLnRef <em>Ln Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -198,116 +191,6 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * @ordered
 	 */
 	protected String prefix = PREFIX_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getDoType() <em>Do Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDoType()
-	 * @generated
-	 * @ordered
-	 */
-	protected TDOType doType;
-
-	/**
-	 * The cached value of the '{@link #getDaType() <em>Da Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDaType()
-	 * @generated
-	 * @ordered
-	 */
-	protected TDAType daType;
-
-	/**
-	 * The default value of the '{@link #getPrintedType() <em>Printed Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPrintedType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String PRINTED_TYPE_EDEFAULT = "";
-
-	/**
-	 * The cached value of the '{@link #getPrintedType() <em>Printed Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getPrintedType()
-	 * @generated
-	 * @ordered
-	 */
-	protected String printedType = PRINTED_TYPE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getBType() <em>BType</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final TPredefinedBasicTypeEnum BTYPE_EDEFAULT = TPredefinedBasicTypeEnum.BOOLEAN;
-
-	/**
-	 * The cached value of the '{@link #getBType() <em>BType</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBType()
-	 * @generated
-	 * @ordered
-	 */
-	protected TPredefinedBasicTypeEnum bType = BTYPE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getCoderType() <em>Coder Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCoderType()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String CODER_TYPE_EDEFAULT = "";
-
-	/**
-	 * The cached value of the '{@link #getCoderType() <em>Coder Type</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCoderType()
-	 * @generated
-	 * @ordered
-	 */
-	protected String coderType = CODER_TYPE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getVariableName() <em>Variable Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVariableName()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String VARIABLE_NAME_EDEFAULT = "";
-
-	/**
-	 * The cached value of the '{@link #getVariableName() <em>Variable Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getVariableName()
-	 * @generated
-	 * @ordered
-	 */
-	protected String variableName = VARIABLE_NAME_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getLnRef() <em>Ln Ref</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getLnRef()
-	 * @generated
-	 * @ordered
-	 */
-	protected TLN lnRef;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -505,284 +388,6 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TDOType getDoType() {
-		if (doType != null && doType.eIsProxy()) {
-			InternalEObject oldDoType = (InternalEObject)doType;
-			doType = (TDOType)eResolveProxy(oldDoType);
-			if (doType != oldDoType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TFCDA__DO_TYPE, oldDoType, doType));
-			}
-		}
-		return doType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDOType basicGetDoType() {
-		return doType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetDoType(TDOType newDoType, NotificationChain msgs) {
-		TDOType oldDoType = doType;
-		doType = newDoType;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__DO_TYPE, oldDoType, newDoType);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDoType(TDOType newDoType) {
-		if (newDoType != doType) {
-			NotificationChain msgs = null;
-			if (doType != null)
-				msgs = ((InternalEObject)doType).eInverseRemove(this, SclPackage.TDO_TYPE__FCDA, TDOType.class, msgs);
-			if (newDoType != null)
-				msgs = ((InternalEObject)newDoType).eInverseAdd(this, SclPackage.TDO_TYPE__FCDA, TDOType.class, msgs);
-			msgs = basicSetDoType(newDoType, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__DO_TYPE, newDoType, newDoType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDAType getDaType() {
-		if (daType != null && daType.eIsProxy()) {
-			InternalEObject oldDaType = (InternalEObject)daType;
-			daType = (TDAType)eResolveProxy(oldDaType);
-			if (daType != oldDaType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TFCDA__DA_TYPE, oldDaType, daType));
-			}
-		}
-		return daType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TDAType basicGetDaType() {
-		return daType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetDaType(TDAType newDaType, NotificationChain msgs) {
-		TDAType oldDaType = daType;
-		daType = newDaType;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__DA_TYPE, oldDaType, newDaType);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDaType(TDAType newDaType) {
-		if (newDaType != daType) {
-			NotificationChain msgs = null;
-			if (daType != null)
-				msgs = ((InternalEObject)daType).eInverseRemove(this, SclPackage.TDA_TYPE__FCDA, TDAType.class, msgs);
-			if (newDaType != null)
-				msgs = ((InternalEObject)newDaType).eInverseAdd(this, SclPackage.TDA_TYPE__FCDA, TDAType.class, msgs);
-			msgs = basicSetDaType(newDaType, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__DA_TYPE, newDaType, newDaType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getPrintedType() {
-		return printedType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setPrintedType(String newPrintedType) {
-		String oldPrintedType = printedType;
-		printedType = newPrintedType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__PRINTED_TYPE, oldPrintedType, printedType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TPredefinedBasicTypeEnum getBType() {
-		return bType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setBType(TPredefinedBasicTypeEnum newBType) {
-		TPredefinedBasicTypeEnum oldBType = bType;
-		bType = newBType == null ? BTYPE_EDEFAULT : newBType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__BTYPE, oldBType, bType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getCoderType() {
-		return coderType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCoderType(String newCoderType) {
-		String oldCoderType = coderType;
-		coderType = newCoderType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__CODER_TYPE, oldCoderType, coderType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getVariableName() {
-		return variableName;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setVariableName(String newVariableName) {
-		String oldVariableName = variableName;
-		variableName = newVariableName;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__VARIABLE_NAME, oldVariableName, variableName));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TLN getLnRef() {
-		if (lnRef != null && lnRef.eIsProxy()) {
-			InternalEObject oldLnRef = (InternalEObject)lnRef;
-			lnRef = (TLN)eResolveProxy(oldLnRef);
-			if (lnRef != oldLnRef) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TFCDA__LN_REF, oldLnRef, lnRef));
-			}
-		}
-		return lnRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TLN basicGetLnRef() {
-		return lnRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLnRef(TLN newLnRef) {
-		TLN oldLnRef = lnRef;
-		lnRef = newLnRef;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TFCDA__LN_REF, oldLnRef, lnRef));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SclPackage.TFCDA__DO_TYPE:
-				if (doType != null)
-					msgs = ((InternalEObject)doType).eInverseRemove(this, SclPackage.TDO_TYPE__FCDA, TDOType.class, msgs);
-				return basicSetDoType((TDOType)otherEnd, msgs);
-			case SclPackage.TFCDA__DA_TYPE:
-				if (daType != null)
-					msgs = ((InternalEObject)daType).eInverseRemove(this, SclPackage.TDA_TYPE__FCDA, TDAType.class, msgs);
-				return basicSetDaType((TDAType)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SclPackage.TFCDA__DO_TYPE:
-				return basicSetDoType(null, msgs);
-			case SclPackage.TFCDA__DA_TYPE:
-				return basicSetDaType(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -800,23 +405,6 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return getLnInst();
 			case SclPackage.TFCDA__PREFIX:
 				return getPrefix();
-			case SclPackage.TFCDA__DO_TYPE:
-				if (resolve) return getDoType();
-				return basicGetDoType();
-			case SclPackage.TFCDA__DA_TYPE:
-				if (resolve) return getDaType();
-				return basicGetDaType();
-			case SclPackage.TFCDA__PRINTED_TYPE:
-				return getPrintedType();
-			case SclPackage.TFCDA__BTYPE:
-				return getBType();
-			case SclPackage.TFCDA__CODER_TYPE:
-				return getCoderType();
-			case SclPackage.TFCDA__VARIABLE_NAME:
-				return getVariableName();
-			case SclPackage.TFCDA__LN_REF:
-				if (resolve) return getLnRef();
-				return basicGetLnRef();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -849,27 +437,6 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return;
 			case SclPackage.TFCDA__PREFIX:
 				setPrefix((String)newValue);
-				return;
-			case SclPackage.TFCDA__DO_TYPE:
-				setDoType((TDOType)newValue);
-				return;
-			case SclPackage.TFCDA__DA_TYPE:
-				setDaType((TDAType)newValue);
-				return;
-			case SclPackage.TFCDA__PRINTED_TYPE:
-				setPrintedType((String)newValue);
-				return;
-			case SclPackage.TFCDA__BTYPE:
-				setBType((TPredefinedBasicTypeEnum)newValue);
-				return;
-			case SclPackage.TFCDA__CODER_TYPE:
-				setCoderType((String)newValue);
-				return;
-			case SclPackage.TFCDA__VARIABLE_NAME:
-				setVariableName((String)newValue);
-				return;
-			case SclPackage.TFCDA__LN_REF:
-				setLnRef((TLN)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -904,27 +471,6 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 			case SclPackage.TFCDA__PREFIX:
 				setPrefix(PREFIX_EDEFAULT);
 				return;
-			case SclPackage.TFCDA__DO_TYPE:
-				setDoType((TDOType)null);
-				return;
-			case SclPackage.TFCDA__DA_TYPE:
-				setDaType((TDAType)null);
-				return;
-			case SclPackage.TFCDA__PRINTED_TYPE:
-				setPrintedType(PRINTED_TYPE_EDEFAULT);
-				return;
-			case SclPackage.TFCDA__BTYPE:
-				setBType(BTYPE_EDEFAULT);
-				return;
-			case SclPackage.TFCDA__CODER_TYPE:
-				setCoderType(CODER_TYPE_EDEFAULT);
-				return;
-			case SclPackage.TFCDA__VARIABLE_NAME:
-				setVariableName(VARIABLE_NAME_EDEFAULT);
-				return;
-			case SclPackage.TFCDA__LN_REF:
-				setLnRef((TLN)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -951,20 +497,6 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 				return LN_INST_EDEFAULT == null ? lnInst != null : !LN_INST_EDEFAULT.equals(lnInst);
 			case SclPackage.TFCDA__PREFIX:
 				return PREFIX_EDEFAULT == null ? prefix != null : !PREFIX_EDEFAULT.equals(prefix);
-			case SclPackage.TFCDA__DO_TYPE:
-				return doType != null;
-			case SclPackage.TFCDA__DA_TYPE:
-				return daType != null;
-			case SclPackage.TFCDA__PRINTED_TYPE:
-				return PRINTED_TYPE_EDEFAULT == null ? printedType != null : !PRINTED_TYPE_EDEFAULT.equals(printedType);
-			case SclPackage.TFCDA__BTYPE:
-				return bType != BTYPE_EDEFAULT;
-			case SclPackage.TFCDA__CODER_TYPE:
-				return CODER_TYPE_EDEFAULT == null ? coderType != null : !CODER_TYPE_EDEFAULT.equals(coderType);
-			case SclPackage.TFCDA__VARIABLE_NAME:
-				return VARIABLE_NAME_EDEFAULT == null ? variableName != null : !VARIABLE_NAME_EDEFAULT.equals(variableName);
-			case SclPackage.TFCDA__LN_REF:
-				return lnRef != null;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -993,14 +525,6 @@ public class TFCDAImpl extends EObjectImpl implements TFCDA {
 		result.append(lnInst);
 		result.append(", prefix: ");
 		result.append(prefix);
-		result.append(", printedType: ");
-		result.append(printedType);
-		result.append(", bType: ");
-		result.append(bType);
-		result.append(", coderType: ");
-		result.append(coderType);
-		result.append(", variableName: ");
-		result.append(variableName);
 		result.append(')');
 		return result.toString();
 	}

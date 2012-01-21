@@ -38,9 +38,12 @@ public abstract class CFunctionCoder extends CFunction {
 	protected String		prefix;
 	protected TExtRef		extRef;
 	protected String		GSESVInputPath;
+	protected SCDAdditionalMappings map;
 
-	public CFunctionCoder(EObject obj, CommsType commsType, CoderType coderType) {
+	public CFunctionCoder(EObject obj, CommsType commsType, CoderType coderType, SCDAdditionalMappings map) {
 		super("int");
+		
+		this.map = map;
 
 		this.commsType = commsType;
 		this.coderType = coderType;
@@ -60,8 +63,8 @@ public abstract class CFunctionCoder extends CFunction {
 		}
 	}
 	
-	public CFunctionCoder(EObject obj, TExtRef extRef, CommsType commsType, CoderType coderType) {
-		this(obj, commsType, coderType);
+	public CFunctionCoder(EObject obj, TExtRef extRef, CommsType commsType, CoderType coderType, SCDAdditionalMappings map) {
+		this(obj, commsType, coderType, map);
 		this.extRef = extRef;
 	}
 	

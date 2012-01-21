@@ -133,11 +133,11 @@ public class SCDCodeGenerator {
 			dataTypesHeader.appendDatatypes("struct " + daType.getId() + " {");
 			
 			// generate GSE/SV DA encode/decode functions
-			gseEncodeSource.appendFunctionObject(new CFunctionGSELengthCoder(daType, CoderType.ENCODER));
-			gseEncodeSource.appendFunctionObject(new CFunctionGSECoder(daType, CoderType.ENCODER));
-			gseDecodeSource.appendFunctionObject(new CFunctionGSECoder(daType, CoderType.DECODER));
-			svEncodeSource.appendFunctionObject(new CFunctionSVCoder(daType, CoderType.ENCODER));
-			svDecodeSource.appendFunctionObject(new CFunctionSVCoder(daType, CoderType.DECODER));
+			gseEncodeSource.appendFunctionObject(new CFunctionGSELengthCoder(daType, CoderType.ENCODER, map));
+			gseEncodeSource.appendFunctionObject(new CFunctionGSECoder(daType, CoderType.ENCODER, map));
+			gseDecodeSource.appendFunctionObject(new CFunctionGSECoder(daType, CoderType.DECODER, map));
+			svEncodeSource.appendFunctionObject(new CFunctionSVCoder(daType, CoderType.ENCODER, map));
+			svDecodeSource.appendFunctionObject(new CFunctionSVCoder(daType, CoderType.DECODER, map));
 			
 			Iterator <TBDA> bdaTypes = daType.getBDA().iterator();
 
@@ -145,7 +145,7 @@ public class SCDCodeGenerator {
 			
 			while (bdaTypes.hasNext()) {
 				TBDA bdaType = bdaTypes.next();
-				String bda = bdaType.getPrintedType() + " " + bdaType.getName() + ";";
+				String bda = map.getPrintedType(bdaType) + " " + bdaType.getName() + ";";
 
 				dataTypesHeader.appendDatatypes("\n\t" + bda);
 				
@@ -177,11 +177,11 @@ public class SCDCodeGenerator {
 			TDOType doType = doTypes.next();
 
 			// generate GSE/SV DO encode/decode functions
-			gseEncodeSource.appendFunctionObject(new CFunctionGSELengthCoder(doType, CoderType.ENCODER));
-			gseEncodeSource.appendFunctionObject(new CFunctionGSECoder(doType, CoderType.ENCODER));
-			gseDecodeSource.appendFunctionObject(new CFunctionGSECoder(doType, CoderType.DECODER));
-			svEncodeSource.appendFunctionObject(new CFunctionSVCoder(doType, CoderType.ENCODER));
-			svDecodeSource.appendFunctionObject(new CFunctionSVCoder(doType, CoderType.DECODER));
+			gseEncodeSource.appendFunctionObject(new CFunctionGSELengthCoder(doType, CoderType.ENCODER, map));
+			gseEncodeSource.appendFunctionObject(new CFunctionGSECoder(doType, CoderType.ENCODER, map));
+			gseDecodeSource.appendFunctionObject(new CFunctionGSECoder(doType, CoderType.DECODER, map));
+			svEncodeSource.appendFunctionObject(new CFunctionSVCoder(doType, CoderType.ENCODER, map));
+			svDecodeSource.appendFunctionObject(new CFunctionSVCoder(doType, CoderType.DECODER, map));
 			
 			dataTypesHeader.appendDatatypes("struct " + doType.getId() + " {");
 
@@ -199,7 +199,7 @@ public class SCDCodeGenerator {
 			
 			while (das.hasNext()) {
 				TDA da = das.next();				
-				String daString = da.getPrintedType() + " " + da.getName() + ";";
+				String daString = map.getPrintedType(da) + " " + da.getName() + ";";
 
 				dataTypesHeader.appendDatatypes("\n\t" + daString);
 				
@@ -267,11 +267,11 @@ public class SCDCodeGenerator {
 									while (datasets.hasNext()) {
 										TDataSet dataset = datasets.next();
 										
-										gseEncodeSource.appendFunctionObject(new CFunctionGSELengthCoder(dataset, CoderType.ENCODER));
-										gseDecodeSource.appendFunctionObject((new CFunctionGSECoder(dataset, CoderType.DECODER)));
-										gseEncodeSource.appendFunctionObject((new CFunctionGSECoder(dataset, CoderType.ENCODER)));
-										svDecodeSource.appendFunctionObject((new CFunctionSVCoder(dataset, CoderType.DECODER)));
-										svEncodeSource.appendFunctionObject((new CFunctionSVCoder(dataset, CoderType.ENCODER)));
+										gseEncodeSource.appendFunctionObject(new CFunctionGSELengthCoder(dataset, CoderType.ENCODER, map));
+										gseDecodeSource.appendFunctionObject((new CFunctionGSECoder(dataset, CoderType.DECODER, map)));
+										gseEncodeSource.appendFunctionObject((new CFunctionGSECoder(dataset, CoderType.ENCODER, map)));
+										svDecodeSource.appendFunctionObject((new CFunctionSVCoder(dataset, CoderType.DECODER, map)));
+										svEncodeSource.appendFunctionObject((new CFunctionSVCoder(dataset, CoderType.ENCODER, map)));
 
 										dataTypesHeader.appendDatatypes("\nstruct " + ied.getName() + "_" + ld.getInst() + "_" + dataset.getName() + " {\n");
 										
@@ -285,7 +285,7 @@ public class SCDCodeGenerator {
 												name = name + "_" + fcda.getDaName();
 											}
 											
-											dataTypesHeader.appendDatatypes("\t" + fcda.getPrintedType() + " " + name + ";\n");
+											dataTypesHeader.appendDatatypes("\t" + /*fcda.getPrintedType()*/map.getPrintedType(map.getDataAttribute(fcda)) + " " + name + ";\n");
 										}
 										
 										dataTypesHeader.appendDatatypes("};");
@@ -330,7 +330,7 @@ public class SCDCodeGenerator {
 												
 												// find SV datasets
 												if (svControl.getDatSet().equals(dataset.getName())) {
-													svEncodeSource.appendFunctionObject(new CFunctionControl(svControl, CommsType.SV));
+													svEncodeSource.appendFunctionObject(new CFunctionControl(svControl, CommsType.SV, map));
 													
 													String svName = svControl.getName()/* + "_" + svControl.getSmvID()*/;
 													String svPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".LN0.";
@@ -451,7 +451,7 @@ public class SCDCodeGenerator {
 												
 												// find GSE datasets
 												if (gseControl.getDatSet().equals(dataset.getName())) {
-													gseEncodeSource.appendFunctionObject(new CFunctionControl(gseControl, CommsType.GSE));
+													gseEncodeSource.appendFunctionObject(new CFunctionControl(gseControl, CommsType.GSE, map));
 													
 													String gseName = gseControl.getName()/* + "_" + gseControl.getAppID()*/;
 													String gsePath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + ".LN0.";

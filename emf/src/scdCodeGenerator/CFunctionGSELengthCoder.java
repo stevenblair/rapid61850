@@ -26,8 +26,8 @@ import org.eclipse.emf.ecore.EObject;
 
 public class CFunctionGSELengthCoder extends CFunctionGSECoder {
 
-	public CFunctionGSELengthCoder(EObject obj, CoderType coderType) {
-		super(obj, coderType);
+	public CFunctionGSELengthCoder(EObject obj, CoderType coderType, SCDAdditionalMappings map) {
+		super(obj, coderType, map);
 		
 		this.prefix = "ber_get_length_";
 		this.buffer = "";

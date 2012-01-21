@@ -8,10 +8,12 @@ public class CFunctionControl extends CFunction {
 	
 	private TControl control;
 	private String prefix;
+	private SCDAdditionalMappings map;
 
-	public CFunctionControl(TControl control, CommsType commsType) {
+	public CFunctionControl(TControl control, CommsType commsType, SCDAdditionalMappings map) {
 		super();
 		this.control = control;
+		this.map = map;
 		if (commsType == CommsType.GSE) {
 			this.prefix = "ber_encode_"; 
 		}
@@ -41,7 +43,7 @@ public class CFunctionControl extends CFunction {
 
 	@Override
 	public String getBody() {
-		String datasetUniqueName = SCDCodeGenerator.getUniqueDatasetName(control.getDataSetRef());
+		String datasetUniqueName = SCDCodeGenerator.getUniqueDatasetName(/*control.getDataSetRef()*/map.getDataset(control));
 		return "\treturn " + this.prefix + datasetUniqueName + "(buf);\n";
 	}
 

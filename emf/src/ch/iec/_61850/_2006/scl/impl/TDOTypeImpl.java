@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -264,7 +265,7 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 	 */
 	public EList<TFCDA> getFcda() {
 		if (fcda == null) {
-			fcda = new EObjectWithInverseResolvingEList<TFCDA>(TFCDA.class, this, SclPackage.TDO_TYPE__FCDA, SclPackage.TFCDA__DO_TYPE);
+			fcda = new EObjectResolvingEList<TFCDA>(TFCDA.class, this, SclPackage.TDO_TYPE__FCDA);
 		}
 		return fcda;
 	}
@@ -280,8 +281,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 		switch (featureID) {
 			case SclPackage.TDO_TYPE__EXT_REF:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getExtRef()).basicAdd(otherEnd, msgs);
-			case SclPackage.TDO_TYPE__FCDA:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getFcda()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -302,8 +301,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 				return ((InternalEList<?>)getDA()).basicRemove(otherEnd, msgs);
 			case SclPackage.TDO_TYPE__EXT_REF:
 				return ((InternalEList<?>)getExtRef()).basicRemove(otherEnd, msgs);
-			case SclPackage.TDO_TYPE__FCDA:
-				return ((InternalEList<?>)getFcda()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}

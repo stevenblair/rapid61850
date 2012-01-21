@@ -5010,76 +5010,13 @@ public interface SclPackage extends EPackage {
 	int TFCDA__PREFIX = 6;
 
 	/**
-	 * The feature id for the '<em><b>Do Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TFCDA__DO_TYPE = 7;
-
-	/**
-	 * The feature id for the '<em><b>Da Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TFCDA__DA_TYPE = 8;
-
-	/**
-	 * The feature id for the '<em><b>Printed Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TFCDA__PRINTED_TYPE = 9;
-
-	/**
-	 * The feature id for the '<em><b>BType</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TFCDA__BTYPE = 10;
-
-	/**
-	 * The feature id for the '<em><b>Coder Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TFCDA__CODER_TYPE = 11;
-
-	/**
-	 * The feature id for the '<em><b>Variable Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TFCDA__VARIABLE_NAME = 12;
-
-	/**
-	 * The feature id for the '<em><b>Ln Ref</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TFCDA__LN_REF = 13;
-
-	/**
 	 * The number of structural features of the '<em>TFCDA</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TFCDA_FEATURE_COUNT = 14;
+	int TFCDA_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TFunctionImpl <em>TFunction</em>}' class.
@@ -13547,83 +13484,6 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTFCDA_Prefix();
-
-	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TFCDA#getDoType <em>Do Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Do Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TFCDA#getDoType()
-	 * @see #getTFCDA()
-	 * @generated
-	 */
-	EReference getTFCDA_DoType();
-
-	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TFCDA#getDaType <em>Da Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Da Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TFCDA#getDaType()
-	 * @see #getTFCDA()
-	 * @generated
-	 */
-	EReference getTFCDA_DaType();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getPrintedType <em>Printed Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Printed Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TFCDA#getPrintedType()
-	 * @see #getTFCDA()
-	 * @generated
-	 */
-	EAttribute getTFCDA_PrintedType();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getBType <em>BType</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>BType</em>'.
-	 * @see ch.iec._61850._2006.scl.TFCDA#getBType()
-	 * @see #getTFCDA()
-	 * @generated
-	 */
-	EAttribute getTFCDA_BType();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getCoderType <em>Coder Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Coder Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TFCDA#getCoderType()
-	 * @see #getTFCDA()
-	 * @generated
-	 */
-	EAttribute getTFCDA_CoderType();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TFCDA#getVariableName <em>Variable Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Variable Name</em>'.
-	 * @see ch.iec._61850._2006.scl.TFCDA#getVariableName()
-	 * @see #getTFCDA()
-	 * @generated
-	 */
-	EAttribute getTFCDA_VariableName();
-
-	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TFCDA#getLnRef <em>Ln Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Ln Ref</em>'.
-	 * @see ch.iec._61850._2006.scl.TFCDA#getLnRef()
-	 * @see #getTFCDA()
-	 * @generated
-	 */
-	EReference getTFCDA_LnRef();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TFunction <em>TFunction</em>}'.

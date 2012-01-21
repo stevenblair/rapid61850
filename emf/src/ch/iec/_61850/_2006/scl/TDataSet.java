@@ -88,7 +88,7 @@ public interface TDataSet extends TNaming {
 	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TControl#getDataSetRef <em>Data Set Ref</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Control</em>' reference isn't clear,
+	 * If the meaning of the '<em>Control</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
