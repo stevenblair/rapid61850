@@ -113,8 +113,11 @@ int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf) {
 
 	buf[offset++] = GSE_TAG_TIME_ALLOWED_TO_LIVE;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->timeAllowedToLive));
-	//offset += BER_ENCODE_CTYPE_INT32U(&buf[offset], &gseControl->timeAllowedToLive);
+#if GOOSE_FIXED_SIZE == 1
+	offset += ber_encode_integer_fixed_size(&buf[offset], &gseControl->timeAllowedToLive, SV_GET_LENGTH_INT32U);
+#else
 	offset += ber_encode_integer(&buf[offset], &gseControl->timeAllowedToLive, SV_GET_LENGTH_INT32U);
+#endif
 
 	buf[offset++] = GSE_TAG_DATSET;
 	size = strlen((const char *) gseControl->datSet);
@@ -136,11 +139,19 @@ int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf) {
 
 	buf[offset++] = GSE_TAG_STNUM;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->stNum));
+#if GOOSE_FIXED_SIZE == 1
+	offset += ber_encode_integer_fixed_size(&buf[offset], &gseControl->stNum, SV_GET_LENGTH_INT32U);
+#else
 	offset += ber_encode_integer(&buf[offset], &gseControl->stNum, SV_GET_LENGTH_INT32U);
+#endif
 
 	buf[offset++] = GSE_TAG_SQNUM;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->sqNum));
+#if GOOSE_FIXED_SIZE == 1
+	offset += ber_encode_integer_fixed_size(&buf[offset], &gseControl->sqNum, SV_GET_LENGTH_INT32U);
+#else
 	offset += ber_encode_integer(&buf[offset], &gseControl->sqNum, SV_GET_LENGTH_INT32U);
+#endif
 
 	buf[offset++] = GSE_TAG_SIMULATION;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_BOOLEAN(&gseControl->test));
@@ -148,7 +159,11 @@ int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf) {
 
 	buf[offset++] = GSE_TAG_CONFREV;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->confRev));
+#if GOOSE_FIXED_SIZE == 1
+	offset += ber_encode_integer_fixed_size(&buf[offset], &gseControl->confRev, SV_GET_LENGTH_INT32U);
+#else
 	offset += ber_encode_integer(&buf[offset], &gseControl->confRev, SV_GET_LENGTH_INT32U);
+#endif
 
 	buf[offset++] = GSE_TAG_NDSCOM;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_BOOLEAN(&gseControl->ndsCom));
@@ -156,7 +171,11 @@ int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf) {
 
 	buf[offset++] = GSE_TAG_NUMDATSETENTRIES;
 	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&gseControl->numDatSetEntries));
+#if GOOSE_FIXED_SIZE == 1
+	offset += ber_encode_integer_fixed_size(&buf[offset], &gseControl->numDatSetEntries, SV_GET_LENGTH_INT32U);
+#else
 	offset += ber_encode_integer(&buf[offset], &gseControl->numDatSetEntries, SV_GET_LENGTH_INT32U);
+#endif
 
 	buf[offset++] = GSE_TAG_ALLDATA;
 	offset += encodeLength(&buf[offset], (gseControl->getDatasetLength)());

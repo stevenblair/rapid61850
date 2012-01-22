@@ -26,7 +26,6 @@
 #include "decodePacket.h"
 #include <stddef.h>
 
-
 void gseDecodePDU(unsigned char *buf) {
 	unsigned char	tag = 0;
 	CTYPE_INT16U	lengthFieldSize = 0;

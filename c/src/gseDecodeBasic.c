@@ -33,9 +33,12 @@ int BER_DECODE_CTYPE_FLOAT32(unsigned char *buf, CTYPE_FLOAT32 *value) {
 		len += decodeLength(&buf[offset]);
 		offset += getLengthFieldSize(buf[offset]);
 
-		// check for 8 bits for exponent
-		if (buf[offset++] == 0x08) {
-			netmemcpy(value, &buf[offset], len - 1);
+		// check for fixed-length GOOSE. If not, check for 8 bits for exponent
+		if (len == 5 && buf[offset] == 0x08) {
+			netmemcpy(value, &buf[offset + 1], len - 1);
+		}
+		else if (len == 4) {
+			netmemcpy(value, &buf[offset], len);
 		}
 	}
 
@@ -50,9 +53,12 @@ int BER_DECODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 		len += decodeLength(&buf[offset]);
 		offset += getLengthFieldSize(buf[offset]);
 
-		// check for 11 bits for exponent
-		if (buf[offset++] == 0x0B) {
-			netmemcpy(value, &buf[offset], len - 1);
+		// check for fixed-length GOOSE. If not, check for 11 bits for exponent
+		if (len == 9 && buf[offset] == 0x0B) {
+			netmemcpy(value, &buf[offset + 1], len - 1);
+		}
+		else if (len == 8) {
+			netmemcpy(value, &buf[offset], len);
 		}
 	}
 
@@ -66,7 +72,7 @@ int BER_DECODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
 		len += decodeLength(&buf[offset]);
 		offset += getLengthFieldSize(buf[offset]);
 
-		netmemcpy(value, &buf[offset], len);		//TODO check if memcpy should be used here, and elsewhere
+		netmemcpy(value, &buf[offset], len);
 	}
 
 	return offset + len;
@@ -92,7 +98,11 @@ int BER_DECODE_CTYPE_ENUM(unsigned char *buf, CTYPE_ENUM *value) {	// assuming e
 		len += decodeLength(&buf[offset]);
 		offset += getLengthFieldSize(buf[offset]);
 
+#if GOOSE_FIXED_SIZE == 1
+		ber_decode_integer(&buf[offset], len, value, SV_GET_LENGTH_INT8);
+#else
 		ber_decode_integer(&buf[offset], len, value, SV_GET_LENGTH_INT32U);
+#endif
 	}
 
 	return offset + len;

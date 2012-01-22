@@ -26,9 +26,6 @@
 #include "ied.h"
 #include "gseEncodeBasic.h"
 
-#include <stdlib.h>
-#include <stdio.h>
-
 // BER encoding of basic types
 int BER_ENCODE_CTYPE_FLOAT32(unsigned char *buf, CTYPE_FLOAT32 *value) {
 	CTYPE_INT16U offset = 0;
@@ -37,10 +34,16 @@ int BER_ENCODE_CTYPE_FLOAT32(unsigned char *buf, CTYPE_FLOAT32 *value) {
 	buf[offset++] = ASN1_TAG_FLOATING_POINT;
 	offset += encodeLength(&buf[offset], len);
 
+#if GOOSE_FIXED_SIZE != 1
 	buf[offset++] = 0x08;	// bits for exponent
 	netmemcpy(&buf[offset], value, len - 1);
 
 	return offset + len - 1;
+#else
+	netmemcpy(&buf[offset], value, len);
+
+	return offset + len;
+#endif
 }
 int BER_ENCODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 	CTYPE_INT16U offset = 0;
@@ -49,18 +52,28 @@ int BER_ENCODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 	buf[offset++] = ASN1_TAG_FLOATING_POINT;
 	offset += encodeLength(&buf[offset], len);
 
+#if GOOSE_FIXED_SIZE != 1
 	buf[offset++] = 0x0B;	// bits for exponent
 	netmemcpy(&buf[offset], value, len - 1);
 
 	return offset + len - 1;
+#else
+	netmemcpy(&buf[offset], value, len - 1);
+
+	return offset + len;
+#endif
 }
 
-//TODO: ensure this encoding (with the unused bits) is correct
+//TODO: ensure this encoding (with the unused bits) is correct, and change data type for fixed-length GOOSE
 int BER_ENCODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = BER_GET_LENGTH_CTYPE_QUALITY(value);
 
+#if GOOSE_FIXED_SIZE == 1
+	buf[offset++] = ASN1_TAG_BIT_STRING;
+#else
 	buf[offset++] = ASN1_TAG_INTEGER;
+#endif
 	offset += encodeLength(&buf[offset], len/* - 1*/);	//TODO: should this "-1" be here?
 
 	buf[offset++] = QUALITY_UNUSED_BITS;	// number of unused bits
@@ -79,15 +92,18 @@ int BER_ENCODE_CTYPE_TIMESTAMP(unsigned char *buf, CTYPE_TIMESTAMP *value) {
 
 	return offset + len;
 }
-int BER_ENCODE_CTYPE_ENUM(unsigned char *buf, CTYPE_ENUM *value) {	// assuming enum is an int - allows any enum type to be used
+int BER_ENCODE_CTYPE_ENUM(unsigned char *buf, CTYPE_ENUM *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = BER_GET_LENGTH_CTYPE_ENUM(value);
 
 	buf[offset++] = ASN1_TAG_INTEGER;
 	offset += encodeLength(&buf[offset], len);
 
-	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT32U);
-	//netmemcpy(&buf[offset], value, len);
+#if GOOSE_FIXED_SIZE == 1
+	ber_encode_integer_fixed_size(&buf[offset], value, SV_GET_LENGTH_INT8);
+#else
+	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT32U);			// assuming enum is an int - allows any enum type to be used
+#endif
 
 	return offset + len;
 }
@@ -98,8 +114,11 @@ int BER_ENCODE_CTYPE_INT8(unsigned char *buf, CTYPE_INT8 *value) {
 	buf[offset++] = ASN1_TAG_INTEGER;
 	offset += encodeLength(&buf[offset], len);
 
+#if GOOSE_FIXED_SIZE == 1
+	ber_encode_integer_fixed_size(&buf[offset], value, SV_GET_LENGTH_INT8);
+#else
 	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT8);
-	//netmemcpy(&buf[offset], value, len);
+#endif
 
 	return offset + len;
 }
@@ -110,8 +129,11 @@ int BER_ENCODE_CTYPE_INT16(unsigned char *buf, CTYPE_INT16 *value) {
 	buf[offset++] = ASN1_TAG_INTEGER;
 	offset += encodeLength(&buf[offset], len);
 
+#if GOOSE_FIXED_SIZE == 1
+	ber_encode_integer_fixed_size(&buf[offset], value, SV_GET_LENGTH_INT16);
+#else
 	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT16);
-	//netmemcpy(&buf[offset], value, len);
+#endif
 
 	return offset + len;
 }
@@ -122,10 +144,11 @@ int BER_ENCODE_CTYPE_INT32(unsigned char *buf, CTYPE_INT32 *value) {
 	buf[offset++] = ASN1_TAG_INTEGER;
 	offset += encodeLength(&buf[offset], len);
 
-	printf("INT32 value: %u, len: %i, total: %i\n", *value, len, offset + len);
-	fflush(stdout);
+#if GOOSE_FIXED_SIZE == 1
+	ber_encode_integer_fixed_size(&buf[offset], value, SV_GET_LENGTH_INT32);
+#else
 	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT32);
-	//netmemcpy(&buf[offset], value, len);
+#endif
 
 	return offset + len;
 }
@@ -136,10 +159,11 @@ int BER_ENCODE_CTYPE_INT16U(unsigned char *buf, CTYPE_INT16U *value) {
 	buf[offset++] = ASN1_TAG_UNSIGNED;
 	offset += encodeLength(&buf[offset], len);
 
-	printf("INT16U value: %u, len: %i, total: %i\n", *value, len, offset + len);
-	fflush(stdout);
+#if GOOSE_FIXED_SIZE == 1
+	ber_encode_integer_fixed_size(&buf[offset], value, SV_GET_LENGTH_INT16U);
+#else
 	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT16U);
-	//netmemcpy(&buf[offset], value, len);
+#endif
 
 	return offset + len;
 }
@@ -150,11 +174,11 @@ int BER_ENCODE_CTYPE_INT32U(unsigned char *buf, CTYPE_INT32U *value) {
 	buf[offset++] = ASN1_TAG_UNSIGNED;
 	offset += encodeLength(&buf[offset], len);
 
+#if GOOSE_FIXED_SIZE == 1
+	ber_encode_integer_fixed_size(&buf[offset], value, SV_GET_LENGTH_INT32U);
+#else
 	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT32U);
-
-	printf("INT32U value: %u, len: %i, total: %i\n", *value, len, offset + len);
-	fflush(stdout);
-	//netmemcpy(&buf[offset], value, len);
+#endif
 
 	return offset + len;
 }

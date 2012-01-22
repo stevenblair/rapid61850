@@ -27,7 +27,6 @@
 
 unsigned char	LOCAL_MAC_ADDRESS[] = LOCAL_MAC_ADDRESS_VALUE;
 
-// TODO: implement fixed-sized version
 int ber_integer_length(void *value, int maxLength) {
 	unsigned char	endian_buf[16] = {0};
 	netmemcpy(endian_buf, value, maxLength);	// ensure bytes are in big-endian order
@@ -65,7 +64,16 @@ int ber_integer_length(void *value, int maxLength) {
 	return maxLength - shift;
 }
 
-// TODO: implement fixed-sized version
+int ber_encode_integer_fixed_size(unsigned char *bufDst, void *value, int maxLength) {
+	unsigned char *firstByte = (unsigned char*) value;
+	unsigned char padding = (firstByte[0] & 0x80) ? 0xFF : 0x00;
+
+	bufDst[0] = padding;
+	netmemcpy(&bufDst[1], value, maxLength);
+
+	return maxLength + 1;
+}
+
 int ber_encode_integer(unsigned char *bufDst, void *value, int maxLength) {
 	unsigned char	endian_buf[16] = {0};
 	netmemcpy(endian_buf, value, maxLength);	// ensure bytes are in big-endian order
@@ -100,29 +108,26 @@ int ber_encode_integer(unsigned char *bufDst, void *value, int maxLength) {
 
 	shift = buf - endian_buf;
 
-	/* Remove leading superfluous bytes from the integer */
-	//if (shift) {
-		unsigned char *nb = endian_buf;
-		unsigned char *end;
+	unsigned char *nb = endian_buf;
+	unsigned char *end;
 
-		maxLength -= shift;	/* New size, minus bad bytes */
-		end = nb + maxLength;
+	maxLength -= shift;	/* New size, minus bad bytes */
+	end = nb + maxLength;
 
-		int i = 0;
-		for(; nb < end; nb++, buf++, i++) {
-			//*nb = *buf;
-			bufDst[i] = *buf;
-		}
+	int i = 0;
+	for(; nb < end; nb++, buf++, i++) {
+		//*nb = *buf;
+		bufDst[i] = *buf;
+	}
 
-		//printf("st->size: %d, end: %d\n", st->size, *end);
-	//}
-
-	//memcpy((unsigned char *) bufDst, (const unsigned char *) endian_buf, maxLength);
-
-	//printf("%d  %d  %d\n", (int) *st->buf, st->size, shift);
 	return maxLength;
 }
 
+//#if GOOSE_FIXED_SIZE == 1
+//void ber_decode_integer(unsigned char *buf, int length, void *value, int maxLength) {
+//	;
+//}
+//#else
 void ber_decode_integer(unsigned char *buf, int length, void *value, int maxLength) {
 	unsigned char	endian_buf[16] = {0};
 	unsigned char padding = (buf[0] & 0x80) ? 0xFF : 0x00;
@@ -140,6 +145,7 @@ void ber_decode_integer(unsigned char *buf, int length, void *value, int maxLeng
 
 	netmemcpy(dest, endian_buf, maxLength);
 }
+//#endif
 
 //TODO need cast to, for example, (unsigned char *) for calls to reversememcpy()?
 

@@ -30,8 +30,8 @@ int svASDULength(struct svControl *svControl) {
 	len += strlen((const char *) svControl->ASDU[0].svID) + 2;
 	//printf("%i, %s\n", strlen(svControl->ASDU[0].svID), svControl->ASDU[0].svID);
 	//len += strlen((const char *) svControl->ASDU[0].datset) + 2;
-	len += BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[0].smpCnt) + 2;
-	len += BER_GET_LENGTH_CTYPE_INT32U(&svControl->ASDU[0].confRev) + 2;
+	len += ber_integer_length((&svControl->ASDU[0].smpCnt), SV_GET_LENGTH_INT16U)/*BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[0].smpCnt)*/ + 2;
+	len += ber_integer_length((&svControl->ASDU[0].confRev), SV_GET_LENGTH_INT32U)/*BER_GET_LENGTH_CTYPE_INT32U(&svControl->ASDU[0].confRev)*/ + 2;
 	len += SV_GET_LENGTH_BOOLEAN + 2;
 	//len += BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[0].smpRate) + 2;
 	len += svControl->ASDU[0].data.size + getLengthBytes(svControl->ASDU[0].data.size);
@@ -99,8 +99,8 @@ int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 	offset += encodeLength(&buf[offset], svAPDULength(svControl));
 
 	buf[offset++] = SV_TAG_NOASDU;
-	offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svControl->noASDU));
-	offset += ber_encode_integer(&buf[offset], &svControl->noASDU, BER_GET_LENGTH_CTYPE_INT16U(&svControl->noASDU));
+	offset += encodeLength(&buf[offset], ber_integer_length(&svControl->noASDU, SV_GET_LENGTH_INT16U));
+	offset += ber_encode_integer(&buf[offset], &svControl->noASDU, ber_integer_length(&svControl->noASDU, SV_GET_LENGTH_INT16U));
 
 	buf[offset++] = SV_TAG_SEQUENCEOFASDU;
 	offset += encodeLength(&buf[offset], svSeqLength(svControl));
@@ -128,11 +128,11 @@ int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 #endif
 
 		buf[offset++] = SV_TAG_SMPCNT;
-		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[i].smpCnt));
+		offset += encodeLength(&buf[offset], ber_integer_length(&svControl->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U));
 		offset += ber_encode_integer(&buf[offset], &svControl->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U);
 
 		buf[offset++] = SV_TAG_CONFREV;
-		offset += encodeLength(&buf[offset], BER_GET_LENGTH_CTYPE_INT32U(&svControl->ASDU[i].confRev));
+		offset += encodeLength(&buf[offset], ber_integer_length(&svControl->ASDU[i].confRev, SV_GET_LENGTH_INT32U));
 		offset += ber_encode_integer(&buf[offset], &svControl->ASDU[i].confRev, SV_GET_LENGTH_INT32U);
 
 #if SV_OPTIONAL_SUPPORTED == 1
