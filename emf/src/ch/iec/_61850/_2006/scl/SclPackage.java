@@ -3881,22 +3881,13 @@ public interface SclPackage extends EPackage {
 	int TDATA_SET__FCCB = TNAMING_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Ext Ref</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TDATA_SET__EXT_REF = TNAMING_FEATURE_COUNT + 3;
-
-	/**
 	 * The number of structural features of the '<em>TData Set</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TDATA_SET_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 4;
+	int TDATA_SET_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TDataTypeTemplatesImpl <em>TData Type Templates</em>}' class.
@@ -12596,17 +12587,6 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTDataSet_FCCB();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDataSet#getExtRef <em>Ext Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Ext Ref</em>'.
-	 * @see ch.iec._61850._2006.scl.TDataSet#getExtRef()
-	 * @see #getTDataSet()
-	 * @generated
-	 */
-	EReference getTDataSet_ExtRef();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TDataTypeTemplates <em>TData Type Templates</em>}'.

@@ -41,7 +41,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TDataSetImpl#getGroup <em>Group</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TDataSetImpl#getFCDA <em>FCDA</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TDataSetImpl#getFCCB <em>FCCB</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TDataSetImpl#getExtRef <em>Ext Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,16 +56,6 @@ public class TDataSetImpl extends TNamingImpl implements TDataSet {
 	 * @ordered
 	 */
 	protected FeatureMap group;
-
-	/**
-	 * The cached value of the '{@link #getExtRef() <em>Ext Ref</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExtRef()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<TExtRef> extRef;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -122,18 +111,6 @@ public class TDataSetImpl extends TNamingImpl implements TDataSet {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<TExtRef> getExtRef() {
-		if (extRef == null) {
-			extRef = new EObjectResolvingEList<TExtRef>(TExtRef.class, this, SclPackage.TDATA_SET__EXT_REF);
-		}
-		return extRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -162,8 +139,6 @@ public class TDataSetImpl extends TNamingImpl implements TDataSet {
 				return getFCDA();
 			case SclPackage.TDATA_SET__FCCB:
 				return getFCCB();
-			case SclPackage.TDATA_SET__EXT_REF:
-				return getExtRef();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -188,10 +163,6 @@ public class TDataSetImpl extends TNamingImpl implements TDataSet {
 				getFCCB().clear();
 				getFCCB().addAll((Collection<? extends TFCCB>)newValue);
 				return;
-			case SclPackage.TDATA_SET__EXT_REF:
-				getExtRef().clear();
-				getExtRef().addAll((Collection<? extends TExtRef>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -213,9 +184,6 @@ public class TDataSetImpl extends TNamingImpl implements TDataSet {
 			case SclPackage.TDATA_SET__FCCB:
 				getFCCB().clear();
 				return;
-			case SclPackage.TDATA_SET__EXT_REF:
-				getExtRef().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -234,8 +202,6 @@ public class TDataSetImpl extends TNamingImpl implements TDataSet {
 				return !getFCDA().isEmpty();
 			case SclPackage.TDATA_SET__FCCB:
 				return !getFCCB().isEmpty();
-			case SclPackage.TDATA_SET__EXT_REF:
-				return extRef != null && !extRef.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

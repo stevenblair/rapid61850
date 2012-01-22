@@ -36,7 +36,6 @@ import ch.iec._61850._2006.scl.TDA;
 import ch.iec._61850._2006.scl.TDAI;
 import ch.iec._61850._2006.scl.TDAType;
 import ch.iec._61850._2006.scl.TDO;
-import ch.iec._61850._2006.scl.TDOI;
 import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TDataTypeTemplates;
@@ -49,7 +48,6 @@ import ch.iec._61850._2006.scl.TGSEControl;
 import ch.iec._61850._2006.scl.TIED;
 import ch.iec._61850._2006.scl.TLDevice;
 import ch.iec._61850._2006.scl.TLN;
-import ch.iec._61850._2006.scl.TLN0;
 import ch.iec._61850._2006.scl.TLNodeType;
 import ch.iec._61850._2006.scl.TP;
 import ch.iec._61850._2006.scl.TSDI;
@@ -703,13 +701,13 @@ public class SCDCodeGenerator {
 											
 											while (extRefs.hasNext()) {
 												TExtRef extRef = extRefs.next();
-												Iterator<TDataSet> datasets = map.getDatasets(extRef);//extRef.getDataSet().iterator();
+												Iterator<TDataSet> datasets = map.getDatasets(extRef);
 												
 												while (datasets.hasNext()) {
 													TDataSet dataset = datasets.next();
 													String datasetName = getUniqueDatasetName(dataset);
 													
-													Iterator<TControl> controls = map.getControls(dataset);//dataset.getControl().iterator();
+													Iterator<TControl> controls = map.getControls(dataset);
 													
 													while (controls.hasNext()) {
 														TControl control = controls.next();

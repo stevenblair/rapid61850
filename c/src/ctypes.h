@@ -71,7 +71,7 @@ extern "C" {
 #define BER_GET_LENGTH_CTYPE_FLOAT32(x)			(SV_GET_LENGTH_FLOAT32)
 #define BER_GET_LENGTH_CTYPE_FLOAT64(x)			(SV_GET_LENGTH_FLOAT64)
 #define BER_GET_LENGTH_CTYPE_TIMESTAMP(x)		(SV_GET_LENGTH_TIMESTAMP)
-#define BER_GET_LENGTH_CTYPE_INT8(x)			(2)								// 16-bit datatypes are encoded in 24 bits!
+#define BER_GET_LENGTH_CTYPE_INT8(x)			(2)
 #define BER_GET_LENGTH_CTYPE_INT16(x)			(3)								// 16-bit datatypes are encoded in 24 bits!
 #define BER_GET_LENGTH_CTYPE_INT32(x)			(5)
 #define BER_GET_LENGTH_CTYPE_INT16U(x)			(3)

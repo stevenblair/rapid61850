@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link ch.iec._61850._2006.scl.TDataSet#getGroup <em>Group</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TDataSet#getFCDA <em>FCDA</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TDataSet#getFCCB <em>FCCB</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TDataSet#getExtRef <em>Ext Ref</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,21 +79,5 @@ public interface TDataSet extends TNaming {
 	 * @generated
 	 */
 	EList<TFCCB> getFCCB();
-
-	/**
-	 * Returns the value of the '<em><b>Ext Ref</b></em>' reference list.
-	 * The list contents are of type {@link ch.iec._61850._2006.scl.TExtRef}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ext Ref</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ext Ref</em>' reference list.
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTDataSet_ExtRef()
-	 * @model
-	 * @generated
-	 */
-	EList<TExtRef> getExtRef();
 
 } // TDataSet

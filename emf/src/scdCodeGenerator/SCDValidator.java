@@ -61,11 +61,15 @@ import ch.iec._61850._2006.scl.TSDO;
 
 public class SCDValidator {
 
-	public void validate(DocumentRoot root, SCDAdditionalMappings map) {
+	public void validate(DocumentRoot root) {
 		checkForDuplicateNames(root);
 		checkForCircularSDOReferences(root);
 		checkDataTypeOrder(root);
 		checkControlHasControlBlock(root);
+	}
+
+	public void validate(DocumentRoot root, SCDAdditionalMappings map) {
+		validate(root);
 		
 		setPrintedType(root, map);
 		mapDataSetToControl(root, map);

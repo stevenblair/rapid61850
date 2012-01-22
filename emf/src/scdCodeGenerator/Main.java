@@ -64,11 +64,5 @@ public class Main {
 		
 		// generate code
 		scdCodeGenerator.generateCode(root, map);
-		
-		/*try {
-			resource.save(System.out, null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 	}
 }

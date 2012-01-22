@@ -3134,15 +3134,6 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTDataSet_ExtRef() {
-        return (EReference)getTDataSet().getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTDataTypeTemplates() {
 		if (tDataTypeTemplatesEClass == null) {
 			tDataTypeTemplatesEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(46);

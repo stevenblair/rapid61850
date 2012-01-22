@@ -1141,8 +1141,6 @@
         <details key="group" value="#group:6"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
-        eType="#//TExtRef"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TDataTypeTemplates">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
