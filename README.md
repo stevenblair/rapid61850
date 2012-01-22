@@ -14,6 +14,7 @@ This readme file describes how to set up the software, and its basic use.
  - Lightweight, and suitable for low-cost microcontrollers
  - Platform-independent, and any C/C++ compiler should work
  - Performs validation of the SCD file, and reports any problems
+ - Can optionally support fixed-length GOOSE encoding
  - Open source, under the GPL 2 license
 
 ## Installation ##
@@ -61,7 +62,7 @@ The accompanying mbed microcontroller example code is available [here](http://mb
 
 ## Using the code ##
 
-First open the file `Main.java`. In the `Main` class, set the value of `SCD_FILENAME` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation.
+First open the file `Main.java`. In the `Main` class, set the value of `SCD_FILENAME` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation. If the SCD parser complains, ensure that the first two lines of the SCD file exactly match those from the example `scd.xml` in the repository.
 
 A basic C `main()` function will look something like:
 
@@ -93,7 +94,7 @@ int main() {
 	return 0;
 }
 ```
-Clearly, a real implementation might include the use of platform-specific timers, interrupts and callbacks, where needed.
+The data structures used for generating GOOSE and SV packets are stored within `LN0`. Clearly, a real implementation might include the use of platform-specific timers, interrupts and callbacks, where needed.
 
 The generated C code implements all IEDs specified in the SCD file. You can use the code to emulate the communications between several IEDs, or just use one IED's implementation.
 
@@ -118,6 +119,10 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &GSEcallbackFu
 
 where `D1Q1SB4.S1.C1.exampleMMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). `rmxuCB` is the name of the `SampledValueControl`, in a different IED, which send the SV packets. After being initialised, the callback function will be executed after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a separate memory buffer.
 
+### Fixed-length GOOSE encoding ###
+
+To enable fixed-length GOOSE encoding, in `ctypes.h` set the value of `GOOSE_FIXED_SIZE` to '1'. Otherwise, it should have a value of `0`.
+
 ### Platform-specific options ###
 
 All platform-specific options can be edited in `ctypes.h` or `ctypes.c`. For example, for a big endian platform, change:
@@ -135,6 +140,8 @@ to:
 All `CTYPE_*` definitions must map to local datatypes of the correct size and sign.
 
 In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in order (according to platform endianness), and `reversememcpy()` copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these should work, they can be replaced with platform-specific alternatives for better performance.
+
+The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.
 
 ## Known issues and possible features ##
 
