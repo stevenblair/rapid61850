@@ -1715,31 +1715,13 @@ public interface SclPackage extends EPackage {
 	int TABSTRACT_DATA_ATTRIBUTE__VAL_KIND = TUN_NAMING_FEATURE_COUNT + 6;
 
 	/**
-	 * The feature id for the '<em><b>Printed Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE = TUN_NAMING_FEATURE_COUNT + 7;
-
-	/**
-	 * The feature id for the '<em><b>Coder Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TABSTRACT_DATA_ATTRIBUTE__CODER_TYPE = TUN_NAMING_FEATURE_COUNT + 8;
-
-	/**
 	 * The number of structural features of the '<em>TAbstract Data Attribute</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TABSTRACT_DATA_ATTRIBUTE_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 9;
+	int TABSTRACT_DATA_ATTRIBUTE_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TAnyContentFromOtherNamespaceImpl <em>TAny Content From Other Namespace</em>}' class.
@@ -2405,24 +2387,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TBDA__VAL_KIND = TABSTRACT_DATA_ATTRIBUTE__VAL_KIND;
-
-	/**
-	 * The feature id for the '<em><b>Printed Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TBDA__PRINTED_TYPE = TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Coder Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TBDA__CODER_TYPE = TABSTRACT_DATA_ATTRIBUTE__CODER_TYPE;
 
 	/**
 	 * The number of structural features of the '<em>TBDA</em>' class.
@@ -3582,24 +3546,6 @@ public interface SclPackage extends EPackage {
 	int TDA__VAL_KIND = TABSTRACT_DATA_ATTRIBUTE__VAL_KIND;
 
 	/**
-	 * The feature id for the '<em><b>Printed Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TDA__PRINTED_TYPE = TABSTRACT_DATA_ATTRIBUTE__PRINTED_TYPE;
-
-	/**
-	 * The feature id for the '<em><b>Coder Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TDA__CODER_TYPE = TABSTRACT_DATA_ATTRIBUTE__CODER_TYPE;
-
-	/**
 	 * The feature id for the '<em><b>Dchg</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4064,31 +4010,13 @@ public interface SclPackage extends EPackage {
 	int TDA_TYPE__IED_TYPE = TID_NAMING_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Ext Ref</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TDA_TYPE__EXT_REF = TID_NAMING_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Fcda</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TDA_TYPE__FCDA = TID_NAMING_FEATURE_COUNT + 3;
-
-	/**
 	 * The number of structural features of the '<em>TDA Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TDA_TYPE_FEATURE_COUNT = TID_NAMING_FEATURE_COUNT + 4;
+	int TDA_TYPE_FEATURE_COUNT = TID_NAMING_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TDOImpl <em>TDO</em>}' class.
@@ -4418,31 +4346,13 @@ public interface SclPackage extends EPackage {
 	int TDO_TYPE__IED_TYPE = TID_NAMING_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Ext Ref</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TDO_TYPE__EXT_REF = TID_NAMING_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Fcda</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TDO_TYPE__FCDA = TID_NAMING_FEATURE_COUNT + 6;
-
-	/**
 	 * The number of structural features of the '<em>TDO Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TDO_TYPE_FEATURE_COUNT = TID_NAMING_FEATURE_COUNT + 7;
+	int TDO_TYPE_FEATURE_COUNT = TID_NAMING_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TDurationInMilliSecImpl <em>TDuration In Milli Sec</em>}' class.
@@ -11456,28 +11366,6 @@ public interface SclPackage extends EPackage {
 	EAttribute getTAbstractDataAttribute_ValKind();
 
 	/**
-	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getPrintedType <em>Printed Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Printed Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TAbstractDataAttribute#getPrintedType()
-	 * @see #getTAbstractDataAttribute()
-	 * @generated
-	 */
-	EAttribute getTAbstractDataAttribute_PrintedType();
-
-	/**
-	 * Returns the meta object for the attribute '{@link ch.iec._61850._2006.scl.TAbstractDataAttribute#getCoderType <em>Coder Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Coder Type</em>'.
-	 * @see ch.iec._61850._2006.scl.TAbstractDataAttribute#getCoderType()
-	 * @see #getTAbstractDataAttribute()
-	 * @generated
-	 */
-	EAttribute getTAbstractDataAttribute_CoderType();
-
-	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TAccessControl <em>TAccess Control</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12563,28 +12451,6 @@ public interface SclPackage extends EPackage {
 	EAttribute getTDAType_IedType();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDAType#getExtRef <em>Ext Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Ext Ref</em>'.
-	 * @see ch.iec._61850._2006.scl.TDAType#getExtRef()
-	 * @see #getTDAType()
-	 * @generated
-	 */
-	EReference getTDAType_ExtRef();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDAType#getFcda <em>Fcda</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Fcda</em>'.
-	 * @see ch.iec._61850._2006.scl.TDAType#getFcda()
-	 * @see #getTDAType()
-	 * @generated
-	 */
-	EReference getTDAType_Fcda();
-
-	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TDO <em>TDO</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12778,28 +12644,6 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTDOType_IedType();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDOType#getExtRef <em>Ext Ref</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Ext Ref</em>'.
-	 * @see ch.iec._61850._2006.scl.TDOType#getExtRef()
-	 * @see #getTDOType()
-	 * @generated
-	 */
-	EReference getTDOType_ExtRef();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ch.iec._61850._2006.scl.TDOType#getFcda <em>Fcda</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Fcda</em>'.
-	 * @see ch.iec._61850._2006.scl.TDOType#getFcda()
-	 * @see #getTDOType()
-	 * @generated
-	 */
-	EReference getTDOType_Fcda();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TDurationInMilliSec <em>TDuration In Milli Sec</em>}'.

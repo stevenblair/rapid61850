@@ -43,8 +43,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TDOTypeImpl#getDA <em>DA</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TDOTypeImpl#getCdc <em>Cdc</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TDOTypeImpl#getIedType <em>Ied Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TDOTypeImpl#getExtRef <em>Ext Ref</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TDOTypeImpl#getFcda <em>Fcda</em>}</li>
  * </ul>
  * </p>
  *
@@ -109,26 +107,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 	 * @ordered
 	 */
 	protected boolean iedTypeESet;
-
-	/**
-	 * The cached value of the '{@link #getExtRef() <em>Ext Ref</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExtRef()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<TExtRef> extRef;
-
-	/**
-	 * The cached value of the '{@link #getFcda() <em>Fcda</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getFcda()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<TFCDA> fcda;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -251,30 +229,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<TExtRef> getExtRef() {
-		if (extRef == null) {
-			extRef = new EObjectResolvingEList<TExtRef>(TExtRef.class, this, SclPackage.TDO_TYPE__EXT_REF);
-		}
-		return extRef;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<TFCDA> getFcda() {
-		if (fcda == null) {
-			fcda = new EObjectResolvingEList<TFCDA>(TFCDA.class, this, SclPackage.TDO_TYPE__FCDA);
-		}
-		return fcda;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -307,10 +261,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 				return getCdc();
 			case SclPackage.TDO_TYPE__IED_TYPE:
 				return getIedType();
-			case SclPackage.TDO_TYPE__EXT_REF:
-				return getExtRef();
-			case SclPackage.TDO_TYPE__FCDA:
-				return getFcda();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -341,14 +291,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 			case SclPackage.TDO_TYPE__IED_TYPE:
 				setIedType((String)newValue);
 				return;
-			case SclPackage.TDO_TYPE__EXT_REF:
-				getExtRef().clear();
-				getExtRef().addAll((Collection<? extends TExtRef>)newValue);
-				return;
-			case SclPackage.TDO_TYPE__FCDA:
-				getFcda().clear();
-				getFcda().addAll((Collection<? extends TFCDA>)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -376,12 +318,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 			case SclPackage.TDO_TYPE__IED_TYPE:
 				unsetIedType();
 				return;
-			case SclPackage.TDO_TYPE__EXT_REF:
-				getExtRef().clear();
-				return;
-			case SclPackage.TDO_TYPE__FCDA:
-				getFcda().clear();
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -404,10 +340,6 @@ public class TDOTypeImpl extends TIDNamingImpl implements TDOType {
 				return CDC_EDEFAULT == null ? cdc != null : !CDC_EDEFAULT.equals(cdc);
 			case SclPackage.TDO_TYPE__IED_TYPE:
 				return isSetIedType();
-			case SclPackage.TDO_TYPE__EXT_REF:
-				return extRef != null && !extRef.isEmpty();
-			case SclPackage.TDO_TYPE__FCDA:
-				return fcda != null && !fcda.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

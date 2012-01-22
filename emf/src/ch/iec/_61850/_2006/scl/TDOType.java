@@ -23,8 +23,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link ch.iec._61850._2006.scl.TDOType#getDA <em>DA</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TDOType#getCdc <em>Cdc</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TDOType#getIedType <em>Ied Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TDOType#getExtRef <em>Ext Ref</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TDOType#getFcda <em>Fcda</em>}</li>
  * </ul>
  * </p>
  *
@@ -165,37 +163,5 @@ public interface TDOType extends TIDNaming {
 	 * @generated
 	 */
 	boolean isSetIedType();
-
-	/**
-	 * Returns the value of the '<em><b>Ext Ref</b></em>' reference list.
-	 * The list contents are of type {@link ch.iec._61850._2006.scl.TExtRef}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ext Ref</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ext Ref</em>' reference list.
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTDOType_ExtRef()
-	 * @model
-	 * @generated
-	 */
-	EList<TExtRef> getExtRef();
-
-	/**
-	 * Returns the value of the '<em><b>Fcda</b></em>' reference list.
-	 * The list contents are of type {@link ch.iec._61850._2006.scl.TFCDA}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Fcda</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Fcda</em>' reference list.
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTDOType_Fcda()
-	 * @model
-	 * @generated
-	 */
-	EList<TFCDA> getFcda();
 
 } // TDOType

@@ -18,8 +18,6 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link ch.iec._61850._2006.scl.TDAType#getBDA <em>BDA</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.TDAType#getIedType <em>Ied Type</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TDAType#getExtRef <em>Ext Ref</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TDAType#getFcda <em>Fcda</em>}</li>
  * </ul>
  * </p>
  *
@@ -99,37 +97,5 @@ public interface TDAType extends TIDNaming {
 	 * @generated
 	 */
 	boolean isSetIedType();
-
-	/**
-	 * Returns the value of the '<em><b>Ext Ref</b></em>' reference list.
-	 * The list contents are of type {@link ch.iec._61850._2006.scl.TExtRef}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ext Ref</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ext Ref</em>' reference list.
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTDAType_ExtRef()
-	 * @model
-	 * @generated
-	 */
-	EList<TExtRef> getExtRef();
-
-	/**
-	 * Returns the value of the '<em><b>Fcda</b></em>' reference list.
-	 * The list contents are of type {@link ch.iec._61850._2006.scl.TFCDA}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Fcda</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Fcda</em>' reference list.
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTDAType_Fcda()
-	 * @model
-	 * @generated
-	 */
-	EList<TFCDA> getFcda();
 
 } // TDAType

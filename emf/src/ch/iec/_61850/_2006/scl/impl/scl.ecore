@@ -417,10 +417,6 @@
         <details key="name" value="valKind"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="printedType" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
-        defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="coderType" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
-        defaultValueLiteral=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TAccessControl" eSuperTypes="#//TAnyContentFromOtherNamespace">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1196,9 +1192,6 @@
         <details key="name" value="iedType"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
-        eType="#//TExtRef"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fcda" upperBound="-1" eType="#//TFCDA"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TDO" eSuperTypes="#//TUnNaming">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -1551,9 +1544,6 @@
         <details key="name" value="iedType"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extRef" upperBound="-1"
-        eType="#//TExtRef"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="fcda" upperBound="-1" eType="#//TFCDA"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TDurationInMilliSec" eSuperTypes="#//TValueWithUnit">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

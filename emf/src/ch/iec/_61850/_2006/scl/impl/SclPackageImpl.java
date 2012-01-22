@@ -2189,24 +2189,6 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getTAbstractDataAttribute_PrintedType() {
-        return (EAttribute)getTAbstractDataAttribute().getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getTAbstractDataAttribute_CoderType() {
-        return (EAttribute)getTAbstractDataAttribute().getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTAccessControl() {
 		if (tAccessControlEClass == null) {
 			tAccessControlEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(13);
@@ -3194,24 +3176,6 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTDAType_ExtRef() {
-        return (EReference)getTDAType().getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTDAType_Fcda() {
-        return (EReference)getTDAType().getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTDO() {
 		if (tdoEClass == null) {
 			tdoEClass = (EClass)EPackage.Registry.INSTANCE.getEPackage(SclPackage.eNS_URI).getEClassifiers().get(48);
@@ -3376,24 +3340,6 @@ public class SclPackageImpl extends EPackageImpl implements SclPackage {
 	 */
 	public EAttribute getTDOType_IedType() {
         return (EAttribute)getTDOType().getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTDOType_ExtRef() {
-        return (EReference)getTDOType().getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getTDOType_Fcda() {
-        return (EReference)getTDOType().getEStructuralFeatures().get(6);
 	}
 
 	/**
