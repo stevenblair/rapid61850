@@ -16,7 +16,6 @@ package ch.iec._61850._2006.scl;
  * The following features are supported:
  * <ul>
  *   <li>{@link ch.iec._61850._2006.scl.TControl#getDatSet <em>Dat Set</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.TControl#getControlBlock <em>Control Block</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,33 +51,5 @@ public interface TControl extends TNaming {
 	 * @generated
 	 */
 	void setDatSet(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Control Block</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link ch.iec._61850._2006.scl.TControlBlock#getControl <em>Control</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Control Block</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Control Block</em>' reference.
-	 * @see #setControlBlock(TControlBlock)
-	 * @see ch.iec._61850._2006.scl.SclPackage#getTControl_ControlBlock()
-	 * @see ch.iec._61850._2006.scl.TControlBlock#getControl
-	 * @model opposite="control"
-	 * @generated
-	 */
-	TControlBlock getControlBlock();
-
-	/**
-	 * Sets the value of the '{@link ch.iec._61850._2006.scl.TControl#getControlBlock <em>Control Block</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Control Block</em>' reference.
-	 * @see #getControlBlock()
-	 * @generated
-	 */
-	void setControlBlock(TControlBlock value);
 
 } // TControl

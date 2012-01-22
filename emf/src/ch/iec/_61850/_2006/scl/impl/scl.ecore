@@ -961,8 +961,6 @@
         <details key="name" value="datSet"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="controlBlock" eType="#//TControlBlock"
-        eOpposite="#//TControlBlock/control"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TControlBlock" abstract="true" eSuperTypes="#//TUnNaming">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
@@ -991,8 +989,6 @@
         <details key="name" value="ldInst"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="control" eType="#//TControl"
-        eOpposite="#//TControl/controlBlock"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TControlWithIEDName" eSuperTypes="#//TControl">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

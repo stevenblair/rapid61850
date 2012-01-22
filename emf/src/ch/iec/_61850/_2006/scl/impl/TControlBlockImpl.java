@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link ch.iec._61850._2006.scl.impl.TControlBlockImpl#getAddress <em>Address</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TControlBlockImpl#getCbName <em>Cb Name</em>}</li>
  *   <li>{@link ch.iec._61850._2006.scl.impl.TControlBlockImpl#getLdInst <em>Ld Inst</em>}</li>
- *   <li>{@link ch.iec._61850._2006.scl.impl.TControlBlockImpl#getControl <em>Control</em>}</li>
  * </ul>
  * </p>
  *
@@ -85,16 +84,6 @@ public abstract class TControlBlockImpl extends TUnNamingImpl implements TContro
 	 * @ordered
 	 */
 	protected String ldInst = LD_INST_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getControl() <em>Control</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getControl()
-	 * @generated
-	 * @ordered
-	 */
-	protected TControl control;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -205,89 +194,11 @@ public abstract class TControlBlockImpl extends TUnNamingImpl implements TContro
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TControl getControl() {
-		if (control != null && control.eIsProxy()) {
-			InternalEObject oldControl = (InternalEObject)control;
-			control = (TControl)eResolveProxy(oldControl);
-			if (control != oldControl) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SclPackage.TCONTROL_BLOCK__CONTROL, oldControl, control));
-			}
-		}
-		return control;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public TControl basicGetControl() {
-		return control;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetControl(TControl newControl, NotificationChain msgs) {
-		TControl oldControl = control;
-		control = newControl;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SclPackage.TCONTROL_BLOCK__CONTROL, oldControl, newControl);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setControl(TControl newControl) {
-		if (newControl != control) {
-			NotificationChain msgs = null;
-			if (control != null)
-				msgs = ((InternalEObject)control).eInverseRemove(this, SclPackage.TCONTROL__CONTROL_BLOCK, TControl.class, msgs);
-			if (newControl != null)
-				msgs = ((InternalEObject)newControl).eInverseAdd(this, SclPackage.TCONTROL__CONTROL_BLOCK, TControl.class, msgs);
-			msgs = basicSetControl(newControl, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SclPackage.TCONTROL_BLOCK__CONTROL, newControl, newControl));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case SclPackage.TCONTROL_BLOCK__CONTROL:
-				if (control != null)
-					msgs = ((InternalEObject)control).eInverseRemove(this, SclPackage.TCONTROL__CONTROL_BLOCK, TControl.class, msgs);
-				return basicSetControl((TControl)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case SclPackage.TCONTROL_BLOCK__ADDRESS:
 				return basicSetAddress(null, msgs);
-			case SclPackage.TCONTROL_BLOCK__CONTROL:
-				return basicSetControl(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -306,9 +217,6 @@ public abstract class TControlBlockImpl extends TUnNamingImpl implements TContro
 				return getCbName();
 			case SclPackage.TCONTROL_BLOCK__LD_INST:
 				return getLdInst();
-			case SclPackage.TCONTROL_BLOCK__CONTROL:
-				if (resolve) return getControl();
-				return basicGetControl();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -329,9 +237,6 @@ public abstract class TControlBlockImpl extends TUnNamingImpl implements TContro
 				return;
 			case SclPackage.TCONTROL_BLOCK__LD_INST:
 				setLdInst((String)newValue);
-				return;
-			case SclPackage.TCONTROL_BLOCK__CONTROL:
-				setControl((TControl)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -354,9 +259,6 @@ public abstract class TControlBlockImpl extends TUnNamingImpl implements TContro
 			case SclPackage.TCONTROL_BLOCK__LD_INST:
 				setLdInst(LD_INST_EDEFAULT);
 				return;
-			case SclPackage.TCONTROL_BLOCK__CONTROL:
-				setControl((TControl)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -375,8 +277,6 @@ public abstract class TControlBlockImpl extends TUnNamingImpl implements TContro
 				return CB_NAME_EDEFAULT == null ? cbName != null : !CB_NAME_EDEFAULT.equals(cbName);
 			case SclPackage.TCONTROL_BLOCK__LD_INST:
 				return LD_INST_EDEFAULT == null ? ldInst != null : !LD_INST_EDEFAULT.equals(ldInst);
-			case SclPackage.TCONTROL_BLOCK__CONTROL:
-				return control != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -3164,22 +3164,13 @@ public interface SclPackage extends EPackage {
 	int TCONTROL__DAT_SET = TNAMING_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Control Block</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TCONTROL__CONTROL_BLOCK = TNAMING_FEATURE_COUNT + 1;
-
-	/**
 	 * The number of structural features of the '<em>TControl</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TCONTROL_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 2;
+	int TCONTROL_FEATURE_COUNT = TNAMING_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TControlBlockImpl <em>TControl Block</em>}' class.
@@ -3264,22 +3255,13 @@ public interface SclPackage extends EPackage {
 	int TCONTROL_BLOCK__LD_INST = TUN_NAMING_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Control</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TCONTROL_BLOCK__CONTROL = TUN_NAMING_FEATURE_COUNT + 3;
-
-	/**
 	 * The number of structural features of the '<em>TControl Block</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TCONTROL_BLOCK_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 4;
+	int TCONTROL_BLOCK_FEATURE_COUNT = TUN_NAMING_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link ch.iec._61850._2006.scl.impl.TControlWithIEDNameImpl <em>TControl With IED Name</em>}' class.
@@ -3353,15 +3335,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TCONTROL_WITH_IED_NAME__DAT_SET = TCONTROL__DAT_SET;
-
-	/**
-	 * The feature id for the '<em><b>Control Block</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TCONTROL_WITH_IED_NAME__CONTROL_BLOCK = TCONTROL__CONTROL_BLOCK;
 
 	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
@@ -3462,15 +3435,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TCONTROL_WITH_TRIGGER_OPT__DAT_SET = TCONTROL__DAT_SET;
-
-	/**
-	 * The feature id for the '<em><b>Control Block</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK = TCONTROL__CONTROL_BLOCK;
 
 	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
@@ -5229,15 +5193,6 @@ public interface SclPackage extends EPackage {
 	int TGSE__LD_INST = TCONTROL_BLOCK__LD_INST;
 
 	/**
-	 * The feature id for the '<em><b>Control</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TGSE__CONTROL = TCONTROL_BLOCK__CONTROL;
-
-	/**
 	 * The feature id for the '<em><b>Min Time</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5336,15 +5291,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TGSE_CONTROL__DAT_SET = TCONTROL_WITH_IED_NAME__DAT_SET;
-
-	/**
-	 * The feature id for the '<em><b>Control Block</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TGSE_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_IED_NAME__CONTROL_BLOCK;
 
 	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
@@ -6466,15 +6412,6 @@ public interface SclPackage extends EPackage {
 	int TLOG_CONTROL__DAT_SET = TCONTROL_WITH_TRIGGER_OPT__DAT_SET;
 
 	/**
-	 * The feature id for the '<em><b>Control Block</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TLOG_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK;
-
-	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7477,15 +7414,6 @@ public interface SclPackage extends EPackage {
 	int TREPORT_CONTROL__DAT_SET = TCONTROL_WITH_TRIGGER_OPT__DAT_SET;
 
 	/**
-	 * The feature id for the '<em><b>Control Block</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TREPORT_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_TRIGGER_OPT__CONTROL_BLOCK;
-
-	/**
 	 * The feature id for the '<em><b>Trg Ops</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -7802,15 +7730,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TSAMPLED_VALUE_CONTROL__DAT_SET = TCONTROL_WITH_IED_NAME__DAT_SET;
-
-	/**
-	 * The feature id for the '<em><b>Control Block</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TSAMPLED_VALUE_CONTROL__CONTROL_BLOCK = TCONTROL_WITH_IED_NAME__CONTROL_BLOCK;
 
 	/**
 	 * The feature id for the '<em><b>IED Name</b></em>' attribute list.
@@ -8813,15 +8732,6 @@ public interface SclPackage extends EPackage {
 	 * @ordered
 	 */
 	int TSMV__LD_INST = TCONTROL_BLOCK__LD_INST;
-
-	/**
-	 * The feature id for the '<em><b>Control</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TSMV__CONTROL = TCONTROL_BLOCK__CONTROL;
 
 	/**
 	 * The number of structural features of the '<em>TSMV</em>' class.
@@ -12298,17 +12208,6 @@ public interface SclPackage extends EPackage {
 	EAttribute getTControl_DatSet();
 
 	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TControl#getControlBlock <em>Control Block</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Control Block</em>'.
-	 * @see ch.iec._61850._2006.scl.TControl#getControlBlock()
-	 * @see #getTControl()
-	 * @generated
-	 */
-	EReference getTControl_ControlBlock();
-
-	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TControlBlock <em>TControl Block</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -12350,17 +12249,6 @@ public interface SclPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getTControlBlock_LdInst();
-
-	/**
-	 * Returns the meta object for the reference '{@link ch.iec._61850._2006.scl.TControlBlock#getControl <em>Control</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Control</em>'.
-	 * @see ch.iec._61850._2006.scl.TControlBlock#getControl()
-	 * @see #getTControlBlock()
-	 * @generated
-	 */
-	EReference getTControlBlock_Control();
 
 	/**
 	 * Returns the meta object for class '{@link ch.iec._61850._2006.scl.TControlWithIEDName <em>TControl With IED Name</em>}'.

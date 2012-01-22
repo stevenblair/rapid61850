@@ -65,7 +65,7 @@ public class SCDValidator {
 		checkForDuplicateNames(root);
 		checkForCircularSDOReferences(root);
 		checkDataTypeOrder(root);
-		checkControlHasControlBlock(root);
+		checkControlHasControlBlock(root/*, map*/);
 	}
 
 	public void validate(DocumentRoot root, SCDAdditionalMappings map) {
@@ -626,7 +626,7 @@ public class SCDValidator {
 	}
 
 
-	public void checkControlHasControlBlock(DocumentRoot root) {
+	public void checkControlHasControlBlock(DocumentRoot root/*, SCDAdditionalMappings map*/) {
 		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
 			SclPackage.eINSTANCE.getTGSEControl()
 		);
@@ -671,13 +671,14 @@ public class SCDValidator {
 				else {
 					if (resultMapped.size() == 1) {
 						TControlBlock cb = ((TControlBlock) resultMapped.toArray()[0]);
-						if (control.getControlBlock() == null) {
-							control.setControlBlock(cb);
-						}
+//						if (control.getControlBlock() == null) {
+//							control.setControlBlock(cb);
+//						}
+						//map.setControlBlock(control, cb);
 						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
 					}
 					else {
-						warning("more than one ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
+						error("more than one ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
 					}
 				}
 			}
