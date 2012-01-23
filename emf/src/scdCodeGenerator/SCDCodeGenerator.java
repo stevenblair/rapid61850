@@ -50,7 +50,6 @@ import ch.iec._61850._2006.scl.TLDevice;
 import ch.iec._61850._2006.scl.TLN;
 import ch.iec._61850._2006.scl.TLNodeType;
 import ch.iec._61850._2006.scl.TP;
-import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
 import ch.iec._61850._2006.scl.TSDI;
 import ch.iec._61850._2006.scl.TSDO;
 import ch.iec._61850._2006.scl.TSMV;
