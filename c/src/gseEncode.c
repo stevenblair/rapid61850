@@ -357,7 +357,11 @@ int ber_get_length_simpleCMV(struct simpleCMV *simpleCMV) {
 	total += len + getLengthBytes(len) + 1;
 	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&simpleCMV->t);
 	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_mySPS(&simpleCMV->testSecondLayerSDO);
+	total += len + getLengthBytes(len) + 1;
 	len = BER_GET_LENGTH_CTYPE_INT32(&simpleCMV->testInteger);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_BOOLEAN(&simpleCMV->testBoolean);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
@@ -371,7 +375,9 @@ int ber_encode_simpleCMV(unsigned char *buf, struct simpleCMV *simpleCMV) {
 	offset += ber_encode_simpleVector(&buf[offset], &simpleCMV->cVal);
 	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &simpleCMV->q);
 	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &simpleCMV->t);
+	offset += ber_encode_mySPS(&buf[offset], &simpleCMV->testSecondLayerSDO);
 	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &simpleCMV->testInteger);
+	offset += BER_ENCODE_CTYPE_BOOLEAN(&buf[offset], &simpleCMV->testBoolean);
 
 	return offset;
 }

@@ -148,7 +148,9 @@ int decode_simpleCMV(unsigned char *buf, struct simpleCMV *simpleCMV) {
 	offset += decode_simpleVector(&buf[offset], &simpleCMV->cVal);
 	offset += DECODE_CTYPE_QUALITY(&buf[offset], &simpleCMV->q);
 	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &simpleCMV->t);
+	offset += decode_mySPS(&buf[offset], &simpleCMV->testSecondLayerSDO);
 	offset += DECODE_CTYPE_INT32(&buf[offset], &simpleCMV->testInteger);
+	offset += DECODE_CTYPE_BOOLEAN(&buf[offset], &simpleCMV->testBoolean);
 
 	return offset;
 }

@@ -161,8 +161,9 @@ int main() {
 	fp = initWinpcap();
 
 #if TEST_LOCAL_SV_GSE == 1
-	float valueGSE = 7.15;
-	float valueSV = 32.74;
+	srand(time(NULL));
+	float valueGSE = (float) rand() / (float) RAND_MAX;
+	float valueSV = (float) rand() / (float) RAND_MAX;
 
 	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = valueGSE;
 	len = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buf, 0, 512);

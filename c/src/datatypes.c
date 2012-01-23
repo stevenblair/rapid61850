@@ -27,7 +27,6 @@
 
 
 void init_myAnalogValue(struct myAnalogValue *myAnalogValue) {
-	myAnalogValue->f = 1.024;
 }
 void init_ScaledValueConfig(struct ScaledValueConfig *ScaledValueConfig) {
 }
@@ -66,6 +65,7 @@ void init_simpleMV(struct simpleMV *simpleMV) {
 }
 void init_simpleCMV(struct simpleCMV *simpleCMV) {
 	simpleCMV->testInteger = -1234;
+	simpleCMV->testBoolean = 1;
 }
 void init_simpleWYE(struct simpleWYE *simpleWYE) {
 }
@@ -96,8 +96,11 @@ void init_datatypes() {
 	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
 	init_simpleCMV(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA);
+	init_mySPS(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA.testSecondLayerSDO);
 	init_simpleCMV(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB);
+	init_mySPS(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB.testSecondLayerSDO);
 	init_simpleCMV(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC);
+	init_mySPS(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC.testSecondLayerSDO);
 	init_myLPL(&D1Q1SB4.S1.C1.LPHDa_1.NamPlt);
 	init_myDPL(&D1Q1SB4.S1.C1.LPHDa_1.PhyNam);
 	init_mySPS(&D1Q1SB4.S1.C1.LPHDa_1.Proxy);

@@ -50,6 +50,7 @@ import ch.iec._61850._2006.scl.TLDevice;
 import ch.iec._61850._2006.scl.TLN;
 import ch.iec._61850._2006.scl.TLNodeType;
 import ch.iec._61850._2006.scl.TP;
+import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
 import ch.iec._61850._2006.scl.TSDI;
 import ch.iec._61850._2006.scl.TSDO;
 import ch.iec._61850._2006.scl.TSMV;
@@ -912,19 +913,29 @@ public class SCDCodeGenerator {
 		String initCode = "";
 		int valSize = val.getValue().length() + 1;
 		
+		// valid types defined in Table 45 in IEC 61850-6
 		if (da.getBType().toString().equals("VisString255")) {
 			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
 			initCode = initCode.concat("\tstrncpy(" + id + "->" + da.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
 		}
-		else if (da.getBType().toString().equals("FLOAT32")) {
+		else if (da.getBType().toString().equals("FLOAT")) {
 			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = " + val.getValue() + ";\n");
 		}
-		else if (da.getBType().toString().equals("INT32")) {
+		else if (da.getBType().toString().contains("INT")) {
 			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = " + val.getValue() + ";\n");
+		}
+		else if (da.getBType().toString().equals("BOOLEAN")) {
+			int value = 0;
+			if (val.getValue().toLowerCase().equals("true") || val.getValue().equals("1")) {
+				value = 1;
+			}
+			
+			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = " + value + ";\n");
 		}
 		
 		return initCode;
 	}
+	
 	/**
 	 * Gets a list of all DOs from the specified LN type.
 	 * @param dataTypeTemplates

@@ -43,7 +43,6 @@ import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TAbstractDataAttribute;
 import ch.iec._61850._2006.scl.TBDA;
 import ch.iec._61850._2006.scl.TControl;
-import ch.iec._61850._2006.scl.TControlBlock;
 import ch.iec._61850._2006.scl.TDA;
 import ch.iec._61850._2006.scl.TDAType;
 import ch.iec._61850._2006.scl.TDO;
@@ -682,7 +681,7 @@ public class SCDValidator {
 				}
 				else {
 					if (resultMapped.size() == 1) {
-						TControlBlock cb = ((TControlBlock) resultMapped.toArray()[0]);
+//						TControlBlock cb = ((TControlBlock) resultMapped.toArray()[0]);
 //						if (control.getControlBlock() == null) {
 //							control.setControlBlock(cb);
 //						}

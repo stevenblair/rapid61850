@@ -544,8 +544,12 @@
 			<DA name="cVal" fc="MX" bType="Struct" type="simpleVector" dchg="true"/>
 			<DA name="q" fc="MX" bType="Quality" qchg="true"/>
 			<DA name="t" fc="MX" bType="Timestamp"/>
+			<SDO name="testSecondLayerSDO" type="mySPS"/>
 			<DA name="testInteger" fc="ST" bType="INT32" dchg="true">
 				 <Val>-1234</Val>
+			</DA>
+			<DA name="testBoolean" fc="ST" bType="BOOLEAN" dchg="true">
+				 <Val>1</Val>
 			</DA>
 		</DOType>
 		<DOType id="simpleWYE" cdc="WYE">
