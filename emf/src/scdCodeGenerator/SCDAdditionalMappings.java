@@ -10,7 +10,6 @@ import java.util.Set;
 
 import ch.iec._61850._2006.scl.TBaseElement;
 import ch.iec._61850._2006.scl.TControl;
-import ch.iec._61850._2006.scl.TControlBlock;
 import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TExtRef;
 import ch.iec._61850._2006.scl.TFCDA;
@@ -25,7 +24,6 @@ public class SCDAdditionalMappings {
 	private Map<TFCDA, String> fcdaToVariableName;
 	private Map<TFCDA, TLN> fcdaToLN;
 	private Map<TExtRef, List<TDataSet>> extRefToDatasets;
-	//private Map<TControl, TControlBlock> controlToControlBlock;
 
 	public SCDAdditionalMappings() {
 		controlToDataset = new HashMap<TControl, TDataSet>();
@@ -35,7 +33,6 @@ public class SCDAdditionalMappings {
 		fcdaToVariableName = new HashMap<TFCDA, String>();
 		fcdaToLN = new HashMap<TFCDA, TLN>();
 		extRefToDatasets = new HashMap<TExtRef, List<TDataSet>>();
-		//controlToControlBlock = new HashMap<>();
 	}
 	
 	public Iterator<TDataSet> getDatasets(TExtRef extRef) {
@@ -47,16 +44,6 @@ public class SCDAdditionalMappings {
 			extRefToDatasets.put(key, value);
 		}
 	}
-	
-//	public TControlBlock getControlBlock(TControl control) {
-//		return controlToControlBlock.get(control);
-//	}
-//
-//	public void setControlBlock(TControl key, TControlBlock value) {
-//		if (key != null && value != null) {
-//			controlToControlBlock.put(key, value);
-//		}
-//	}
 	
 	public TDataSet getDataset(TControl control) {
 		return controlToDataset.get(control);

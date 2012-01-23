@@ -522,7 +522,9 @@
 			<DA name="ctlVal" fc="CO" bType="BOOLEAN"/>
 		</DOType>
 		<DOType id="mySPS" cdc="SPS">
-			<DA name="stVal" fc="ST" bType="INT32" dchg="true"/>
+			<DA name="stVal" fc="ST" bType="INT32" dchg="true">
+				 <Val>178</Val>
+			</DA>
 			<DA name="q" fc="ST" bType="Quality" qchg="true"/>
 			<DA name="t" fc="ST" bType="Timestamp"/>
 		</DOType>
@@ -542,6 +544,9 @@
 			<DA name="cVal" fc="MX" bType="Struct" type="simpleVector" dchg="true"/>
 			<DA name="q" fc="MX" bType="Quality" qchg="true"/>
 			<DA name="t" fc="MX" bType="Timestamp"/>
+			<DA name="testInteger" fc="ST" bType="INT32" dchg="true">
+				 <Val>-1234</Val>
+			</DA>
 		</DOType>
 		<DOType id="simpleWYE" cdc="WYE">
 			<SDO name="phsA" type="simpleCMV"/>

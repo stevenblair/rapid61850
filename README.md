@@ -149,6 +149,4 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
  - FCDAs cannot use the syntax "vector.mag.f" as values for data attribute references.
  - Data types cannot contain arrays.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
- - Does not initialise data to default values (including DOI and DAI), or allocate memory for strings
-    - typical values are set in DataTypeTemplates section (i.e., DA and BDA, both sub-types of AbstractDataType, may have Val elements)
-    - special case values are set in LN definition
+ - Does not initialise data to default values specified by DOI and DAI (but does initialise typical values which are set in DataTypeTemplates section, i.e., all Val elements for DAs and BDAs)

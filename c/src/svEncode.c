@@ -147,6 +147,7 @@ int encode_simpleCMV(unsigned char *buf, struct simpleCMV *simpleCMV) {
 	offset += encode_simpleVector(&buf[offset], &simpleCMV->cVal);
 	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &simpleCMV->q);
 	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &simpleCMV->t);
+	offset += ENCODE_CTYPE_INT32(&buf[offset], &simpleCMV->testInteger);
 
 	return offset;
 }

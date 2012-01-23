@@ -201,7 +201,6 @@ public class SCDCodeGenerator {
 
 				dataTypesHeader.appendDatatypes("\n\t" + daString);
 				
-				
 				Iterator<TVal> vals = da.getVal().iterator();
 				while (vals.hasNext()) {
 					TVal val = vals.next();
@@ -300,6 +299,7 @@ public class SCDCodeGenerator {
 											// look up lists of DOs and DAs and initialise if required
 											while (dos.hasNext()) {
 												TDO dataObject = dos.next();
+												//System.out.println("DO: " + dataObject.getName());
 												
 												if (listContains(initDOTypes, dataObject.getType())) {
 													dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LN0.LLN0"/* + lnName*/ + "." + dataObject.getName() + ");\n");
@@ -571,33 +571,16 @@ public class SCDCodeGenerator {
 								
 								
 								// initialise LN data
-//								Iterator<TDO> dos = getLNTypeDOs(dataTypeTemplates, ln.getLnType()).iterator();
-//								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + lnName + ".");
-//								
-//								// look up lists of DOs and DAs and initialise if required
-//								while (dos.hasNext()) {
-//									TDO dataObject = dos.next();
-//									
-//									if (listContains(initDOTypes, dataObject.getType())) {
-//										dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + accumulatedName.toString() + dataObject.getName() + ");\n");
-//									}
-//									
-//									Iterator<TDA> das = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).iterator();
-//									
-//									while (das.hasNext()) {
-//										TDA da = das.next();
-//										
-//										if (listContains(initDATypes, da.getType())) {
-//											dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + accumulatedName.toString() + dataObject.getName() + "." + da.getName().toString() + ");\n");
-//										}
-//										
-//										//TODO make recursive; add SDO
-//										processDA(dataTypeTemplates, ln, dataObject, da, initDATypes);
-//										
-//										//System.out.println("DA: " + getDA(dataTypeTemplates, ln.getLnClass().toString(), dataObject.getName(), da.getName().toString()));
-//									}
-//								}
-//								
+								Iterator<TDO> dos = getLNTypeDOs(dataTypeTemplates, ln.getLnType()).iterator();
+								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + lnName + ".");
+								
+								// look up lists of DOs and DAs and initialise if required
+								while (dos.hasNext()) {
+									TDO dataObject = dos.next();
+									
+									processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, accumulatedName, dataObject.getType(), dataObject.getName());
+								}
+								
 //								// override specific LN data
 //								Iterator<TDOI> dois = ln.getDOI().iterator();
 //								accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + lnName + ".");
@@ -836,9 +819,39 @@ public class SCDCodeGenerator {
 		dataTypesHeader.saveFile();
 	}
 
-	
-	private static void processDA(TDataTypeTemplates dataTypeTemplates, TLN ln, TDO dataObject, TDA da, List<String> initDATypes) {
-
+	/**
+	 * Initialises a DO instance. The DOType for this DO may contain DAs, and SDOs (which may contain further DAs and SDOs).
+	 * @param dataTypeTemplates
+	 * @param dataTypesSource
+	 * @param initDOTypes
+	 * @param initDATypes
+	 * @param accumulatedName
+	 * @param type
+	 * @param name
+	 */
+	private void processDO(TDataTypeTemplates dataTypeTemplates, CSource dataTypesSource, List<String> initDOTypes, List<String> initDATypes, StringBuilder accumulatedName, String type, String name) {
+		if (listContains(initDOTypes, type)) {
+			dataTypesSource.appendFunctions("\tinit_" + type + "(&" + accumulatedName.toString() + name + ");\n");
+		}
+		
+		Iterator<TDA> das = getDOTypeDAs(dataTypeTemplates, type).iterator();
+		
+		while (das.hasNext()) {
+			TDA da = das.next();
+			
+			if (listContains(initDATypes, da.getType())) {
+				dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + accumulatedName.toString() + name + "." + da.getName().toString() + ");\n");
+			}
+		}
+		
+		// recursively initialise all SDOs
+		Iterator<TSDO> sdos = getDOTypeSDOs(dataTypeTemplates, type).iterator();		
+		while (sdos.hasNext()) {
+			TSDO sdo = sdos.next();
+			StringBuilder sdoName = new StringBuilder(accumulatedName + name + ".");
+			
+			processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, sdoName, sdo.getType(), sdo.getName());
+		}
 	}
 
 	public static void processSDI(TSDI sdi, StringBuilder accumulatedName, CSource dataTypesSource) {
@@ -907,10 +920,18 @@ public class SCDCodeGenerator {
 		else if (da.getBType().toString().equals("FLOAT32")) {
 			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = " + val.getValue() + ";\n");
 		}
+		else if (da.getBType().toString().equals("INT32")) {
+			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = " + val.getValue() + ";\n");
+		}
 		
 		return initCode;
 	}
-	
+	/**
+	 * Gets a list of all DOs from the specified LN type.
+	 * @param dataTypeTemplates
+	 * @param doTypeName
+	 * @return
+	 */
 	public static List<TDO> getLNTypeDOs(TDataTypeTemplates dataTypeTemplates, String lnTypeName) {
 		Iterator<TLNodeType> lnTypes = dataTypeTemplates.getLNodeType().iterator();
 		
@@ -924,8 +945,13 @@ public class SCDCodeGenerator {
 		
 		return null;
 	}
-	
-	
+
+	/**
+	 * Gets a list of all DAs from the specified DO type.
+	 * @param dataTypeTemplates
+	 * @param doTypeName
+	 * @return
+	 */
 	public static List<TDA> getDOTypeDAs(TDataTypeTemplates dataTypeTemplates, String doTypeName) {
 		Iterator<TDOType> doTypes = dataTypeTemplates.getDOType().iterator();
 		
@@ -934,6 +960,26 @@ public class SCDCodeGenerator {
 			
 			if (doType.getId().equals(doTypeName)) {
 				return doType.getDA();
+			}
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Gets a list of all SDOs from the specified DO type.
+	 * @param dataTypeTemplates
+	 * @param doTypeName
+	 * @return
+	 */
+	public static List<TSDO> getDOTypeSDOs(TDataTypeTemplates dataTypeTemplates, String doTypeName) {
+		Iterator<TDOType> doTypes = dataTypeTemplates.getDOType().iterator();
+		
+		while (doTypes.hasNext()) {
+			TDOType doType = doTypes.next();
+			
+			if (doType.getId().equals(doTypeName)) {
+				return doType.getSDO();
 			}
 		}
 		
@@ -1031,6 +1077,11 @@ public class SCDCodeGenerator {
 		return null;
 	}
 
+	/**
+	 * Gets a unique (per-SCD) identifier for the specified Dataset.
+	 * @param dataset
+	 * @return
+	 */
 	public static String getUniqueDatasetName(TDataSet dataset) {
 		String iedName = ((TIED) dataset.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
 		String ldInst = ((TLDevice) dataset.eContainer().eContainer()).getInst();

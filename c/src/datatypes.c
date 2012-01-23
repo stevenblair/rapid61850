@@ -58,12 +58,14 @@ void init_myDPL(struct myDPL *myDPL) {
 void init_myPos(struct myPos *myPos) {
 }
 void init_mySPS(struct mySPS *mySPS) {
+	mySPS->stVal = 178;
 }
 void init_myMV(struct myMV *myMV) {
 }
 void init_simpleMV(struct simpleMV *simpleMV) {
 }
 void init_simpleCMV(struct simpleCMV *simpleCMV) {
+	simpleCMV->testInteger = -1234;
 }
 void init_simpleWYE(struct simpleWYE *simpleWYE) {
 }
@@ -80,7 +82,26 @@ void init_datatypes() {
 	init_myLPL(&E1Q1SB1.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&E1Q1SB1.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&E1Q1SB1.S1.C1.LN0.LLN0.NamPlt);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA.instMag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsB.instMag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC.instMag);
+	init_myLPL(&E1Q1SB1.S1.C1.LPHDa_1.NamPlt);
+	init_myDPL(&E1Q1SB1.S1.C1.LPHDa_1.PhyNam);
+	init_mySPS(&E1Q1SB1.S1.C1.LPHDa_1.Proxy);
+	init_mySPS(&E1Q1SB1.S1.C1.CSWIa_1.GrpAl);
+	init_mySPS(&E1Q1SB1.S1.C1.CSWIa_2.GrpAl);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.MMXUa_1.Amps.mag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.MMXUa_1.Volts.mag);
+	init_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
 	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
+	init_simpleCMV(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA);
+	init_simpleCMV(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB);
+	init_simpleCMV(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC);
+	init_myLPL(&D1Q1SB4.S1.C1.LPHDa_1.NamPlt);
+	init_myDPL(&D1Q1SB4.S1.C1.LPHDa_1.PhyNam);
+	init_mySPS(&D1Q1SB4.S1.C1.LPHDa_1.Proxy);
+	init_myLPL(&D1Q1SB4.S1.C1.RSYNa_1.NamPlt);
+	init_mySPS(&D1Q1SB4.S1.C1.RSYNa_1.Rel);
 }
 
