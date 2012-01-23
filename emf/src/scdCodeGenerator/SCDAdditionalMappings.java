@@ -28,13 +28,13 @@ public class SCDAdditionalMappings {
 	//private Map<TControl, TControlBlock> controlToControlBlock;
 
 	public SCDAdditionalMappings() {
-		controlToDataset = new HashMap<>();
-		dataAttibuteToPrintedType = new HashMap<>();
-		dataAttibuteToCoderType = new HashMap<>();
-		fcdaToDataAttribute = new HashMap<>();
-		fcdaToVariableName = new HashMap<>();
-		fcdaToLN = new HashMap<>();
-		extRefToDatasets = new HashMap<>();
+		controlToDataset = new HashMap<TControl, TDataSet>();
+		dataAttibuteToPrintedType = new HashMap<TBaseElement, String>();
+		dataAttibuteToCoderType = new HashMap<TBaseElement, String>();
+		fcdaToDataAttribute = new HashMap<TFCDA, TBaseElement>();
+		fcdaToVariableName = new HashMap<TFCDA, String>();
+		fcdaToLN = new HashMap<TFCDA, TLN>();
+		extRefToDatasets = new HashMap<TExtRef, List<TDataSet>>();
 		//controlToControlBlock = new HashMap<>();
 	}
 	
