@@ -499,7 +499,7 @@ public class SCDCodeGenerator {
 	
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".t = 0;\n");
 													
-													String gocbRef = /*iedName + */ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
+													String gocbRef = iedName + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
 													if (gocbRef.length() > 65) {
 														gocbRef = gocbRef.substring(0, 64);
 													}
@@ -732,7 +732,7 @@ public class SCDCodeGenerator {
 																gseControlConsumed.add(gseControl.getName());
 																//System.out.println("\tadding gse control: " + gseControl.getName() + ", size: " + gseControlConsumed.size());
 																
-																String gocbRef = /*extRef.getIedName() + */ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
+																String gocbRef = extRef.getIedName() + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
 																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getPrefix() + ln.getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + ln.getInst() + ".gse_inputs_" + gseControl.getName() + ".";
 																
 																gseDecodeDatasetFunction.append("\n\tif (strncmp((const char *) gocbRef, \"" + gocbRef + "\", gocbRefLength) == 0) {");
