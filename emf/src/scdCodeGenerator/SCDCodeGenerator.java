@@ -300,7 +300,7 @@ public class SCDCodeGenerator {
 											while (dos.hasNext()) {
 												TDO dataObject = dos.next();
 												
-												if (listContains(initDOTypes, dataObject.getType())) {
+												if (initDOTypes.contains(dataObject.getType())) {
 													dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LN0.LLN0"/* + lnName*/ + "." + dataObject.getName() + ");\n");
 												}
 												
@@ -311,7 +311,7 @@ public class SCDCodeGenerator {
 														while (das.hasNext()) {
 															TDA da = das.next();
 															
-															if (listContains(initDATypes, da.getType())) {
+															if (initDATypes.contains(da.getType())) {
 																dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LN0.LNN0"/* + lnName*/ + "." + dataObject.getName() + "." + da.getName().toString() + ");\n");
 															}
 														}
@@ -829,7 +829,7 @@ public class SCDCodeGenerator {
 	 * @param name
 	 */
 	private void processDO(TDataTypeTemplates dataTypeTemplates, CSource dataTypesSource, List<String> initDOTypes, List<String> initDATypes, StringBuilder accumulatedName, String type, String name) {
-		if (listContains(initDOTypes, type)) {
+		if (initDOTypes.contains(type)) {
 			dataTypesSource.appendFunctions("\tinit_" + type + "(&" + accumulatedName.toString() + name + ");\n");
 		}
 		
@@ -838,7 +838,7 @@ public class SCDCodeGenerator {
 		while (das.hasNext()) {
 			TDA da = das.next();
 			
-			if (listContains(initDATypes, da.getType())) {
+			if (initDATypes.contains(da.getType())) {
 				dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + accumulatedName.toString() + name + "." + da.getName().toString() + ");\n");
 			}
 		}
@@ -894,18 +894,6 @@ public class SCDCodeGenerator {
 		}
 		
 		return initCode;
-	}
-	
-	public static Boolean listContains(List<String> list, String da) {
-		Iterator<String> iter = list.iterator();
-		
-		while (iter.hasNext()) {
-			if (iter.next().equals(da)) {
-				return true;
-			}
-		}
-		
-		return false;
 	}
 	
 	public static String initAbstractDataAttribute(String id, TAbstractDataAttribute da, TVal val) {
@@ -1004,29 +992,6 @@ public class SCDCodeGenerator {
 		
 		return compound;
 	}
-	
-//	public static TGSEControl getGSEControl(TDataSet dataset) {
-//		if (dataset == null) {
-//			return null;
-//		}
-//		TLN0 ln0 = (TLN0) (dataset.eContainer());
-//		
-//		if (ln0 == null) {
-//			return null;
-//		}
-//		
-//		Iterator<TGSEControl> gseControls =  ln0.getGSEControl().iterator();
-//		
-//		while (gseControls.hasNext()) {
-//			TGSEControl gseControl = gseControls.next();
-//			
-//			if (gseControl.getDatSet().equals(dataset.getName())) {
-//				return gseControl;
-//			}
-//		}
-//		
-//		return null;
-//	}
 
 	public static TSMV getCommunicationSMV(TCommunication comms, String iedName, String apName, String ldName, String cbName) {
 		Iterator<TSubNetwork> subnets = comms.getSubNetwork().iterator();
