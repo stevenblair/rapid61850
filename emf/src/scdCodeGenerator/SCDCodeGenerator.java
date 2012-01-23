@@ -299,7 +299,6 @@ public class SCDCodeGenerator {
 											// look up lists of DOs and DAs and initialise if required
 											while (dos.hasNext()) {
 												TDO dataObject = dos.next();
-												//System.out.println("DO: " + dataObject.getName());
 												
 												if (listContains(initDOTypes, dataObject.getType())) {
 													dataTypesSource.appendFunctions("\tinit_" + dataObject.getType() + "(&" + iedName + "." + apName + "." + ldName + ".LN0.LLN0"/* + lnName*/ + "." + dataObject.getName() + ");\n");

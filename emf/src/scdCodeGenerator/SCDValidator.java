@@ -62,14 +62,14 @@ import ch.iec._61850._2006.scl.TSDO;
 public class SCDValidator {
 
 	public void validate(DocumentRoot root) {
+		validate(root, null);
+	}
+
+	public void validate(DocumentRoot root, SCDAdditionalMappings map) {
 		checkForDuplicateNames(root);
 		checkForCircularSDOReferences(root);
 		checkDataTypeOrder(root);
 		checkControlHasControlBlock(root/*, map*/);
-	}
-
-	public void validate(DocumentRoot root, SCDAdditionalMappings map) {
-		validate(root);
 		
 		setPrintedType(root, map);
 		mapDataSetToControl(root, map);
@@ -352,8 +352,10 @@ public class SCDValidator {
 				else {
 					error("unknown bType attribute for DA: '" + da + "'");
 				}
-				map.setPrintedType(da, new String(printedType));
-				map.setCoderType(da, new String(coderType));		// TODO: repeat for DOTypes?
+				if (map != null) {
+					map.setPrintedType(da, new String(printedType));
+					map.setCoderType(da, new String(coderType));		// TODO: repeat for DOTypes?
+				}
 			}
 		}
 		
@@ -369,9 +371,11 @@ public class SCDValidator {
 
 		for (Object o : doTypeResult) {
 			TDOType doType = (TDOType) o;
-			
-			map.setPrintedType(doType, new String("struct " + doType.getId()));
-			map.setCoderType(doType, new String(doType.getId()));
+
+			if (map != null) {
+				map.setPrintedType(doType, new String("struct " + doType.getId()));
+				map.setCoderType(doType, new String(doType.getId()));
+			}
 		}
 		
 
@@ -386,9 +390,11 @@ public class SCDValidator {
 
 		for (Object o : doResult) {
 			TDO dataObject = (TDO) o;
-			
-			map.setPrintedType(dataObject, new String("struct " + dataObject.getType()));
-			//map.setCoderType(dataObject, new String(dataObject.getType()));
+
+			if (map != null) {
+				map.setPrintedType(dataObject, new String("struct " + dataObject.getType()));
+				//map.setCoderType(dataObject, new String(dataObject.getType()));
+			}
 		}
 	}
 
@@ -550,13 +556,17 @@ public class SCDValidator {
 							TDOType doType = ((TDOType) doTypeObjectResult.iterator().next());
 							String fcdaVariableName = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
 							//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
-							
-							map.setLN(fcda, ln);
+
+							if (map != null) {
+								map.setLN(fcda, ln);
+							}
 							
 							// set reference to DOType or DAType
 							if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
-								map.setDataAttribute(fcda, doType);
-								map.setVariableName(fcda, new String(fcdaVariableName));
+								if (map != null) {
+									map.setDataAttribute(fcda, doType);
+									map.setVariableName(fcda, new String(fcdaVariableName));
+								}
 								//System.out.println("\tvalid DO type: '" + fcda.getType() + "'");
 							}
 							else {
@@ -585,20 +595,22 @@ public class SCDValidator {
 								if (daResult.size() >= 1) {
 									TDA da = ((TDA) daResult.iterator().next());
 
-									// get type string from DA
-									if (map.getPrintedType(da) == null || map.getPrintedType(da).equals("")) {
-										warning("unknown printedType for DA '" + da.getName().toString() + "'");
-									}
-									else {
-										String coderType = map.getCoderType(da);
-										if (coderType.contains("struct")) {
-											coderType = coderType.replace("struct ", "");
+									if (map != null) {
+										// get type string from DA
+										if (map.getPrintedType(da) == null || map.getPrintedType(da).equals("")) {
+											warning("unknown printedType for DA '" + da.getName().toString() + "'");
 										}
-										else if (coderType.contains("enum")) {
-											coderType = coderType.replace("enum ", "");
+										else {
+											String coderType = map.getCoderType(da);
+											if (coderType.contains("struct")) {
+												coderType = coderType.replace("struct ", "");
+											}
+											else if (coderType.contains("enum")) {
+												coderType = coderType.replace("enum ", "");
+											}
+											map.setDataAttribute(fcda, da);
+											map.setVariableName(fcda, new String(fcdaVariableName + "_" + fcda.getDaName()));
 										}
-										map.setDataAttribute(fcda, da);
-										map.setVariableName(fcda, new String(fcdaVariableName + "_" + fcda.getDaName()));
 									}
 								}
 							}
@@ -728,7 +740,9 @@ public class SCDValidator {
 				else {
 					if (resultMapped.size() == 1) {
 						TDataSet dataSet = ((TDataSet) resultMapped.toArray()[0]);
-						map.setDataset(control, dataSet);
+						if (map != null) {
+							map.setDataset(control, dataSet);
+						}
 						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
 					}
 					else {
@@ -830,7 +844,9 @@ public class SCDValidator {
 						TFCDA fcda = (TFCDA) fcdas.next();
 						datasets.add((TDataSet) fcda.eContainer());
 					}
-					map.setDatasets(extRef, datasets);
+					if (map != null) {
+						map.setDatasets(extRef, datasets);
+					}
 				}
 			}
 		}
