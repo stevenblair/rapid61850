@@ -553,7 +553,7 @@ public class SCDValidator {
 						
 						if (doTypeObjectResult.size() >= 1) {
 							TDOType doType = ((TDOType) doTypeObjectResult.iterator().next());
-							String fcdaVariableName = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
+							String fcdaVariableName = fcda.getLdInst() + "_" + fcda.getPrefix() + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
 							//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
 
 							if (map != null) {

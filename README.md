@@ -89,7 +89,7 @@ int main() {
 	gse_sv_packet_filter(buffer, length);							// deals with any GOOSE or SV dataset that is able to be processed
 
 	// read value that was updated by the packet (it will equal 1.024)
-	float inputValue = D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1__TVTR_1_Vol_instMag.f;
+	float inputValue = D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1_TVTR_1_Vol_instMag.f;
 
 	return 0;
 }

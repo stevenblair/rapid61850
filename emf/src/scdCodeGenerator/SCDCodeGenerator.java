@@ -276,7 +276,7 @@ public class SCDCodeGenerator {
 										
 										while (fcdas.hasNext()) {
 											TFCDA fcda = fcdas.next();
-											String name = fcda.getLdInst() + "_" + fcda.getPrefix() + "_" + fcda.getLnClass() + "_" + fcda.getLnInst() + "_" + fcda.getDoName();
+											String name = fcda.getLdInst() + "_" + fcda.getPrefix() + fcda.getLnClass() + "_" + fcda.getLnInst() + "_" + fcda.getDoName();
 											
 											if (fcda.getDaName() != null && !fcda.getDaName().equals("")) {
 												name = name + "_" + fcda.getDaName();

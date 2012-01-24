@@ -169,35 +169,35 @@ struct simpleSAV {
 
 // datasets
 struct E1Q1SB1_C1_Positions {
-	struct myAnalogValue C1__TVTR_1_Vol_instMag;
-	struct myPos C1__CSWI_1_Pos;
-	struct myPos C1__CSWI_2_Pos;
-	enum Mod C1__MMXU_1_Mod_stVal;
-	struct myMV C1__MMXU_1_Amps;
-	struct myMV C1__MMXU_1_Volts;
+	struct myAnalogValue C1_TVTR_1_Vol_instMag;
+	struct myPos C1_CSWI_1_Pos;
+	struct myPos C1_CSWI_2_Pos;
+	enum Mod C1_MMXU_1_Mod_stVal;
+	struct myMV C1_MMXU_1_Amps;
+	struct myMV C1_MMXU_1_Volts;
 };
 struct E1Q1SB1_C1_Measurands {
-	struct myMV C1__MMXU_1_Amps;
-	struct myMV C1__MMXU_1_Volts;
+	struct myMV C1_MMXU_1_Amps;
+	struct myMV C1_MMXU_1_Volts;
 };
 struct E1Q1SB1_C1_smv {
-	struct myAnalogValue C1__TVTR_1_Vol_instMag;
-	struct myMod C1__CSWI_1_Mod;
-	enum Mod C1__MMXU_1_Mod_stVal;
-	CTYPE_QUALITY C1__MMXU_1_Volts_q;
-	struct myMV C1__MMXU_1_Amps;
-	struct myPos C1__CSWI_2_Pos;
+	struct myAnalogValue C1_TVTR_1_Vol_instMag;
+	struct myMod C1_CSWI_1_Mod;
+	enum Mod C1_MMXU_1_Mod_stVal;
+	CTYPE_QUALITY C1_MMXU_1_Volts_q;
+	struct myMV C1_MMXU_1_Amps;
+	struct myPos C1_CSWI_2_Pos;
 };
 struct E1Q1SB1_C1_rmxu {
-	struct simpleSAV C1__RMXU_1_AmpLocPhsA;
-	struct simpleSAV C1__RMXU_1_AmpLocPhsB;
-	struct simpleSAV C1__RMXU_1_AmpLocPhsC;
+	struct simpleSAV C1_RMXU_1_AmpLocPhsA;
+	struct simpleSAV C1_RMXU_1_AmpLocPhsB;
+	struct simpleSAV C1_RMXU_1_AmpLocPhsC;
 };
 struct D1Q1SB4_C1_SyckResult {
-	struct mySPS C1__RSYN_1_Rel;
+	struct mySPS C1_RSYN_1_Rel;
 };
 struct D1Q1SB4_C1_MMXUResult {
-	struct simpleWYE C1__MMXU_1_A;
+	struct simpleWYE C1_MMXU_1_A;
 };
 
 // logical nodes

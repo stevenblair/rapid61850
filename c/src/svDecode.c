@@ -201,55 +201,55 @@ int decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 int decode_E1Q1SB1_C1_Positions(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions) {
 	int offset = 0;
 
-	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Positions->C1__TVTR_1_Vol_instMag);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_1_Pos);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1__CSWI_2_Pos);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1__MMXU_1_Mod_stVal);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Amps);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1__MMXU_1_Volts);
+	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Positions->C1_TVTR_1_Vol_instMag);
+	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_1_Pos);
+	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_2_Pos);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1_MMXU_1_Mod_stVal);
+	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1_MMXU_1_Amps);
+	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1_MMXU_1_Volts);
 
 	return offset;
 }
 int decode_E1Q1SB1_C1_Measurands(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands) {
 	int offset = 0;
 
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1__MMXU_1_Amps);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1__MMXU_1_Volts);
+	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1_MMXU_1_Amps);
+	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1_MMXU_1_Volts);
 
 	return offset;
 }
 int decode_E1Q1SB1_C1_smv(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv) {
 	int offset = 0;
 
-	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1__TVTR_1_Vol_instMag);
-	offset += decode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_1_Mod);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1__MMXU_1_Mod_stVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Volts_q);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_smv->C1__MMXU_1_Amps);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_smv->C1__CSWI_2_Pos);
+	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1_TVTR_1_Vol_instMag);
+	offset += decode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1_CSWI_1_Mod);
+	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1_MMXU_1_Mod_stVal);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1_C1_smv->C1_MMXU_1_Volts_q);
+	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_smv->C1_MMXU_1_Amps);
+	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_smv->C1_CSWI_2_Pos);
 
 	return offset;
 }
 int decode_E1Q1SB1_C1_rmxu(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu) {
 	int offset = 0;
 
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1__RMXU_1_AmpLocPhsA);
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1__RMXU_1_AmpLocPhsB);
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1__RMXU_1_AmpLocPhsC);
+	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsA);
+	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsB);
+	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsC);
 
 	return offset;
 }
 int decode_D1Q1SB4_C1_SyckResult(unsigned char *buf, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult) {
 	int offset = 0;
 
-	offset += decode_mySPS(&buf[offset], &D1Q1SB4_C1_SyckResult->C1__RSYN_1_Rel);
+	offset += decode_mySPS(&buf[offset], &D1Q1SB4_C1_SyckResult->C1_RSYN_1_Rel);
 
 	return offset;
 }
 int decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult) {
 	int offset = 0;
 
-	offset += decode_simpleWYE(&buf[offset], &D1Q1SB4_C1_MMXUResult->C1__MMXU_1_A);
+	offset += decode_simpleWYE(&buf[offset], &D1Q1SB4_C1_MMXUResult->C1_MMXU_1_A);
 
 	return offset;
 }

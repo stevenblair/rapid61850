@@ -170,7 +170,7 @@ int main() {
 	pcap_sendpacket(fp, buf, len);
 
 	gse_sv_packet_filter(buf, len);
-	printf("GSE test: %s\n", D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1__TVTR_1_Vol_instMag.f == valueGSE ? "passed" : "failed");
+	printf("GSE test: %s\n", D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1_TVTR_1_Vol_instMag.f == valueGSE ? "passed" : "failed");
 	fflush(stdout);
 
 	E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA.instMag.f = valueSV;
@@ -182,7 +182,7 @@ int main() {
 		if (len > 0) {
 			gse_sv_packet_filter(buf, len);
 
-			printf("SV test: %s\n", D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu[15].C1__RMXU_1_AmpLocPhsA.instMag.f == valueSV ? "passed" : "failed");
+			printf("SV test: %s\n", D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu[15].C1_RMXU_1_AmpLocPhsA.instMag.f == valueSV ? "passed" : "failed");
 			fflush(stdout);
 		}
 	}
