@@ -24,6 +24,8 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 
+import ch.iec._61850._2006.scl.SclPackage;
+
 public class CFunctionGSELengthCoder extends CFunctionGSECoder {
 
 	public CFunctionGSELengthCoder(EObject obj, CoderType coderType, SCDAdditionalMappings map) {
@@ -35,7 +37,12 @@ public class CFunctionGSELengthCoder extends CFunctionGSECoder {
 	}
 	
 	public String getArgs() {
-		return "struct " + getName() + " *" + getName();
+		if (dataType.eClass() == SclPackage.eINSTANCE.getTDataSet()) {
+			return "";
+		}
+		else {
+			return "struct " + getName() + " *" + getName();
+		}
 	}
 	
 	public String getBody() {

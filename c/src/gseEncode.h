@@ -30,20 +30,20 @@ extern "C" {
 
 
 
-int ber_get_length_E1Q1SB1_C1_Positions(struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions);
+int ber_get_length_E1Q1SB1_C1_Positions();
 int ber_encode_E1Q1SB1_C1_Positions(unsigned char *buf);
 int ber_encode_control_E1Q1SB1_C1_ItlPositions(unsigned char *buf);
 int ber_encode_control_E1Q1SB1_C1_AnotherPositions(unsigned char *buf);
-int ber_get_length_E1Q1SB1_C1_Measurands(struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands);
+int ber_get_length_E1Q1SB1_C1_Measurands();
 int ber_encode_E1Q1SB1_C1_Measurands(unsigned char *buf);
-int ber_get_length_E1Q1SB1_C1_smv(struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv);
+int ber_get_length_E1Q1SB1_C1_smv();
 int ber_encode_E1Q1SB1_C1_smv(unsigned char *buf);
-int ber_get_length_E1Q1SB1_C1_rmxu(struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu);
+int ber_get_length_E1Q1SB1_C1_rmxu();
 int ber_encode_E1Q1SB1_C1_rmxu(unsigned char *buf);
-int ber_get_length_D1Q1SB4_C1_SyckResult(struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult);
+int ber_get_length_D1Q1SB4_C1_SyckResult();
 int ber_encode_D1Q1SB4_C1_SyckResult(unsigned char *buf);
 int ber_encode_control_D1Q1SB4_C1_SyckResult(unsigned char *buf);
-int ber_get_length_D1Q1SB4_C1_MMXUResult(struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult);
+int ber_get_length_D1Q1SB4_C1_MMXUResult();
 int ber_encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf);
 int ber_encode_control_D1Q1SB4_C1_MMXUResult(unsigned char *buf);
 int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf);
