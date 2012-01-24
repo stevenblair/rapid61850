@@ -59,8 +59,6 @@ int svAPDULength(struct svControl *svControl) {
 	return len;
 }
 
-
-//TODO: convert to proper BER sizes, where needed
 // creates an SV packet, including frame header. returns 0 on fail; number of bytes on success
 int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 	int offset = 0;

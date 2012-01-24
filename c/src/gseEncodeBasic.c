@@ -205,7 +205,7 @@ int BER_ENCODE_CTYPE_DBPOS(unsigned char *buf, CTYPE_DBPOS *value) {
 	buf[offset++] = 0x85;
 	offset += encodeLength(&buf[offset], len);
 
-	netmemcpy(&buf[offset], value, len);	//TODO should be memcpy, because already in big-endian?
+	netmemcpy(&buf[offset], value, len);
 
 	return offset + len;
 }
