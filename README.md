@@ -14,7 +14,7 @@ This readme file describes how to set up the software, and its basic use.
  - Lightweight, and suitable for low-cost microcontrollers
  - Platform-independent, and any C/C++ compiler should work
  - Performs validation of the SCD file, and reports any problems
- - Can optionally support fixed-length GOOSE encoding
+ - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25%
  - Open source, under the GPL 2 license
 
 ## Installation ##
