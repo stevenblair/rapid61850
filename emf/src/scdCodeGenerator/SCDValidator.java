@@ -41,21 +41,26 @@ import org.eclipse.emf.query.statements.WHERE;
 import ch.iec._61850._2006.scl.DocumentRoot;
 import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TAbstractDataAttribute;
+import ch.iec._61850._2006.scl.TAccessPoint;
 import ch.iec._61850._2006.scl.TBDA;
 import ch.iec._61850._2006.scl.TControl;
 import ch.iec._61850._2006.scl.TDA;
+import ch.iec._61850._2006.scl.TDAI;
 import ch.iec._61850._2006.scl.TDAType;
 import ch.iec._61850._2006.scl.TDO;
+import ch.iec._61850._2006.scl.TDOI;
 import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TEnumType;
 import ch.iec._61850._2006.scl.TExtRef;
 import ch.iec._61850._2006.scl.TFCDA;
+import ch.iec._61850._2006.scl.TIDNaming;
 import ch.iec._61850._2006.scl.TIED;
 import ch.iec._61850._2006.scl.TLDevice;
 import ch.iec._61850._2006.scl.TLN;
 import ch.iec._61850._2006.scl.TLNodeType;
 import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
+import ch.iec._61850._2006.scl.TSDI;
 import ch.iec._61850._2006.scl.TSDO;
 
 public class SCDValidator {
@@ -74,8 +79,255 @@ public class SCDValidator {
 		mapDataSetToControl(root, map);
 		mapExtRefToDataSet(root, map);
 		mapFCDAToDataType(root, map);
+		mapDAIToDA(root, map);
 	}
 	
+	private void mapDAIToDA(DocumentRoot root, SCDAdditionalMappings map) {
+		Iterator<TIED> ieds = root.getSCL().getIED().iterator();
+		
+		while (ieds.hasNext()) {
+			TIED ied = ieds.next();
+			
+			if (ied.getAccessPoint() != null) {
+				Iterator<TAccessPoint> aps = ied.getAccessPoint().iterator();
+				
+				while (aps.hasNext()) {
+					TAccessPoint ap = aps.next();
+					
+					if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
+						Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
+						
+						while (lds.hasNext()) {
+							TLDevice ld = lds.next();
+							Iterator<TLN> lns = ld.getLN().iterator();
+							
+							while (lns.hasNext()) {
+								TLN ln = lns.next();
+								String lnType = ln.getLnType();
+								
+								final EObjectCondition isLNodeType = new EObjectTypeRelationCondition(
+									SclPackage.eINSTANCE.getTLNodeType()
+								);
+								
+								final EObjectCondition isThisLNodeType = new EObjectAttributeValueCondition(
+									SclPackage.eINSTANCE.getTIDNaming_Id(),
+									new StringValue(lnType)
+								);
+								
+								IQueryResult LNResult = new SELECT(
+									new FROM(root),
+									new WHERE(isLNodeType.AND(isThisLNodeType))
+								).execute();
+								
+								if (LNResult.size() == 1) {
+									TIDNaming type = (TIDNaming) LNResult.iterator().next();
+									TLNodeType typeAsLNodeType = (TLNodeType) type;
+									Iterator<TDOI> dois = ln.getDOI().iterator();
+									
+									while (dois.hasNext()) {
+										TDOI doi = dois.next();
+										String name = doi.getName();
+										
+										Iterator<TDO> dos = typeAsLNodeType.getDO().iterator();
+										
+										while (dos.hasNext()) {
+											TDO dataObject = dos.next();
+											
+											if (dataObject.getName().equals(doi.getName())) {
+												final EObjectCondition isDOType = new EObjectTypeRelationCondition(
+													SclPackage.eINSTANCE.getTDOType()
+												);
+												
+												final EObjectCondition isThisDOType = new EObjectAttributeValueCondition(
+													SclPackage.eINSTANCE.getTIDNaming_Id(),
+													new StringValue(dataObject.getType())
+												);
+												
+												IQueryResult DOResult = new SELECT(
+													new FROM(root),
+													new WHERE(isDOType.AND(isThisDOType))
+												).execute();
+												
+												if (DOResult.size() == 1) {
+													TIDNaming doType = (TIDNaming) DOResult.iterator().next();
+													
+													mapSDIandDAI(root, map, name, doType, doi.getSDI(), doi.getDAI());
+													break;
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+	}
+
+	private void mapSDIandDAI(DocumentRoot root, SCDAdditionalMappings map, String name, TIDNaming type, EList<TSDI> sdiList, EList<TDAI> daiList) {
+		if (daiList != null) {
+			Iterator<TDAI> dais = daiList.iterator();
+			while (dais.hasNext()) {
+				TDAI dai = dais.next();
+				// if DAI
+					// find its name in "type"
+				if (type.eClass() == SclPackage.eINSTANCE.getTLNodeType()) {
+					System.out.println("data type node cannot be LNodeType " + type.getId());
+//					TLNodeType lNodeType = (TLNodeType) type;
+//					Iterator<TDO> dos = lNodeType.getDO().iterator();
+//					
+//					while (dos.hasNext()) {
+//						
+//					}
+				}
+				else if (type.eClass() == SclPackage.eINSTANCE.getTDOType()) {
+					TDOType doType = (TDOType) type;
+					Iterator<TDA> das = doType.getDA().iterator();
+					
+					while (das.hasNext()) {
+						TDA da = das.next();
+						if (da.getName().toString().equals(dai.getName())) {
+							map.setDAI(dai, da);
+							System.out.println("mapping " + dai.getName().toString() + " to DA " + da.getName() + " (with type '" + da.getBType() + "')");
+						}
+					}
+					//System.out.println("done mapping " + dai.getName().toString() + " to DA");
+				}
+				else if (type.eClass() == SclPackage.eINSTANCE.getTDAType()) {
+					TDAType daType = (TDAType) type;
+					Iterator<TBDA> bdas = daType.getBDA().iterator();
+					
+					while (bdas.hasNext()) {
+						TBDA bda = bdas.next();
+						if (bda.getName().toString().equals(dai.getName())) {
+							map.setDAI(dai, bda);
+							System.out.println("mapping " + dai.getName().toString() + " to BDA " + bda.getName() + " (with type '" + bda.getBType() + "')");
+						}
+					}
+					//System.out.println("done mapping " + dai.getName().toString() + " to BDA");
+				}
+				else {
+					System.out.println("unknown data type node for DAI");
+				}
+						// map to this DA or BDA (should NOT be a Struct; could be enum or primitive type)
+			}
+		}
+		else {
+			System.out.println("daiList is null");
+		}
+		
+		if (sdiList != null) {
+			Iterator<TSDI> sdis = sdiList.iterator();
+			while (sdis.hasNext()) {
+				TSDI sdi = sdis.next();
+				String sdiName = sdi.getName().toString();
+				
+				if (type.eClass() == SclPackage.eINSTANCE.getTDOType()) {
+					TDOType doType = (TDOType) type;
+					
+					// first look through SDOs
+					Iterator<TSDO> sdos = doType.getSDO().iterator();
+					
+					while (sdos.hasNext()) {
+						TSDO sdo = sdos.next();
+						
+						if (sdo.getName().equals(sdiName)) {
+							final EObjectCondition isDOType = new EObjectTypeRelationCondition(
+								SclPackage.eINSTANCE.getTDOType()
+							);
+							
+							final EObjectCondition isThisDOType = new EObjectAttributeValueCondition(
+								SclPackage.eINSTANCE.getTIDNaming_Id(),
+								new StringValue(sdo.getType())
+							);
+							
+							IQueryResult DOResult = new SELECT(
+								new FROM(root),
+								new WHERE(isDOType.AND(isThisDOType))
+							).execute();
+							
+							if (DOResult.size() == 1) {
+								TIDNaming targetDOType = (TIDNaming) DOResult.iterator().next();
+								mapSDIandDAI(root, map, name, targetDOType, sdi.getSDI(), sdi.getDAI());
+								//System.out.println("recursive call SDI: " + sdi.getName().toString() + " for SDO " + sdo.getName() + " (with type '" + sdo.getType() + "')");
+							}
+						}
+					}
+					
+					// now search through DAs
+					Iterator<TDA> das = doType.getDA().iterator();
+					
+					while (das.hasNext()) {
+						TDA da = das.next();
+						
+						if (da.getName().equals(sdiName)) {
+							final EObjectCondition isDAType = new EObjectTypeRelationCondition(
+								SclPackage.eINSTANCE.getTDAType()
+							);
+							
+							final EObjectCondition isThisDAType = new EObjectAttributeValueCondition(
+								SclPackage.eINSTANCE.getTIDNaming_Id(),
+								new StringValue(da.getType())
+							);
+							
+							IQueryResult DAResult = new SELECT(
+								new FROM(root),
+								new WHERE(isDAType.AND(isThisDAType))
+							).execute();
+							
+							if (DAResult.size() == 1) {
+								TIDNaming daType = (TIDNaming) DAResult.iterator().next();
+								mapSDIandDAI(root, map, name, daType, sdi.getSDI(), sdi.getDAI());
+								//System.out.println("recursive call SDI: " + sdi.getName().toString() + " for DA " + da.getName() + " (with type '" + da.getType() + "')");
+							}
+						}
+					}
+				}
+				else if (type.eClass() == SclPackage.eINSTANCE.getTDAType()) {
+					TDAType daType = (TDAType) type;
+					Iterator<TBDA> das = daType.getBDA().iterator();
+					
+					while (das.hasNext()) {
+						TBDA bda = das.next();
+						if (bda.getName().equals(sdiName)) {
+							final EObjectCondition isDAType = new EObjectTypeRelationCondition(
+								SclPackage.eINSTANCE.getTDAType()
+							);
+							
+							final EObjectCondition isThisDAType = new EObjectAttributeValueCondition(
+								SclPackage.eINSTANCE.getTIDNaming_Id(),
+								new StringValue(bda.getType())
+							);
+							
+							IQueryResult DAResult = new SELECT(
+								new FROM(root),
+								new WHERE(isDAType.AND(isThisDAType))
+							).execute();
+							
+							if (DAResult.size() == 1) {
+								TIDNaming bdaType = (TIDNaming) DAResult.iterator().next();
+								mapSDIandDAI(root, map, name, bdaType, sdi.getSDI(), sdi.getDAI());
+								//System.out.println("recursive call SDI: " + sdi.getName().toString() + " for BDA " + bda.getName() + " (with type '" + bda.getType() + "')");
+							}
+						}
+					}
+				}
+				else {
+					System.out.println("unknown data type node for SDI");
+				}
+				// if SDI
+					// find its name in "type" - need to check SDOs, DAs, and BDAs
+						// find type of this item and recurse
+			}
+		}
+		else {
+			System.out.println("sdiList is null");
+		}
+	}
+
 	public static void warning(String warning) {
 		System.out.println("Warning: " + warning);
 	}

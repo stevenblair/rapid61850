@@ -27,6 +27,7 @@
 
 
 void init_myAnalogValue(struct myAnalogValue *myAnalogValue) {
+	myAnalogValue->f = 1.024;
 }
 void init_ScaledValueConfig(struct ScaledValueConfig *ScaledValueConfig) {
 }
@@ -88,10 +89,13 @@ void init_datatypes() {
 	init_myLPL(&E1Q1SB1.S1.C1.LPHDa_1.NamPlt);
 	init_myDPL(&E1Q1SB1.S1.C1.LPHDa_1.PhyNam);
 	init_mySPS(&E1Q1SB1.S1.C1.LPHDa_1.Proxy);
+	E1Q1SB1.S1.C1.LPHDa_1.Proxy.stVal = 17;
 	init_mySPS(&E1Q1SB1.S1.C1.CSWIa_1.GrpAl);
 	init_mySPS(&E1Q1SB1.S1.C1.CSWIa_2.GrpAl);
 	init_myAnalogValue(&E1Q1SB1.S1.C1.MMXUa_1.Amps.mag);
 	init_myAnalogValue(&E1Q1SB1.S1.C1.MMXUa_1.Volts.mag);
+	E1Q1SB1.S1.C1.MMXUa_1.Volts.sVC.offset = 10;
+	E1Q1SB1.S1.C1.MMXUa_1.Volts.sVC.scaleFactor = 200;
 	init_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
 	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
@@ -101,9 +105,11 @@ void init_datatypes() {
 	init_mySPS(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsB.testSecondLayerSDO);
 	init_simpleCMV(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC);
 	init_mySPS(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsC.testSecondLayerSDO);
+	D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA.cVal.mag.f = 7.54;
 	init_myLPL(&D1Q1SB4.S1.C1.LPHDa_1.NamPlt);
 	init_myDPL(&D1Q1SB4.S1.C1.LPHDa_1.PhyNam);
 	init_mySPS(&D1Q1SB4.S1.C1.LPHDa_1.Proxy);
+	D1Q1SB4.S1.C1.LPHDa_1.Proxy.stVal = 49;
 	init_myLPL(&D1Q1SB4.S1.C1.RSYNa_1.NamPlt);
 	init_mySPS(&D1Q1SB4.S1.C1.RSYNa_1.Rel);
 }

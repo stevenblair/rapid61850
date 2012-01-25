@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import ch.iec._61850._2006.scl.TAbstractDataAttribute;
 import ch.iec._61850._2006.scl.TBaseElement;
 import ch.iec._61850._2006.scl.TControl;
+import ch.iec._61850._2006.scl.TDAI;
 import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TExtRef;
 import ch.iec._61850._2006.scl.TFCDA;
@@ -24,6 +26,7 @@ public class SCDAdditionalMappings {
 	private Map<TFCDA, String> fcdaToVariableName;
 	private Map<TFCDA, TLN> fcdaToLN;
 	private Map<TExtRef, List<TDataSet>> extRefToDatasets;
+	private Map<TDAI, TAbstractDataAttribute> daiToDA;
 
 	public SCDAdditionalMappings() {
 		controlToDataset = new HashMap<TControl, TDataSet>();
@@ -33,6 +36,17 @@ public class SCDAdditionalMappings {
 		fcdaToVariableName = new HashMap<TFCDA, String>();
 		fcdaToLN = new HashMap<TFCDA, TLN>();
 		extRefToDatasets = new HashMap<TExtRef, List<TDataSet>>();
+		daiToDA = new HashMap<TDAI, TAbstractDataAttribute>();
+	}
+	
+	public TAbstractDataAttribute getDAFromDAI(TDAI dai) {
+		return daiToDA.get(dai);
+	}
+	
+	public void setDAI(TDAI key, TAbstractDataAttribute value) {
+		if (key != null && value != null) {
+			daiToDA.put(key, value);
+		}
 	}
 	
 	public Iterator<TDataSet> getDatasets(TExtRef extRef) {

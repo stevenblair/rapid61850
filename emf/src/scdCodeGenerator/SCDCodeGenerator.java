@@ -154,7 +154,7 @@ public class SCDCodeGenerator {
 				while (vals.hasNext()) {
 					TVal val = vals.next();
 					
-					dataTypesSource.appendFunctions(initAbstractDataAttribute(daType.getId(), bdaType, val));
+					dataTypesSource.appendFunctions(initAbstractDataAttribute(daType.getId(), bdaType, val, true));
 					initDATypes.add(daType.getId());
 				}
 			}
@@ -208,7 +208,7 @@ public class SCDCodeGenerator {
 					TVal val = vals.next();
 					
 					// create initialise function, and add to list
-					dataTypesSource.appendFunctions(initAbstractDataAttribute(doType.getId(), da, val));
+					dataTypesSource.appendFunctions(initAbstractDataAttribute(doType.getId(), da, val, true));
 					initDOTypes.add(doType.getId());
 				}
 			}
@@ -588,32 +588,7 @@ public class SCDCodeGenerator {
 								
 								while (dois.hasNext()) {
 									TDOI doi = dois.next();
-									processDOIorSDI(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, accumulatedName, doi.getSDI(), doi.getDAI(), doi.getName());
-//									TDOI doi = dois.next();
-//									Iterator<TDAI> dais = doi.getDAI().iterator();
-//									Iterator<TSDI> sdis = doi.getSDI().iterator();
-//									accumulatedName.append(doi.getName() + ".");
-//									
-//									while (dais.hasNext()) {
-//										TDAI dai = dais.next();
-//										Iterator<TVal> vals = dai.getVal().iterator();
-//										
-//										// only supports single values
-//										if (dai.getVal().size() == 1) {
-//											while (vals.hasNext()) {
-//												TVal val = vals.next();
-//											
-//												//dataTypesSource.appendFunctions("\t" + accumulatedName.toString() + dai.getName().toString() + " = " + val.getValue() + ";\n");
-//												dataTypesSource.appendFunctions(initDAI(accumulatedName.toString(), dai, val));
-//											}
-//										}
-//									}
-//									
-//									while (sdis.hasNext()) {
-//										TSDI sdi = sdis.next();
-//										
-//										processSDI(sdi, new StringBuilder(accumulatedName + sdi.getName().toString() + "."), dataTypesSource);
-//									}
+									processDOIorSDI(map, dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, new StringBuilder(accumulatedName + doi.getName() + "."), doi.getSDI(), doi.getDAI(), doi.getName());
 								}
 							}
 
@@ -822,7 +797,7 @@ public class SCDCodeGenerator {
 		dataTypesHeader.saveFile();
 	}
 
-	private void processDOIorSDI(TDataTypeTemplates dataTypeTemplates, CSource dataTypesSource, List<String> initDOTypes, List<String> initDATypes, StringBuilder accumulatedName, List<TSDI> sdiList, List<TDAI> daiList, String name) {
+	private void processDOIorSDI(SCDAdditionalMappings map, TDataTypeTemplates dataTypeTemplates, CSource dataTypesSource, List<String> initDOTypes, List<String> initDATypes, StringBuilder accumulatedName, List<TSDI> sdiList, List<TDAI> daiList, String name) {
 		Iterator<TDAI> dais = null;
 		Iterator<TSDI> sdis = null;
 		
@@ -844,7 +819,7 @@ public class SCDCodeGenerator {
 					TVal val = vals.next();
 				
 					//dataTypesSource.appendFunctions("\t" + accumulatedName.toString() + dai.getName().toString() + " = " + val.getValue() + ";\n");
-					dataTypesSource.appendFunctions(initDAI(accumulatedName.toString(), dai, val));
+					dataTypesSource.appendFunctions(initDAI(map, accumulatedName.toString(), dai, val));
 				}
 			}
 		}
@@ -852,7 +827,7 @@ public class SCDCodeGenerator {
 		while (sdis != null && sdis.hasNext()) {
 			TSDI sdiNext = sdis.next();
 			
-			processDOIorSDI(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, new StringBuilder(accumulatedName + sdiNext.getName().toString() + "."), sdiNext.getSDI(), sdiNext.getDAI(), sdiNext.getName().toString());//(sdiNext, new StringBuilder(accumulatedName + sdiNext.getName().toString() + "."), dataTypesSource);
+			processDOIorSDI(map, dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, new StringBuilder(accumulatedName + sdiNext.getName().toString() + "."), sdiNext.getSDI(), sdiNext.getDAI(), sdiNext.getName().toString());//(sdiNext, new StringBuilder(accumulatedName + sdiNext.getName().toString() + "."), dataTypesSource);
 		}
 	}
 
@@ -890,66 +865,32 @@ public class SCDCodeGenerator {
 			processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, sdoName, sdo.getType(), sdo.getName());
 		}
 	}
-
-//	public static void processSDI(TSDI sdi, StringBuilder accumulatedName, CSource dataTypesSource) {
-//		Iterator<TDAI> dais = sdi.getDAI().iterator();
-//		Iterator<TSDI> sdis = sdi.getSDI().iterator();
-//		
-//		while (dais.hasNext()) {
-//			TDAI dai = dais.next();
-//			Iterator<TVal> vals = dai.getVal().iterator();
-//			
-//			// only supports single values
-//			if (dai.getVal().size() == 1) {
-//				while (vals.hasNext()) {
-//					TVal val = vals.next();
-//				
-//					//dataTypesSource.appendFunctions("\t" + accumulatedName.toString() + dai.getName().toString() + " = " + val.getValue() + ";\n");
-//					dataTypesSource.appendFunctions(initDAI(accumulatedName.toString(), dai, val));
-//				}
-//			}
-//		}
-//		
-//		while (sdis.hasNext()) {
-//			TSDI sdiNext = sdis.next();
-//			
-//			processSDI(sdiNext, new StringBuilder(accumulatedName + sdiNext.getName().toString() + "."), dataTypesSource);
-//		}
-//	}
 	
-	public static String initDAI(String accumulatedName, TDAI dai, TVal val) {
-		String initCode = "";
-		String datatype = "Int32";	//TODO: get type from mapping
-		int valSize = val.getValue().length() + 1;
+	public static String initDAI(SCDAdditionalMappings map, String accumulatedName, TDAI dai, TVal val) {
+		TAbstractDataAttribute datatype = map.getDAFromDAI(dai);
 		
-		//System.out.println("name: " + accumulatedName + dai.getName().toString() + " = " + val.getValue());
-		
-		if (datatype.equals("VisString255")) {
-			initCode = initCode.concat("\t" + accumulatedName.toString() + dai.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
-			initCode = initCode.concat("\tstrncpy(" + "\t" + accumulatedName.toString() + dai.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
-		}
-		else {
-			//TODO: complete for other data types
-			//initCode = initCode.concat("\t" + accumulatedName.toString() + dai.getName().toString() + " = " + val.getValue() + ";\n");
-		}
-		
-		return initCode;
+		return initAbstractDataAttribute(accumulatedName, datatype, val, false);
 	}
 	
-	public static String initAbstractDataAttribute(String id, TAbstractDataAttribute da, TVal val) {
+	public static String initAbstractDataAttribute(String id, TAbstractDataAttribute da, TVal val, boolean pointer) {
 		String initCode = "";
+		String assignment = "";
 		int valSize = val.getValue().length() + 1;
+		
+		if (pointer == true) {
+			assignment = "->";
+		}
 		
 		// valid types defined in Table 45 in IEC 61850-6
 		if (da.getBType().toString().equals("VisString255")) {
-			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
-			initCode = initCode.concat("\tstrncpy(" + id + "->" + da.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
+			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
+			initCode = initCode.concat("\tstrncpy(" + id + assignment + da.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
 		}
-		else if (da.getBType().toString().equals("FLOAT")) {
-			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = " + val.getValue() + ";\n");
+		else if (da.getBType().toString().contains("FLOAT")) {
+			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + val.getValue() + ";\n");
 		}
 		else if (da.getBType().toString().contains("INT")) {
-			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = " + val.getValue() + ";\n");
+			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + val.getValue() + ";\n");
 		}
 		else if (da.getBType().toString().equals("BOOLEAN")) {
 			int value = 0;
@@ -957,7 +898,7 @@ public class SCDCodeGenerator {
 				value = 1;
 			}
 			
-			initCode = initCode.concat("\t" + id + "->" + da.getName().toString() + " = " + value + ";\n");
+			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + value + ";\n");
 		}
 		
 		return initCode;
