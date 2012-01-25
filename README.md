@@ -145,7 +145,7 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 ## Known issues and possible features ##
 
- - Several data types are not yet supported. However, the main *useful* data types (integers, floating-point, and boolean) are supported.
+ - Several data types are not yet supported. However, the main *useful* data types (integer, floating-point, and boolean) are supported.
  - FCDAs cannot use the syntax "vector.mag.f" as values for data attribute references.
  - Data types cannot contain arrays.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
