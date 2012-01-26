@@ -882,7 +882,11 @@ public class SCDCodeGenerator {
 		}
 		
 		// valid types defined in Table 45 in IEC 61850-6
-		if (da.getBType().toString().equals("VisString255")) {
+		if (da.getBType().toString().contains("VisString")) {	// assume string length is with allowed size
+			// free memory that may have been allocated by data type initialisation
+			initCode = initCode.concat("\tif (" + id + assignment + da.getName().toString() + " != NULL) {\n");
+			initCode = initCode.concat("\t\tfree(" + id + assignment + da.getName().toString() + ");\n");
+			initCode = initCode.concat("\t}\n");
 			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
 			initCode = initCode.concat("\tstrncpy(" + id + assignment + da.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
 		}

@@ -171,17 +171,13 @@ public class SCDValidator {
 		if (daiList != null) {
 			Iterator<TDAI> dais = daiList.iterator();
 			while (dais.hasNext()) {
-				TDAI dai = dais.next();
 				// if DAI
-					// find its name in "type"
+				// find its name in "type"
+					// map to this DA or BDA (should NOT be a Struct; could be enum or primitive type)
+				TDAI dai = dais.next();
+				
 				if (type.eClass() == SclPackage.eINSTANCE.getTLNodeType()) {
-					System.out.println("data type node cannot be LNodeType " + type.getId());
-//					TLNodeType lNodeType = (TLNodeType) type;
-//					Iterator<TDO> dos = lNodeType.getDO().iterator();
-//					
-//					while (dos.hasNext()) {
-//						
-//					}
+					//System.out.println("data type node cannot be LNodeType " + type.getId());
 				}
 				else if (type.eClass() == SclPackage.eINSTANCE.getTDOType()) {
 					TDOType doType = (TDOType) type;
@@ -191,10 +187,9 @@ public class SCDValidator {
 						TDA da = das.next();
 						if (da.getName().toString().equals(dai.getName())) {
 							map.setDAI(dai, da);
-							System.out.println("mapping " + dai.getName().toString() + " to DA " + da.getName() + " (with type '" + da.getBType() + "')");
+							//System.out.println("mapping " + dai.getName().toString() + " to DA " + da.getName() + " (with type '" + da.getBType() + "')");
 						}
 					}
-					//System.out.println("done mapping " + dai.getName().toString() + " to DA");
 				}
 				else if (type.eClass() == SclPackage.eINSTANCE.getTDAType()) {
 					TDAType daType = (TDAType) type;
@@ -204,24 +199,22 @@ public class SCDValidator {
 						TBDA bda = bdas.next();
 						if (bda.getName().toString().equals(dai.getName())) {
 							map.setDAI(dai, bda);
-							System.out.println("mapping " + dai.getName().toString() + " to BDA " + bda.getName() + " (with type '" + bda.getBType() + "')");
+							//System.out.println("mapping " + dai.getName().toString() + " to BDA " + bda.getName() + " (with type '" + bda.getBType() + "')");
 						}
 					}
-					//System.out.println("done mapping " + dai.getName().toString() + " to BDA");
 				}
 				else {
-					System.out.println("unknown data type node for DAI");
+					error("unknown data type node for DAI");
 				}
-						// map to this DA or BDA (should NOT be a Struct; could be enum or primitive type)
 			}
-		}
-		else {
-			System.out.println("daiList is null");
 		}
 		
 		if (sdiList != null) {
 			Iterator<TSDI> sdis = sdiList.iterator();
 			while (sdis.hasNext()) {
+				// if SDI
+					// find its name in "type" - need to check SDOs, DAs, and BDAs
+						// find type of this item and recurse
 				TSDI sdi = sdis.next();
 				String sdiName = sdi.getName().toString();
 				
@@ -316,15 +309,9 @@ public class SCDValidator {
 					}
 				}
 				else {
-					System.out.println("unknown data type node for SDI");
+					error("unknown data type node for SDI");
 				}
-				// if SDI
-					// find its name in "type" - need to check SDOs, DAs, and BDAs
-						// find type of this item and recurse
 			}
-		}
-		else {
-			System.out.println("sdiList is null");
 		}
 	}
 

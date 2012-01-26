@@ -300,6 +300,12 @@
 								<Val>17</Val>
 							</DAI>
 						</DOI>
+						<DOI name="PhyNam">
+							<DAI name="hwRev">
+								<Val>replacement string</Val>
+							</DAI>
+						</DOI>
+						
 					</LN>
 					<LN inst="1" lnClass="CSWI" lnType="CSWIa"/>
 					<LN inst="2" lnClass="CSWI" lnType="CSWIa"/>
