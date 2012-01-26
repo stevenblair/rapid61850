@@ -116,7 +116,29 @@ public class SCDValidator {
 	private void verifyValData(String bType, String value) {
 		if (bType.contains("INT")) {
 			try {
-				Integer.parseInt(value);
+				int intValue = Integer.parseInt(value);
+				
+				// check integer size is valid
+				if (bType.equals("INT16")) {
+					if (intValue < -32768 || intValue > 32767) {
+						error("invalid size of 16-bit Val integer with value: " + value);
+					}
+				}
+				else if (bType.equals("INT8")) {
+					if (intValue < -128 || intValue > 127) {
+						error("invalid size of 8-bit Val integer with value: " + value);
+					}
+				}
+				else if (bType.equals("INT16U")) {
+					if (intValue < 0 || intValue > 65535) {
+						error("invalid size of unsigned 16-bit Val integer with value: " + value);
+					}
+				}
+				else if (bType.equals("INT8U")) {
+					if (intValue < 0 || intValue > 255) {
+						error("invalid size of unsigned 8-bit Val integer with value: " + value);
+					}
+				}
 			}
 			catch (NumberFormatException e) {
 				error("cannot parse Val integer element with value: " + value);
