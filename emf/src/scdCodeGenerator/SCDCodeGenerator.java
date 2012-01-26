@@ -56,7 +56,6 @@ import ch.iec._61850._2006.scl.TSDO;
 import ch.iec._61850._2006.scl.TSMV;
 import ch.iec._61850._2006.scl.TSampledValueControl;
 import ch.iec._61850._2006.scl.TSubNetwork;
-import ch.iec._61850._2006.scl.TUnNaming;
 import ch.iec._61850._2006.scl.TVal;
 
 public class SCDCodeGenerator {
@@ -262,7 +261,6 @@ public class SCDCodeGenerator {
 								if (ld.getLN0().getDataSet() != null) {
 									Iterator<TDataSet> datasets = ld.getLN0().getDataSet().iterator();
 									
-									//TODO: should loop through all TControl (sub-types: TGSEControl, TSampledValueControl) rather than datasets, because of possible many-to-one mapping
 									while (datasets.hasNext()) {
 										TDataSet dataset = datasets.next();
 										

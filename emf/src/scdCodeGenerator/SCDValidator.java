@@ -598,7 +598,7 @@ public class SCDValidator {
 				}
 				if (map != null) {
 					map.setPrintedType(da, new String(printedType));
-					map.setCoderType(da, new String(coderType));		// TODO: repeat for DOTypes?
+					map.setCoderType(da, new String(coderType));
 				}
 			}
 		}
@@ -619,25 +619,6 @@ public class SCDValidator {
 			if (map != null) {
 				map.setPrintedType(doType, new String("struct " + doType.getId()));
 				map.setCoderType(doType, new String(doType.getId()));
-			}
-		}
-		
-
-		final EObjectCondition isDO = new EObjectTypeRelationCondition(
-			SclPackage.eINSTANCE.getTDO()
-		);
-		
-		IQueryResult doResult = new SELECT(
-			new FROM(root),
-			new WHERE(isDO)
-		).execute();
-
-		for (Object o : doResult) {
-			TDO dataObject = (TDO) o;
-
-			if (map != null) {
-				map.setPrintedType(dataObject, new String("struct " + dataObject.getType()));
-				//map.setCoderType(dataObject, new String(dataObject.getType()));
 			}
 		}
 	}
