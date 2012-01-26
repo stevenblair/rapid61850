@@ -73,7 +73,7 @@ public class SCDValidator {
 		checkForDuplicateNames(root);
 		checkForCircularSDOReferences(root);
 		checkDataTypeOrder(root);
-		checkControlHasControlBlock(root/*, map*/);
+		checkControlHasControlBlock(root);
 		
 		setPrintedType(root, map);
 		mapDataSetToControl(root, map);
@@ -172,14 +172,11 @@ public class SCDValidator {
 			Iterator<TDAI> dais = daiList.iterator();
 			while (dais.hasNext()) {
 				// if DAI
-				// find its name in "type"
-					// map to this DA or BDA (should NOT be a Struct; could be enum or primitive type)
+					// find its name in "type"
+						// map to this DA or BDA (should NOT be a Struct; could be enum or primitive type)
 				TDAI dai = dais.next();
 				
-				if (type.eClass() == SclPackage.eINSTANCE.getTLNodeType()) {
-					//System.out.println("data type node cannot be LNodeType " + type.getId());
-				}
-				else if (type.eClass() == SclPackage.eINSTANCE.getTDOType()) {
+				if (type.eClass() == SclPackage.eINSTANCE.getTDOType()) {
 					TDOType doType = (TDOType) type;
 					Iterator<TDA> das = doType.getDA().iterator();
 					
@@ -204,7 +201,7 @@ public class SCDValidator {
 					}
 				}
 				else {
-					error("unknown data type node for DAI");
+					error("unknown data type node for DAI: " + dai.getName().toString());
 				}
 			}
 		}
@@ -247,6 +244,9 @@ public class SCDValidator {
 								mapSDIandDAI(root, map, name, targetDOType, sdi.getSDI(), sdi.getDAI());
 								//System.out.println("recursive call SDI: " + sdi.getName().toString() + " for SDO " + sdo.getName() + " (with type '" + sdo.getType() + "')");
 							}
+							else {
+								error(DOResult.size() + " DOs match SDO type: " + sdo.getType());
+							}
 						}
 					}
 					
@@ -276,6 +276,9 @@ public class SCDValidator {
 								mapSDIandDAI(root, map, name, daType, sdi.getSDI(), sdi.getDAI());
 								//System.out.println("recursive call SDI: " + sdi.getName().toString() + " for DA " + da.getName() + " (with type '" + da.getType() + "')");
 							}
+							else {
+								error(DAResult.size() + " DAs match DA type: " + da.getType());
+							}
 						}
 					}
 				}
@@ -304,6 +307,9 @@ public class SCDValidator {
 								TIDNaming bdaType = (TIDNaming) DAResult.iterator().next();
 								mapSDIandDAI(root, map, name, bdaType, sdi.getSDI(), sdi.getDAI());
 								//System.out.println("recursive call SDI: " + sdi.getName().toString() + " for BDA " + bda.getName() + " (with type '" + bda.getType() + "')");
+							}
+							else {
+								error(DAResult.size() + " DAs match BDA type: " + bda.getType());
 							}
 						}
 					}

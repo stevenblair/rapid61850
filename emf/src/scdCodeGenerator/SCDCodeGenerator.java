@@ -887,6 +887,7 @@ public class SCDCodeGenerator {
 			initCode = initCode.concat("\tif (" + id + assignment + da.getName().toString() + " != NULL) {\n");
 			initCode = initCode.concat("\t\tfree(" + id + assignment + da.getName().toString() + ");\n");
 			initCode = initCode.concat("\t}\n");
+			
 			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
 			initCode = initCode.concat("\tstrncpy(" + id + assignment + da.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
 		}
