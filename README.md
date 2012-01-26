@@ -15,6 +15,7 @@ This readme file describes how to set up the software, and its basic use.
  - Platform-independent, and any C/C++ compiler should work
  - Performs validation of the SCD file, and reports any problems
  - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25%
+ - Supports initialisation of data types, and instance-specific data
  - Open source, under the GPL 2 license
 
 ## Installation ##
@@ -149,4 +150,3 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
  - FCDAs cannot use the syntax "vector.mag.f" as values for data attribute references.
  - Data types cannot contain arrays.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
- - Does not initialise data to default values specified by DOI and DAI (but does initialise typical values which are set in DataTypeTemplates section, i.e., all Val elements for DAs and BDAs)
