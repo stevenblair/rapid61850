@@ -62,6 +62,7 @@ import ch.iec._61850._2006.scl.TLNodeType;
 import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
 import ch.iec._61850._2006.scl.TSDI;
 import ch.iec._61850._2006.scl.TSDO;
+import ch.iec._61850._2006.scl.TVal;
 
 public class SCDValidator {
 
@@ -80,8 +81,65 @@ public class SCDValidator {
 		mapExtRefToDataSet(root, map);
 		mapFCDAToDataType(root, map);
 		mapDAIToDA(root, map);
+		checkDAIAndDATypes(root, map);
 	}
 	
+	private void checkDAIAndDATypes(DocumentRoot root, SCDAdditionalMappings map) {
+		final EObjectCondition isVal = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTVal()
+		);
+
+		IQueryResult ValResult = new SELECT(
+			new FROM(root),
+			new WHERE(isVal)
+		).execute();
+		
+		for (Object o : ValResult) {
+			TVal val = (TVal) o;
+			
+			if (val.eContainer().eClass() == SclPackage.eINSTANCE.getTBDA() || val.eContainer().eClass() == SclPackage.eINSTANCE.getTDA()) {
+				// check Val elements within data types
+				TAbstractDataAttribute type = (TAbstractDataAttribute) val.eContainer();
+
+				verifyValData(type.getBType().toString(), val.getValue());
+			}
+			else if (val.eContainer().eClass() == SclPackage.eINSTANCE.getTDAI()) {
+				// check Val elements of DAIs
+				TDAI dai = (TDAI) val.eContainer();
+				TAbstractDataAttribute type = map.getDAFromDAI(dai);
+
+				verifyValData(type.getBType().toString(), val.getValue());
+			}
+		}
+	}
+
+	private void verifyValData(String bType, String value) {
+		if (bType.contains("INT")) {
+			try {
+				Integer.parseInt(value);
+			}
+			catch (NumberFormatException e) {
+				error("cannot parse Val integer element with value: " + value);
+			}
+		}
+		else if (bType.contains("FLOAT")) {
+			try {
+				Float.parseFloat(value);
+			}
+			catch (NumberFormatException e) {
+				error("cannot parse Val float element with value: " + value);
+			}
+		}
+		else if (bType.contains("BOOLEAN")) {
+			if (value.toLowerCase().equals("true") || value.toLowerCase().equals("false") || value.equals("1") || value.equals("0")) {
+				
+			}
+			else {
+				error("cannot parse Val Boolean element with value: " + value);
+			}
+		}
+	}
+
 	private void mapDAIToDA(DocumentRoot root, SCDAdditionalMappings map) {
 		Iterator<TIED> ieds = root.getSCL().getIED().iterator();
 		
