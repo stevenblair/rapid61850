@@ -709,9 +709,29 @@ public class SCDValidator {
 					//System.out.println("\tvalid Struct type: '" + printedType + "'");
 				}
 				else if (bType.equals("Enum")) {
-					printedType = "enum " + da.getType();
-					coderType = "CTYPE_ENUM";
-					//System.out.println("\tvalid Enum type: '" + printedType + "'");
+					// ensure the EnumType exists
+					final EObjectCondition isEnumType = new EObjectTypeRelationCondition(
+						SclPackage.eINSTANCE.getTEnumType()
+					);
+					
+					final EObjectCondition isEnumTypeId = new EObjectAttributeValueCondition(
+						SclPackage.eINSTANCE.getTIDNaming_Id(),
+						new StringValue(da.getType())
+					);
+					
+					IQueryResult enumResult = new SELECT(
+						new FROM(root),
+						new WHERE(isEnumType.AND(isEnumTypeId))
+					).execute();
+					
+					if (enumResult.size() == 1) {
+						printedType = "enum " + da.getType();
+						coderType = "CTYPE_ENUM";
+						//System.out.println("\tvalid Enum type: '" + printedType + "'");
+					}
+					else {
+						error("EnumType with ID '" + da.getType() + "' does not exist");
+					}
 				}
 				else if (bTypePredefined != null) {
 					printedType = "CTYPE_" + bTypePredefined.getName().toUpperCase();
