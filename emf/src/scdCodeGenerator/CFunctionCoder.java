@@ -22,13 +22,22 @@ package scdCodeGenerator;
 
 import java.util.Iterator;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import ch.iec._61850._2006.scl.SclPackage;
+import ch.iec._61850._2006.scl.TAccessPoint;
+import ch.iec._61850._2006.scl.TBDA;
+import ch.iec._61850._2006.scl.TDA;
 import ch.iec._61850._2006.scl.TDAType;
+import ch.iec._61850._2006.scl.TDO;
 import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TDataTypeTemplates;
 import ch.iec._61850._2006.scl.TExtRef;
+import ch.iec._61850._2006.scl.TFCDA;
+import ch.iec._61850._2006.scl.TIED;
+import ch.iec._61850._2006.scl.TSDO;
 
 public abstract class CFunctionCoder extends CFunction {
 	
@@ -110,7 +119,110 @@ public abstract class CFunctionCoder extends CFunction {
 		return this.prefix + getName();
 	}
 	
-	public abstract String getItemCoder(EObject obj, Boolean getLength);
+	//public abstract String getItemCoder(EObject obj, Boolean getLength);
+	public String getItemCoder(EObject obj, Boolean getLength) {
+		EClass objectClass = obj.eClass();
+		String itemType = "";
+		String variableName = "";
+		String enumCast = "";
+		String coder = getPrefix();
+		Boolean basicDataType = false;
+		String source = getName();
+		String subItemLinker = "->";
+		String assignment = "+=";
+		String buffer = "&buf[offset], ";
+		String accumulator = "offset";
+		
+		if (getLength == true) {
+			assignment = "=";
+			buffer = "";
+			accumulator = "len";
+		}
+		
+		if (objectClass == SclPackage.eINSTANCE.getTBDA()) {
+			TBDA bda = (TBDA) obj;
+			itemType = map.getCoderType(bda);
+			
+			if (!bda.getBType().toString().equals("Struct")) {
+				basicDataType = true;
+			}
+			if (bda.getBType().toString().equals("Enum")) {
+				enumCast = "(CTYPE_ENUM *) ";
+			}
+			
+			variableName = bda.getName().toString();
+		}
+		else if (objectClass == SclPackage.eINSTANCE.getTDA()) {
+			TDA da = (TDA) obj;
+			itemType = map.getCoderType(da);
+			
+			if (!da.getBType().toString().equals("Struct")) {
+				basicDataType = true;
+			}
+			if (da.getBType().toString().equals("Enum")) {
+				enumCast = "(CTYPE_ENUM *) ";
+			}
+			
+			variableName = da.getName().toString();
+		}
+		else if (objectClass == SclPackage.eINSTANCE.getTDO()) {
+			TDO dataObject = (TDO) obj;
+			
+			itemType = dataObject.getType();
+			variableName = dataObject.getName();
+		}
+		else if (objectClass == SclPackage.eINSTANCE.getTSDO()) {
+			TSDO sdo = (TSDO) obj;
+			
+			itemType = sdo.getType();
+			variableName = sdo.getName();
+		}
+		else if (objectClass == SclPackage.eINSTANCE.getTExtRef()) {
+			itemType = "extref";
+		}
+		else if (objectClass == SclPackage.eINSTANCE.getTFCDA()) {
+			TFCDA fcda = ((TFCDA) obj);
+			
+			itemType = map.getCoderType(map.getDataAttribute(fcda));
+			variableName = map.getVariableName(fcda);
+			
+			if (map.getPrintedType(map.getDataAttribute(fcda)) != null) {
+				if (!map.getPrintedType(map.getDataAttribute(fcda)).contains("struct")) {
+					basicDataType = true;
+				}
+				if (map.getPrintedType(map.getDataAttribute(fcda)).contains("enum")) {
+					enumCast = "(CTYPE_ENUM *) ";
+				}
+			}
+			
+			if (coderType == CoderType.ENCODER) {
+				String iedName = ((TIED) fcda.eContainer().eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+				String apName = ((TAccessPoint) fcda.eContainer().eContainer().eContainer().eContainer().eContainer()).getName();
+				
+				source =  iedName + "." + apName + "." + fcda.getLdInst() + "." + map.getLN(fcda).getPrefix() + map.getLN(fcda).getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + map.getLN(fcda).getInst();
+				
+				if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
+					variableName = fcda.getDoName();
+				}
+				else {
+					source = source + "." + fcda.getDoName();
+					variableName = fcda.getDaName();
+				}
+				subItemLinker = ".";
+			}
+		}
+		
+		if (basicDataType) {
+			coder = coder.toUpperCase();
+		}
+		
+		if (commsType == CommsType.SV) {
+			return "\toffset += " + coder + itemType + "(&buf[offset], " + enumCast + "&" + source + subItemLinker + variableName + ");\n";
+		}
+		else {
+			return "\t" + accumulator + " " + assignment + " " + coder + itemType + "(" + buffer + enumCast + "&" + source + subItemLinker + variableName + ");\n";
+		}
+	}
 	
 	public TDataTypeTemplates getTDataTypeTemplates() {
 		String uriFragment = "//@sCL/@dataTypeTemplates";

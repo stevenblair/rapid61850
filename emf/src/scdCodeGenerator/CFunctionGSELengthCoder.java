@@ -32,8 +32,6 @@ public class CFunctionGSELengthCoder extends CFunctionGSECoder {
 		super(obj, coderType, map);
 		
 		this.prefix = "ber_get_length_";
-		this.buffer = "";
-		this.accumulator = "len";
 	}
 	
 	public String getArgs() {
