@@ -183,7 +183,9 @@ public class SCDValidator {
 					while (das.hasNext()) {
 						TDA da = das.next();
 						if (da.getName().toString().equals(dai.getName())) {
-							map.setDAI(dai, da);
+							if (map != null) {
+								map.setDAI(dai, da);
+							}
 							//System.out.println("mapping " + dai.getName().toString() + " to DA " + da.getName() + " (with type '" + da.getBType() + "')");
 						}
 					}
@@ -195,7 +197,9 @@ public class SCDValidator {
 					while (bdas.hasNext()) {
 						TBDA bda = bdas.next();
 						if (bda.getName().toString().equals(dai.getName())) {
-							map.setDAI(dai, bda);
+							if (map != null) {
+								map.setDAI(dai, bda);
+							}
 							//System.out.println("mapping " + dai.getName().toString() + " to BDA " + bda.getName() + " (with type '" + bda.getBType() + "')");
 						}
 					}
@@ -735,106 +739,120 @@ public class SCDValidator {
 				
 				//System.out.println("\t\tLNodeType: " + ((TLNodeType) lnTypeResult.iterator().next()).getId());
 				
-				if (lnTypeResult.size() >= 1) {
+				if (lnTypeResult.size() == 1) {
 					TLNodeType lnType = ((TLNodeType) lnTypeResult.toArray()[0]);
+					String fcdaDOName = fcda.getDoName();
 					
-					final EObjectCondition isDO = new EObjectTypeRelationCondition(
-						SclPackage.eINSTANCE.getTDO()
-					);
+					if (fcdaDOName.contains(".") || fcdaDOName.contains("(") || fcdaDOName.contains(")")) {
+						error("FCDA doName values do not support '.' syntax, or arrays, for `" + fcdaDOName + "' in dataset '" + ((TDataSet) fcda.eContainer()).getName() + "' in IED '" + ied.getName() + "'");
+					}
+					else {
 					
-					ObjectInstanceCondition sc3 = new ObjectInstanceCondition((Object) fcda.getDoName()) {
-						@Override
-						public boolean isSatisfied(Object obj) {
-							return getObject().equals(obj.toString());
-						}
-					};
-					final EObjectCondition isDOName = new EObjectAttributeValueCondition(
-						SclPackage.eINSTANCE.getTDO_Name(),
-						sc3
-					);
-					
-					IQueryResult doTypeResult = new SELECT(
-						new FROM(lnType),
-						new WHERE(isDO.AND(isDOName))
-					).execute();
-					
-					if (doTypeResult.size() >= 1) {
-						//System.out.println("doTypeResult.size(): " + doTypeResult.size());
-						TDO dataObject = ((TDO) doTypeResult.iterator().next());
-						
-						//System.out.println("\t\t\tDO: " + ((TDO) doTypeResult.iterator().next()).getType());
-						
-						final EObjectCondition isDOType = new EObjectTypeRelationCondition(
-							SclPackage.eINSTANCE.getTDOType()
-						);
-						final EObjectCondition isDOTypeName = new EObjectAttributeValueCondition(
-							SclPackage.eINSTANCE.getTIDNaming_Id(),
-							new StringValue(dataObject.getType())
+						final EObjectCondition isDO = new EObjectTypeRelationCondition(
+							SclPackage.eINSTANCE.getTDO()
 						);
 						
-						IQueryResult doTypeObjectResult = new SELECT(
-							new FROM(root),
-							new WHERE(isDOType.AND(isDOTypeName))
+						ObjectInstanceCondition sc3 = new ObjectInstanceCondition((Object) fcdaDOName) {
+							@Override
+							public boolean isSatisfied(Object obj) {
+								return getObject().equals(obj.toString());
+							}
+						};
+						final EObjectCondition isDOName = new EObjectAttributeValueCondition(
+							SclPackage.eINSTANCE.getTDO_Name(),
+							sc3
+						);
+						
+						IQueryResult doTypeResult = new SELECT(
+							new FROM(lnType),
+							new WHERE(isDO.AND(isDOName))
 						).execute();
 						
-						if (doTypeObjectResult.size() >= 1) {
-							TDOType doType = ((TDOType) doTypeObjectResult.iterator().next());
-							String fcdaVariableName = fcda.getLdInst() + "_" + fcda.getPrefix() + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
-							//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
-
-							if (map != null) {
-								map.setLN(fcda, ln);
-							}
+						if (doTypeResult.size() >= 1) {
+							//System.out.println("doTypeResult.size(): " + doTypeResult.size());
+							TDO dataObject = ((TDO) doTypeResult.iterator().next());
 							
-							// set reference to DOType or DAType
-							if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
-								if (map != null) {
-									map.setDataAttribute(fcda, doType);
-									map.setVariableName(fcda, new String(fcdaVariableName));
-								}
-								//System.out.println("\tvalid DO type: '" + fcda.getType() + "'");
-							}
-							else {
-								// TODO: extend with support for FCDA daName="da.da.da(3)" (or ix="3"? see Tissue 302, and p. 75 of -6) syntax
-								final EObjectCondition isDA = new EObjectTypeRelationCondition(
-									SclPackage.eINSTANCE.getTDA()
-								);
-								ObjectInstanceCondition sc2 = new ObjectInstanceCondition((Object) fcda.getDaName()) {
-									@Override
-									public boolean isSatisfied(Object obj) {
-										return getObject().toString().equals(obj.toString());
-									}
-								};
-								final EObjectCondition isDAName = new EObjectAttributeValueCondition(
-									SclPackage.eINSTANCE.getTAbstractDataAttribute_Name(),
-									sc2
-								);
-								
-								IQueryResult daResult = new SELECT(
-									new FROM(doType),
-									new WHERE(isDA.AND(isDAName))
-								).execute();
+							//System.out.println("\t\t\tDO: " + ((TDO) doTypeResult.iterator().next()).getType());
+							
+							final EObjectCondition isDOType = new EObjectTypeRelationCondition(
+								SclPackage.eINSTANCE.getTDOType()
+							);
+							final EObjectCondition isDOTypeName = new EObjectAttributeValueCondition(
+								SclPackage.eINSTANCE.getTIDNaming_Id(),
+								new StringValue(dataObject.getType())
+							);
+							
+							IQueryResult doTypeObjectResult = new SELECT(
+								new FROM(root),
+								new WHERE(isDOType.AND(isDOTypeName))
+							).execute();
+							
+							if (doTypeObjectResult.size() == 1) {
+								TDOType doType = ((TDOType) doTypeObjectResult.iterator().next());
+								String fcdaVariableName = fcda.getLdInst() + "_" + fcda.getPrefix() + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
+								//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
 	
-								//System.out.println("daResult: " + daResult.size() + ", fcda.getDaName(): " + fcda.getDaName());
+								if (map != null) {
+									map.setLN(fcda, ln);
+								}
 								
-								if (daResult.size() >= 1) {
-									TDA da = ((TDA) daResult.iterator().next());
-
+								// set reference to DOType or DAType
+								if (fcda.getDaName() == null || fcda.getDaName().equals("")) {
 									if (map != null) {
-										// get type string from DA
-										if (map.getPrintedType(da) == null || map.getPrintedType(da).equals("")) {
-											warning("unknown printedType for DA '" + da.getName().toString() + "'");
-										}
-										else {
-											String coderType = map.getCoderType(da);
-											if (coderType.contains("struct")) {
-												coderType = coderType.replace("struct ", "");
+										map.setDataAttribute(fcda, doType);
+										map.setVariableName(fcda, new String(fcdaVariableName));
+									}
+									//System.out.println("\tvalid DO type: '" + fcda.getType() + "'");
+								}
+								else {
+									// TODO: extend with support for FCDA daName="da.da.da(3)" (or ix="3"? see Tissue 302, and p. 75 of -6) syntax
+									String fcdaDAName = fcda.getDaName();
+									
+									if (fcdaDAName.contains(".") || fcdaDAName.contains("(") || fcdaDAName.contains(")")) {
+										error("FCDA daName values do not support '.' syntax, or arrays, for `" + fcdaDAName + "' in dataset '" + ((TDataSet) fcda.eContainer()).getName() + "' in IED '" + ied.getName() + "'");
+									}
+									else {
+										final EObjectCondition isDA = new EObjectTypeRelationCondition(
+											SclPackage.eINSTANCE.getTDA()
+										);
+										ObjectInstanceCondition sc2 = new ObjectInstanceCondition((Object) fcda.getDaName()) {
+											@Override
+											public boolean isSatisfied(Object obj) {
+												return getObject().toString().equals(obj.toString());
 											}
-											else if (coderType.contains("enum")) {
-												coderType = coderType.replace("enum ", "");
+										};
+										final EObjectCondition isDAName = new EObjectAttributeValueCondition(
+											SclPackage.eINSTANCE.getTAbstractDataAttribute_Name(),
+											sc2
+										);
+										
+										IQueryResult daResult = new SELECT(
+											new FROM(doType),
+											new WHERE(isDA.AND(isDAName))
+										).execute();
+			
+										//System.out.println("daResult: " + daResult.size() + ", fcda.getDaName(): " + fcda.getDaName());
+										
+										if (daResult.size() == 1) {
+											TDA da = ((TDA) daResult.iterator().next());
+		
+											if (map != null) {
+												// get type string from DA
+												if (map.getPrintedType(da) == null || map.getPrintedType(da).equals("")) {
+													warning("unknown printedType for DA '" + da.getName().toString() + "'");
+												}
+												else {
+													String coderType = map.getCoderType(da);
+													if (coderType.contains("struct")) {
+														coderType = coderType.replace("struct ", "");
+													}
+													else if (coderType.contains("enum")) {
+														coderType = coderType.replace("enum ", "");
+													}
+													map.setDataAttribute(fcda, da);
+													map.setVariableName(fcda, new String(fcdaVariableName + "_" + fcda.getDaName()));
+												}
 											}
-											map.setDataAttribute(fcda, da);
-											map.setVariableName(fcda, new String(fcdaVariableName + "_" + fcda.getDaName()));
 										}
 									}
 								}
