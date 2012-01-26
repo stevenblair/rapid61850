@@ -508,7 +508,7 @@ public class SCDValidator {
 				error("more than one IED named '" + iedName + "'");
 			}
 			
-			// check LNs within this IED are unique
+			// check that LNs within this IED are unique
 			final EObjectCondition isLN = new EObjectTypeRelationCondition(
 				SclPackage.eINSTANCE.getTLN()
 			);
@@ -518,7 +518,6 @@ public class SCDValidator {
 				new WHERE(isLN)
 			).execute();
 			
-
 			for (Object oLN : lnResult) {
 				TLN ln = (TLN) oLN;
 				String lnType = ln.getLnType();
@@ -541,6 +540,48 @@ public class SCDValidator {
 				
 				if (sameLNResult.size() > 1) {
 					error("more than one LN in IED '" + iedName + "' with type '" + lnType + "' and instance value '" + lnInst + "'");
+				}
+			}
+			
+			// check that DataSet names within this IED are unique
+			Iterator<TAccessPoint> aps = ied.getAccessPoint().iterator();
+			
+			while (aps.hasNext()) {
+				TAccessPoint ap = aps.next();
+				
+				if (ap != null && ap.getServer() != null) {
+					Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
+					
+					while (lds.hasNext()) {
+						TLDevice ld = lds.next();
+						
+						final EObjectCondition isDataSet = new EObjectTypeRelationCondition(
+							SclPackage.eINSTANCE.getTDataSet()
+						);
+						
+						IQueryResult dataSetResult = new SELECT(
+							new FROM(ld),
+							new WHERE(isDataSet)
+						).execute();
+						
+						for (Object oDataset : dataSetResult) {
+							TDataSet dataset = (TDataSet) oDataset;
+							
+							final EObjectCondition isThisDataSetNAME = new EObjectAttributeValueCondition(
+								SclPackage.eINSTANCE.getTNaming_Name(),
+								new StringValue(dataset.getName())
+							);
+			
+							IQueryResult dataSetDuplicateResult = new SELECT(
+								new FROM(ld),
+								new WHERE(isDataSet.AND(isThisDataSetNAME))
+							).execute();
+							
+							if (dataSetDuplicateResult.size() > 1) {
+								error("more than one DataSet in IED '" + iedName + "' with name '" + dataset.getName() + "'");
+							}
+						}
+					}
 				}
 			}
 		}
