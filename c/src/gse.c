@@ -28,6 +28,27 @@
 
 
 // returns 1 if buf contains valid packet data
+int gse_send_E1Q1SB1_C1_Performance(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
+	E1Q1SB1.S1.C1.LN0.Performance.timeAllowedToLive = timeAllowedToLive;
+
+	if (statusChange) {
+		E1Q1SB1.S1.C1.LN0.Performance.stNum++;
+		if (E1Q1SB1.S1.C1.LN0.Performance.stNum == 0) {
+			E1Q1SB1.S1.C1.LN0.Performance.stNum = 1;
+		}
+		E1Q1SB1.S1.C1.LN0.Performance.sqNum = 0;
+	}
+	else {
+		E1Q1SB1.S1.C1.LN0.Performance.sqNum++;
+		if (E1Q1SB1.S1.C1.LN0.Performance.sqNum == 0) {
+			E1Q1SB1.S1.C1.LN0.Performance.sqNum = 1;
+		}
+	}
+
+	return gseEncodePacket(&E1Q1SB1.S1.C1.LN0.Performance, buf);
+}
+
+// returns 1 if buf contains valid packet data
 int gse_send_E1Q1SB1_C1_ItlPositions(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive) {
 	E1Q1SB1.S1.C1.LN0.ItlPositions.timeAllowedToLive = timeAllowedToLive;
 
@@ -112,6 +133,32 @@ int gse_send_D1Q1SB4_C1_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChang
 }
 
 void init_gse() {
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.destMACAddress[0] = 0x01;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.destMACAddress[1] = 0x0C;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.destMACAddress[2] = 0xCD;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.destMACAddress[3] = 0x01;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.destMACAddress[4] = 0x00;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.destMACAddress[5] = 0x04;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.APPID = 0x3000;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.VLAN_PRIORITY = 0x4;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.VLAN_ID = 4;
+	E1Q1SB1.S1.C1.LN0.Performance.goID = (unsigned char *) malloc(12);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.goID, "Performance\0", 12);
+	E1Q1SB1.S1.C1.LN0.Performance.t = 0;
+	E1Q1SB1.S1.C1.LN0.Performance.gocbRef = (unsigned char *) malloc(27);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.gocbRef, "E1Q1SB1C1/LLN0$Performance\0", 27);
+	E1Q1SB1.S1.C1.LN0.Performance.datSet = (unsigned char *) malloc(27);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.datSet, "E1Q1SB1C1/LLN0$Performance\0", 27);
+	E1Q1SB1.S1.C1.LN0.Performance.timeAllowedToLive = 0;
+	E1Q1SB1.S1.C1.LN0.Performance.stNum = 0;
+	E1Q1SB1.S1.C1.LN0.Performance.sqNum = 0;
+	E1Q1SB1.S1.C1.LN0.Performance.test = 0;
+	E1Q1SB1.S1.C1.LN0.Performance.confRev = 1;
+	E1Q1SB1.S1.C1.LN0.Performance.ndsCom = 0;
+	E1Q1SB1.S1.C1.LN0.Performance.numDatSetEntries = 2;
+	E1Q1SB1.S1.C1.LN0.Performance.encodeDataset = &ber_encode_E1Q1SB1_C1_Performance;
+	E1Q1SB1.S1.C1.LN0.Performance.getDatasetLength = &ber_get_length_E1Q1SB1_C1_Performance;
+	E1Q1SB1.S1.C1.LN0.Performance.send = &gse_send_E1Q1SB1_C1_Performance;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[0] = 0x01;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[1] = 0x0C;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[2] = 0xCD;
@@ -134,7 +181,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.ItlPositions.test = 0;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.confRev = 1;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ndsCom = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions.numDatSetEntries = 6;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.numDatSetEntries = 4;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.encodeDataset = &ber_encode_E1Q1SB1_C1_Positions;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.getDatasetLength = &ber_get_length_E1Q1SB1_C1_Positions;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.send = &gse_send_E1Q1SB1_C1_ItlPositions;
@@ -160,7 +207,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.test = 0;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.confRev = 1;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.ndsCom = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions.numDatSetEntries = 6;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.numDatSetEntries = 4;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.encodeDataset = &ber_encode_E1Q1SB1_C1_Positions;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.getDatasetLength = &ber_get_length_E1Q1SB1_C1_Positions;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.send = &gse_send_E1Q1SB1_C1_AnotherPositions;

@@ -128,6 +128,9 @@ int encode_myMV(unsigned char *buf, struct myMV *myMV) {
 	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &myMV->q);
 	offset += ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myMV->t);
 	offset += encode_ScaledValueConfig(&buf[offset], &myMV->sVC);
+	offset += ENCODE_CTYPE_INT32(&buf[offset], &myMV->int1);
+	offset += ENCODE_CTYPE_INT32(&buf[offset], &myMV->int2);
+	offset += ENCODE_CTYPE_INT32(&buf[offset], &myMV->int3);
 
 	return offset;
 }
@@ -197,6 +200,17 @@ int encode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 
 	return offset;
 }
+int encode_E1Q1SB1_C1_Performance(unsigned char *buf) {
+	int offset = 0;
+
+	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Amps);
+	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts);
+
+	return offset;
+}
+int encode_control_E1Q1SB1_C1_PerformanceSV(unsigned char *buf) {
+	return encode_E1Q1SB1_C1_Performance(buf);
+}
 int encode_E1Q1SB1_C1_Positions(unsigned char *buf) {
 	int offset = 0;
 
@@ -204,16 +218,13 @@ int encode_E1Q1SB1_C1_Positions(unsigned char *buf) {
 	offset += encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_1.Pos);
 	offset += encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_2.Pos);
 	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Amps);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts);
 
 	return offset;
 }
 int encode_E1Q1SB1_C1_Measurands(unsigned char *buf) {
 	int offset = 0;
 
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Amps);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts);
+	offset += encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
 
 	return offset;
 }
@@ -223,9 +234,6 @@ int encode_E1Q1SB1_C1_smv(unsigned char *buf) {
 	offset += encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
 	offset += encode_myMod(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_1.Mod);
 	offset += ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
-	offset += ENCODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts.q);
-	offset += encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Amps);
-	offset += encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_2.Pos);
 
 	return offset;
 }

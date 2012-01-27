@@ -30,6 +30,8 @@ extern "C" {
 
 
 
+int encode_E1Q1SB1_C1_Performance(unsigned char *buf);
+int encode_control_E1Q1SB1_C1_PerformanceSV(unsigned char *buf);
 int encode_E1Q1SB1_C1_Positions(unsigned char *buf);
 int encode_E1Q1SB1_C1_Measurands(unsigned char *buf);
 int encode_E1Q1SB1_C1_smv(unsigned char *buf);

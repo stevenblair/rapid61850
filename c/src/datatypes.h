@@ -127,6 +127,9 @@ struct myMV {
 	CTYPE_QUALITY q;
 	CTYPE_TIMESTAMP t;
 	struct ScaledValueConfig sVC;
+	CTYPE_INT32 int1;
+	CTYPE_INT32 int2;
+	CTYPE_INT32 int3;
 };
 struct simpleMV {
 	CTYPE_FLOAT32 mag;
@@ -168,25 +171,23 @@ struct simpleSAV {
 };
 
 // datasets
+struct E1Q1SB1_C1_Performance {
+	struct myMV C1_MMXU_1_Amps;
+	struct myMV C1_MMXU_1_Volts;
+};
 struct E1Q1SB1_C1_Positions {
 	struct myAnalogValue C1_TVTR_1_Vol_instMag;
 	struct myPos C1_CSWI_1_Pos;
 	struct myPos C1_CSWI_2_Pos;
 	enum Mod C1_MMXU_1_Mod_stVal;
-	struct myMV C1_MMXU_1_Amps;
-	struct myMV C1_MMXU_1_Volts;
 };
 struct E1Q1SB1_C1_Measurands {
-	struct myMV C1_MMXU_1_Amps;
-	struct myMV C1_MMXU_1_Volts;
+	struct myAnalogValue C1_TVTR_1_Vol_instMag;
 };
 struct E1Q1SB1_C1_smv {
 	struct myAnalogValue C1_TVTR_1_Vol_instMag;
 	struct myMod C1_CSWI_1_Mod;
 	enum Mod C1_MMXU_1_Mod_stVal;
-	CTYPE_QUALITY C1_MMXU_1_Volts_q;
-	struct myMV C1_MMXU_1_Amps;
-	struct myPos C1_CSWI_2_Pos;
 };
 struct E1Q1SB1_C1_rmxu {
 	struct simpleSAV C1_RMXU_1_AmpLocPhsA;
@@ -245,6 +246,19 @@ struct exampleMMXU {
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 		CTYPE_INT16U smpCnt;
 	} sv_inputs_rmxuCB;
+	struct {
+		struct E1Q1SB1_C1_Performance E1Q1SB1_C1_Performance;
+		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
+		CTYPE_INT32U timeAllowedToLive;
+		CTYPE_TIMESTAMP T;
+		CTYPE_INT32U stNum;
+		CTYPE_INT32U sqNum;
+	} gse_inputs_Performance;
+	struct {
+		struct E1Q1SB1_C1_Performance E1Q1SB1_C1_Performance;
+		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
+		CTYPE_INT16U smpCnt;
+	} sv_inputs_PerformanceSV;
 };
 struct exampleRMXU {
 	struct myMod Mod;
@@ -285,7 +299,7 @@ struct RSYNa {
 		CTYPE_TIMESTAMP T;
 		CTYPE_INT32U stNum;
 		CTYPE_INT32U sqNum;
-	} gse_inputs_ItlPositions;
+	} gse_inputs_AnotherPositions;
 	struct {
 		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
 		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
@@ -293,7 +307,7 @@ struct RSYNa {
 		CTYPE_TIMESTAMP T;
 		CTYPE_INT32U stNum;
 		CTYPE_INT32U sqNum;
-	} gse_inputs_AnotherPositions;
+	} gse_inputs_ItlPositions;
 };
 
 void init_datatypes();

@@ -29,6 +29,22 @@
 
 
 // returns 1 if buf contains valid packet data
+int sv_update_E1Q1SB1_C1_PerformanceSV(unsigned char *buf) {
+	int size = encode_control_E1Q1SB1_C1_PerformanceSV(E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount].data.data);
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount].data.size = size;
+
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount].smpCnt = E1Q1SB1.S1.C1.LN0.PerformanceSV.sampleCountMaster;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.sampleCountMaster++;
+
+	if (++E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount == E1Q1SB1.S1.C1.LN0.PerformanceSV.noASDU) {
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount = 0;
+		return svEncodePacket(&E1Q1SB1.S1.C1.LN0.PerformanceSV, buf);
+	}
+
+	return 0;
+}
+
+// returns 1 if buf contains valid packet data
 int sv_update_E1Q1SB1_C1_Volt(unsigned char *buf) {
 	int size = encode_control_E1Q1SB1_C1_Volt(E1Q1SB1.S1.C1.LN0.Volt.ASDU[E1Q1SB1.S1.C1.LN0.Volt.ASDUCount].data.data);
 	E1Q1SB1.S1.C1.LN0.Volt.ASDU[E1Q1SB1.S1.C1.LN0.Volt.ASDUCount].data.size = size;
@@ -62,6 +78,34 @@ int sv_update_E1Q1SB1_C1_rmxuCB(unsigned char *buf) {
 
 void init_sv() {
 	int i = 0;
+
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.noASDU = 1;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.destMACAddress[0] = 0x01;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.destMACAddress[1] = 0x0C;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.destMACAddress[2] = 0xCD;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.destMACAddress[3] = 0x04;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.destMACAddress[4] = 0x00;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.destMACAddress[5] = 0x01;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.APPID = 0x4000;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.VLAN_ID = 0x123;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.VLAN_PRIORITY = 0x4;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU = (struct ASDU *) malloc(1 * sizeof(struct ASDU));
+	for (i = 0; i < 1; i++) {
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].svID = (unsigned char *) malloc(12);
+		strncpy((char *) E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].svID, "Performance\0", 12);
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].datset = (unsigned char *) malloc(12);
+		strncpy((char *) E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].datset, "Performance\0", 12);
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].smpCnt = 0;
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].confRev = 1;
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].smpSynch = 1;
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].showRefrTm = 1;
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].showDatset = 0;
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].showSmpRate = 1;
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].smpRate = 4800;
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].data.size = 0;
+	}
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount = 0;
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.update = &sv_update_E1Q1SB1_C1_PerformanceSV;
 
 	E1Q1SB1.S1.C1.LN0.Volt.noASDU = 2;
 	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.destMACAddress[0] = 0x01;

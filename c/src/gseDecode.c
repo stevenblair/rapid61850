@@ -180,6 +180,9 @@ int ber_decode_myMV(unsigned char *buf, struct myMV *myMV) {
 		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &myMV->q);
 		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &myMV->t);
 		offset += ber_decode_ScaledValueConfig(&buf[offset], &myMV->sVC);
+		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &myMV->int1);
+		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &myMV->int2);
+		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &myMV->int3);
 	}
 
 	return offset;
@@ -278,6 +281,14 @@ int ber_decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 
 	return offset;
 }
+int ber_decode_E1Q1SB1_C1_Performance(unsigned char *buf, struct E1Q1SB1_C1_Performance *E1Q1SB1_C1_Performance) {
+	int offset = 0;
+
+	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_Performance->C1_MMXU_1_Amps);
+	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_Performance->C1_MMXU_1_Volts);
+
+	return offset;
+}
 int ber_decode_E1Q1SB1_C1_Positions(unsigned char *buf, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions) {
 	int offset = 0;
 
@@ -285,16 +296,13 @@ int ber_decode_E1Q1SB1_C1_Positions(unsigned char *buf, struct E1Q1SB1_C1_Positi
 	offset += ber_decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_1_Pos);
 	offset += ber_decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_2_Pos);
 	offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1_MMXU_1_Mod_stVal);
-	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1_MMXU_1_Amps);
-	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1_MMXU_1_Volts);
 
 	return offset;
 }
 int ber_decode_E1Q1SB1_C1_Measurands(unsigned char *buf, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands) {
 	int offset = 0;
 
-	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1_MMXU_1_Amps);
-	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1_MMXU_1_Volts);
+	offset += ber_decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Measurands->C1_TVTR_1_Vol_instMag);
 
 	return offset;
 }
@@ -304,9 +312,6 @@ int ber_decode_E1Q1SB1_C1_smv(unsigned char *buf, struct E1Q1SB1_C1_smv *E1Q1SB1
 	offset += ber_decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1_TVTR_1_Vol_instMag);
 	offset += ber_decode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1_CSWI_1_Mod);
 	offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1_MMXU_1_Mod_stVal);
-	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1_C1_smv->C1_MMXU_1_Volts_q);
-	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_smv->C1_MMXU_1_Amps);
-	offset += ber_decode_myPos(&buf[offset], &E1Q1SB1_C1_smv->C1_CSWI_2_Pos);
 
 	return offset;
 }
@@ -336,14 +341,14 @@ int ber_decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, struct D1Q1SB4_C1_MMXUR
 
 void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {
 
-	if (strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$ItlPositions", gocbRefLength) == 0) {
-		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions);
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.timeAllowedToLive = timeAllowedToLive;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.T = T;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.stNum = stNum;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.sqNum = sqNum;
-		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
+	if (strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$Performance", gocbRefLength) == 0) {
+		ber_decode_E1Q1SB1_C1_Performance(dataset, &D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.E1Q1SB1_C1_Performance);
+		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.timeAllowedToLive = timeAllowedToLive;
+		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.T = T;
+		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.stNum = stNum;
+		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.sqNum = sqNum;
+		if (D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.datasetDecodeDone != NULL) {
+			D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
 		}
 	}
 	if (strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$AnotherPositions", gocbRefLength) == 0) {
@@ -354,6 +359,16 @@ void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsign
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.sqNum = sqNum;
 		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.datasetDecodeDone != NULL) {
 			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
+		}
+	}
+	if (strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$ItlPositions", gocbRefLength) == 0) {
+		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions);
+		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.timeAllowedToLive = timeAllowedToLive;
+		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.T = T;
+		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.stNum = stNum;
+		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.sqNum = sqNum;
+		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone != NULL) {
+			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
 		}
 	}
 }

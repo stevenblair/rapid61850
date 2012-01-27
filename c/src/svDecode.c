@@ -129,6 +129,9 @@ int decode_myMV(unsigned char *buf, struct myMV *myMV) {
 	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myMV->q);
 	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myMV->t);
 	offset += decode_ScaledValueConfig(&buf[offset], &myMV->sVC);
+	offset += DECODE_CTYPE_INT32(&buf[offset], &myMV->int1);
+	offset += DECODE_CTYPE_INT32(&buf[offset], &myMV->int2);
+	offset += DECODE_CTYPE_INT32(&buf[offset], &myMV->int3);
 
 	return offset;
 }
@@ -198,6 +201,14 @@ int decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
 
 	return offset;
 }
+int decode_E1Q1SB1_C1_Performance(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Performance *E1Q1SB1_C1_Performance) {
+	int offset = 0;
+
+	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Performance->C1_MMXU_1_Amps);
+	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Performance->C1_MMXU_1_Volts);
+
+	return offset;
+}
 int decode_E1Q1SB1_C1_Positions(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions) {
 	int offset = 0;
 
@@ -205,16 +216,13 @@ int decode_E1Q1SB1_C1_Positions(unsigned char *buf, CTYPE_INT16U smpCnt, struct 
 	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_1_Pos);
 	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_2_Pos);
 	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1_MMXU_1_Mod_stVal);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1_MMXU_1_Amps);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Positions->C1_MMXU_1_Volts);
 
 	return offset;
 }
 int decode_E1Q1SB1_C1_Measurands(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands) {
 	int offset = 0;
 
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1_MMXU_1_Amps);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Measurands->C1_MMXU_1_Volts);
+	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Measurands->C1_TVTR_1_Vol_instMag);
 
 	return offset;
 }
@@ -224,9 +232,6 @@ int decode_E1Q1SB1_C1_smv(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB
 	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1_TVTR_1_Vol_instMag);
 	offset += decode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1_CSWI_1_Mod);
 	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1_MMXU_1_Mod_stVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &E1Q1SB1_C1_smv->C1_MMXU_1_Volts_q);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_smv->C1_MMXU_1_Amps);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_smv->C1_CSWI_2_Pos);
 
 	return offset;
 }
@@ -268,6 +273,13 @@ void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsign
 		D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.smpCnt = smpCnt;
 		if (D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone != NULL) {
 			D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone(smpCnt);
+		}
+	}
+	if (strncmp((const char *) svID, "Performance", svIDLength) == 0) {
+		decode_E1Q1SB1_C1_Performance(dataset, smpCnt, &D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.E1Q1SB1_C1_Performance);
+		D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.smpCnt = smpCnt;
+		if (D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.datasetDecodeDone != NULL) {
+			D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.datasetDecodeDone(smpCnt);
 		}
 	}
 	if (strncmp((const char *) svID, "11", svIDLength) == 0) {

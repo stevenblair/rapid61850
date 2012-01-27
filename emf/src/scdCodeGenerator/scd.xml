@@ -180,6 +180,21 @@
 						<P type="VLAN-PRIORITY">4</P>
 					</Address>
 				</GSE>
+				<GSE ldInst="C1" cbName="Performance">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-01-00-04</P>
+						<P type="APPID">3000</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</GSE>
+				<SMV ldInst="C1" cbName="PerformanceSV">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-04-00-01</P>
+						<P type="APPID">4000</P>
+						<P type="VLAN-ID">123</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</SMV>
 				<SMV ldInst="C1" cbName="Volt">
 					<Address>
 						<P type="MAC-Address">01-0C-CD-04-00-01</P>
@@ -242,25 +257,30 @@
 				<Authentication/>
 				<LDevice inst="C1">
 					<LN0 lnType="LN0" lnClass="LLN0" inst="">
+						<DataSet name="Performance">
+							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Amps" fc="ST"/>
+							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Volts" fc="ST"/>
+						</DataSet>
 						<DataSet name="Positions">
 							<FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="1" doName="Vol" daName="instMag" fc="MX"/>
 							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="CSWI" doName="Pos" fc="ST"/>
 							<FCDA ldInst="C1" prefix="" lnInst="2" lnClass="CSWI" doName="Pos" fc="ST"/>
 							<FCDA ldInst="C1" prefix="" lnClass="MMXU" lnInst="1" doName="Mod" daName="stVal" fc="MX"/>
-							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Amps" fc="ST"/>
-							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Volts" fc="ST"/>
+							<!--<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Amps" fc="ST"/>
+							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Volts" fc="ST"/>-->
 						</DataSet>
 						<DataSet name="Measurands">
-							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Amps" fc="ST"/>
-							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Volts" fc="ST"/>
+							<FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="1" doName="Vol" daName="instMag" fc="MX"/>
+							<!--<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Amps" fc="ST"/>
+							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Volts" fc="ST"/>-->
 						</DataSet>
 						<DataSet name="smv">
 							<FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="1" doName="Vol" daName="instMag" fc="MX"/>
 							<FCDA ldInst="C1" prefix="" lnClass="CSWI" lnInst="1" doName="Mod" fc="MX"/>
 							<FCDA ldInst="C1" prefix="" lnClass="MMXU" lnInst="1" doName="Mod" daName="stVal" fc="MX"/>
-							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Volts" daName="q" fc="ST"/>
+							<!--<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Volts" daName="q" fc="ST"/>
 							<FCDA ldInst="C1" prefix="" lnInst="1" lnClass="MMXU" doName="Amps" fc="ST"/>
-							<FCDA ldInst="C1" prefix="" lnInst="2" lnClass="CSWI" doName="Pos" fc="ST"/>
+							<FCDA ldInst="C1" prefix="" lnInst="2" lnClass="CSWI" doName="Pos" fc="ST"/>-->
 						</DataSet>
 						<DataSet name="rmxu">
 							<FCDA ldInst="C1" prefix="" lnClass="RMXU" lnInst="1" doName="AmpLocPhsA" fc="MX"/>
@@ -284,8 +304,12 @@
 						<LogControl name="Log" datSet="Positions" logName="C1">
 							<TrgOps dchg="true" qchg="true"/>
 						</LogControl>
+						<GSEControl name="Performance" datSet="Performance" appID="Performance" confRev="1"/>
 						<GSEControl name="ItlPositions" datSet="Positions" appID="Itl" confRev="1"/>
 						<GSEControl name="AnotherPositions" datSet="Positions" appID="Itl" confRev="1"/>
+						<SampledValueControl name="PerformanceSV" datSet="Performance" smvID="Performance" smpRate="4800" nofASDU="1" multicast="true" confRev="1">
+							<SmvOpts sampleRate="true" refreshTime="true" sampleSynchronized="true"/>
+						</SampledValueControl>
 						<SampledValueControl name="Volt" datSet="smv" smvID="11" smpRate="4800" nofASDU="2" multicast="true" confRev="1">
 							<SmvOpts sampleRate="true" refreshTime="true" sampleSynchronized="true"/>
 						</SampledValueControl>
@@ -392,6 +416,7 @@
 			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="RMXU" lnInst="1" doName="AmpLocPhsA"/>
 			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="RMXU" lnInst="1" doName="AmpLocPhsB"/>
 			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="RMXU" lnInst="1" doName="AmpLocPhsC"/>
+			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="MMXU" lnInst="1" doName="Volts"/>
 			            </Inputs>
 						<DOI name="A">
 							<SDI name="phsA">
@@ -539,6 +564,9 @@
 			<DA name="q" fc="MX" bType="Quality" qchg="true"/>
 			<DA name="t" fc="MX" bType="Timestamp"/>
 			<DA name="sVC" fc="CF" bType="Struct" type="ScaledValueConfig" dchg="true"/>
+			<DA name="int1" fc="MX" bType="INT32" qchg="true"/>
+			<DA name="int2" fc="MX" bType="INT32" qchg="true"/>
+			<DA name="int3" fc="MX" bType="INT32" qchg="true"/>
 		</DOType>
 		<DOType id="simpleMV" cdc="MV">
 			<DA name="mag" fc="MX" bType="FLOAT32" dchg="true"/>

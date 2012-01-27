@@ -197,7 +197,7 @@ public class SCDCodeGenerator {
 			dataTypesSource.appendFunctions("void init_" + doType.getId() + "(struct " + doType.getId() + " *" + doType.getId() + ") {\n");
 			
 			while (das.hasNext()) {
-				TDA da = das.next();				
+				TDA da = das.next();
 				String daString = map.getPrintedType(da) + " " + da.getName() + ";";
 
 				dataTypesHeader.appendDatatypes("\n\t" + daString);

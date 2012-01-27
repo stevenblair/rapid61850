@@ -34,6 +34,8 @@ struct E1Q1SB1 {
 		struct {
 			struct {
 				struct LN0 LLN0;
+				struct svControl PerformanceSV;
+				struct gseControl Performance;
 				struct gseControl ItlPositions;
 				struct gseControl AnotherPositions;
 				struct svControl Volt;
