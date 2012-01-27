@@ -141,7 +141,7 @@ to:
 
 All `CTYPE_*` definitions must map to local datatypes of the correct size and sign.
 
-In `ctypes.c`, the basic library function `memcopy()` is used to copy bytes in order (according to platform endianness), and `reversememcpy()` copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these should work, they can be replaced with platform-specific alternatives for better performance.
+In `ctypes.c`, the basic library function `memcpy()` is used to copy bytes in order (according to platform endianness), and `reversememcpy()` copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these should work, they can be replaced with platform-specific alternatives for better performance.
 
 The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.
 
@@ -150,4 +150,5 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
  - Several data types are not yet supported. However, the main *useful* data types (integer, floating-point, and boolean) are supported.
  - FCDAs and ExtRefs cannot use the syntax "vector.mag.f" as values for data object or data attribute references.
  - Data types cannot contain arrays.
+ - According to [the standard](http://www.tissues.iec61850.com/tissue.mspx?issueid=579), SV datasets should only contain primitive data types, and not constructed types. However, because SV encoding involves fixed-length value fields, it is always possible to reconstruct the data, if encoded and decoded consistently. Therefore, this library will allow constructed types to be encoded in SV packets.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
