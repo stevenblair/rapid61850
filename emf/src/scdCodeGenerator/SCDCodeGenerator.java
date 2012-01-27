@@ -675,9 +675,11 @@ public class SCDCodeGenerator {
 															TSampledValueControl svControl = (TSampledValueControl) control;
 															long noASDU = svControl.getNofASDU();
 															String noASDUString = "";
+															String ASDUIndex = "";
 															
 															if (noASDU > 1) {
 																noASDUString = "[" + noASDU + "]"; 
+																ASDUIndex = "[ASDU]";
 															}
 															
 															if (!svControlConsumed.contains(svControl.getName())) {
@@ -687,7 +689,7 @@ public class SCDCodeGenerator {
 																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + ln.getInst() + ".sv_inputs_" + svControl.getName() + ".";
 
 																svDecodeDatasetFunction.append("\n\tif (strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");
-																svDecodeDatasetFunction.append("\n\t\tdecode_" + datasetName + "(dataset, smpCnt, &" + inputsPath + datasetName + "[ASDU]);");
+																svDecodeDatasetFunction.append("\n\t\tdecode_" + datasetName + "(dataset, smpCnt, &" + inputsPath + datasetName + ASDUIndex + ");");
 																svDecodeDatasetFunction.append("\n\t\t" + inputsPath + "smpCnt = smpCnt;");
 																svDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
 																svDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone(smpCnt);");
