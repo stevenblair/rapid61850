@@ -68,11 +68,7 @@ int BER_ENCODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = BER_GET_LENGTH_CTYPE_QUALITY(value);
 
-#if GOOSE_FIXED_SIZE == 1
 	buf[offset++] = ASN1_TAG_BIT_STRING;
-#else
-	buf[offset++] = ASN1_TAG_INTEGER;
-#endif
 	offset += encodeLength(&buf[offset], len);
 
 	buf[offset++] = QUALITY_UNUSED_BITS;	// number of unused bits

@@ -68,12 +68,12 @@ int BER_DECODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = 0;
 
-	if (buf[offset] == ASN1_TAG_INTEGER || buf[offset] == ASN1_TAG_BIT_STRING) {
+	if (buf[offset] == ASN1_TAG_BIT_STRING) {
 		offset++;
 		len += decodeLength(&buf[offset]);
 		offset += getLengthFieldSize(buf[offset]);
 
-		netmemcpy(value, &buf[offset + 1], len - 1);
+		netmemcpy(value, &buf[offset + 1], len - 1);	// skip over one byte (which contains number of unused bits)
 	}
 
 	return offset + len;
