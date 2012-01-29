@@ -88,7 +88,7 @@ public class TLNImpl extends TAnyLNImpl implements TLN {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String PREFIX_EDEFAULT = "";
+	protected static final String PREFIX_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getPrefix() <em>Prefix</em>}' attribute.

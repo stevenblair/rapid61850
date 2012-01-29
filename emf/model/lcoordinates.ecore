@@ -4,7 +4,7 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="lcoordinates"
     nsURI="http://www.iec.ch/61850/2006/SCLcoordinates" nsPrefix="lcoordinates">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-    <details key="documentation" value="&#xD;&#xA;&#x9;                        COPYRIGHT IEC, 2005. Version 1.4. Release 2005/09/11.&#xD;&#xA;&#x9;                        This schema is for infomational purposes only, and is not normative!&#xD;&#xA;&#x9;&#x9;"/>
+    <details key="documentation" value="&#xA;&#x9;                        COPYRIGHT IEC, 2005. Version 1.4. Release 2005/09/11.&#xA;&#x9;                        This schema is for infomational purposes only, and is not normative!&#xA;&#x9;&#x9;"/>
   </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="CoordType">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

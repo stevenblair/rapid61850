@@ -9,8 +9,6 @@ package ch.iec._61850._2006.scl.impl;
 import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TBDA;
 import ch.iec._61850._2006.scl.TDAType;
-import ch.iec._61850._2006.scl.TExtRef;
-import ch.iec._61850._2006.scl.TFCDA;
 
 import java.util.Collection;
 
@@ -25,8 +23,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**

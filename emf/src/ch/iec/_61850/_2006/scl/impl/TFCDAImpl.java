@@ -7,18 +7,12 @@
 package ch.iec._61850._2006.scl.impl;
 
 import ch.iec._61850._2006.scl.SclPackage;
-import ch.iec._61850._2006.scl.TDAType;
-import ch.iec._61850._2006.scl.TDOType;
 import ch.iec._61850._2006.scl.TFCDA;
 import ch.iec._61850._2006.scl.TFCEnum;
 
-import ch.iec._61850._2006.scl.TLN;
-import ch.iec._61850._2006.scl.TPredefinedBasicTypeEnum;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;

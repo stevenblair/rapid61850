@@ -844,25 +844,33 @@ public class SCDValidator {
 				SclPackage.eINSTANCE.getTLN_LnClass(),
 				sc
 			);
-			final EObjectCondition isLNPrefix = new EObjectAttributeValueCondition(
-				SclPackage.eINSTANCE.getTLN_Prefix(),
-				new StringValue(fcda.getPrefix())
-			);
 			
 			IQueryResult lnResult = new SELECT(
 				new FROM(ied),
-				new WHERE(isLN.AND(isLNInst).AND(isLNClass).AND(isLNPrefix))
+				new WHERE(isLN.AND(isLNInst).AND(isLNClass))
 			).execute();
 			
 			//System.out.println("\tlnResult: " + lnResult.size() + ", LN prefix: '" + ((TLN)lnResult.iterator().next()).getPrefix() + "', FCDA prefx: '" + fcda.getPrefix() + "'");
 			if (lnResult.size() == 0) {
-				warning("no Logical Node with class '" + fcda.getLnClass().toString() + "' for FCDA: " + fcda.toString());
+				error("no Logical Node with class '" + fcda.getLnClass().toString() + "' for FCDA: " + fcda.toString());
 			}
-			else if (lnResult.size() == 1) {
-				if (lnResult.size() > 1) {
-					warning("more than one Logical Node with class '" + fcda.getLnClass().toString() + "' for FCDA: " + fcda.toString());
+			else if (lnResult.size() >= 1) {
+				String lnPrefix = "";
+				TLN ln = null;
+				
+				// find first matching prefix, noting that ln.getPrefix() may be null if not specified in SCD file
+				for (Object o : lnResult) {
+					ln =  (TLN) o;
+					
+					if (ln.getPrefix() != null) {
+						lnPrefix = ln.getPrefix();
+					}
+
+					if (fcda.getPrefix().equals(lnPrefix)) {
+						break;
+					}
+					error("no Logical Node with class '" + fcda.getLnClass().toString() + "' and prefix '" + lnPrefix + "' for FCDA: " + fcda.toString());
 				}
-				TLN ln = ((TLN) lnResult.toArray()[0]);
 				
 				final EObjectCondition isLNType = new EObjectTypeRelationCondition(
 					SclPackage.eINSTANCE.getTLNodeType()

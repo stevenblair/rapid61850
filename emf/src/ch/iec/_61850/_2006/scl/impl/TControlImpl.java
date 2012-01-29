@@ -8,14 +8,10 @@ package ch.iec._61850._2006.scl.impl;
 
 import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TControl;
-import ch.iec._61850._2006.scl.TControlBlock;
-import ch.iec._61850._2006.scl.TDataSet;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 

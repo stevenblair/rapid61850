@@ -8,11 +8,9 @@ package ch.iec._61850._2006.sc.lmaintenance.util;
 
 import ch.iec._61850._2006.sc.lmaintenance.*;
 
-import java.util.List;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
 
 /**

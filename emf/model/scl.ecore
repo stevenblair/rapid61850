@@ -2222,8 +2222,7 @@
         <details key="name" value="lnClass"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="#//TAnyName"
-        defaultValueLiteral="">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="#//TAnyName">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
         <details key="name" value="prefix"/>

@@ -8,7 +8,6 @@ package ch.iec._61850._2006.scl.impl;
 
 import ch.iec._61850._2006.scl.SclPackage;
 import ch.iec._61850._2006.scl.TAddress;
-import ch.iec._61850._2006.scl.TControl;
 import ch.iec._61850._2006.scl.TControlBlock;
 
 import org.eclipse.emf.common.notify.Notification;

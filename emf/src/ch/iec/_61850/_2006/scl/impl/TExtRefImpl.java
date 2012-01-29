@@ -7,24 +7,14 @@
 package ch.iec._61850._2006.scl.impl;
 
 import ch.iec._61850._2006.scl.SclPackage;
-import ch.iec._61850._2006.scl.TDAType;
-import ch.iec._61850._2006.scl.TDOType;
-import ch.iec._61850._2006.scl.TDataSet;
 import ch.iec._61850._2006.scl.TExtRef;
 
-import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -427,7 +417,6 @@ public class TExtRefImpl extends EObjectImpl implements TExtRef {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
