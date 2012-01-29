@@ -867,6 +867,7 @@ public class SCDValidator {
 					}
 
 					if (fcda.getPrefix().equals(lnPrefix)) {
+						ln.setPrefix("");
 						break;
 					}
 					error("no Logical Node with class '" + fcda.getLnClass().toString() + "' and prefix '" + lnPrefix + "' for FCDA: " + fcda.toString());
