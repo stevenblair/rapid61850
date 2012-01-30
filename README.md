@@ -14,7 +14,7 @@ This readme file describes how to set up the software, and its basic use.
  - Lightweight, and suitable for low-cost microcontrollers
  - Platform-independent, and any C/C++ compiler should work
  - Performs validation of the SCD file, and reports any problems
- - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25%
+ - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25-50%
  - Supports initialisation of data types, and instance-specific data
  - Open source, under the GPL 2 license
 
@@ -43,8 +43,6 @@ Note that the SCL model has been augmented to help with code generation, so the 
  5. Create a new project of type "Convert Projects to JET Projects", and select the `emf` project. For the `emf` project, go to Project Properties > JET Settings, and set Template Containers to "templates", and Source Container to "src". Delete the `scdCodeGeneratorTemplates` directory in the root of `emf` that was created before JET was configured correctly.
  6. Open `SCL.genmodel` and right-click on the root of the model tree. Select "Show Properties View" and ensure that "Compliance Level" is set to "6.0". Right-click on the root again and select "Generate Model Code". This should re-generate the model implementation files, and set up the project properly for using the generated code.
 -->
-
-### EMF import process ###
 
  1. Create an "EMF Project" called "emf", at the location of the repository code.
  2. Select "XML Schema" as the Model Importer type. Select all the IEC 61850 XML Schema documents in the `emf/model` directory.
