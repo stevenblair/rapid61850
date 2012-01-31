@@ -15,7 +15,7 @@ This readme file describes how to set up the software, and its basic use.
  - Platform-independent, and any C/C++ compiler should work
  - Performs validation of the SCD file, and reports any problems
  - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25-50%
- - Supports initialisation of data types, and instance-specific data
+ - Supports initialisation of data type values, and instance-specific values
  - Open source, under the GPL 2 license
 
 ## Installation ##
