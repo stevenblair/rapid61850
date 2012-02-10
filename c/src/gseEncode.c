@@ -24,6 +24,7 @@
 
 
 
+
 int ber_get_length_myAnalogValue(struct myAnalogValue *myAnalogValue) {
 	int total = 0;
 	int len = 0;

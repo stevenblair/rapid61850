@@ -30,6 +30,7 @@ extern "C" {
 
 
 
+
 int ber_get_length_E1Q1SB1_C1_Performance();
 int ber_encode_E1Q1SB1_C1_Performance(unsigned char *buf);
 int ber_encode_control_E1Q1SB1_C1_Performance(unsigned char *buf);

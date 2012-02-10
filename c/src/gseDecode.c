@@ -25,6 +25,7 @@
 
 
 
+
 int ber_decode_myAnalogValue(unsigned char *buf, struct myAnalogValue *myAnalogValue) {
 	int offset = 0;
 
@@ -351,16 +352,6 @@ void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsign
 			D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
 		}
 	}
-	if (strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$ItlPositions", gocbRefLength) == 0) {
-		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions);
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.timeAllowedToLive = timeAllowedToLive;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.T = T;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.stNum = stNum;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.sqNum = sqNum;
-		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
-		}
-	}
 	if (strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$AnotherPositions", gocbRefLength) == 0) {
 		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.E1Q1SB1_C1_Positions);
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.timeAllowedToLive = timeAllowedToLive;
@@ -369,6 +360,16 @@ void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsign
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.sqNum = sqNum;
 		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.datasetDecodeDone != NULL) {
 			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
+		}
+	}
+	if (strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$ItlPositions", gocbRefLength) == 0) {
+		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions);
+		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.timeAllowedToLive = timeAllowedToLive;
+		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.T = T;
+		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.stNum = stNum;
+		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.sqNum = sqNum;
+		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone != NULL) {
+			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
 		}
 	}
 }

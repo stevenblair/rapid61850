@@ -10,7 +10,7 @@ extern "C" {
 <%}%>
 
 <%=
-header.includes
+header.getIncludes()
 %>
 
 <%=

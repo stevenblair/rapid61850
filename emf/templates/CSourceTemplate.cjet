@@ -1,7 +1,7 @@
 <%@ jet package="scdCodeGeneratorTemplates" imports="scdCodeGenerator.CSource java.util.Iterator scdCodeGenerator.CFunction" class="CSourceTemplate" %>
 <% CSource header = (CSource) argument; %>
 <%=
-header.includes
+header.getIncludes()
 %>
 
 <%=

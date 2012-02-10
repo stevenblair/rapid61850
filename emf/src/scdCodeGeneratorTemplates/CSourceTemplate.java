@@ -31,7 +31,7 @@ public class CSourceTemplate
      CSource header = (CSource) argument; 
     stringBuffer.append(TEXT_1);
     stringBuffer.append(
-header.includes
+header.getIncludes()
 );
     stringBuffer.append(TEXT_2);
     stringBuffer.append(TEXT_3);

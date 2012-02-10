@@ -62,26 +62,83 @@ public class SCDCodeGenerator {
 
 	public void generateCode(DocumentRoot root, SCDAdditionalMappings map) {
 		// initialise C files
-		CSource svEncodeSource = new CSource("svEncode.c", "#include \"svEncodeBasic.h\"\n#include \"ied.h\"\n#include \"svEncode.h\"");
-		CSource svDecodeSource = new CSource("svDecode.c", "#include \"sv.h\"\n#include \"svDecodeBasic.h\"\n#include \"ied.h\"\n#include \"svDecode.h\"");
-		CSource gseEncodeSource = new CSource("gseEncode.c", "#include \"gseEncodeBasic.h\"\n#include \"ied.h\"\n#include \"gseEncode.h\"");
-		CSource gseDecodeSource = new CSource("gseDecode.c", "#include \"gseDecodeBasic.h\"\n#include \"gse.h\"\n#include \"ied.h\"\n#include \"gseDecode.h\"");
-		CSource svSource = new CSource("sv.c", "#include \"ied.h\"\n#include \"sv.h\"\n#include \"svPacketData.h\"\n#include \"svDecode.h\"\n#include \"svEncode.h\"");
-		CSource gseSource = new CSource("gse.c", "#include \"ied.h\"\n#include \"gsePacketData.h\"\n#include \"gseDecode.h\"\n#include \"gseEncode.h\"");
-		CSource iedSource = new CSource("ied.c", "#include \"ied.h\"\n#include \"datatypes.h\"");
-		CSource dataTypesSource = new CSource("datatypes.c", "#include \"ctypes.h\"\n#include \"datatypes.h\"\n#include \"ied.h\"\n#include <stdlib.h>");
+		CHeader dataTypesHeader = new CHeader("datatypes.h", "DATATYPES_H");
+		CHeader svEncodeHeader = new CHeader("svEncode.h", "SV_ENCODE_H");
+		CHeader svDecodeHeader = new CHeader("svDecode.h", "SV_DECODE_H");
+		CHeader gseEncodeHeader = new CHeader("gseEncode.h", "GSE_ENCODE_H");
+		CHeader gseDecodeHeader = new CHeader("gseDecode.h", "GSE_DECODE_H");
+		CHeader svHeader = new CHeader("sv.h", "SV_H");
+		CHeader gseHeader = new CHeader("gse.h", "GSE_H");
+		CHeader iedHeader = new CHeader("ied.h", "IED_H");
 
-		CHeader svEncodeHeader = new CHeader("svEncode.h", "SV_ENCODE_H", "#include \"svEncodeBasic.h\"\n#include \"svPacketData.h\"");
-		CHeader svDecodeHeader = new CHeader("svDecode.h", "SV_DECODE_H", "#include \"svPacketData.h\"");
-		CHeader gseEncodeHeader = new CHeader("gseEncode.h", "GSE_ENCODE_H", "#include \"gseEncodeBasic.h\"\n#include \"gsePacketData.h\"");
-		CHeader gseDecodeHeader = new CHeader("gseDecode.h", "GSE_DECODE_H", "#include \"gsePacketData.h\"\n#include \"datatypes.h\"");
-		CHeader svHeader = new CHeader("sv.h", "SV_H", "#include \"svEncode.h\"\n#include \"svDecode.h\"\n#include \"svPacketData.h\"");
-		CHeader gseHeader = new CHeader("gse.h", "GSE_H", "#include \"gseEncode.h\"\n#include \"gseDecode.h\"\n#include \"gsePacketData.h\"");
-		CHeader iedHeader = new CHeader("ied.h", "IED_H", "#include \"datatypes.h\"\n#include \"sv.h\"\n#include \"gse.h\"");
-		CHeader dataTypesHeader = new CHeader("datatypes.h", "DATATYPES_H", "#include \"ctypes.h\"");
+		dataTypesHeader.addIncludeLocal("ctypes.h");
+		svEncodeHeader.addIncludeLocal("svEncodeBasic.h");
+		svEncodeHeader.addIncludeLocal("svPacketData.h");
+		svDecodeHeader.addIncludeLocal("svPacketData.h");
+		gseEncodeHeader.addIncludeLocal("gseEncodeBasic.h");
+		gseEncodeHeader.addIncludeLocal("gsePacketData.h");
+		gseDecodeHeader.addIncludeLocal("gsePacketData.h");
+		gseDecodeHeader.addIncludeLocal(dataTypesHeader);
+		svHeader.addIncludeLocal(svEncodeHeader);
+		svHeader.addIncludeLocal(svDecodeHeader);
+		svHeader.addIncludeLocal("svPacketData.h");
+		gseHeader.addIncludeLocal(gseEncodeHeader);
+		gseHeader.addIncludeLocal(gseDecodeHeader);
+		gseHeader.addIncludeLocal("gsePacketData.h");
+		iedHeader.addIncludeLocal(dataTypesHeader);
+		iedHeader.addIncludeLocal(svHeader);
+		iedHeader.addIncludeLocal(gseHeader);
 		
+		CSource svEncodeSource = new CSource("svEncode.c");
+		CSource svDecodeSource = new CSource("svDecode.c");
+		CSource gseEncodeSource = new CSource("gseEncode.c");
+		CSource gseDecodeSource = new CSource("gseDecode.c");
+		CSource svSource = new CSource("sv.c");
+		CSource gseSource = new CSource("gse.c");
+		CSource iedSource = new CSource("ied.c");
+		CSource dataTypesSource = new CSource("datatypes.c");
+
+		svEncodeSource.addIncludeLocal("svEncodeBasic.h");
+		svEncodeSource.addIncludeLocal(iedHeader);
+		svEncodeSource.addIncludeLocal(svEncodeHeader);
+
+		svDecodeSource.addIncludeLocal(svHeader);
+		svDecodeSource.addIncludeLocal("svDecodeBasic.h");
+		svDecodeSource.addIncludeLocal(iedHeader);
+		svDecodeSource.addIncludeLocal(svDecodeHeader);
+
+		gseEncodeSource.addIncludeLocal("gseEncodeBasic.h");
+		gseEncodeSource.addIncludeLocal(iedHeader);
+		gseEncodeSource.addIncludeLocal(gseEncodeHeader);
+
+		gseDecodeSource.addIncludeLocal("gseDecodeBasic.h");
+		gseDecodeSource.addIncludeLocal(gseHeader);
+		gseDecodeSource.addIncludeLocal(iedHeader);
+		gseDecodeSource.addIncludeLocal(gseDecodeHeader);
+
+		svSource.addIncludeLocal(iedHeader);
+		svSource.addIncludeLocal(svHeader);
+		svSource.addIncludeLocal("svPacketData.h");
+		svSource.addIncludeLocal(svDecodeHeader);
+		svSource.addIncludeLocal(svEncodeHeader);
+
+		gseSource.addIncludeLocal(iedHeader);
+		gseSource.addIncludeLocal("gsePacketData.h");
+		gseSource.addIncludeLocal(gseDecodeHeader);
+		gseSource.addIncludeLocal(gseEncodeHeader);
+
+		iedSource.addIncludeLocal(iedHeader);
+		iedSource.addIncludeLocal(dataTypesHeader);
+
+		dataTypesSource.addIncludeLocal("ctypes.h");
+		dataTypesSource.addIncludeLocal(dataTypesHeader);
+		dataTypesSource.addIncludeLocal(iedHeader);
+		dataTypesSource.addIncludeSystem("stdlib.h");
+		
+
 		svHeader.appendFunctionPrototypes("void init_sv();\n");
 		gseHeader.appendFunctionPrototypes("void init_gse();\n");
+		
 
 		StringBuilder svDecodeDatasetFunction = new StringBuilder();	// faster than StringBuffer, but not thread-safe
 		StringBuilder gseDecodeDatasetFunction = new StringBuilder();

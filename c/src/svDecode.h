@@ -29,6 +29,7 @@ extern "C" {
 
 
 
+
 int decode_E1Q1SB1_C1_Performance(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Performance *E1Q1SB1_C1_Performance);
 int decode_E1Q1SB1_C1_Positions(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions);
 int decode_E1Q1SB1_C1_Measurands(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands);

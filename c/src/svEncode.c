@@ -24,6 +24,7 @@
 
 
 
+
 int encode_myAnalogValue(unsigned char *buf, struct myAnalogValue *myAnalogValue) {
 	int offset = 0;
 

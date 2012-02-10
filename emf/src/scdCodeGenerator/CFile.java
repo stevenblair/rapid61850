@@ -26,19 +26,55 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public abstract class CFile {
 	public final String C_PATH = "..\\c\\src\\";
 	public final String LICENSE_PATH = "src\\scdCodeGenerator\\license.txt";
 	public String filename;
-	public String includes;
+	public List<String> includesLocal;
+	public List<String> includesSystem;
 	
-	public CFile(String filename, String includes) {
+	public CFile(String filename) {
 		this.filename = filename;
-		this.includes = includes;
+		this.includesLocal = new ArrayList<String>();
+		this.includesSystem = new ArrayList<String>();
 	}
 	
 	public abstract void saveFile();
+	
+	public String getFilename() {
+		return this.filename;
+	}
+	
+	public void addIncludeLocal(String headerName) {
+		includesLocal.add(headerName);
+	}
+	
+	public void addIncludeLocal(CHeader header) {
+		includesLocal.add(header.getFilename());
+	}
+	
+	public void addIncludeSystem(String headerName) {
+		includesSystem.add(headerName);
+	}
+	
+	public String getIncludes() {
+		StringBuilder allIncludes = new StringBuilder();
+		Iterator<String> includesSystemIterator = includesSystem.iterator();
+		Iterator<String> includesLocalIterator = includesLocal.iterator();
+
+		while (includesSystemIterator.hasNext()) {
+			allIncludes.append("#include <" + includesSystemIterator.next() + ">\n");
+		}
+		while (includesLocalIterator.hasNext()) {
+			allIncludes.append("#include \"" + includesLocalIterator.next() + "\"\n");
+		}
+		
+		return allIncludes.toString();
+	}
 
 	public void saveFile(String fileText) {
 		
