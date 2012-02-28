@@ -30,8 +30,8 @@ public class CHeader extends CFile {
 	public CHeaderTemplate template;
 	public Boolean showExternC = true;
 
-	public CHeader(String filename, String headerProtectName, String includes) {
-		super(filename, includes);
+	public CHeader(String filename, String headerProtectName) {
+		super(filename);
 		
 		this.headerProtectName = headerProtectName;
 		this.datatypes = new StringBuilder();
@@ -41,7 +41,7 @@ public class CHeader extends CFile {
 	}
 	
 	public CHeader(String filename, String headerProtectName, String includes, Boolean showExternC) {
-		this(filename, headerProtectName, includes);
+		this(filename, headerProtectName);
 		this.showExternC = showExternC;
 	}
 

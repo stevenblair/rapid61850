@@ -46,7 +46,7 @@ public class CHeaderTemplate
     stringBuffer.append(TEXT_5);
     stringBuffer.append(TEXT_6);
     stringBuffer.append(
-header.includes
+header.getIncludes()
 );
     stringBuffer.append(TEXT_7);
     stringBuffer.append(TEXT_8);

@@ -849,27 +849,34 @@ public class SCDValidator {
 				new FROM(ied),
 				new WHERE(isLN.AND(isLNInst).AND(isLNClass))
 			).execute();
-			
+
 			//System.out.println("\tlnResult: " + lnResult.size() + ", LN prefix: '" + ((TLN)lnResult.iterator().next()).getPrefix() + "', FCDA prefx: '" + fcda.getPrefix() + "'");
+			
 			if (lnResult.size() == 0) {
 				error("no Logical Node with class '" + fcda.getLnClass().toString() + "' for FCDA: " + fcda.toString());
 			}
 			else if (lnResult.size() >= 1) {
+				boolean found = false;
 				String lnPrefix = "";
 				TLN ln = null;
 				
 				// find first matching prefix, noting that ln.getPrefix() may be null if not specified in SCD file
 				for (Object o : lnResult) {
-					ln =  (TLN) o;
-					
-					if (ln.getPrefix() != null) {
-						lnPrefix = ln.getPrefix();
+					if (!found) {
+						ln =  (TLN) o;
+						
+						if (ln.getPrefix() != null) {
+							lnPrefix = ln.getPrefix();
+						}
+	
+						if (fcda.getPrefix().equals(lnPrefix)) {
+							ln.setPrefix(lnPrefix);
+							found = true;
+						}
 					}
-
-					if (fcda.getPrefix().equals(lnPrefix)) {
-						ln.setPrefix("");
-						break;
-					}
+				}
+				
+				if (!found) {
 					error("no Logical Node with class '" + fcda.getLnClass().toString() + "' and prefix '" + lnPrefix + "' for FCDA: " + fcda.toString());
 				}
 				

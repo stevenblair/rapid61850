@@ -25,6 +25,7 @@
 
 
 
+
 int ber_decode_myAnalogValue(unsigned char *buf, struct myAnalogValue *myAnalogValue) {
 	int offset = 0;
 

@@ -31,6 +31,7 @@ extern "C" {
 
 
 
+
 void init_sv();
 int sv_update_E1Q1SB1_C1_PerformanceSV(unsigned char *buf);
 int sv_update_E1Q1SB1_C1_Volt(unsigned char *buf);

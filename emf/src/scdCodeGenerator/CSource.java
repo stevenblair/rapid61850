@@ -35,8 +35,8 @@ public class CSource extends CFile {
 	public CSourceTemplate template;
 	public List<CFunction>	functions;
 	
-	public CSource(String filename, String includes) {
-		super(filename, includes);
+	public CSource(String filename) {
+		super(filename);
 		
 		this.instances = new StringBuilder();
 		this.manualFunctions = new StringBuilder();

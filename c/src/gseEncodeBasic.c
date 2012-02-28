@@ -34,16 +34,10 @@ int BER_ENCODE_CTYPE_FLOAT32(unsigned char *buf, CTYPE_FLOAT32 *value) {
 	buf[offset++] = ASN1_TAG_FLOATING_POINT;
 	offset += encodeLength(&buf[offset], len);
 
-#if GOOSE_FIXED_SIZE != 1
 	buf[offset++] = 0x08;	// bits for exponent
 	netmemcpy(&buf[offset], value, len - 1);
 
 	return offset + len - 1;
-#else
-	netmemcpy(&buf[offset], value, len);
-
-	return offset + len;
-#endif
 }
 int BER_ENCODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 	CTYPE_INT16U offset = 0;
@@ -52,16 +46,10 @@ int BER_ENCODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 	buf[offset++] = ASN1_TAG_FLOATING_POINT;
 	offset += encodeLength(&buf[offset], len);
 
-#if GOOSE_FIXED_SIZE != 1
 	buf[offset++] = 0x0B;	// bits for exponent
 	netmemcpy(&buf[offset], value, len - 1);
 
 	return offset + len - 1;
-#else
-	netmemcpy(&buf[offset], value, len - 1);
-
-	return offset + len;
-#endif
 }
 
 int BER_ENCODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
