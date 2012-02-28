@@ -48,7 +48,7 @@ Note that the SCL model has been augmented to help with code generation, so the 
  2. Select "XML Schema" as the Model Importer type. Select all the IEC 61850 XML Schema documents in the `emf/model` directory.
  3. Select the three root packages that are imported (although, only `scl` is used). Click "Finish". This will re-generate some files in `emf/model`: scl.ecore, lcoordinates.ecore, lmaintenance.ecore, and SCL.genmodel.
  4. Create a new project of type "Convert Projects to JET Projects", and select the `emf` project. For the `emf` project, go to Project Properties > JET Settings, and set Template Containers to "templates", and Source Container to "src". Delete the `scdCodeGeneratorTemplates` directory in the root of `emf` that was created before JET was configured correctly.
- 5. Open `SCL.genmodel` and right-click on the root of the model tree. Select "Show Properties View" and ensure that "Compliance Level" is set to "6.0". Right-click on the root again and select "Generate Model Code". This should re-generate the model implementation files (in the 'emf/src/ch' directory), and set up the project properly for using the generated code.
+ 5. Open `SCL.genmodel` and right-click on the root of the model tree. Select "Show Properties View" and ensure that "Compliance Level" is set to "6.0". Right-click on the root again and select "Generate Model Code". This should re-generate the model implementation files (in the `emf/src/ch` directory), and set up the project properly for using the generated code.
  6. The package `org.eclipse.em.query` needs to be added to the project's Plug-in Dependencies. This can be done from the mouse cursor tooltip for the compiler error at the `import` statements.
  7. You may need to include an additional JAR library for the project to compile. In the Project Properties for `emf`, go to Java Build Path > Libraries. Click on "Add External JARs..." and find `com.ibm.icu_4.2.1.v20100412.jar` (or a similar version). It should be located in the "plugins" directory within the Eclipse installation.
 
@@ -118,7 +118,7 @@ D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone = &SVcallbackFunc
 D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &GSEcallbackFunction;
 ```
 
-where `D1Q1SB4.S1.C1.exampleMMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). `rmxuCB` is the name of the `SampledValueControl`, in a different IED, which send the SV packets. After being initialised, the callback function will be executed after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a separate memory buffer.
+where `D1Q1SB4.S1.C1.exampleMMXU_1` is a Logical Node defined in `datatypes.h` (and `ied.h`). `rmxuCB` is the name of the `SampledValueControl`, in a different IED, which sent the SV packets. After being initialised, the callback function will be executed after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a separate memory buffer.
 
 ### Fixed-length GOOSE encoding ###
 
