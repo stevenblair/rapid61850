@@ -745,7 +745,7 @@ public class SCDCodeGenerator {
 																
 																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + ln.getInst() + ".sv_inputs_" + svControl.getName() + ".";
 
-																svDecodeDatasetFunction.append("\n\tif (strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");
+																svDecodeDatasetFunction.append("\n\tif (svIDLength == " + svControl.getSmvID().length() + " && strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");
 																svDecodeDatasetFunction.append("\n\t\tdecode_" + datasetName + "(dataset, smpCnt, &" + inputsPath + datasetName + ASDUIndex + ");");
 																svDecodeDatasetFunction.append("\n\t\t" + inputsPath + "smpCnt = smpCnt;");
 																svDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
@@ -770,7 +770,7 @@ public class SCDCodeGenerator {
 																String gocbRef = extRef.getIedName() + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getName();
 																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ln.getPrefix() + ln.getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + ln.getInst() + ".gse_inputs_" + gseControl.getName() + ".";
 																
-																gseDecodeDatasetFunction.append("\n\tif (strncmp((const char *) gocbRef, \"" + gocbRef + "\", gocbRefLength) == 0) {");
+																gseDecodeDatasetFunction.append("\n\tif (gocbRefLength == " + gocbRef.length() + " && strncmp((const char *) gocbRef, \"" + gocbRef + "\", gocbRefLength) == 0) {");
 																gseDecodeDatasetFunction.append("\n\t\tber_decode_" + datasetName + "(dataset, &" + inputsPath + datasetName + ");");
 																gseDecodeDatasetFunction.append("\n\t\t" + inputsPath + "timeAllowedToLive = timeAllowedToLive;");
 																gseDecodeDatasetFunction.append("\n\t\t" + inputsPath + "T = T;");

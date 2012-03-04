@@ -262,28 +262,28 @@ int decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, CTYPE_INT16U smpCnt, struct
 
 void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {
 
-	if (strncmp((const char *) svID, "11", svIDLength) == 0) {
+	if (svIDLength == 2 && strncmp((const char *) svID, "11", svIDLength) == 0) {
 		decode_E1Q1SB1_C1_smv(dataset, smpCnt, &D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.E1Q1SB1_C1_smv[ASDU]);
 		D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.smpCnt = smpCnt;
 		if (D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.datasetDecodeDone != NULL) {
 			D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.datasetDecodeDone(smpCnt);
 		}
 	}
-	if (strncmp((const char *) svID, "rmxu", svIDLength) == 0) {
+	if (svIDLength == 4 && strncmp((const char *) svID, "rmxu", svIDLength) == 0) {
 		decode_E1Q1SB1_C1_rmxu(dataset, smpCnt, &D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu[ASDU]);
 		D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.smpCnt = smpCnt;
 		if (D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone != NULL) {
 			D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone(smpCnt);
 		}
 	}
-	if (strncmp((const char *) svID, "Performance", svIDLength) == 0) {
+	if (svIDLength == 11 && strncmp((const char *) svID, "Performance", svIDLength) == 0) {
 		decode_E1Q1SB1_C1_Performance(dataset, smpCnt, &D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.E1Q1SB1_C1_Performance);
 		D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.smpCnt = smpCnt;
 		if (D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.datasetDecodeDone != NULL) {
 			D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.datasetDecodeDone(smpCnt);
 		}
 	}
-	if (strncmp((const char *) svID, "11", svIDLength) == 0) {
+	if (svIDLength == 2 && strncmp((const char *) svID, "11", svIDLength) == 0) {
 		decode_E1Q1SB1_C1_smv(dataset, smpCnt, &D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.E1Q1SB1_C1_smv[ASDU]);
 		D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.smpCnt = smpCnt;
 		if (D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.datasetDecodeDone != NULL) {
