@@ -42,7 +42,7 @@ int BER_DECODE_CTYPE_FLOAT32(unsigned char *buf, CTYPE_FLOAT32 *value) {
 		}
 	}
 
-	return offset + len - 1;
+	return offset + len;
 }
 
 int BER_DECODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
@@ -62,7 +62,7 @@ int BER_DECODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 		}
 	}
 
-	return offset + len - 1;
+	return offset + len;
 }
 int BER_DECODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
 	CTYPE_INT16U offset = 0;
