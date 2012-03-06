@@ -123,7 +123,7 @@ extern "C" {
 #define GSE_TAG_SIMULATION						0x87
 #define GSE_TAG_CONFREV							0x88
 #define GSE_TAG_NDSCOM							0x89
-#define GSE_TAG_NUMDATSETENTRIES				0x8B
+#define GSE_TAG_NUMDATSETENTRIES				0x8A
 #define GSE_TAG_ALLDATA							0xAB
 
 #define SV_TAG_SAVPDU							0x60
