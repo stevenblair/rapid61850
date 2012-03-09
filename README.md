@@ -55,14 +55,17 @@ Note that the SCL model has been augmented to help with code generation, so the 
 
 ### C code project example ###
 
-An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile on Windows, you should have MinGW installed and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.) In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `"${workspace_loc:/${ProjName}/Include}"` as an include path. Also, in Project Properties > C/C++ Build > Settings > MinGW C Linker, add `wpcap` and `ws2_32` (assuming you are using Windows) to "Libraries" and add `"${workspace_loc:/${ProjName}/Lib}"` and `"C:\MinGW\lib"` to "Library search path". The WinPcap library files and header files (from http://www.winpcap.org/devel.htm) have been included in the repository for convenience. The PC must also have WinPcap driver installed (either by installing Wireshark, or from http://www.winpcap.org/install/default.htm).
+An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile with Eclipse on Windows, you should:
 
-The accompanying mbed microcontroller example code is available [here](http://mbed.org/users/sblair/programs/rapid61850example/lyox9z). A [Processing](http://processing.org/) GUI is located in the `/processing/PACWorldClient` directory. For this to work, execute the example C project, start the microcontroller code, then start the Processing executable.
+ - Install MinGW and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.)
+ - In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `"${workspace_loc:/${ProjName}/Include}"` as an include path.
+ - In Project Properties > C/C++ Build > Settings > MinGW C Linker, add `wpcap` and `ws2_32` (assuming you are using Windows) to "Libraries" and add `"${workspace_loc:/${ProjName}/Lib}"` and `"C:\MinGW\lib"` to "Library search path".
+ - The WinPcap library files and header files (from http://www.winpcap.org/devel.htm) have been included in the repository for convenience. The PC must also have the WinPcap driver installed (either by installing Wireshark, or from http://www.winpcap.org/install/default.htm).
 
 
-## Using the code ##
+## Using the code with a new SCD file ##
 
-First open the file `Main.java`. In the `Main` class, set the value of `SCD_FILENAME` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation. If the SCD parser complains, ensure that the first two lines of the SCD file exactly match those from the example `scd.xml` in the repository.
+First, open the file `Main.java`. In the `Main` class, set the value of `SCD_FILENAME` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation. **If the SCD parser complains, ensure that the first two lines of the SCD file exactly match those from the example `scd.xml` in the repository.**
 
 A basic C `main()` function will look something like:
 
