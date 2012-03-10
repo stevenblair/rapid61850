@@ -125,7 +125,7 @@ where `D1Q1SB4.S1.C1.exampleMMXU_1` is a Logical Node defined in `datatypes.h` (
 
 ### Fixed-length GOOSE encoding ###
 
-To enable fixed-length GOOSE encoding, in `ctypes.h` set the value of `GOOSE_FIXED_SIZE` to '1'. Otherwise, it should have a value of `0`. This can only be enabled globally for all GOOSE encoding, rather than on a per Control basis.
+To enable fixed-length GOOSE encoding, in `ctypes.h` set the value of `GOOSE_FIXED_SIZE` to `1`. Otherwise, it should have a value of `0`. This can only be enabled globally for all GOOSE encoding, rather than on a per Control basis.
 
 ### Platform-specific options ###
 
