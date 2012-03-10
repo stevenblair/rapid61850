@@ -146,8 +146,8 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.Performance.goID = (unsigned char *) malloc(12);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.goID, "Performance\0", 12);
 	E1Q1SB1.S1.C1.LN0.Performance.t = 0;
-	E1Q1SB1.S1.C1.LN0.Performance.gocbRef = (unsigned char *) malloc(27);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.gocbRef, "E1Q1SB1C1/LLN0$Performance\0", 27);
+	E1Q1SB1.S1.C1.LN0.Performance.gocbRef = (unsigned char *) malloc(30);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.gocbRef, "E1Q1SB1C1/LLN0$GO$Performance\0", 30);
 	E1Q1SB1.S1.C1.LN0.Performance.datSet = (unsigned char *) malloc(27);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.datSet, "E1Q1SB1C1/LLN0$Performance\0", 27);
 	E1Q1SB1.S1.C1.LN0.Performance.timeAllowedToLive = 0;
@@ -172,8 +172,8 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.ItlPositions.goID = (unsigned char *) malloc(4);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.goID, "Itl\0", 4);
 	E1Q1SB1.S1.C1.LN0.ItlPositions.t = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions.gocbRef = (unsigned char *) malloc(28);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.gocbRef, "E1Q1SB1C1/LLN0$ItlPositions\0", 28);
+	E1Q1SB1.S1.C1.LN0.ItlPositions.gocbRef = (unsigned char *) malloc(31);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.gocbRef, "E1Q1SB1C1/LLN0$GO$ItlPositions\0", 31);
 	E1Q1SB1.S1.C1.LN0.ItlPositions.datSet = (unsigned char *) malloc(25);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
 	E1Q1SB1.S1.C1.LN0.ItlPositions.timeAllowedToLive = 0;
@@ -198,8 +198,8 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.goID = (unsigned char *) malloc(4);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.goID, "Itl\0", 4);
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.t = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions.gocbRef = (unsigned char *) malloc(32);
-	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.gocbRef, "E1Q1SB1C1/LLN0$AnotherPositions\0", 32);
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.gocbRef = (unsigned char *) malloc(35);
+	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.gocbRef, "E1Q1SB1C1/LLN0$GO$AnotherPositions\0", 35);
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.datSet = (unsigned char *) malloc(25);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.timeAllowedToLive = 0;
@@ -224,8 +224,8 @@ void init_gse() {
 	D1Q1SB4.S1.C1.LN0.SyckResult.goID = (unsigned char *) malloc(7);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.goID, "SynChk\0", 7);
 	D1Q1SB4.S1.C1.LN0.SyckResult.t = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult.gocbRef = (unsigned char *) malloc(26);
-	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.gocbRef, "D1Q1SB4C1/LLN0$SyckResult\0", 26);
+	D1Q1SB4.S1.C1.LN0.SyckResult.gocbRef = (unsigned char *) malloc(29);
+	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.gocbRef, "D1Q1SB4C1/LLN0$GO$SyckResult\0", 29);
 	D1Q1SB4.S1.C1.LN0.SyckResult.datSet = (unsigned char *) malloc(26);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.datSet, "D1Q1SB4C1/LLN0$SyckResult\0", 26);
 	D1Q1SB4.S1.C1.LN0.SyckResult.timeAllowedToLive = 0;
@@ -250,8 +250,8 @@ void init_gse() {
 	D1Q1SB4.S1.C1.LN0.MMXUResult.goID = (unsigned char *) malloc(11);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.goID, "MMXUResult\0", 11);
 	D1Q1SB4.S1.C1.LN0.MMXUResult.t = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult.gocbRef = (unsigned char *) malloc(26);
-	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.gocbRef, "D1Q1SB4C1/LLN0$MMXUResult\0", 26);
+	D1Q1SB4.S1.C1.LN0.MMXUResult.gocbRef = (unsigned char *) malloc(29);
+	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.gocbRef, "D1Q1SB4C1/LLN0$GO$MMXUResult\0", 29);
 	D1Q1SB4.S1.C1.LN0.MMXUResult.datSet = (unsigned char *) malloc(26);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.datSet, "D1Q1SB4C1/LLN0$MMXUResult\0", 26);
 	D1Q1SB4.S1.C1.LN0.MMXUResult.timeAllowedToLive = 0;
