@@ -71,8 +71,8 @@ extern "C" {
 #define SV_GET_LENGTH_DBPOS					4
 
 #if GOOSE_FIXED_SIZE == 1
-#define BER_GET_LENGTH_CTYPE_FLOAT32(x)			(SV_GET_LENGTH_FLOAT32)
-#define BER_GET_LENGTH_CTYPE_FLOAT64(x)			(SV_GET_LENGTH_FLOAT64)			// fixed-size FLOAT64 not actually specified in -8-1
+#define BER_GET_LENGTH_CTYPE_FLOAT32(x)			(SV_GET_LENGTH_FLOAT32 + 1)
+#define BER_GET_LENGTH_CTYPE_FLOAT64(x)			(SV_GET_LENGTH_FLOAT64 + 1)			// fixed-size FLOAT64 not actually specified in -8-1
 #define BER_GET_LENGTH_CTYPE_TIMESTAMP(x)		(SV_GET_LENGTH_TIMESTAMP)
 #define BER_GET_LENGTH_CTYPE_INT8(x)			(2)								// 8-bit datatypes are encoded in 16 bits!
 #define BER_GET_LENGTH_CTYPE_INT16(x)			(3)
