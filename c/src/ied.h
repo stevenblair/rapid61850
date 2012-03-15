@@ -30,7 +30,7 @@ extern "C" {
 #include "gse.h"
 
 
-struct E1Q1SB1 {
+struct E1Q1SB1_t {
 	struct {
 		struct {
 			struct {
@@ -52,57 +52,57 @@ struct E1Q1SB1 {
 	} S1;
 };
 
-struct E1Q1BP2 {
+struct E1Q1BP2_t {
 	struct {
 	} S1;
 };
 
-struct E1Q1BP3 {
+struct E1Q1BP3_t {
 	struct {
 	} S1;
 };
 
-struct E1Q2SB1 {
+struct E1Q2SB1_t {
 	struct {
 	} S1;
 };
 
-struct E1Q3SB1 {
+struct E1Q3SB1_t {
 	struct {
 	} S1;
 };
 
-struct E1Q3KA1 {
+struct E1Q3KA1_t {
 	struct {
 	} S1;
 };
 
-struct E1Q3KA2 {
+struct E1Q3KA2_t {
 	struct {
 	} S1;
 };
 
-struct E1Q3KA3 {
+struct E1Q3KA3_t {
 	struct {
 	} S1;
 };
 
-struct D1Q1SB1 {
+struct D1Q1SB1_t {
 	struct {
 	} S1;
 };
 
-struct D1Q1BP2 {
+struct D1Q1BP2_t {
 	struct {
 	} S1;
 };
 
-struct D1Q1BP3 {
+struct D1Q1BP3_t {
 	struct {
 	} S1;
 };
 
-struct D1Q1SB4 {
+struct D1Q1SB4_t {
 	struct {
 		struct {
 			struct {
@@ -120,18 +120,18 @@ struct D1Q1SB4 {
 
 
 
-extern struct E1Q1SB1 E1Q1SB1;
-extern struct E1Q1BP2 E1Q1BP2;
-extern struct E1Q1BP3 E1Q1BP3;
-extern struct E1Q2SB1 E1Q2SB1;
-extern struct E1Q3SB1 E1Q3SB1;
-extern struct E1Q3KA1 E1Q3KA1;
-extern struct E1Q3KA2 E1Q3KA2;
-extern struct E1Q3KA3 E1Q3KA3;
-extern struct D1Q1SB1 D1Q1SB1;
-extern struct D1Q1BP2 D1Q1BP2;
-extern struct D1Q1BP3 D1Q1BP3;
-extern struct D1Q1SB4 D1Q1SB4;
+extern struct E1Q1SB1_t E1Q1SB1;
+extern struct E1Q1BP2_t E1Q1BP2;
+extern struct E1Q1BP3_t E1Q1BP3;
+extern struct E1Q2SB1_t E1Q2SB1;
+extern struct E1Q3SB1_t E1Q3SB1;
+extern struct E1Q3KA1_t E1Q3KA1;
+extern struct E1Q3KA2_t E1Q3KA2;
+extern struct E1Q3KA3_t E1Q3KA3;
+extern struct D1Q1SB1_t D1Q1SB1;
+extern struct D1Q1BP2_t D1Q1BP2;
+extern struct D1Q1BP3_t D1Q1BP3;
+extern struct D1Q1SB4_t D1Q1SB4;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

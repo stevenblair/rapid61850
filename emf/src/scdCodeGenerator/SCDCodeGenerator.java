@@ -289,7 +289,7 @@ public class SCDCodeGenerator {
 			TIED ied = ieds.next();
 			String iedName = ied.getName();
 			
-			iedHeader.appendDatatypes("struct " +  iedName + " {\n");
+			iedHeader.appendDatatypes("struct " +  iedName + "_t {\n");
 			
 			if (ied.getAccessPoint() != null) {
 				Iterator<TAccessPoint> aps = ied.getAccessPoint().iterator();
@@ -661,8 +661,8 @@ public class SCDCodeGenerator {
 				iedHeader.appendDatatypes("\n");
 			}
 
-			iedSource.appendInstances("struct " + iedName + " " + iedName + ";\n");
-			iedHeader.appendExtern("extern struct " + iedName + " " + iedName + ";\n");
+			iedSource.appendInstances("struct " + iedName + "_t " + iedName + ";\n");
+			iedHeader.appendExtern("extern struct " + iedName + "_t " + iedName + ";\n");
 		}
 		
 		dataTypesSource.appendFunctions("}\n");
