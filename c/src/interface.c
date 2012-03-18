@@ -12,6 +12,10 @@ unsigned char bufOut[2048] = {0};
 pcap_t *fp;
 char errbuf[PCAP_ERRBUF_SIZE];
 
+void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data) {
+    gse_sv_packet_filter((unsigned char *) pkt_data, header->len);
+}
+
 pcap_t *init_pcap() {
 	pcap_t *fpl;
     pcap_if_t *alldevs;
@@ -38,7 +42,7 @@ pcap_t *init_pcap() {
 	if ((fpl = pcap_open_live(used_if->name,	// name of the device
 							 65536,				// portion of the packet to capture. It doesn't matter in this case
 							 1,					// promiscuous mode (nonzero means promiscuous)
-							 1000,				// read timeout
+							 1,					// read timeout
 							 errbuf				// error buffer
 							 )) == NULL)
 	{
@@ -62,11 +66,7 @@ void stop() {
 }
 
 int readPacket() {
-	int len = 0;	// TODO: read from Ethernet packet
-
-	gse_sv_packet_filter(bufIn, len);
-
-	return 0;
+	return pcap_loop(fp, 1, packet_handler, NULL);
 }
 
 //#endif

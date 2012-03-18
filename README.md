@@ -17,7 +17,7 @@ This readme file describes how to set up the software, and its basic use.
  - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25-50%
  - Supports initialisation of data type values, and instance-specific values
  - The platform be used in two ways:
-   - As part of a native C/C++ program. This approach would be used for embedded applications, where deterministic real-time performance is important, and where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
+   - As part of a native C/C++ program. This approach would be used for embedded applications, where deterministic real-time performance is important, or where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
    - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
  - Open source, under the GPL 2 license
 
@@ -173,9 +173,9 @@ If using MinGW as the C compiler (as described above), this process is significa
 	For Java:
     swig -java -outdir ..\..\java_interface rapid61850.i
 
-Now we need to change the compiler settings for the `c` project to generate a dynamic library, instead of an executable. This differs for Python and Java. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces.
+Now we need to change the compiler settings for the `c` project to generate a dynamic library, instead of an executable. This differs for Python and Java. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces. You may also need to exclude the existing `main.c` file from any Python or Java builds.
 
-#### Python C compiler settings ####
+#### Python interface C compiler settings ####
 
  - In C/C++ Build > Settings > Build Artifact:
    - set Artifact Type to `Shared Library`
@@ -209,7 +209,7 @@ Now we need to change the compiler settings for the `c` project to generate a dy
 
     Note that all C global variables appear within `rapid61850.cvar`.
 
-#### Java C compiler settings ####
+#### Java interface C compiler settings ####
 
  - In C/C++ Build > Settings > Build Artifact:
    - set Artifact Type to `Shared Library`
@@ -255,4 +255,3 @@ Coming soon...
  - Data types cannot contain arrays.
  - According to [the standard](http://www.tissues.iec61850.com/tissue.mspx?issueid=579), SV datasets should only contain primitive data types, and not constructed types. However, because SV encoding involves fixed-length value fields, it is always possible to reconstruct the data, if encoded and decoded consistently. Therefore, this library will allow constructed types to be encoded in SV packets.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
- - The Python and Java interfaces need code for receiving packets.
