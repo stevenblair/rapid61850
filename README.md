@@ -18,7 +18,7 @@ This readme file describes how to set up the software, and its basic use.
  - Supports initialisation of data type values, and instance-specific values
  - The platform be used in two ways:
    - As part of a native C/C++ program. This approach would be used for embedded applications, where deterministic real-time performance is important, and where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
-   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
+   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
  - Open source, under the GPL 2 license
 
 ## Installation ##
@@ -154,7 +154,7 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 So far, this readme has described how to use the native C/C++ interface. It's also possible to use [SWIG](http://www.swig.org/) to automatically generate wrappers for high-level languages from C/C++ header files. At the moment, Python and Java interfaces on Windows and Linux have been tested, but other languages (such as C#, Lua, Perl, Ruby, etc.) should work too.
 
-Four C files, with filenames `interface*`, are generated along with the rest of the GOOSE/SV code. These files, along with the SWIG interface file `rapid61850.i`, are used as the input to SWIG. They contain functions to start a (platform-dependent) network interface using winpcap/libpcap, and functions to send GOOSE or SV packets using that network interface. All of the interaction with pcap is done in C, and is hidden by the interface given to SWIG. Note that this interface can also be used within a C/C++ application.
+Four C files, with filenames `interface*`, are generated along with the rest of the GOOSE/SV code. These files, and the SWIG interface file `rapid61850.i`, are used as the input to SWIG. They contain functions to start a (platform-dependent) network interface using winpcap/libpcap, and functions to send GOOSE or SV packets using that network interface. All of the interaction with pcap is done in C, and is hidden by the interface given to SWIG. Note that this interface can also be used within a C/C++ application.
 
 ### Building on Windows ###
 
@@ -173,7 +173,7 @@ If using MinGW as the C compiler (as described above), this process is significa
 	For Java:
     swig -java -outdir ..\..\java_interface rapid61850.i
 
-Now we need to change the compiler settings for the `c` project to generate a dynamic library, instead of an executable. This differs for Python and Java.
+Now we need to change the compiler settings for the `c` project to generate a dynamic library, instead of an executable. This differs for Python and Java. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces.
 
 #### Python C compiler settings ####
 
@@ -201,17 +201,15 @@ Now we need to change the compiler settings for the `c` project to generate a dy
 
     rapid61850.start()
 
-    rapid61850.gse_send_D1Q1SB4_C1_MMXUResult_buf(1, 512);   // send GOOSE packet
+    rapid61850.gse_send_D1Q1SB4_C1_MMXUResult_buf(1, 512);    # send GOOSE packet
 
-    rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal = MOD_ON // interact with IED data model
+    rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal = MOD_ON  # interact with IED data model
     print rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal
     ```
 
     Note that all C global variables appear within `rapid61850.cvar`.
 
 #### Java C compiler settings ####
-
-This is very similar to the process for Python. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces.
 
  - In C/C++ Build > Settings > Build Artifact:
    - set Artifact Type to `Shared Library`
@@ -255,4 +253,4 @@ Coming soon...
  - Data types cannot contain arrays.
  - According to [the standard](http://www.tissues.iec61850.com/tissue.mspx?issueid=579), SV datasets should only contain primitive data types, and not constructed types. However, because SV encoding involves fixed-length value fields, it is always possible to reconstruct the data, if encoded and decoded consistently. Therefore, this library will allow constructed types to be encoded in SV packets.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
- - The Python and Java interfaces needs code for receiving packets.
+ - The Python and Java interfaces need code for receiving packets.
