@@ -193,7 +193,7 @@ Now we need to change the compiler settings for the `c` project to generate a dy
    - "${workspace_loc:/${ProjName}/Lib}"
    - "C:\Python27\libs"
  - Build the C project, and copy the `_rapid61850.pyd` file from the Release folder to the `python_interface` project directory.
- - create and run your Python code, e.g.:
+ - Create and run your Python code, e.g.:
 
     ```python
     import rapid61850
@@ -223,7 +223,7 @@ Now we need to change the compiler settings for the `c` project to generate a dy
  - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Library search path (-L):
    - "${workspace_loc:/${ProjName}/Lib}"
  - Build the C project, and copy the `rapid61850.dll` file from the Release folder to the `java_interface` project directory.
- - create and run your Java code, e.g.:
+ - Create your Java code, e.g.:
 
     ```java
     public class Main {
@@ -241,6 +241,8 @@ Now we need to change the compiler settings for the `c` project to generate a dy
         }
     }
     ```
+ - To run the Java program, you first need to specify the path to the native library. In Project Properties > Java Build Path > Libraries, expand the "JRE System Library" tree and select "Native library location". Click on "Edit..." and enter the project name (e.g., `java_interface`) as the Location path.
+
 
 ### Building on Linux ###
 
