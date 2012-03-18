@@ -8,15 +8,17 @@
 #ifndef INTERFACE_H_
 #define INTERFACE_H_
 
+#include "iec61850.h"
+#include "interfaceSendPacket.h"
+
+//#if INTERFACE_SUPPORTED == 1
+
 #ifdef _WIN32
 	#define WPCAP
 	#define HAVE_REMOTE
 	#define WIN32_LEAN_AND_MEAN
 #endif
 #include <pcap.h>
-
-#include "iec61850.h"
-#include "interfaceSendPacket.h"
 
 extern unsigned char bufIn[2048];
 extern unsigned char bufOut[2048];
@@ -29,5 +31,6 @@ void start();
 void stop();
 int readPacket();
 
+//#endif
 
 #endif /* INTERFACE_H_ */

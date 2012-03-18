@@ -16,11 +16,14 @@ This readme file describes how to set up the software, and its basic use.
  - Performs validation of the SCD file, and reports any problems
  - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25-50%
  - Supports initialisation of data type values, and instance-specific values
+ - The platform be used in two ways:
+   - As part of a native C/C++ program. This approach would be used for embedded applications, where deterministic real-time performance is important, and where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
+   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
  - Open source, under the GPL 2 license
 
 ## Installation ##
 
-The software requires Eclipse, with the Eclipse Modeling Framework (EMF). Java Emitter Templates (JET) is needed for development, but not to run the code. It's easiest to start with the version of Eclipse that comes with the Modeling Tools bundle (see here: http://www.eclipse.org/downloads/).
+The software requires Eclipse, with the Eclipse Modeling Framework (EMF). Java Emitter Templates (JET) is needed for development, but not to run the code. It's easiest to start with the version of Eclipse that comes with the Modeling Tools bundle (see here: http://www.eclipse.org/downloads/). (If you are planning on using the Python or Java interfaces on Windows, it is best to use the 32-bit versions of Eclipse, and the JDK.)
 
 There are two source code trees: `emf` (in Java), and `c` (obviously written in C). Each should be a separate project in Eclipse. The Java `emf` project directory is organised as follows:
 
@@ -146,6 +149,98 @@ All `CTYPE_*` definitions must map to local datatypes of the correct size and si
 In `ctypes.c`, the basic library function `memcpy()` is used to copy bytes in order (according to platform endianness), and `reversememcpy()` copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these should work, they can be replaced with platform-specific alternatives for better performance.
 
 The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.
+
+## Using the Python or Java interfaces ##
+
+So far, this readme has described how to use the native C/C++ interface. It's also possible to use [SWIG](http://www.swig.org/) to automatically generate wrappers for high-level languages from C/C++ header files. At the moment, Python and Java interfaces on Windows and Linux have been tested, but other languages (such as C#, Lua, Perl, Ruby, etc.) should work too.
+
+Four C files, with filenames `interface*`, are generated along with the rest of the GOOSE/SV code. These files, along with the SWIG interface file `rapid61850.i`, are used as the input to SWIG. They contain functions to start a (platform-dependent) network interface using winpcap/libpcap, and functions to send GOOSE or SV packets using that network interface. All of the interaction with pcap is done in C, and is hidden by the interface given to SWIG. Note that this interface can also be used within a C/C++ application.
+
+### Building on Windows ###
+
+If using MinGW as the C compiler (as described above), this process is significantly simpler with the 32-bit versions of Eclipse and the JDK are used. The following instructions assume this. It's also assumed that the Java or Python application exists within a directory at the same level as the `emf` and `c` directories.
+
+ - Generate the C code for your SCD file, as described above.
+ - [Download](http://www.swig.org/download.html) `swigwin`, which is a pre-compiled binary of SWIG for Windows. Once unzipped, there are two options for using this:
+   - Add the location of `swig.exe` to the Windows `PATH` environment variable.
+   - Or, copy the contents of the swigwin directory (i.e., copy `swig.exe` *and* all the sub-folders) to the `c/src` directory.
+ - Create the directory for your Python or Java program called, for example, `python_interface` or `java_interface`. You may wish to make this an Eclipse PyDev or Java project.
+ - Open a command prompt at the `c/src` directory, and run SWIG using one of the following commands:
+
+    For Python:
+    swig -python -outdir ..\..\python_interface rapid61850.i
+
+	For Java:
+    swig -java -outdir ..\..\java_interface rapid61850.i
+
+Now we need to change the compiler settings for the `c` project to generate a dynamic library, instead of an executable. This differs for Python and Java.
+
+#### Python C compiler settings ####
+
+ - In C/C++ Build > Settings > Build Artifact:
+   - set Artifact Type to `Shared Library`
+   - set Artifact name to `rapid61850`
+   - set Artifact extension to `pyd`
+   - set Output prefix to `_`
+ - In C/C++ Build > Settings > Tool Settings > Includes, use the following Include Paths (**adjust these to match the exact version and location of Python on your system**):
+   - "C:\Python27"
+   - "C:\Python27\include"
+   - "C:\Python27\Lib"
+   - "${workspace_loc:/${ProjName}/Include}"
+ - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Libraries (-l):
+   - `wpcap`, `python27`, and `ws2_32`. (Again, adjust `python27` to the correct version.)
+ - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Libraries search paths (-L):
+   - "${workspace_loc:/${ProjName}/Lib}"
+   - "C:\Python27\libs"
+ - Build the C project, and copy the `_rapid61850.pyd` file from the Release folder to the `python_interface` project directory.
+ - create and run your Python code, e.g.:
+
+    ```python
+    import rapid61850
+    rapid61850.start()
+    rapid61850.gse_send_D1Q1SB4_C1_MMXUResult_buf(1, 512);
+    ```
+
+<!--Add global variables-->
+
+#### Java C compiler settings ####
+
+This is very similar to the process for Python. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces.
+
+ - In C/C++ Build > Settings > Build Artifact:
+   - set Artifact Type to `Shared Library`
+   - set Artifact name to `rapid61850`
+   - set Artifact extension to `dll`
+   - set Output prefix to ``
+ - In C/C++ Build > Settings > Tool Settings > Includes, use the following Include Paths (**adjust these to match the exact version and location of Python on your system**):
+   - "C:\Program Files (x86)\Java\jdk1.7.0_03\include"
+   - "C:\Program Files (x86)\Java\jdk1.7.0_03\include\win32"
+   - "${workspace_loc:/${ProjName}/Include}"
+ - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Library search path (-L):
+   - "${workspace_loc:/${ProjName}/Lib}"
+ - Build the C project, and copy the `rapid61850.dll` file from the Release folder to the `java_interface` project directory.
+ - create and run your Java code, e.g.:
+
+    ```java
+    public class Main {
+        static {
+            System.loadLibrary("rapid61850");
+        }
+
+        public static void main(String[] args) {
+            rapid61850.start();
+
+            System.out.println(rapid61850.gse_send_E1Q1SB1_C1_Performance_buf(1, 512));                     // send GOOSE packet
+    
+            rapid61850.getE1Q1SB1().getS1().getC1().getMMXUa_1().getMod().setStVal(Mod.MOD_ON);             // interact with IED data model
+            System.out.println(rapid61850.getE1Q1SB1().getS1().getC1().getMMXUa_1().getMod().getStVal());
+        }
+    }
+    ```
+
+### Building on Linux ###
+
+Coming soon...
 
 ## Known issues and possible features ##
 

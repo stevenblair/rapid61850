@@ -2,6 +2,10 @@
 #include "interface.h"
 #include "interfaceSendPacket.h"
 
+//#if INTERFACE_SUPPORTED == 1
+
+int testValue = 0;
+
 unsigned char bufIn[2048] = {0};
 unsigned char bufOut[2048] = {0};
 
@@ -75,3 +79,4 @@ int readPacket() {
 	return 0;
 }
 
+//#endif
