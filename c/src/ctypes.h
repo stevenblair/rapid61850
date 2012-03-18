@@ -27,10 +27,12 @@ extern "C" {
 
 #include <string.h>
 
-#define LITTLE_ENDIAN			1
+#ifdef _WIN32
+	#define LITTLE_ENDIAN			1
+#endif
 #define TIMESTAMP_SUPPORTED		0
-#define INTERFACE_SUPPORTED		1
 #define GOOSE_FIXED_SIZE		0	// set to 1 to enable fixed-sized GOOSE encoding, which is slightly more efficient to encode.
+#define HIGH_LEVEL_INTERFACE	1	//
 
 #define LOCAL_MAC_ADDRESS_VALUE	{0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02}
 

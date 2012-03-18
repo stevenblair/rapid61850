@@ -2,7 +2,7 @@
 #include "interface.h"
 #include "interfaceSendPacket.h"
 
-//#if INTERFACE_SUPPORTED == 1
+//#if HIGH_LEVEL_INTERFACE == 1
 
 int testValue = 0;
 
@@ -32,11 +32,6 @@ pcap_t *init_pcap() {
 
     used_if = alldevs;
 
-    // find VirtualBox's "Sun" interface
-    /*while (strstr(used_if->description, "Sun") == NULL && used_if->next != NULL) {
-    	used_if = used_if->next;
-    }*/
-
     fprintf(stdout, "network interface: %s\n", used_if->description);
     fflush(stdout);
 
@@ -59,12 +54,7 @@ pcap_t *init_pcap() {
 void start() {
 	initialise_iec61850();	// initialise IEC 61850 library
 
-	fp = init_pcap();	// initialise platform-specific libpcap network interface
-
-	// initialise send() functions for each SV and GSE control?
-
-	// initialise callback wrappers?
-	//D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &D1Q1SB4_S1_C1_RSYNa_1_gse_inputs_ItlPositions_datasetDecodeDone;
+	fp = init_pcap();		// initialise platform-specific libpcap network interface
 }
 
 void stop() {
@@ -72,7 +62,7 @@ void stop() {
 }
 
 int readPacket() {
-	int len = 0;	// read from Ethernet packet
+	int len = 0;	// TODO: read from Ethernet packet
 
 	gse_sv_packet_filter(bufIn, len);
 

@@ -197,11 +197,17 @@ Now we need to change the compiler settings for the `c` project to generate a dy
 
     ```python
     import rapid61850
+    from rapid61850 import *
+
     rapid61850.start()
-    rapid61850.gse_send_D1Q1SB4_C1_MMXUResult_buf(1, 512);
+
+    rapid61850.gse_send_D1Q1SB4_C1_MMXUResult_buf(1, 512);   // send GOOSE packet
+
+    rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal = MOD_ON // interact with IED data model
+    print rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal
     ```
 
-<!--Add global variables-->
+    Note that all C global variables appear within `rapid61850.cvar`.
 
 #### Java C compiler settings ####
 
@@ -249,3 +255,4 @@ Coming soon...
  - Data types cannot contain arrays.
  - According to [the standard](http://www.tissues.iec61850.com/tissue.mspx?issueid=579), SV datasets should only contain primitive data types, and not constructed types. However, because SV encoding involves fixed-length value fields, it is always possible to reconstruct the data, if encoded and decoded consistently. Therefore, this library will allow constructed types to be encoded in SV packets.
  - Does not find ExtRef DA satisfied by container DO within a dataset, where the DA is not explicitly in a dataset.
+ - The Python and Java interfaces needs code for receiving packets.

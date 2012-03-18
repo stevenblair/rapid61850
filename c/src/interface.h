@@ -11,7 +11,7 @@
 #include "iec61850.h"
 #include "interfaceSendPacket.h"
 
-//#if INTERFACE_SUPPORTED == 1
+//#if HIGH_LEVEL_INTERFACE == 1
 
 #ifdef _WIN32
 	#define WPCAP
@@ -24,8 +24,6 @@ extern unsigned char bufIn[2048];
 extern unsigned char bufOut[2048];
 
 extern pcap_t *fp;
-
-//void D1Q1SB4_S1_C1_RSYNa_1_gse_inputs_ItlPositions_datasetDecodeDone(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
 
 void start();
 void stop();

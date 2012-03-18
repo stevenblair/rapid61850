@@ -19,16 +19,14 @@
  */
 
 #if HIGH_LEVEL_INTERFACE == 0
-#define WPCAP
-#define HAVE_REMOTE
-#define WIN32_LEAN_AND_MEAN
+	#define WPCAP
+	#define HAVE_REMOTE
+	#define WIN32_LEAN_AND_MEAN
 
-#include <pcap.h>
+	#include <pcap.h>
 #endif
 #include "iec61850.h"
 #include "interface.h"
-
-#define HIGH_LEVEL_INTERFACE	1
 
 #if HIGH_LEVEL_INTERFACE == 0
 
