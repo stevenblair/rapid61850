@@ -28,7 +28,7 @@ extern "C" {
 #include <string.h>
 
 #define LITTLE_ENDIAN			1
-#define TIMESTAMP_SUPPORTED		1
+#define TIMESTAMP_SUPPORTED		0
 
 #define LOCAL_MAC_ADDRESS_VALUE	{0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02}
 

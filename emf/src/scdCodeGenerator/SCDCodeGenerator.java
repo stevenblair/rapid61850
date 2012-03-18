@@ -61,7 +61,7 @@ import ch.iec._61850._2006.scl.TVal;
 public class SCDCodeGenerator {
 
 	public void generateCode(DocumentRoot root, SCDAdditionalMappings map) {
-		// initialise C files
+		// initialise C header files
 		CHeader dataTypesHeader = new CHeader("datatypes.h", "DATATYPES_H");
 		CHeader svEncodeHeader = new CHeader("svEncode.h", "SV_ENCODE_H");
 		CHeader svDecodeHeader = new CHeader("svDecode.h", "SV_DECODE_H");
@@ -70,6 +70,7 @@ public class SCDCodeGenerator {
 		CHeader svHeader = new CHeader("sv.h", "SV_H");
 		CHeader gseHeader = new CHeader("gse.h", "GSE_H");
 		CHeader iedHeader = new CHeader("ied.h", "IED_H");
+		CHeader interfaceHeader = new CHeader("interfaceSendPacket.h", "INTERFACE_SEND_PACKET_H");
 
 		dataTypesHeader.addIncludeLocal("ctypes.h");
 		svEncodeHeader.addIncludeLocal("svEncodeBasic.h");
@@ -88,7 +89,10 @@ public class SCDCodeGenerator {
 		iedHeader.addIncludeLocal(dataTypesHeader);
 		iedHeader.addIncludeLocal(svHeader);
 		iedHeader.addIncludeLocal(gseHeader);
+		interfaceHeader.addIncludeLocal("iec61850.h");
+		interfaceHeader.addIncludeLocal("interface.h");
 		
+		// initialise C source files
 		CSource svEncodeSource = new CSource("svEncode.c");
 		CSource svDecodeSource = new CSource("svDecode.c");
 		CSource gseEncodeSource = new CSource("gseEncode.c");
@@ -97,6 +101,7 @@ public class SCDCodeGenerator {
 		CSource gseSource = new CSource("gse.c");
 		CSource iedSource = new CSource("ied.c");
 		CSource dataTypesSource = new CSource("datatypes.c");
+		CSource interfaceSource = new CSource("interfaceSendPacket.c");
 
 		svEncodeSource.addIncludeLocal("svEncodeBasic.h");
 		svEncodeSource.addIncludeLocal(iedHeader);
@@ -134,6 +139,8 @@ public class SCDCodeGenerator {
 		dataTypesSource.addIncludeLocal(dataTypesHeader);
 		dataTypesSource.addIncludeLocal(iedHeader);
 		dataTypesSource.addIncludeSystem("stdlib.h");
+		
+		interfaceSource.addIncludeLocal(interfaceHeader);
 		
 
 		svHeader.appendFunctionPrototypes("void init_sv();\n");
@@ -493,6 +500,18 @@ public class SCDCodeGenerator {
 													svSource.appendFunctions("\t}\n");
 													svSource.appendFunctions("\n\treturn 0;\n");
 													svSource.appendFunctions("}\n");
+													
+													// repeat for interface functions
+													String svUpdateFunctionPrototypeBuf = "int sv_update_" + ied.getName() + "_" + ld.getInst() + "_" + svName + "_buf()";
+													interfaceHeader.appendFunctionPrototypes(svUpdateFunctionPrototypeBuf + ";\n");
+													
+													interfaceSource.appendFunctions("\n" + svUpdateFunctionPrototypeBuf + " {\n");
+													interfaceSource.appendFunctions("\tint len = sv_update_" + ied.getName() + "_" + ld.getInst() + "_" + svName + "(bufOut);\n\n");
+													interfaceSource.appendFunctions("\tif (len > 0) {\n");
+													interfaceSource.appendFunctions("\t\tpcap_sendpacket(fp, bufOut, len);\n");
+													interfaceSource.appendFunctions("\t}\n\n");
+													interfaceSource.appendFunctions("\treturn len;\n");
+													interfaceSource.appendFunctions("}\n");
 												}
 											}
 										}
@@ -603,6 +622,18 @@ public class SCDCodeGenerator {
 													
 													gseSource.appendFunctions("\treturn gseEncodePacket(&" + gsePath + gseName + ", buf);\n");
 													gseSource.appendFunctions("}\n");
+													
+													// repeat for interface functions
+													String gseUpdateFunctionPrototypeBuf = "int gse_send_" + ied.getName() + "_" + ld.getInst() + "_" + gseName + "_buf(int statusChange, int timeAllowedToLive)";
+													interfaceHeader.appendFunctionPrototypes(gseUpdateFunctionPrototypeBuf + ";\n");
+													
+													interfaceSource.appendFunctions("\n" + gseUpdateFunctionPrototypeBuf + " {\n");
+													interfaceSource.appendFunctions("\tint len = gse_send_" + ied.getName() + "_" + ld.getInst() + "_" + gseName + "(bufOut, (CTYPE_BOOLEAN) statusChange, (CTYPE_INT32U) timeAllowedToLive);\n\n");
+													interfaceSource.appendFunctions("\tif (len > 0) {\n");
+													interfaceSource.appendFunctions("\t\tpcap_sendpacket(fp, bufOut, len);\n");
+													interfaceSource.appendFunctions("\t}\n\n");
+													interfaceSource.appendFunctions("\treturn len;\n");
+													interfaceSource.appendFunctions("}\n");
 												}
 											}
 										}
@@ -843,6 +874,7 @@ public class SCDCodeGenerator {
 		gseSource.saveFile();
 		iedSource.saveFile();
 		dataTypesSource.saveFile();
+		interfaceSource.saveFile();
 
 		svEncodeHeader.saveFile();
 		svDecodeHeader.saveFile();
@@ -852,6 +884,7 @@ public class SCDCodeGenerator {
 		gseHeader.saveFile();
 		iedHeader.saveFile();
 		dataTypesHeader.saveFile();
+		interfaceHeader.saveFile();
 	}
 
 	private void processDOIorSDI(SCDAdditionalMappings map, TDataTypeTemplates dataTypeTemplates, CSource dataTypesSource, List<String> initDOTypes, List<String> initDATypes, StringBuilder accumulatedName, List<TSDI> sdiList, List<TDAI> daiList, String name) {
