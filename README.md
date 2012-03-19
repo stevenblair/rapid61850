@@ -6,7 +6,7 @@ This readme file describes how to set up the software, and its basic use.
 
 *The code is meant to be a proof of concept, and is highly experimental. It has not been tested on many SCD files. The code is also still in development at the moment, so some features may be broken or incomplete.*
 
-<img style="float:right" src="http://personal.strath.ac.uk/steven.m.blair/mbed-cropped-small.jpg" />
+<img style="float:right" src="http://personal.strath.ac.uk/steven.m.blair/mbed-cropped.png" />
 
 ## Features ##
 
@@ -255,6 +255,7 @@ Install the following packages:
 ```sh
 sudo apt-get install libpcap-dev
 sudo apt-get install swig
+sudo apt-get install build-essential
 sudo apt-get install python2.7
 sudo apt-get install openjdk-6-jdk
 ```
