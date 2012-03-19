@@ -217,14 +217,14 @@ Now we need to change the compiler settings for the `c` project to generate a dy
    - set Artifact Type to `Shared Library`
    - set Artifact name to `rapid61850`
    - set Artifact extension to `dll`
-   - set Output prefix to ``
+   - leave Output prefix blank
  - In C/C++ Build > Settings > Tool Settings > Includes, use the following Include Paths (**adjust these to match the exact version and location of Java on your system**):
    - `"C:\Program Files (x86)\Java\jdk1.7.0_03\include"`
    - `"C:\Program Files (x86)\Java\jdk1.7.0_03\include\win32"`
    - `"${workspace_loc:/${ProjName}/Include}"`
  - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Library search path (-L):
    - `"${workspace_loc:/${ProjName}/Lib}"`
-<!--possibly need to add `-Wl,-add-stdcall-alias` to misc linker flags-->
+ - In In C/C++ Build > Settings > Tool Settings > Miscellaneous, add `-Wl,-add-stdcall-alias` to the Linker flags
  - Build the C project, and copy the `rapid61850.dll` file from the Release folder to the `java_interface` project directory.
  - Create your Java code, e.g.:
 
