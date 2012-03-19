@@ -249,7 +249,7 @@ Now we need to change the compiler settings for the `c` project to generate a dy
 
 ### Building on Linux ###
 
-On Linux, it's easier to create the Python or Java interface with the Terminal, rather than with Eclipse. The steps below assume Ubuntu (and have only been tested on 11.10), so it may differ on other distributions.
+On Linux, it's easier to create the Python or Java interface with the Terminal, rather than with Eclipse. The steps below assume Ubuntu (and have only been tested on 11.10 64-bit), so it may differ on other distributions.
 
 Install the following packages:
 
