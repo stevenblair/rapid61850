@@ -163,7 +163,7 @@ If using MinGW as the C compiler (as described above), this process is significa
  - Generate the C code for your SCD file, as described above.
  - [Download](http://www.swig.org/download.html) `swigwin`, which is a pre-compiled binary of SWIG for Windows. Once unzipped, there are two options for using this:
    - Add the location of `swig.exe` to the Windows `PATH` environment variable.
-   - Or, copy the contents of the swigwin directory (i.e., copy `swig.exe` *and* all the sub-folders) to the `c/src` directory.
+   - Or, copy the contents of the swigwin directory (i.e., copy `swig.exe` *and* all the sub-folders) to the `c/src` directory. You will need to tell Eclipse to exclude these directories from the build.
  - Create the directory for your Python or Java program called, for example, `python_interface` or `java_interface`. You may wish to make this an Eclipse PyDev or Java project.
  - Open a command prompt at the `c/src` directory, and run SWIG using one of the following commands:
 
@@ -218,12 +218,13 @@ Now we need to change the compiler settings for the `c` project to generate a dy
    - set Artifact name to `rapid61850`
    - set Artifact extension to `dll`
    - set Output prefix to ``
- - In C/C++ Build > Settings > Tool Settings > Includes, use the following Include Paths (**adjust these to match the exact version and location of Python on your system**):
+ - In C/C++ Build > Settings > Tool Settings > Includes, use the following Include Paths (**adjust these to match the exact version and location of Java on your system**):
    - `"C:\Program Files (x86)\Java\jdk1.7.0_03\include"`
    - `"C:\Program Files (x86)\Java\jdk1.7.0_03\include\win32"`
    - `"${workspace_loc:/${ProjName}/Include}"`
  - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Library search path (-L):
    - `"${workspace_loc:/${ProjName}/Lib}"`
+<!--possibly need to add `-Wl,-add-stdcall-alias` to misc linker flags-->
  - Build the C project, and copy the `rapid61850.dll` file from the Release folder to the `java_interface` project directory.
  - Create your Java code, e.g.:
 
