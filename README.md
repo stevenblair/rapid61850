@@ -253,10 +253,10 @@ On Linux, it's easier to create the Python or Java interface with the Terminal, 
 Install the following packages:
 
 ```shell
-    sudo apt-get install libpcap-dev
-    sudo apt-get install swig
-    sudo apt-get install python2.7
-    sudo apt-get install openjdk-6-jdk
+sudo apt-get install libpcap-dev
+sudo apt-get install swig
+sudo apt-get install python2.7
+sudo apt-get install openjdk-6-jdk
 ```
 <!--are there any more?-->
 
@@ -268,25 +268,25 @@ Coming soon...
 
 #### Java ####
 
-```shell
-    # attempt to clean up any previous files
-    rm *.o *.so *_wrap.c java/*.class java/*.java
+```sh
+# attempt to clean up any previous files
+rm *.o *.so *_wrap.c java/*.class java/*.java
 
-    mkdir java 	  # only needed once
+mkdir java 	  # only needed once
 
-    # run SWIG, and put the .java files (there will be a lot) in the "java" sub-directory
-    swig -java -outdir java rapid61850.i
+# run SWIG, and put the .java files (there will be a lot) in the "java" sub-directory
+swig -java -outdir java rapid61850.i
 
-    # compile and link the C library
-    gcc -fPIC -c *.c -I/usr/lib/jvm/java-6-openjdk/include -I/usr/lib/jvm/java-6-openjdk/include/linux
-    ld -G *.o -lpcap -o librapid61850.so
+# compile and link the C library
+gcc -fPIC -c *.c -I/usr/lib/jvm/java-6-openjdk/include -I/usr/lib/jvm/java-6-openjdk/include/linux
+ld -G *.o -lpcap -o librapid61850.so
 
-    # compile all .java files, including the sample program
-    javac -d java/ java/*.java ../../java_interface/Main.java
+# compile all .java files, including the sample program
+javac -d java/ java/*.java ../../java_interface/Main.java
 
-    # run the Java program. sudo is needed for the network interface
-    cd java
-    sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    # this path must be set correctly
+# run the Java program. sudo is needed for the network interface
+cd java
+sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    # this path must be set correctly
 ```
 
 ## Known issues and possible features ##
