@@ -252,7 +252,7 @@ On Linux, it's easier to create the Python or Java interface with the Terminal, 
 
 Install the following packages:
 
-```shell
+```sh
 sudo apt-get install libpcap-dev
 sudo apt-get install swig
 sudo apt-get install python2.7
