@@ -275,9 +275,6 @@ swig -python rapid61850.i
 gcc -fPIC -c *.c -I/usr/include/python2.7
 gcc -shared *.o -lpcap -o _rapid61850.so
 
-# compile all .java files, including the sample program
-javac -d java/ java/*.java ../../java_interface/Main.java
-
 # run Python. sudo is needed for the network interface
 sudo python2.7
 
