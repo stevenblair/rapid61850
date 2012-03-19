@@ -185,15 +185,15 @@ Now we need to change the compiler settings for the `c` project to generate a dy
    - set Artifact extension to `pyd`
    - set Output prefix to `_`
  - In C/C++ Build > Settings > Tool Settings > Includes, use the following Include Paths (**adjust these to match the exact version and location of Python on your system**):
-   - "C:\Python27"
-   - "C:\Python27\include"
-   - "C:\Python27\Lib"
-   - "${workspace_loc:/${ProjName}/Include}"
+   - `"C:\Python27"`
+   - `"C:\Python27\include"`
+   - `"C:\Python27\Lib"`
+   - `"${workspace_loc:/${ProjName}/Include}"`
  - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Libraries (-l):
    - `wpcap`, `python27`, and `ws2_32`. (Again, adjust `python27` to the correct version.)
  - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Libraries search paths (-L):
-   - "${workspace_loc:/${ProjName}/Lib}"
-   - "C:\Python27\libs"
+   - `"${workspace_loc:/${ProjName}/Lib}"`
+   - `"C:\Python27\libs"`
  - Build the C project, and copy the `_rapid61850.pyd` file from the Release folder to the `python_interface` project directory.
  - Create and run your Python code, e.g.:
 
@@ -219,11 +219,11 @@ Now we need to change the compiler settings for the `c` project to generate a dy
    - set Artifact extension to `dll`
    - set Output prefix to ``
  - In C/C++ Build > Settings > Tool Settings > Includes, use the following Include Paths (**adjust these to match the exact version and location of Python on your system**):
-   - "C:\Program Files (x86)\Java\jdk1.7.0_03\include"
-   - "C:\Program Files (x86)\Java\jdk1.7.0_03\include\win32"
-   - "${workspace_loc:/${ProjName}/Include}"
+   - `"C:\Program Files (x86)\Java\jdk1.7.0_03\include"`
+   - `"C:\Program Files (x86)\Java\jdk1.7.0_03\include\win32"`
+   - `"${workspace_loc:/${ProjName}/Include}"`
  - In C/C++ Build > Settings > Tool Settings > Libraries, use the following Library search path (-L):
-   - "${workspace_loc:/${ProjName}/Lib}"
+   - `"${workspace_loc:/${ProjName}/Lib}"`
  - Build the C project, and copy the `rapid61850.dll` file from the Release folder to the `java_interface` project directory.
  - Create your Java code, e.g.:
 
@@ -261,7 +261,7 @@ sudo apt-get install openjdk-6-jdk
 ```
 <!--are there any more?-->
 
-Open a terminal at the `rapid61850/c/src` directory.
+Open a Terminal at the `rapid61850/c/src` directory.
 
 #### Python ####
 
