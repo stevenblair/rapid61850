@@ -203,7 +203,7 @@ Now we need to change the compiler settings for the `c` project to generate a dy
 
     rapid61850.start()
 
-    rapid61850.gse_send_D1Q1SB4_C1_MMXUResult_buf(1, 512);    # send GOOSE packet
+    rapid61850.gse_send_D1Q1SB4_C1_MMXUResult_buf(1, 512)     # send GOOSE packet
 
     rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal = MOD_ON  # interact with IED data model
     print rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal
@@ -264,7 +264,30 @@ Open a terminal at the `rapid61850/c/src` directory.
 
 #### Python ####
 
-Coming soon...
+```sh
+# attempt to clean up any previous files
+rm *.o *.so *_wrap.c rapid61850.py rapid61850.pyc
+
+# run SWIG, output goes in current directory
+swig -python rapid61850.i
+
+# compile and link the C library
+gcc -fPIC -c *.c -I/usr/include/python2.7
+gcc -shared *.o -lpcap -o _rapid61850.so
+
+# compile all .java files, including the sample program
+javac -d java/ java/*.java ../../java_interface/Main.java
+
+# run Python. sudo is needed for the network interface
+sudo python2.7
+
+# example Python program:
+>>> import rapid61850
+>>> rapid61850.start()
+>>> print rapid61850.gse_send_D1Q1SB4_C1_MMXUResult_buf(1, 512)
+332
+>>> exit()
+```
 
 #### Java ####
 
@@ -272,7 +295,7 @@ Coming soon...
 # attempt to clean up any previous files
 rm *.o *.so *_wrap.c java/*.class java/*.java
 
-mkdir java 	  # only needed once
+mkdir java    # only needed once
 
 # run SWIG, and put the .java files (there will be a lot) in the "java" sub-directory
 swig -java -outdir java rapid61850.i
