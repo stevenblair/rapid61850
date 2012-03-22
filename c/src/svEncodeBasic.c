@@ -35,7 +35,7 @@ int ENCODE_CTYPE_FLOAT64(unsigned char *buf, CTYPE_FLOAT64 *value) {
 	return SV_GET_LENGTH_FLOAT64;
 }
 int ENCODE_CTYPE_QUALITY(unsigned char *buf, CTYPE_QUALITY *value) {
-	netmemcpy(buf, value, SV_GET_LENGTH_QUALITY);
+	netmemcpy(&buf[2], value, 2);			// assumes Quality is stored as 16-bit, but SV encoding is 32-bit
 
 	return SV_GET_LENGTH_QUALITY;
 }
