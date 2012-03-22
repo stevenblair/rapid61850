@@ -69,7 +69,7 @@ extern "C" {
 #define SV_GET_LENGTH_VISSTRING255			35
 #define SV_GET_LENGTH_BOOLEAN				1
 #define SV_GET_LENGTH_ENUM					4
-#define SV_GET_LENGTH_QUALITY				2
+#define SV_GET_LENGTH_QUALITY				4
 #define SV_GET_LENGTH_DBPOS					4
 
 #if GOOSE_FIXED_SIZE == 1
