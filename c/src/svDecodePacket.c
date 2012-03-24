@@ -128,5 +128,5 @@ void svDecode(unsigned char *buf, int len) {
 
 	unsigned short APDULength = ((buf[offset] << 8) | buf[offset + 1]) - 8;    // must use length in PDU because total bytes (len) may contain CRC
 
-	svDecodeAPDU(&buf[offset + 8], APDULength, 0, 0);    // cuts out frame header
+	svDecodeAPDU(&buf[offset + 6], APDULength, 0, 0);    // cuts out frame header
 }

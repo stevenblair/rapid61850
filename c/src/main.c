@@ -26,7 +26,9 @@
 	#include <pcap.h>
 #endif
 #include "iec61850.h"
+#if HIGH_LEVEL_INTERFACE == 1
 #include "interface.h"
+#endif
 
 #if HIGH_LEVEL_INTERFACE == 0
 
