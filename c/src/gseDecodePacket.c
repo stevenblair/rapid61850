@@ -94,5 +94,5 @@ void gseDecode(unsigned char *buf, int len) {
 		offset = 26;
 	}
 
-	gseDecodePDU(&buf[offset]);	// cuts out frame header (fixed size of 26 bytes before start of APDU)
+	gseDecodePDU(&buf[offset]);	// cuts out frame header
 }

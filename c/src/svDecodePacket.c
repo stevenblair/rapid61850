@@ -119,7 +119,14 @@ void svDecodeAPDU(unsigned char *buf, int len, unsigned int ASDU, unsigned int t
 }
 
 void svDecode(unsigned char *buf, int len) {
-	unsigned short APDULength = ((buf[21] << 8) | buf[22]) - 8;	// must use length in PDU because total bytes (len) may contain CRC
+	int offset = 16;   // start of 'length' field in payload
 
-	svDecodeAPDU(&buf[26], APDULength, 0, 0);	// cuts out frame header (fixed size of 26 bytes before start of APDU)
+	// check for VLAN tag
+	if (buf[12] == 0x81 && buf[13] == 0x00) {
+		offset = 20;
+	}
+
+	unsigned short APDULength = ((buf[offset] << 8) | buf[offset + 1]) - 8;    // must use length in PDU because total bytes (len) may contain CRC
+
+	svDecodeAPDU(&buf[offset + 8], APDULength, 0, 0);    // cuts out frame header
 }
