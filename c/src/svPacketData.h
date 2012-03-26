@@ -25,7 +25,9 @@
 #include <string.h>
 #include "ctypes.h"
 
-#define SV_OPTIONAL_SUPPORTED	0		// set to "1" to enable output of optional items in SV packets (Wireshark does not support these)
+#define SV_USE_VLAN						0	// set to "1" to insert VLAN tag into SV packets
+#define SV_OPTIONAL_SUPPORTED			0	// set to "1" to enable output of optional items in SV packets (Wireshark does not support these)
+#define SV_FIXED_SMPCNT_CONFREV_SIZE	1	// set to "1" to force smpCnt and confRev field to be fixed size, rather than BER encoded
 
 #define SV_MAX_DATASET_SIZE 	512//1024
 

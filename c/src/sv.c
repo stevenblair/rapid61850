@@ -37,6 +37,10 @@ int sv_update_E1Q1SB1_C1_PerformanceSV(unsigned char *buf) {
 	E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount].smpCnt = E1Q1SB1.S1.C1.LN0.PerformanceSV.sampleCountMaster;
 	E1Q1SB1.S1.C1.LN0.PerformanceSV.sampleCountMaster++;
 
+	if (E1Q1SB1.S1.C1.LN0.PerformanceSV.sampleCountMaster == E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount].smpRate) {
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.sampleCountMaster = 0;
+	}
+
 	if (++E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount == E1Q1SB1.S1.C1.LN0.PerformanceSV.noASDU) {
 		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDUCount = 0;
 		return svEncodePacket(&E1Q1SB1.S1.C1.LN0.PerformanceSV, buf);
@@ -53,6 +57,10 @@ int sv_update_E1Q1SB1_C1_Volt(unsigned char *buf) {
 	E1Q1SB1.S1.C1.LN0.Volt.ASDU[E1Q1SB1.S1.C1.LN0.Volt.ASDUCount].smpCnt = E1Q1SB1.S1.C1.LN0.Volt.sampleCountMaster;
 	E1Q1SB1.S1.C1.LN0.Volt.sampleCountMaster++;
 
+	if (E1Q1SB1.S1.C1.LN0.Volt.sampleCountMaster == E1Q1SB1.S1.C1.LN0.Volt.ASDU[E1Q1SB1.S1.C1.LN0.Volt.ASDUCount].smpRate) {
+		E1Q1SB1.S1.C1.LN0.Volt.sampleCountMaster = 0;
+	}
+
 	if (++E1Q1SB1.S1.C1.LN0.Volt.ASDUCount == E1Q1SB1.S1.C1.LN0.Volt.noASDU) {
 		E1Q1SB1.S1.C1.LN0.Volt.ASDUCount = 0;
 		return svEncodePacket(&E1Q1SB1.S1.C1.LN0.Volt, buf);
@@ -68,6 +76,10 @@ int sv_update_E1Q1SB1_C1_rmxuCB(unsigned char *buf) {
 
 	E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount].smpCnt = E1Q1SB1.S1.C1.LN0.rmxuCB.sampleCountMaster;
 	E1Q1SB1.S1.C1.LN0.rmxuCB.sampleCountMaster++;
+
+	if (E1Q1SB1.S1.C1.LN0.rmxuCB.sampleCountMaster == E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount].smpRate) {
+		E1Q1SB1.S1.C1.LN0.rmxuCB.sampleCountMaster = 0;
+	}
 
 	if (++E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount == E1Q1SB1.S1.C1.LN0.rmxuCB.noASDU) {
 		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDUCount = 0;

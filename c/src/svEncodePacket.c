@@ -30,9 +30,19 @@ int svASDULength(struct svControl *svControl) {
 	len += strlen((const char *) svControl->ASDU[0].svID) + 2;
 	//printf("%i, %s\n", strlen(svControl->ASDU[0].svID), svControl->ASDU[0].svID);
 	//len += strlen((const char *) svControl->ASDU[0].datset) + 2;
+
+#if SV_FIXED_SMPCNT_CONFREV_SIZE == 1
+	len += SV_GET_LENGTH_INT16U + 2;	// smpCnt
+	len += SV_GET_LENGTH_INT32U + 2;	// confRev
+#else
 	len += ber_integer_length((&svControl->ASDU[0].smpCnt), SV_GET_LENGTH_INT16U)/*BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[0].smpCnt)*/ + 2;
 	len += ber_integer_length((&svControl->ASDU[0].confRev), SV_GET_LENGTH_INT32U)/*BER_GET_LENGTH_CTYPE_INT32U(&svControl->ASDU[0].confRev)*/ + 2;
+#endif
 	len += SV_GET_LENGTH_BOOLEAN + 2;
+
+
+
+
 	//len += BER_GET_LENGTH_CTYPE_INT16U(&svControl->ASDU[0].smpRate) + 2;
 	len += svControl->ASDU[0].data.size + getLengthBytes(svControl->ASDU[0].data.size);
 	len++;
@@ -72,12 +82,14 @@ int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 	memcpy(&buf[offset], LOCAL_MAC_ADDRESS, 6);						// source MAC addresses
 	offset += 6;
 
+#if SV_USE_VLAN == 1
 	buf[offset++] = 0x81;	// TPID
 	buf[offset++] = 0x00;
 
 	netmemcpy(&buf[offset], &svControl->ethHeaderData.VLAN_ID, 2);	// TCI
 	buf[offset] |= (svControl->ethHeaderData.VLAN_PRIORITY << 5);
 	offset += 2;
+#endif
 
 	buf[offset++] = 0x88;	// EtherType
 	buf[offset++] = 0xBA;
@@ -126,12 +138,24 @@ int svEncodePacket(struct svControl *svControl, unsigned char *buf) {
 #endif
 
 		buf[offset++] = SV_TAG_SMPCNT;
+#if SV_FIXED_SMPCNT_CONFREV_SIZE == 1
+		buf[offset++] = SV_GET_LENGTH_INT16U;
+		netmemcpy(&buf[offset], &svControl->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U);
+		offset += SV_GET_LENGTH_INT16U;
+#else
 		offset += encodeLength(&buf[offset], ber_integer_length(&svControl->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U));
 		offset += ber_encode_integer(&buf[offset], &svControl->ASDU[i].smpCnt, SV_GET_LENGTH_INT16U);
+#endif
 
 		buf[offset++] = SV_TAG_CONFREV;
+#if SV_FIXED_SMPCNT_CONFREV_SIZE == 1
+		buf[offset++] = SV_GET_LENGTH_INT32U;
+		netmemcpy(&buf[offset], &svControl->ASDU[i].confRev, SV_GET_LENGTH_INT32U);
+		offset += SV_GET_LENGTH_INT32U;
+#else
 		offset += encodeLength(&buf[offset], ber_integer_length(&svControl->ASDU[i].confRev, SV_GET_LENGTH_INT32U));
 		offset += ber_encode_integer(&buf[offset], &svControl->ASDU[i].confRev, SV_GET_LENGTH_INT32U);
+#endif
 
 #if SV_OPTIONAL_SUPPORTED == 1
 		if (svControl->ASDU[i].showRefrTm) {

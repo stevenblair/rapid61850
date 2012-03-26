@@ -493,6 +493,10 @@ public class SCDCodeGenerator {
 
 													svSource.appendFunctions("\t" + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].smpCnt = " + svPath + svName + ".sampleCountMaster;\n");
 													svSource.appendFunctions("\t" + svPath + svName + ".sampleCountMaster++;\n\n");
+
+													svSource.appendFunctions("\tif (" + svPath + svName + ".sampleCountMaster == " + svPath + svName + ".ASDU[" + svPath + svName + ".ASDUCount].smpRate) {\n");
+													svSource.appendFunctions("\t\t" + svPath + svName + ".sampleCountMaster = 0;\n");
+													svSource.appendFunctions("\t}\n\n");
 													
 													svSource.appendFunctions("\tif (++" + svPath + svName + ".ASDUCount == " + svPath + svName + ".noASDU) {\n");
 													svSource.appendFunctions("\t\t" + svPath + svName + ".ASDUCount = 0;\n");
