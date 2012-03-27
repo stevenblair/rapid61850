@@ -32,14 +32,6 @@
         <LDevice inst="MUnn">
           <LN0 lnType="IEC_61850_9_2LELLN0" lnClass="LLN0" inst="">
             <DataSet name="PhsMeas1">
-              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="1" fc="MX" doName="Vol" daName="instMag" />
-              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="1" fc="MX" doName="Vol" daName="q" />
-              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="2" fc="MX" doName="Vol" daName="instMag" />
-              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="2" fc="MX" doName="Vol" daName="q" />
-              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="3" fc="MX" doName="Vol" daName="instMag" />
-              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="3" fc="MX" doName="Vol" daName="q" />
-              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="instMag" />
-              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="q" />
               <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="1" fc="MX" doName="Amp" daName="instMag" />
               <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="1" fc="MX" doName="Amp" daName="q" />
               <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="2" fc="MX" doName="Amp" daName="instMag" />
@@ -48,6 +40,14 @@
               <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="3" fc="MX" doName="Amp" daName="q" />
               <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="4" fc="MX" doName="Amp" daName="instMag" />
               <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="4" fc="MX" doName="Amp" daName="q" />
+              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="1" fc="MX" doName="Vol" daName="instMag" />
+              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="1" fc="MX" doName="Vol" daName="q" />
+              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="2" fc="MX" doName="Vol" daName="instMag" />
+              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="2" fc="MX" doName="Vol" daName="q" />
+              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="3" fc="MX" doName="Vol" daName="instMag" />
+              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="3" fc="MX" doName="Vol" daName="q" />
+              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="instMag" />
+              <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="q" />
             </DataSet>
             <SampledValueControl name="MSVCB01" datSet="PhsMeas1" smvID="0000MU0001" smpRate="4000" nofASDU="1" confRev="1">
               <SmvOpts refreshTime="false" sampleSynchronized="true" sampleRate="false" security="false" />
