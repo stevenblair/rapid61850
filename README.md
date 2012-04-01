@@ -154,11 +154,13 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 So far, this readme has described how to use the native C/C++ interface. It's also possible to use [SWIG](http://www.swig.org/) to automatically generate wrappers for high-level languages from C/C++ header files. At the moment, Python and Java interfaces on Windows and Linux have been tested, but other languages (such as C#, Lua, Perl, Ruby, etc.) should work too.
 
-Four C files, with filenames `interface*`, are generated along with the rest of the GOOSE/SV code. These files, and the SWIG interface file `rapid61850.i`, are used as the input to SWIG. They contain functions to start a (platform-dependent) network interface using winpcap/libpcap, and functions to send GOOSE or SV packets using that network interface. All of the interaction with pcap is done in C, and is hidden by the interface given to SWIG. Note that this interface can also be used within a C/C++ application.
+Four C files, with filenames `interface*`, are generated along with the rest of the GOOSE/SV code. These files, and the SWIG interface file `rapid61850.i`, are used as the input to SWIG. They contain functions to start a (platform-dependent) network interface using winpcap/libpcap, and functions to send GOOSE or SV packets using that network interface. All of the interaction with pcap is done in C, and is hidden by the interface given to SWIG.
+
+Note that this interface can also be used within a C/C++ application - this is shown in the example `main.c` file, if `HIGH_LEVEL_INTERFACE` is defined as `1`. If your are not using this high-level interface, and are using the plain C interface, you may need to exclude the two `interface*.c` files from the build in Eclipse.
 
 ### Building on Windows ###
 
-If using MinGW as the C compiler (as described above), this process is significantly simpler with the 32-bit versions of Eclipse and the JDK are used. The following instructions assume this. It's also assumed that the Java or Python application exists within a directory at the same level as the `emf` and `c` directories.
+If using MinGW as the C compiler (as described above), this process is significantly simpler if the 32-bit versions of Eclipse and the JDK are used. The following instructions assume this. It's also assumed that the Python or Java application exists within a directory at the same level as the `emf` and `c` directories.
 
  - Generate the C code for your SCD file, as described above.
  - [Download](http://www.swig.org/download.html) `swigwin`, which is a pre-compiled binary of SWIG for Windows. Once unzipped, there are two options for using this:
