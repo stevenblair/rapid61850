@@ -1,6 +1,6 @@
 # Rapid-prototyping protection schemes with IEC 61850 #
 
-The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers. It's ideal for rapid-prototyping new power system protection and control systems that require communications. But the software could also be used to implement the communications for any general purpose system.
+The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications. But the software could also be used to implement the communications for any general purpose system.
 
 This readme file describes how to set up the software, and its basic use.
 
@@ -81,7 +81,7 @@ int main() {
 
 	// receive GOOSE or SV packet
 	length = recv_ethernet_packet(buffer);							// platform-specific call to receive an Ethernet packet
-	gse_sv_packet_filter(buffer, length);							// deals with any GOOSE or SV dataset that is able to be processed
+	gse_sv_packet_filter(buffer, length);								// deals with any GOOSE or SV dataset that is able to be processed
 
 	// read value that was updated by the packet (it will equal 1.024)
 	float inputValue = D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1_TVTR_1_Vol_instMag.f;
