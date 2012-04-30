@@ -48,7 +48,7 @@ public class Main {
 				resource = processor.load(scdFile.getAbsolutePath(), null);
 			}
 			else {
-				validator.error("SCD file does not exist");
+				validator.error("SCD file '" + SCD_FILENAME + "' does not exist");
 			}
 		}
 		catch (Exception e) {
