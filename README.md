@@ -17,7 +17,7 @@ This readme file describes how to set up the software, and its basic use.
  - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25-50%
  - Supports initialisation of data type values, and instance-specific values
  - The platform can be used in two ways:
-   - As part of a native C/C++ program. This approach would be used for embedded applications, where deterministic real-time performance is important, or where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
+   - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
    - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
  - Open source, under the GPL 2 license
 
