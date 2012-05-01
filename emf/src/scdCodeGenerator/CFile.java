@@ -31,8 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public abstract class CFile {
-	public final String C_PATH = "..\\c\\src\\";
-	public final String LICENSE_PATH = "src\\scdCodeGenerator\\license.txt";
+	public final String C_PATH = ".." + File.separator + "c" + File.separator + "src" + File.separator;
+	public final String LICENSE_PATH = "src" + File.separator + "scdCodeGenerator" + File.separator + "license.txt";
 	public String filename;
 	public List<String> includesLocal;
 	public List<String> includesSystem;
@@ -80,16 +80,17 @@ public abstract class CFile {
 		
 		try {
 			File f = new File(C_PATH + filename);
-			FileWriter fw = new FileWriter(f);
 			
 			File copyrightTextFile = new File(LICENSE_PATH);
-			//FileReader fr = new FileReader(copyrightTextFile);
 			FileInputStream fis  = new FileInputStream(copyrightTextFile);
 		    BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 		    
 			if (f.exists()) {
 				f.delete();
+				f.createNewFile();
 			}
+			
+			FileWriter fw = new FileWriter(f);
 			
 			String line;
 			while ((line = in.readLine()) != null) {

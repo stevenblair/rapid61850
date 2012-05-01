@@ -36,11 +36,9 @@ public class Main {
 		SCDValidator validator = new SCDValidator();
 		SCDAdditionalMappings map = new SCDAdditionalMappings();
 		SCDCodeGenerator scdCodeGenerator = new SCDCodeGenerator();
-		
+
 		// import SCD file
-		//String scdFullFilePath = PATH_TO_SOURCE + SCD_FILENAME;
 		Resource resource = null;
-		
 		try {
 			File scdFile = new File(PATH_TO_SOURCE, SCD_FILENAME);
 			if (scdFile.exists()) {
