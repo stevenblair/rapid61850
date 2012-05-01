@@ -54,7 +54,7 @@ An example SCD file and a `main.c` file are provided. Many of the other C files 
    - With Linux, use `pcap` instead of `wpcap`, and just add `"${workspace_loc:/${ProjName}/Lib}"` to the  "Library search path".
  - The WinPcap library files and header files (from http://www.winpcap.org/devel.htm) have been included in the repository for convenience. The PC must also have the WinPcap driver installed (either by installing Wireshark, or from http://www.winpcap.org/install/default.htm).
    - With Ubuntu, libpcap can be installed using `sudo apt-get install libpcap-dev`.
-   - Remember that, on Linux, **libpcap needs to run as root**, so either start Eclipse or run the compiled binary from the Terminal with `sudo`. Alternatively, you can grant the binary the [capability to access the network interface](http://packetlife.net/blog/2010/mar/19/sniffing-wireshark-non-root-user/) using: `setcap cap_net_raw,cap_net_admin=eip /path_to_project/rapid61850/c/Release/c`.
+   - Remember that, on Linux, **libpcap needs to run as root**, so either start Eclipse or run the compiled binary from the Terminal with `sudo`. Alternatively, you can grant the binary the [capability to access the network interface](http://packetlife.net/blog/2010/mar/19/sniffing-wireshark-non-root-user/) using: `sudo setcap cap_net_raw,cap_net_admin=eip /path_to_project/rapid61850/c/Release/c`.
 
 
 ## Using the code with a new SCD file ##
