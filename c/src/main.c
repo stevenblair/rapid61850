@@ -49,10 +49,17 @@ pcap_t *initWinpcap() {
     pcap_if_t *used_if;
 
     // Retrieve the device list from the local machine
-    if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL /* auth is not needed */, &alldevs, errbuf) == -1) {
-        fprintf(stderr, "Error in pcap_findalldevs_ex: %s\n", errbuf);
-        exit(1);
-    }
+#ifdef _WIN32
+	if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL /* auth is not needed */, &alldevs, errbuf) == -1) {
+		fprintf(stderr, "Error in pcap_findalldevs_ex: %s\n", errbuf);
+		exit(1);
+	}
+#else
+	if (pcap_findalldevs(&alldevs, errbuf) == -1) {
+		fprintf(stderr, "Error in pcap_findalldevs: %s\n", errbuf);
+		exit(1);
+	}
+#endif
 
     used_if = alldevs;
 
