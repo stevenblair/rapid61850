@@ -63,7 +63,11 @@ pcap_t *initWinpcap() {
 
     used_if = alldevs;
 
+#ifdef _WIN32
     fprintf(stdout, "%s\n", used_if->description);
+#else
+    fprintf(stdout, "%s\n", used_if->name);
+#endif
     fflush(stdout);
 
 	if ((fpl = pcap_open_live(used_if->name,	// name of the device
@@ -112,9 +116,9 @@ int main() {
 	int i = 0;
 	for (i = 0; i < E1Q1SB1.S1.C1.LN0.rmxuCB.noASDU; i++) {
 		len = E1Q1SB1.S1.C1.LN0.rmxuCB.update(buf);
-		pcap_sendpacket(fp, buf, len);
 
 		if (len > 0) {
+			pcap_sendpacket(fp, buf, len);
 			gse_sv_packet_filter(buf, len);
 
 			printf("SV test: %s\n", D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu[15].C1_RMXU_1_AmpLocPhsA.instMag.f == valueSV ? "passed" : "failed");
