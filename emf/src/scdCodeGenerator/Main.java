@@ -29,7 +29,7 @@ import ch.iec._61850._2006.scl.util.SclXMLProcessor;
 
 public class Main {
 	
-	final static String PATH_TO_SOURCE	= "src\\scdCodeGenerator\\";
+	final static String PATH_TO_SOURCE	= "src" + File.separator + "scdCodeGenerator" + File.separator;
 	final static String SCD_FILENAME	= "scd.xml";					// edit this to match the input SCD filename
 	
 	public static void main(String[] args) {
@@ -38,11 +38,11 @@ public class Main {
 		SCDCodeGenerator scdCodeGenerator = new SCDCodeGenerator();
 		
 		// import SCD file
-		String scdFullFilePath = PATH_TO_SOURCE + SCD_FILENAME;
+		//String scdFullFilePath = PATH_TO_SOURCE + SCD_FILENAME;
 		Resource resource = null;
 		
 		try {
-			File scdFile = new File(scdFullFilePath);
+			File scdFile = new File(PATH_TO_SOURCE, SCD_FILENAME);
 			if (scdFile.exists()) {
 				SclXMLProcessor processor = new SclXMLProcessor();
 				resource = processor.load(scdFile.getAbsolutePath(), null);
