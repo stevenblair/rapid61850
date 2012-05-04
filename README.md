@@ -61,7 +61,7 @@ An example SCD file and a `main.c` file are provided. Many of the other C files 
 
 ## Using the code with a new SCD file ##
 
-First, open the file `Main.java`. In the `Main` class, set the value of `SCD_FILENAME` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation. **If the SCD parser complains, ensure that the first two lines of the SCD file exactly match those from the example `scd.xml` in the repository.**
+First, open the file `Main.java`. In the `Main` class, set the value of `SCD_FILENAME` to the filename of the SCD file. The SCD file should be in the same directory as the `Main.java` file. Run the Java project to generate the C implementation. **If the SCD parser complains, ensure that the first two lines of the SCD file exactly match those from the example `scd.xml` in the repository.** It's usually best to refresh the C project in Eclipse, to ensure that Eclipse knows about the new or modified files.
 
 A basic C `main()` function will look something like:
 
