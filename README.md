@@ -1,6 +1,6 @@
 # Rapid-prototyping protection schemes with IEC 61850 #
 
-The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications. But the software could also be used to implement the communications for any general purpose system.
+The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.
 
 This readme file describes how to set up the software, and its basic use.
 
@@ -19,9 +19,11 @@ This readme file describes how to set up the software, and its basic use.
  - The platform can be used in two ways:
    - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
    - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
- - Open source, under the GPL 2 license
+ - Open source, under the GPL 2
 
 ## Installation ##
+
+This process has been tested on Windows and Ubuntu, but other Linux flavours and OS X should work too.
 
 The software requires Eclipse, with the Eclipse Modeling Framework (EMF). Java Emitter Templates (JET) is needed for development, but not to run the code. It's easiest to start with the version of Eclipse that comes with the Modeling Tools bundle (see here: http://www.eclipse.org/downloads/). (If you are planning on using the Python or Java interfaces on Windows, it is best to use the 32-bit versions of Eclipse, and the JDK.)
 
@@ -46,7 +48,7 @@ There are two source code trees: `emf` (in Java), and `c` (obviously written in 
 
 ### C code project example ###
 
-An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile with Eclipse on Windows, you should:
+An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile with Eclipse, you should:
 
  - Install MinGW and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.)
  - In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `"${workspace_loc:/${ProjName}/Include}"` as an include path.
