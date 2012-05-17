@@ -413,7 +413,7 @@
 					</LN0>
 					<LN lnType="exampleMMXU" lnClass="MMXU" inst="1">
 			            <Inputs>
-			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="RMXU" lnInst="1" doName="AmpLocPhsA"/>
+			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="RMXU" lnInst="1" doName="AmpLocPhsA" daName="q"/>
 			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="RMXU" lnInst="1" doName="AmpLocPhsB"/>
 			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="RMXU" lnInst="1" doName="AmpLocPhsC"/>
 			              <ExtRef iedName="E1Q1SB1" ldInst="C1" prefix="" lnClass="MMXU" lnInst="1" doName="Volts"/>

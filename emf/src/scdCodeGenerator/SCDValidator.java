@@ -1211,19 +1211,11 @@ public class SCDValidator {
 				SclPackage.eINSTANCE.getTFCDA_DoName(),
 				new StringValue(extRef.getDoName())
 			);
-			final EObjectCondition isDAName = new EObjectAttributeValueCondition(
-				SclPackage.eINSTANCE.getTFCDA_DaName(),
-				new StringValue(extRef.getDaName())
-			);
-			EObjectCondition isDOAndDA = isDOName;
-			if (extRef.getDaName() != null) {
-				isDOAndDA = isDOAndDA.AND(isDAName);
-			}
 	
-			// find DO name, then extract DO type
+			// find DO name, then extract DO type. Do not need to check daName in ExtRef, because DA should be included within DO
 			IQueryResult result = new SELECT(
 				new FROM(root),
-				new WHERE(isFCDA.AND(isLdInst).AND(isPrefix).AND(isLnClass).AND(isLnInst).AND(isDOAndDA))
+				new WHERE(isFCDA.AND(isLdInst).AND(isPrefix).AND(isLnClass).AND(isLnInst).AND(isDOName))
 			).execute();
 	
 			if (result.getException() != null) {
