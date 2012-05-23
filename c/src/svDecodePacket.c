@@ -34,10 +34,10 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 	int offsetForNonSequence;
 	unsigned char *svID = NULL;
 	int svIDLength = 0;
+    CTYPE_INT16U smpCnt = 0;
 
 	int i = 0;
-	for (i = 0; i < len;) {
-		CTYPE_INT16U smpCnt = 0;
+    for (i = 0; i < len;) {
 		tag = (unsigned char) buf[i];
 		lengthFieldSize = getLengthFieldSize((unsigned char) buf[i + 1]);
 		lengthValue = decodeLength((unsigned char *) &buf[i + 1]);
@@ -54,7 +54,7 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 
 				break;
 			case SV_TAG_SMPCNT:
-				BER_DECODE_CTYPE_INT16U(&buf[i + 1 + lengthFieldSize], &smpCnt);
+                ber_decode_integer(&buf[i + 1], lengthValue, &smpCnt, SV_GET_LENGTH_INT16U);
 				break;
 			case SV_TAG_CONFREV:
 
