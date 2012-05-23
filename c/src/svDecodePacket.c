@@ -54,7 +54,7 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 
 				break;
 			case SV_TAG_SMPCNT:
-                ber_decode_integer(&buf[i + 1], lengthValue, &smpCnt, SV_GET_LENGTH_INT16U);
+				ber_decode_integer(&buf[i + 1 + lengthFieldSize], lengthValue, &smpCnt, SV_GET_LENGTH_INT16U);
 				break;
 			case SV_TAG_CONFREV:
 
