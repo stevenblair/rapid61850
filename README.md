@@ -18,7 +18,7 @@ This readme file describes how to set up the software, and its basic use.
  - Supports initialisation of data type values, and instance-specific values
  - Simple API. The platform can be used in two ways:
    - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
-   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
+   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to automatically handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
  - Open source, under the GPL 2
 
 ## Installation ##
@@ -50,7 +50,7 @@ There are two source code trees: `emf` (in Java), and `c` (obviously written in 
 
 An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile with Eclipse, you should:
 
- - If you plan to use the native, low-level C/C++ interface (as shown in [the next section](https://github.com/stevenblair/rapid61850#using-the-code-with-a-new-scd-file)), exclude the two `interface*.c` files from the build in Eclipse: right-click on the file > "Resource Configurations" > "Exclude from Build...", and then choose the "Release" or "Debug" or other build. Otherwise, exclude the existing `main.c` file.
+ - If you plan to use the native, low-level C/C++ interface (as shown in [the next section](https://github.com/stevenblair/rapid61850#using-the-code-with-a-new-scd-file)), exclude the two `interface*.c` files from the build in Eclipse: right-click on the files > "Resource Configurations" > "Exclude from Build...", and then choose "Release" or "Debug" or another build. Otherwise, if using the high-level interface, exclude the existing `main.c` file.
  - Install MinGW and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.)
  - In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `"${workspace_loc:/${ProjName}/Include}"` as an include path.
  - In Project Properties > C/C++ Build > Settings > MinGW C Linker, add `wpcap` and `ws2_32` (assuming you are using Windows) to "Libraries" and add `"${workspace_loc:/${ProjName}/Lib}"` and `"C:\MinGW\lib"` to "Library search path".
