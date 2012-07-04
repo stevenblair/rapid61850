@@ -1,29 +1,29 @@
 # Rapid-prototyping protection schemes with IEC 61850 #
 
-The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.
+The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers and the Raspberry PI. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.
 
 This readme file describes how to set up the software, and its basic use.
 
-*The code is meant to be a proof of concept, and is highly experimental. It has not been tested on many SCD files. The code is also still in development at the moment, so some features may be broken or incomplete.*
+*The code is meant to be a proof of concept, and is highly experimental. It has not been tested on many SCD files. Some features may be incomplete.*
 
 <img style="float:right" src="http://personal.strath.ac.uk/steven.m.blair/mbed-cropped.png" />
 
 ## Features ##
 
  - Implements sending and receiving GOOSE and Sampled Value packets
- - Lightweight, and suitable for low-cost microcontrollers
+ - Lightweight and fast, and suitable for low-cost microcontrollers
  - Platform-independent, and any C/C++ compiler should work
  - Performs validation of the SCD file, and reports any problems
- - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 25-50%
+ - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 50%
  - Supports initialisation of data type values, and instance-specific values
- - The platform can be used in two ways:
+ - Simple API. The platform can be used in two ways:
    - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
-   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
+   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
  - Open source, under the GPL 2
 
 ## Installation ##
 
-This process has been tested on Windows and Ubuntu, but other Linux flavours and OS X should work too.
+This process has been tested on Windows and Ubuntu, but other Linux flavours and OS X should work too. Most steps only need to completed once.
 
 The software requires Eclipse, with the Eclipse Modeling Framework (EMF). Java Emitter Templates (JET) is needed for development, but not to run the code. It's easiest to start with the version of Eclipse that comes with the Modeling Tools bundle (see here: http://www.eclipse.org/downloads/). (If you are planning on using the Python or Java interfaces on Windows, it is best to use the 32-bit versions of Eclipse, and the JDK.)
 
@@ -306,9 +306,9 @@ cd java
 sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    # this path must be set correctly
 ```
 
-## Known issues and possible features ##
+## Notes and possible features ##
 
  - Some data types are not supported yet. However, the main *useful* data types (integer, floating-point, and boolean) are supported.
- - FCDAs and ExtRefs cannot use the syntax "vector.mag.f" as values for data object or data attribute references.
+ - FCDAs and ExtRefs cannot use the syntax `vector.mag.f` as values for data object or data attribute references.
  - Data types cannot contain arrays.
  - According to [the standard](http://www.tissues.iec61850.com/tissue.mspx?issueid=579), SV datasets should only contain primitive data types, and not constructed types. However, because SV encoding involves fixed-length value fields, it is always possible to reconstruct the data, if encoded and decoded consistently. Therefore, this library will allow constructed types to be encoded in SV packets. Semantically, SV datasets should only contain data values that have been sampled at the specified sampling rate. Again, for practicality, this library allows any DA or DO to be used in SV datasets.
