@@ -1,6 +1,6 @@
 # Rapid-prototyping protection schemes with IEC 61850 #
 
-The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers and the Raspberry PI. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.
+The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers and the Raspberry Pi. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.
 
 This readme file describes how to set up the software, and its basic use.
 
@@ -17,7 +17,7 @@ This readme file describes how to set up the software, and its basic use.
  - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 50%
  - Supports initialisation of data type values, and instance-specific values
  - Simple API. The platform can be used in two ways:
-   - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
+   - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
    - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to automatically handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
  - Open source, under the GPL 2
 
