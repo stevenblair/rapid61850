@@ -174,7 +174,7 @@ public class SCDCodeGenerator {
 			while (enumVals.hasNext()) {
 				TEnumVal enumVal = enumVals.next();
 
-				dataTypesHeader.appendDatatypes("\t" + enumType.getId().toUpperCase().replaceAll("[^A-Za-z0-9]", "_") + "_" + enumVal.getValue().toUpperCase().replaceAll("[^A-Za-z0-9]", "_") + " = " + enumVal.getOrd().intValue());
+				dataTypesHeader.appendDatatypes("\t" + enumType.getId().toUpperCase().replaceAll("[^A-Za-z0-9]", "_") + "_" + enumVal.getValue().toUpperCase().replaceAll("[^A-Za-z0-9]", "_") + "_" + enumVal.getOrd().toString().replaceAll("[^A-Za-z0-9]", "_") + " = " + enumVal.getOrd().intValue());
 				
 				if (enumVals.hasNext()) {
 					dataTypesHeader.appendDatatypes(",");
@@ -527,7 +527,7 @@ public class SCDCodeGenerator {
 												TGSEControl gseControl = gseControls.next();
 												
 												// find GSE datasets
-												if (gseControl.getDatSet().equals(dataset.getName())) {
+												if (gseControl.getDatSet() != null && gseControl.getDatSet().equals(dataset.getName())) {
 													gseEncodeSource.appendFunctionObject(new CFunctionControl(gseControl, CommsType.GSE, map));
 													
 													String gseName = gseControl.getName()/* + "_" + gseControl.getAppID()*/;
@@ -975,29 +975,31 @@ public class SCDCodeGenerator {
 			assignment = "->";
 		}
 		
-		// valid types defined in Table 45 in IEC 61850-6
-		if (da.getBType().toString().contains("VisString")) {	// assume string length is with allowed size
-			// free memory that may have been allocated by data type initialisation
-			initCode = initCode.concat("\tif (" + id + assignment + da.getName().toString() + " != NULL) {\n");
-			initCode = initCode.concat("\t\tfree(" + id + assignment + da.getName().toString() + ");\n");
-			initCode = initCode.concat("\t}\n");
-			
-			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
-			initCode = initCode.concat("\tstrncpy(" + id + assignment + da.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
-		}
-		else if (da.getBType().toString().contains("FLOAT")) {
-			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + val.getValue() + ";\n");
-		}
-		else if (da.getBType().toString().contains("INT")) {
-			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + val.getValue() + ";\n");
-		}
-		else if (da.getBType().toString().equals("BOOLEAN")) {
-			int value = 0;
-			if (val.getValue().toLowerCase().equals("true") || val.getValue().equals("1")) {
-				value = 1;
+		if (da != null) {
+			// valid types defined in Table 45 in IEC 61850-6
+			if (da.getBType().toString().contains("VisString")) {	// assume string length is within allowed size
+				// free memory that may have been allocated by data type initialisation
+				initCode = initCode.concat("\tif (" + id + assignment + da.getName().toString() + " != NULL) {\n");
+				initCode = initCode.concat("\t\tfree(" + id + assignment + da.getName().toString() + ");\n");
+				initCode = initCode.concat("\t}\n");
+				
+				initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
+				initCode = initCode.concat("\tstrncpy(" + id + assignment + da.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
 			}
-			
-			initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + value + ";\n");
+			else if (da.getBType().toString().contains("FLOAT")) {
+				initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + val.getValue() + ";\n");
+			}
+			else if (da.getBType().toString().contains("INT")) {
+				initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + val.getValue() + ";\n");
+			}
+			else if (da.getBType().toString().equals("BOOLEAN")) {
+				int value = 0;
+				if (val.getValue().toLowerCase().equals("true") || val.getValue().equals("1")) {
+					value = 1;
+				}
+				
+				initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = " + value + ";\n");
+			}
 		}
 		
 		return initCode;

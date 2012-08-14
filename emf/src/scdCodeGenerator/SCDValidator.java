@@ -107,8 +107,11 @@ public class SCDValidator {
 				// check Val elements of DAIs
 				TDAI dai = (TDAI) val.eContainer();
 				TAbstractDataAttribute type = map.getDAFromDAI(dai);
-
-				verifyValData(type.getBType().toString(), val.getValue());
+				
+				//System.out.println("dai: " + dai.getName() + ", " + type);
+				if (type != null) {
+					verifyValData(type.getBType().toString(), val.getValue());
+				}
 			}
 		}
 	}
@@ -521,6 +524,7 @@ public class SCDValidator {
 			for (Object oLN : lnResult) {
 				TLN ln = (TLN) oLN;
 				String lnType = ln.getLnType();
+				String lnPrefix = ln.getPrefix();
 				Long lnInst = ln.getInst();
 				
 				final EObjectCondition isLNType = new EObjectAttributeValueCondition(
@@ -533,13 +537,18 @@ public class SCDValidator {
 					new NumberCondition.LongValue(lnInst)
 				);
 				
+				final EObjectCondition isLNPrefix = new EObjectAttributeValueCondition(
+					SclPackage.eINSTANCE.getTLN_Prefix(),
+					new StringValue(lnPrefix)
+				);
+				
 				IQueryResult sameLNResult = new SELECT(
 					new FROM(ied),
-					new WHERE(isLN.AND(isLNType).AND(isLNInst))
+					new WHERE(isLN.AND(isLNType).AND(isLNInst).AND(isLNPrefix))
 				).execute();
 				
 				if (sameLNResult.size() > 1) {
-					error("more than one LN in IED '" + iedName + "' with type '" + lnType + "' and instance value '" + lnInst + "'");
+					error("more than one LN in IED '" + iedName + "' with type '" + lnType + "', instance value '" + lnInst + "', and prefix '" + lnPrefix + "'");
 				}
 			}
 			
@@ -739,7 +748,7 @@ public class SCDValidator {
 					//System.out.println("\tvalid basic type: '" + printedType + "'");
 				}
 				else {
-					error("unknown bType attribute for DA: '" + da + "'");
+					error("unknown bType attribute '" + da.getBType().toString() + "', for DA: '" + da + "'");
 				}
 				if (map != null) {
 					map.setPrintedType(da, new String(printedType));
@@ -872,6 +881,7 @@ public class SCDValidator {
 						if (fcda.getPrefix().equals(lnPrefix)) {
 							ln.setPrefix(lnPrefix);
 							found = true;
+							break;
 						}
 					}
 				}
@@ -904,7 +914,6 @@ public class SCDValidator {
 						error("FCDA doName values do not support '.' syntax, or arrays, for `" + fcdaDOName + "' in dataset '" + ((TDataSet) fcda.eContainer()).getName() + "' in IED '" + ied.getName() + "'");
 					}
 					else {
-					
 						final EObjectCondition isDO = new EObjectTypeRelationCondition(
 							SclPackage.eINSTANCE.getTDO()
 						);
@@ -1116,37 +1125,42 @@ public class SCDValidator {
 			//System.out.println(next.toString());
 			TControl control = (TControl) next;
 			
-			final EObjectCondition isDataSet = new EObjectTypeRelationCondition(
-				SclPackage.eINSTANCE.getTDataSet()
-			);
-			final EObjectCondition isDataSetForControl = new EObjectAttributeValueCondition(
-				SclPackage.eINSTANCE.getTNaming_Name(),
-				new StringValue(control.getDatSet())
-			);
-
-			IQueryResult resultMapped = new SELECT(
-				new FROM(root),
-				new WHERE(isDataSet.AND(isDataSetForControl))
-			).execute();
-			
-			//System.out.println("\tresults: " + resultMapped.size() + " (for '" + control.getName() + "')");
-			//for (Object nextMapped : resultMapped) {
-				//System.out.println("\t\t" + nextMapped.toString());
-			//}
-			if (resultMapped.getException() == null) {
-				if (resultMapped.size() == 0) {
-					error("no dataset named '" + control.getDatSet() + "' for " + control.eClass().getName() + " '" + control.getName() + "'");
-				}
-				else {
-					if (resultMapped.size() == 1) {
-						TDataSet dataSet = ((TDataSet) resultMapped.toArray()[0]);
-						if (map != null) {
-							map.setDataset(control, dataSet);
-						}
-						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
+			if (control.getDatSet() == null) {
+				warning("Control '" + control.eClass().getName() + "' with name '" + control.getName() + "' is not configured with a dataset");
+			}
+			else {
+				final EObjectCondition isDataSet = new EObjectTypeRelationCondition(
+					SclPackage.eINSTANCE.getTDataSet()
+				);
+				final EObjectCondition isDataSetForControl = new EObjectAttributeValueCondition(
+					SclPackage.eINSTANCE.getTNaming_Name(),
+					new StringValue(control.getDatSet())
+				);
+	
+				IQueryResult resultMapped = new SELECT(
+					new FROM(root),
+					new WHERE(isDataSet.AND(isDataSetForControl))
+				).execute();
+				
+				//System.out.println("\tresults: " + resultMapped.size() + " (for '" + control.getName() + "')");
+				//for (Object nextMapped : resultMapped) {
+					//System.out.println("\t\t" + nextMapped.toString());
+				//}
+				if (resultMapped.getException() == null) {
+					if (resultMapped.size() == 0) {
+						error("no dataset named '" + control.getDatSet() + "' for " + control.eClass().getName() + " '" + control.getName() + "'");
 					}
 					else {
-						error(resultMapped.size() + " datasets named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
+						if (resultMapped.size() == 1) {
+							TDataSet dataSet = ((TDataSet) resultMapped.toArray()[0]);
+							if (map != null) {
+								map.setDataset(control, dataSet);
+							}
+							//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
+						}
+						else {
+							error(resultMapped.size() + " datasets named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
+						}
 					}
 				}
 			}
