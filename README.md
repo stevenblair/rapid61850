@@ -1,6 +1,6 @@
 # Rapid-prototyping protection schemes with IEC 61850 #
 
-The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers and the Raspberry PI. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.
+The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers and the Raspberry Pi. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.
 
 This readme file describes how to set up the software, and its basic use.
 
@@ -17,13 +17,13 @@ This readme file describes how to set up the software, and its basic use.
  - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 50%
  - Supports initialisation of data type values, and instance-specific values
  - Simple API. The platform can be used in two ways:
-   - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
-   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
+   - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
+   - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to automatically handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
  - Open source, under the GPL 2
 
 ## Installation ##
 
-This process has been tested on Windows and Ubuntu, but other Linux flavours and OS X should work too. Most steps only need to completed once.
+This process has been tested on Windows and Ubuntu, but other Linux flavours and OS X should work too. Most steps only need to be completed once.
 
 The software requires Eclipse, with the Eclipse Modeling Framework (EMF). Java Emitter Templates (JET) is needed for development, but not to run the code. It's easiest to start with the version of Eclipse that comes with the Modeling Tools bundle (see here: http://www.eclipse.org/downloads/). (If you are planning on using the Python or Java interfaces on Windows, it is best to use the 32-bit versions of Eclipse, and the JDK.)
 
@@ -50,6 +50,7 @@ There are two source code trees: `emf` (in Java), and `c` (obviously written in 
 
 An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile with Eclipse, you should:
 
+ - If you plan to use the native, low-level C/C++ interface (as shown in [the next section](https://github.com/stevenblair/rapid61850#using-the-code-with-a-new-scd-file)), exclude the two `interface*.c` files from the build in Eclipse: right-click on the files > "Resource Configurations" > "Exclude from Build...", and then choose "Release" or "Debug" or another build. Otherwise, if using the high-level interface, exclude the existing `main.c` file.
  - Install MinGW and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.)
  - In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `"${workspace_loc:/${ProjName}/Include}"` as an include path.
  - In Project Properties > C/C++ Build > Settings > MinGW C Linker, add `wpcap` and `ws2_32` (assuming you are using Windows) to "Libraries" and add `"${workspace_loc:/${ProjName}/Lib}"` and `"C:\MinGW\lib"` to "Library search path".
@@ -145,7 +146,7 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 ## Using the Python or Java interfaces ##
 
-So far, this readme has described how to use the native C/C++ interface. It's also possible to use [SWIG](http://www.swig.org/) to automatically generate wrappers for high-level languages from C/C++ header files. At the moment, Python and Java interfaces on Windows and Linux have been tested, but other languages (such as C#, Lua, Perl, Ruby, etc.) should work too.
+So far, this readme has described how to use the native C/C++ interface. It's also possible to use [SWIG](http://www.swig.org/) to automatically generate wrappers for high-level languages from C/C++ header files. At the moment, Python and Java interfaces on Windows and Linux have been tested, but other languages (such as C#, Lua, Perl, Ruby, etc.) should work too. (You can also use the high-level interface from C/C++ too, but not alongside the native interface.)
 
 Four C files, with filenames `interface*`, are generated along with the rest of the GOOSE/SV code. These files, and the SWIG interface file `rapid61850.i`, are used as the input to SWIG. They contain functions to start a (platform-dependent) network interface using winpcap/libpcap, and functions to send GOOSE or SV packets using that network interface. All of the interaction with pcap is done in C, and is hidden by the interface given to SWIG.
 
