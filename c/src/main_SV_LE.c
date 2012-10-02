@@ -36,7 +36,7 @@
 
 
 int main() {
-	start();
+	start();    // start IEC 61850 library
 
 	double f_nominal = 50.0;
 	double samplesPerCycle = 80.0;
@@ -58,9 +58,6 @@ int main() {
 		//phi = (((double) rand()) / ((double) RAND_MAX)) * PI;
 
 		for (t = 0; t < LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount].smpRate; t++) {
-			/*if (t == LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount].smpRate) {
-				t = 0;
-			}*/
 			w = 2 * PI * f;
 			theta = w * (((double) t) * Ts);
 
@@ -77,10 +74,9 @@ int main() {
 			sv_update_LE_IED_MUnn_MSVCB01_buf();    // send SV packet
 		}
 
-		// simple method to vary Merging Unit number
+		// simple method to vary Merging Unit number, and phase angle of current waveforms
 		muNumber++;
 		phi += 0.2 * PI;
-
 		if (muNumber == '4') {
 			muNumber = '1';
 			phi = 0.0;
