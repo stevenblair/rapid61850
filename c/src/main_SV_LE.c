@@ -1,11 +1,14 @@
 /**
  * Rapid-prototyping protection schemes with IEC 61850
  *
- * An example main file to implement IEC 61850-9-2LE Sampled Values.
+ *
+ * This is an example main file to implement IEC 61850-9-2LE Sampled Values.
  * Three SV streams are generated.
  *
- * Should be built with "scd_LE.xml" as the SCD file.
+ * Use the rapid61850 Java code to generate the IEC 61850 code, with "scd_LE.xml" as the SCD file.
  * In ctypes.c, set HIGH_LEVEL_INTERFACE to '1'.
+ * Include interface.c and interfaceSendPack.c in the C build. Exclude main.c.
+ *
  *
  * Copyright (c) 2012 Steven Blair
  *
