@@ -307,6 +307,42 @@ cd java
 sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    # this path must be set correctly
 ```
 
+## Software documentation ##
+
+### Validation ###
+
+`SCDValidator.java` performs semantic validation of the SCD file, prior to code generation. It checks for the following constraints:
+
+ - Where necessary, the names of IEDs, logical nodes, data sets and data types are unique.
+ - Each Control instance has matching DataSet and ControlBlock instances.
+ - Each logical node “Input” has a corresponding source in a data set (typically in another IED).
+ - No circular sub-data object (SDO) references occur.
+ - Data attributes, basic data attributes and SDOs must map to valid types that exist in the SCD file.
+ - Data type definitions appear in a hierarchical order, that will result in valid generated code.
+
+As shown in `Main.java`, the validation process is separate from the code generation process. Therefore, it's possible to reuse the validation process in other software, if needed.
+
+### Augmented IEC 61850-6 SCL model ###
+
+`SCDAdditionalMappings.java` uses hash maps to explicitly link parts of the Java representation of the SCL model. This greatly simplifies the code generation process. (In the SCL, these links are implicit and are achieved by string-matching.) Each mapping is as follows:
+
+ - Each DAI is mapped to an AbstractDataAttribute, which has the sub-type of either DA or BDA, which defines the type of the DAI value.
+ - Each Control, which has the sub-types GSEControl and SampledValueControl, is mapped to the matching DataSet for convenience.
+ - ExtRefs are mapped to all DataSets, typically in other IEDs, which satisfy the ExtRef.
+ - Instances of BaseElement, which is the super-class of DO, DA, and BDA, are mapped to Strings which contain pre-calculated C code.
+ - FCDAs are mapped to:
+   - The data item to which the FCDA refers, which may be a DO, DA, or BDA (all of which are sub-classes of BaseElement). Therefore, the type of the FCDA can be inferred.
+   - The LN instance which contains the source data.
+  - A String which is the unique name of the FCDA used in C code generation.
+
+### Code generation ###
+
+The following UML class diagram illustrates how a generic representation of a C file is used by the code generation process:
+
+<img style="float:right" src="http://personal.strath.ac.uk/steven.m.blair/CFile-UML.png" />
+
+Java Emitter Template (JET) files (`CSourceTemplate` and `CHeaderTemplate`) are used to define the generic structure of C source and header files. This approach allows several header files, which specify function prototypes, to be generated automatically from the `CSource` objects.
+
 ## Notes and possible features ##
 
  - Some data types are not supported yet. However, the main *useful* data types (integer, floating-point, and boolean) are supported.
