@@ -322,7 +322,27 @@ sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    # this path
 
 As shown in `Main.java`, the validation process is separate from the code generation process. Therefore, it's possible to reuse the validation process in other software, if needed.
 
-The validation process extensively uses the [EMF Model Query](http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.emf.query.doc/tutorials/queryTutorial.html) framework for searching and filtering SCD data.
+The validation process extensively uses the [EMF Model Query](http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.emf.query.doc/tutorials/queryTutorial.html) framework for searching and filtering SCD data. It uses a SQL-like syntax. For example, to find all IEDs in the SCD `DocumentRoot` object `root`:
+
+```java
+public void checkForDuplicateNames(DocumentRoot root) {
+    final EObjectCondition isIED = new EObjectTypeRelationCondition(
+      SclPackage.eINSTANCE.getTIED()
+    );
+    
+    IQueryResult iedResult = new SELECT(
+      new FROM(root),
+      new WHERE(isIED)
+    ).execute();
+
+    for (Object o : iedResult) {
+      TIED ied = (TIED) o;
+      String iedName = ied.getName();
+
+      // ...
+    }
+}
+```
 
 ### Augmented IEC 61850-6 SCL model ###
 
