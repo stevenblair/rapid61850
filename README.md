@@ -322,6 +322,8 @@ sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    # this path
 
 As shown in `Main.java`, the validation process is separate from the code generation process. Therefore, it's possible to reuse the validation process in other software, if needed.
 
+The validation process extensively uses the [EMF Model Query](http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.emf.query.doc/tutorials/queryTutorial.html) framework for searching and filtering SCD data.
+
 ### Augmented IEC 61850-6 SCL model ###
 
 `SCDAdditionalMappings.java` uses hash maps to explicitly link parts of the Java representation of the SCL model. This greatly simplifies the code generation process. (In the SCL, these links are implicit and are achieved by string-matching.) Each mapping is as follows:
