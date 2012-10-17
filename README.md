@@ -361,7 +361,7 @@ public void checkForDuplicateNames(DocumentRoot root) {
 
 The following UML class diagram illustrates how a generic representation of a C file is used by the code generation process:
 
-<img src="http://personal.strath.ac.uk/steven.m.blair/CFile-UML.pn" />
+<img src="http://personal.strath.ac.uk/steven.m.blair/CFile-UML.png" />
 
 Java Emitter Template (JET) files (`CSourceTemplate` and `CHeaderTemplate`) are used to define the generic structure of C source and header files. This approach allows several header files, which specify function prototypes, to be generated automatically from the `CSource` objects.
 
