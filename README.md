@@ -253,7 +253,7 @@ Install the following packages:
 sudo apt-get install libpcap-dev
 sudo apt-get install swig
 sudo apt-get install build-essential
-sudo apt-get install python2.7
+sudo apt-get install python2.7         # other Python versions should be ok
 sudo apt-get install openjdk-6-jdk
 ```
 <!--are there any more?-->
