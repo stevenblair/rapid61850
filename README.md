@@ -11,7 +11,7 @@ This readme file describes how to set up the software, and its basic use.
 ## Features ##
 
  - Implements sending and receiving GOOSE and Sampled Value packets
- - Lightweight and fast, and suitable for low-cost microcontrollers
+ - Lightweight and fast, and suitable for low-cost microcontrollers and the Raspberry Pi
  - Platform-independent, and any C/C++ compiler should work
  - Performs validation of the SCD file, and reports any problems
  - Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 50%
@@ -167,11 +167,11 @@ If using MinGW as the C compiler (as described above), this process is significa
 
         swig -python -outdir ..\..\python_interface rapid61850.i
 
-	For Java:
+	  For Java:
 
         swig -java -outdir ..\..\java_interface rapid61850.i
 
-Now we need to change the compiler settings for the `c` project to generate a dynamic library, instead of an executable. This differs for Python and Java. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces. You may also need to exclude the existing `main.c` file from any Python or Java builds.
+The following subsections explain how to change the compiler settings for the `c` project to generate a dynamic library, instead of an executable. This differs for Python and Java. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces. You may also need to exclude the existing `main.c` file from any Python or Java builds.
 
 #### Python interface C compiler settings ####
 
@@ -302,7 +302,7 @@ ld -G *.o -lpcap -o librapid61850.so
 # compile all .java files, including the sample program
 javac -d java/ java/*.java ../../java_interface/Main.java
 
-# run the Java program. sudo is needed for the network interface
+# run the sample Java program. sudo is needed for the network interface
 cd java
 sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    # this path must be set correctly
 ```
