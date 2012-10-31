@@ -1,36 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="rapid61850 : Rapid-prototyping protection and control schemes with IEC 61850" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>rapid61850 by stevenblair</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>rapid61850</title>
   </head>
-
   <body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/stevenblair/rapid61850">View on GitHub</a>
+      <header>
+        <h1>rapid61850</h1>
+        <p>Rapid-prototyping protection and control schemes with IEC 61850</p>
+      </header>
 
-          <h1 id="project_title">rapid61850</h1>
-          <h2 id="project_tagline">Rapid-prototyping protection and control schemes with IEC 61850</h2>
+      <div id="banner">
+        <span id="logo"></span>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/stevenblair/rapid61850/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/stevenblair/rapid61850/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+        <a href="https://github.com/stevenblair/rapid61850" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/stevenblair/rapid61850/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/stevenblair/rapid61850/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
         <h1>Rapid-prototyping protection schemes with IEC 61850</h1>
 
 <p>The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers and the Raspberry Pi. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.</p>
@@ -45,7 +53,7 @@
 
 <ul>
 <li>Implements sending and receiving GOOSE and Sampled Value packets</li>
-<li>Lightweight and fast, and suitable for low-cost microcontrollers</li>
+<li>Lightweight and fast, and suitable for low-cost microcontrollers and the Raspberry Pi</li>
 <li>Platform-independent, and any C/C++ compiler should work</li>
 <li>Performs validation of the SCD file, and reports any problems</li>
 <li>Can optionally support fixed-length GOOSE encoding, which reduces GOOSE encoding time by approximately 50%</li>
@@ -230,7 +238,7 @@
 <pre><code>swig -java -outdir ..\..\java_interface rapid61850.i
 </code></pre>
 </li>
-</ul><p>Now we need to change the compiler settings for the <code>c</code> project to generate a dynamic library, instead of an executable. This differs for Python and Java. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces. You may also need to exclude the existing <code>main.c</code> file from any Python or Java builds.</p>
+</ul><p>The following subsections explain how to change the compiler settings for the <code>c</code> project to generate a dynamic library, instead of an executable. This differs for Python and Java. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces. You may also need to exclude the existing <code>main.c</code> file from any Python or Java builds.</p>
 
 <h4>Python interface C compiler settings</h4>
 
@@ -248,7 +256,7 @@
 </li>
 </ul>
 </li>
-<li>In C/C++ Build &gt; Settings &gt; Tool Settings &gt; Includes, use the following Include Paths (<strong>adjust these to match the exact version and location of Python on your system</strong>):
+<li>In C/C++ Build &gt; Settings &gt; Tool Settings &gt; Includes, use the following Include Paths (**adjust these to match the exact version and location of Python on your system**):
 
 <ul>
 <li><code>"C:\Python27"</code></li>
@@ -303,7 +311,7 @@
 <li>leave Output prefix blank</li>
 </ul>
 </li>
-<li>In C/C++ Build &gt; Settings &gt; Tool Settings &gt; Includes, use the following Include Paths (<strong>adjust these to match the exact version and location of Java on your system</strong>):
+<li>In C/C++ Build &gt; Settings &gt; Tool Settings &gt; Includes, use the following Include Paths (**adjust these to match the exact version and location of Java on your system**):
 
 <ul>
 <li><code>"C:\Program Files (x86)\Java\jdk1.7.0_03\include"</code></li>
@@ -348,7 +356,7 @@
 <div class="highlight"><pre>sudo apt-get install libpcap-dev
 sudo apt-get install swig
 sudo apt-get install build-essential
-sudo apt-get install python2.7
+sudo apt-get install python2.7         <span class="c"># other Python versions should be ok</span>
 sudo apt-get install openjdk-6-jdk
 </pre></div>
 
@@ -396,7 +404,7 @@ ld -G *.o -lpcap -o librapid61850.so
 <span class="c"># compile all .java files, including the sample program</span>
 javac -d java/ java/*.java ../../java_interface/Main.java
 
-<span class="c"># run the Java program. sudo is needed for the network interface</span>
+<span class="c"># run the sample Java program. sudo is needed for the network interface</span>
 <span class="nb">cd </span>java
 sudo java -Djava.library.path<span class="o">=</span>/home/steven/rapid61850/c/src/ Main    <span class="c"># this path must be set correctly</span>
 </pre></div>
@@ -471,16 +479,12 @@ sudo java -Djava.library.path<span class="o">=</span>/home/steven/rapid61850/c/s
 <li>According to <a href="http://www.tissues.iec61850.com/tissue.mspx?issueid=579">the standard</a>, SV datasets should only contain primitive data types, and not constructed types. However, because SV encoding involves fixed-length value fields, it is always possible to reconstruct the data, if encoded and decoded consistently. Therefore, this library will allow constructed types to be encoded in SV packets. Semantically, SV datasets should only contain data values that have been sampled at the specified sampling rate. Again, for practicality, this library allows any DA or DO to be used in SV datasets.</li>
 </ul>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">rapid61850 maintained by <a href="https://github.com/stevenblair">stevenblair</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/stevenblair">stevenblair</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -491,7 +495,6 @@ sudo java -Djava.library.path<span class="o">=</span>/home/steven/rapid61850/c/s
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
-
 
   </body>
 </html>
