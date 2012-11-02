@@ -343,7 +343,9 @@ int ber_decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, struct D1Q1SB4_C1_MMXUR
 void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {
 
 	if (gocbRefLength == 29 && strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$GO$Performance", gocbRefLength) == 0) {
-		ber_decode_E1Q1SB1_C1_Performance(dataset, &D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.E1Q1SB1_C1_Performance);
+		if (stNum != D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.stNum) {
+			ber_decode_E1Q1SB1_C1_Performance(dataset, &D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.E1Q1SB1_C1_Performance);
+		}
 		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.timeAllowedToLive = timeAllowedToLive;
 		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.T = T;
 		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.stNum = stNum;
@@ -353,7 +355,9 @@ void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsign
 		}
 	}
 	if (gocbRefLength == 34 && strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$GO$AnotherPositions", gocbRefLength) == 0) {
-		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.E1Q1SB1_C1_Positions);
+		if (stNum != D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.stNum) {
+			ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.E1Q1SB1_C1_Positions);
+		}
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.timeAllowedToLive = timeAllowedToLive;
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.T = T;
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.stNum = stNum;
@@ -363,7 +367,9 @@ void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsign
 		}
 	}
 	if (gocbRefLength == 30 && strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$GO$ItlPositions", gocbRefLength) == 0) {
-		ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions);
+		if (stNum != D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.stNum) {
+			ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions);
+		}
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.timeAllowedToLive = timeAllowedToLive;
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.T = T;
 		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.stNum = stNum;
