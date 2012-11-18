@@ -73,25 +73,25 @@ int length = 0;
 unsigned char buffer[2048] = {0};
 
 int main() {
-	initialise_iec61850();                                         // initialise all data structures
+    initialise_iec61850();                                         // initialise all data structures
 
-	// send GOOSE packet
-	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 1.024;                   // set a value that appears in the dataset used by the "ItlPositions" GOOSE Control
-	length = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buffer, 1, 512);  // generate a goose packet, and store the bytes in "buffer"
-	send_ethernet_packet(buffer, length);                          // platform-specific call to send an Ethernet packet
-
-
-	// in another IED...
+    // send GOOSE packet
+    E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = 1.024;                   // set a value that appears in the dataset used by the "ItlPositions" GOOSE Control
+    length = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buffer, 1, 512);  // generate a goose packet, and store the bytes in "buffer"
+    send_ethernet_packet(buffer, length);                          // platform-specific call to send an Ethernet packet
 
 
-	// receive GOOSE or SV packet
-	length = recv_ethernet_packet(buffer);                         // platform-specific call to receive an Ethernet packet
-	gse_sv_packet_filter(buffer, length);                          // deals with any GOOSE or SV dataset that is able to be processed
+    // in another IED...
 
-	// read value that was updated by the packet (it will equal 1.024)
-	float inputValue = D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1_TVTR_1_Vol_instMag.f;
 
-	return 0;
+    // receive GOOSE or SV packet
+    length = recv_ethernet_packet(buffer);                         // platform-specific call to receive an Ethernet packet
+    gse_sv_packet_filter(buffer, length);                          // deals with any GOOSE or SV dataset that is able to be processed
+
+    // read value that was updated by the packet (it will equal 1.024)
+    float inputValue = D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1_TVTR_1_Vol_instMag.f;
+
+    return 0;
 }
 ```
 
@@ -105,11 +105,11 @@ Callbacks should be set up in the form:
 
 ```C
 void SVcallbackFunction(CTYPE_INT16U smpCnt) {
-	;
+    ;
 }
 
 void GSEcallbackFunction(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {
-	;
+    ;
 }
 
 //...
@@ -129,13 +129,13 @@ To enable fixed-length GOOSE encoding, in `ctypes.h` set the value of `GOOSE_FIX
 All platform-specific options can be edited in `ctypes.h` or `ctypes.c`. For example, for a big endian platform, change:
 
 ```C
-#define LITTLE_ENDIAN		1
+#define LITTLE_ENDIAN       1
 ```
 
 to:
 
 ```C
-#define LITTLE_ENDIAN		0
+#define LITTLE_ENDIAN       0
 ```
 
 All `CTYPE_*` definitions must map to local datatypes of the correct size and sign.
@@ -167,7 +167,7 @@ If using MinGW as the C compiler (as described above), this process is significa
 
         swig -python -outdir ..\..\python_interface rapid61850.i
 
-	  For Java:
+      For Java:
 
         swig -java -outdir ..\..\java_interface rapid61850.i
 
@@ -326,15 +326,18 @@ The validation process extensively uses the [EMF Model Query](http://help.eclips
 
 ```java
 public void checkForDuplicateNames(DocumentRoot root) {
+    // describe a condition: is the object an IED (called `TIED` in EMF)?
     final EObjectCondition isIED = new EObjectTypeRelationCondition(
         SclPackage.eINSTANCE.getTIED()
     );
     
+    // build and execute a query
     IQueryResult iedResult = new SELECT(
         new FROM(root),
         new WHERE(isIED)
     ).execute();
 
+    // loop through results
     for (Object o : iedResult) {
         TIED ied = (TIED) o;
         String iedName = ied.getName();
