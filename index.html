@@ -39,7 +39,7 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>Rapid-prototyping protection schemes with IEC 61850</h1>
+        <h1>Rapid-prototyping protection and control schemes with IEC 61850</h1>
 
 <p>The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers and the Raspberry Pi. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.</p>
 
@@ -427,15 +427,18 @@ sudo java -Djava.library.path<span class="o">=</span>/home/steven/rapid61850/c/s
 <p>The validation process extensively uses the <a href="http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.emf.query.doc/tutorials/queryTutorial.html">EMF Model Query</a> framework for searching and filtering SCD data. It uses a SQL-like syntax. For example, to find all IEDs in the SCD document object <code>root</code>:</p>
 
 <div class="highlight"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">checkForDuplicateNames</span><span class="o">(</span><span class="n">DocumentRoot</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// describe a condition: is the object an IED (called `TIED` in EMF)?</span>
     <span class="kd">final</span> <span class="n">EObjectCondition</span> <span class="n">isIED</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EObjectTypeRelationCondition</span><span class="o">(</span>
         <span class="n">SclPackage</span><span class="o">.</span><span class="na">eINSTANCE</span><span class="o">.</span><span class="na">getTIED</span><span class="o">()</span>
     <span class="o">);</span>
 
+    <span class="c1">// build and execute a query</span>
     <span class="n">IQueryResult</span> <span class="n">iedResult</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SELECT</span><span class="o">(</span>
         <span class="k">new</span> <span class="nf">FROM</span><span class="o">(</span><span class="n">root</span><span class="o">),</span>
         <span class="k">new</span> <span class="nf">WHERE</span><span class="o">(</span><span class="n">isIED</span><span class="o">)</span>
     <span class="o">).</span><span class="na">execute</span><span class="o">();</span>
 
+    <span class="c1">// loop through results</span>
     <span class="k">for</span> <span class="o">(</span><span class="n">Object</span> <span class="n">o</span> <span class="o">:</span> <span class="n">iedResult</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">TIED</span> <span class="n">ied</span> <span class="o">=</span> <span class="o">(</span><span class="n">TIED</span><span class="o">)</span> <span class="n">o</span><span class="o">;</span>
         <span class="n">String</span> <span class="n">iedName</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="na">getName</span><span class="o">();</span>
