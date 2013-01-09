@@ -21,7 +21,9 @@
 package rapid61850;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -1240,7 +1242,22 @@ public class SCDValidator {
 				}
 				else {
 					if (result.size() > 1) {
-						warning(result.size() + " datasets satisfy ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+						// check that each DA is unique; otherwise issue a warning
+						Set<String> daNames = new HashSet<String>();
+						boolean duplicates = false;
+						for (EObject r : result) {
+							TFCDA fcda = (TFCDA) r;
+							String daName = fcda.getDaName();
+							if (daNames.contains(daName)) {
+								duplicates = true;
+								break;
+							}
+							daNames.add(daName);
+						}
+						
+						if (duplicates) {
+							warning(result.size() + " datasets satisfy ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+						}
 					}
 					Iterator<EObject> fcdas = result.iterator();
 
