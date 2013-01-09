@@ -1,4 +1,4 @@
-<%@ jet package="scdCodeGeneratorTemplates" imports="scdCodeGenerator.CHeader;" class="CHeaderTemplate" %>
+<%@ jet package="rapid61850.templates" imports="rapid61850.CHeader;" class="CHeaderTemplate" %>
 <% CHeader header = (CHeader) argument; %>
 #ifndef <%=header.headerProtectName%>
 #define <%=header.headerProtectName%>

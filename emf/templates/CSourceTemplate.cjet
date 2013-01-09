@@ -1,4 +1,4 @@
-<%@ jet package="scdCodeGeneratorTemplates" imports="scdCodeGenerator.CSource java.util.Iterator scdCodeGenerator.CFunction" class="CSourceTemplate" %>
+<%@ jet package="rapid61850.templates" imports="rapid61850.CSource java.util.Iterator rapid61850.CFunction" class="CSourceTemplate" %>
 <% CSource header = (CSource) argument; %>
 <%=
 header.getIncludes()
