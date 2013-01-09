@@ -74,7 +74,7 @@ int main() {
 			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.instMag.i = (CTYPE_INT32) ((V / Zmag) * sin(theta - phi + TWO_PI_OVER_THREE) / LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.sVC.scaleFactor);
 			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.instMag.i = 0;
 
-			sv_update_LE_IED_MUnn_MSVCB01_buf();    // send SV packet
+			interface_sv_update_LE_IED_MUnn_MSVCB01();    // send SV packet
 		}
 
 		// simple method to vary Merging Unit number, and phase angle of current waveforms

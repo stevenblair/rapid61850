@@ -91,7 +91,7 @@ int main() {
 #if HIGH_LEVEL_INTERFACE == 1
 	start();
 
-	gse_send_E1Q1SB1_C1_Performance_buf(1, 512);
+	interface_gse_send_E1Q1SB1_C1_Performance(1, 512);
 
 	return 0;
 #else

@@ -506,7 +506,7 @@ public class SCDCodeGenerator {
 													svSource.appendFunctions("}\n");
 													
 													// repeat for interface functions
-													String svUpdateFunctionPrototypeBuf = "int sv_update_" + ied.getName() + "_" + ld.getInst() + "_" + svName + "_buf()";
+													String svUpdateFunctionPrototypeBuf = "int interface_sv_update_" + ied.getName() + "_" + ld.getInst() + "_" + svName + "()";
 													interfaceHeader.appendFunctionPrototypes(svUpdateFunctionPrototypeBuf + ";\n");
 													
 													interfaceSource.appendFunctions("\n" + svUpdateFunctionPrototypeBuf + " {\n");
@@ -628,7 +628,7 @@ public class SCDCodeGenerator {
 													gseSource.appendFunctions("}\n");
 													
 													// repeat for interface functions
-													String gseUpdateFunctionPrototypeBuf = "int gse_send_" + ied.getName() + "_" + ld.getInst() + "_" + gseName + "_buf(int statusChange, int timeAllowedToLive)";
+													String gseUpdateFunctionPrototypeBuf = "int interface_gse_send_" + ied.getName() + "_" + ld.getInst() + "_" + gseName + "(int statusChange, int timeAllowedToLive)";
 													interfaceHeader.appendFunctionPrototypes(gseUpdateFunctionPrototypeBuf + ";\n");
 													
 													interfaceSource.appendFunctions("\n" + gseUpdateFunctionPrototypeBuf + " {\n");
