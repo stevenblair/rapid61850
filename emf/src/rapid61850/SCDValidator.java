@@ -431,7 +431,7 @@ public class SCDValidator {
 		String endOfError = "; the SCD datatype templates may need to be corrected or reordered for correct C code to be generated";
 		
 		// check DATypes
-		Iterator<TDAType> daTypeResult = root.getSCL().getDataTypeTemplates().getDAType().iterator(); 
+		Iterator<TDAType> daTypeResult = root.getSCL().getDataTypeTemplates().getDAType().iterator();
 		
 		while (daTypeResult.hasNext()) {
 			TDAType daType = daTypeResult.next();
