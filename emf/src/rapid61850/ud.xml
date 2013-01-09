@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SCL xmlns="http://www.iec.ch/61850/2006/SCL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.iec.ch/61850/2006/SCL">
+	<Header id="SCL Example T1-1" nameStructure="IEDName"/>
+	<Communication>
+		<SubNetwork name="W01" type="8-MMS">
+			<Text>Station bus</Text>
+			<BitRate unit="b/s">10</BitRate>
+			<ConnectedAP iedName="Send" apName="S1">
+				<Address>
+					<P type="IP">10.0.0.1</P>
+					<P type="IP-SUBNET">255.255.255.0</P>
+					<P type="IP-GATEWAY">10.0.0.101</P>
+					<P type="OSI-TSEL">00000001</P>
+					<P type="OSI-PSEL">01</P>
+					<P type="OSI-SSEL">01</P>
+				</Address>
+				<SMV ldInst="D1" cbName="udCB">
+					<Address>
+						<P type="MAC-Address">01-0C-CD-04-00-01</P>
+						<P type="APPID">4000</P>
+						<P type="VLAN-ID">123</P>
+						<P type="VLAN-PRIORITY">4</P>
+					</Address>
+				</SMV>
+			</ConnectedAP>
+			<ConnectedAP iedName="Recv" apName="S1">
+				<Address>
+					<P type="IP">10.0.0.11</P>
+					<P type="IP-SUBNET">255.255.255.0</P>
+					<P type="IP-GATEWAY">10.0.0.101</P>
+					<P type="OSI-TSEL">00000001</P>
+					<P type="OSI-PSEL">01</P>
+					<P type="OSI-SSEL">01</P>
+				</Address>
+			</ConnectedAP>
+		</SubNetwork>
+	</Communication>
+	<IED name="Send">
+		<Services>
+			<DynAssociation/>
+			<GetDirectory/>
+			<GetDataObjectDefinition/>
+			<GetDataSetValue/>
+			<DataSetDirectory/>
+			<ReadWrite/>
+			<FileHandling/>
+			<ConfDataSet max="4" maxAttributes="50"/>
+			<ConfReportControl max="12"/>
+			<ConfLogControl max="1"/>
+			<ConfLNs fixLnInst="true"/>
+			<GetCBValues/>
+		</Services>
+		<AccessPoint name="S1">
+			<Server>
+				<Authentication/>
+				<LDevice inst="D1">
+					<LN0 lnType="LN0" lnClass="LLN0" inst="">
+						<DataSet name="ud">
+							<FCDA ldInst="D1" prefix="" lnClass="GGIO" lnInst="1" doName="ud" fc="MX"/>
+						</DataSet>
+						<SampledValueControl name="udCB" datSet="ud" smvID="ud" smpRate="16" nofASDU="16" multicast="true" confRev="1">
+							<SmvOpts sampleRate="true" refreshTime="true" sampleSynchronized="true"/>
+						</SampledValueControl>
+					</LN0>
+					<LN lnType="sendUD" lnClass="GGIO" inst="1">
+					</LN>
+				</LDevice>
+			</Server>
+		</AccessPoint>
+	</IED>
+	<IED name="Recv">
+		<Services>
+			<DynAssociation/>
+			<GetDirectory/>
+			<GetDataObjectDefinition/>
+			<GetDataSetValue/>
+			<DataSetDirectory/>
+			<ReadWrite/>
+			<FileHandling/>
+			<ConfDataSet max="4"/>
+			<ConfReportControl max="12"/>
+			<ConfLogControl max="1"/>
+			<GetCBValues/>
+		</Services>
+		<AccessPoint name="S1">
+			<Server>
+				<Authentication/>
+				<LDevice inst="D1">
+					<LN0 lnType="LN0" lnClass="LLN0" inst="">
+					</LN0>
+					<LN lnType="recvUD" lnClass="GGIO" inst="1">
+			            <Inputs>
+			              <ExtRef iedName="Send" ldInst="D1" prefix="" lnClass="GGIO" lnInst="1" doName="ud"/>
+			            </Inputs>
+					</LN>
+				</LDevice>
+			</Server>
+		</AccessPoint>
+	</IED>
+	<DataTypeTemplates>
+		<LNodeType id="LN0" lnClass="LLN0">
+			<DO name="Mod" type="myMod"/>
+			<DO name="Health" type="myHealth"/>
+			<DO name="Beh" type="myBeh"/>
+			<DO name="NamPlt" type="myLPL"/>
+		</LNodeType>
+		<LNodeType id="sendUD" lnClass="GGIO">
+			<DO name="ud" type="ud"/>
+		</LNodeType>
+		<LNodeType id="recvUD" lnClass="GGIO">
+			<DO name="ud" type="ud"/>
+		</LNodeType>
+		<DOType id="ud" cdc="INC">
+			<DA name="LNName" fc="CO" bType="INT8"/>
+			<DA name="DataSetName" fc="CO" bType="INT8"/>
+			<DA name="LDName" fc="CO" bType="INT16"/>
+			<DA name="phsaTCTRrated" fc="CO" bType="INT16"/>
+			<DA name="neutTCTRrated" fc="CO" bType="INT16"/>
+			<DA name="phsaTVTRrated" fc="CO" bType="INT16"/>
+			<DA name="Tdr" fc="CO" bType="INT16"/>
+			<DA name="phsaTCTR" fc="CO" bType="INT16"/>
+			<DA name="phsbTCTR" fc="CO" bType="INT16"/>
+			<DA name="phscTCTR" fc="CO" bType="INT16"/>
+			<DA name="neutTCTR" fc="CO" bType="INT16"/>
+			<DA name="phsaTCTR1" fc="CO" bType="INT16"/>
+			<DA name="phsbTCTR1" fc="CO" bType="INT16"/>
+			<DA name="phscTCTR1" fc="CO" bType="INT16"/>
+			<DA name="phsaTVTR" fc="CO" bType="INT16"/>
+			<DA name="phsbTVTR" fc="CO" bType="INT16"/>
+			<DA name="phscTVTR" fc="CO" bType="INT16"/>
+			<DA name="neutTVTR" fc="CO" bType="INT16"/>
+			<DA name="bbTVTR" fc="CO" bType="INT16"/>
+			<DA name="statusWord1" fc="CO" bType="INT16"/>
+			<DA name="statusWord2" fc="CO" bType="INT16"/>
+			<DA name="samplingRate" fc="CO" bType="INT16"/>
+			<DA name="ConfigurationRevisionNumber" fc="CO" bType="INT8"/>
+		</DOType>
+		<DOType id="myMod" cdc="INC">
+			<DA name="ctlVal" fc="CO" bType="Enum" type="Mod"/>
+			<DA name="stVal" fc="ST" dchg="true" bType="Enum" type="Mod"/>
+			<DA name="q" fc="ST" bType="Quality" dchg="true"/>
+			<DA name="t" fc="ST" bType="Timestamp" dchg="true"/>
+		</DOType>
+		<DOType id="myHealth" cdc="INS">
+			<DA name="stVal" fc="ST" bType="Enum" dchg="true" type="Health"/>
+		</DOType>
+		<DOType id="myBeh" cdc="INS">
+			<DA name="stVal" fc="ST" bType="Enum" dchg="true" type="Beh"/>
+		</DOType>
+		<DOType id="myINS" cdc="INS">
+			<DA name="stVal" fc="ST" bType="INT32" dchg="true"/>
+		</DOType>
+		<DOType id="myLPL" cdc="LPL">
+			<DA name="ldNs" fc="EX" bType="VisString255"></DA>
+			<DA name="configRev" fc="DC" bType="VisString255"></DA>
+		</DOType>
+		<EnumType id="ACDdir">
+			<EnumVal ord="0">unknown</EnumVal>
+			<EnumVal ord="1">forward</EnumVal>
+			<EnumVal ord="2">backward</EnumVal>
+			<EnumVal ord="3">both</EnumVal>
+		</EnumType>
+		<EnumType id="seqT">
+			<EnumVal ord="0">pos-neg-zero</EnumVal>
+			<EnumVal ord="1">dir-quad-zero</EnumVal>
+		</EnumType>
+		<EnumType id="Dbpos">
+			<EnumVal ord="0">intermediate</EnumVal>
+			<EnumVal ord="1">off</EnumVal>
+			<EnumVal ord="2">on</EnumVal>
+			<EnumVal ord="3">bad</EnumVal>
+		</EnumType>
+		<EnumType id="Tcmd">
+			<EnumVal ord="0">stop</EnumVal>
+			<EnumVal ord="1">lower</EnumVal>
+			<EnumVal ord="2">higher</EnumVal>
+			<EnumVal ord="3">reserved</EnumVal>
+		</EnumType>
+		<EnumType id="Beh">
+			<EnumVal ord="1">on</EnumVal>
+			<EnumVal ord="2">blocked</EnumVal>
+			<EnumVal ord="3">test</EnumVal>
+			<EnumVal ord="4">test/blocked</EnumVal>
+			<EnumVal ord="5">off</EnumVal>
+		</EnumType>
+		<EnumType id="Mod">
+			<EnumVal ord="1">on</EnumVal>
+			<EnumVal ord="2">blocked</EnumVal>
+			<EnumVal ord="3">test</EnumVal>
+			<EnumVal ord="4">test/blocked</EnumVal>
+			<EnumVal ord="5">off</EnumVal>
+		</EnumType>
+		<EnumType id="Health">
+			<EnumVal ord="1">Ok</EnumVal>
+			<EnumVal ord="2">Warning</EnumVal>
+			<EnumVal ord="3">Alarm</EnumVal>
+		</EnumType>
+	</DataTypeTemplates>
+</SCL>

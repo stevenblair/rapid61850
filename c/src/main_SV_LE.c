@@ -80,7 +80,7 @@ int main() {
 		// simple method to vary Merging Unit number, and phase angle of current waveforms
 		muNumber++;
 		phi += 0.2 * PI;
-		if (muNumber == '4') {
+		if (muNumber == '3') {
 			muNumber = '1';
 			phi = 0.0;
 		}
