@@ -434,10 +434,10 @@ public class SCDCodeGenerator {
 
 													// default values specified in 9-2, 5.3.3
 													if (useDefaultVlanPriority) {
-														svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_PRIORITY = 0;\n");
+														svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_PRIORITY = 4;\n");
 													}
 													if (useDefaultVlanID) {
-														svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_ID = 4;\n");
+														svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_ID = 0;\n");
 													}
 													
 													svPacketDataInit.append("\t" + svPath + svName + ".ASDU = (struct ASDU *) malloc(" + svControl.getNofASDU() + " * sizeof(struct ASDU));\n");
@@ -567,10 +567,10 @@ public class SCDCodeGenerator {
 													
 													// default values specified in 8-1, Annex C
 													if (useDefaultVlanPriority) {
-														gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_PRIORITY = 0;\n");
+														gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_PRIORITY = 4;\n");
 													}
 													if (useDefaultVlanID) {
-														gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_ID = 4;\n");
+														gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_ID = 0;\n");
 													}
 	
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".goID = (unsigned char *) malloc(" + (gseControl.getAppID().length() + 1) + ");\n");
@@ -802,7 +802,8 @@ public class SCDCodeGenerator {
 																gseControlConsumed.add(gseControl.getName());
 																//System.out.println("\tadding gse control: " + gseControl.getName() + ", size: " + gseControlConsumed.size());
 																
-																String gocbRef = extRef.getIedName() + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$GO$" + gseControl.getName();
+																// TODO this finds the local LLN0 lnClass value, not the external value
+																String gocbRef = extRef.getIedName() + extRef.getLdInst() + "/" + ld.getLN0().getLnClass().toString() + "$GO$" + gseControl.getName();
 																String inputsPath = ied.getName() + "." + ap.getName() + "." + ld.getInst() + "." + ((ln.getPrefix() == null) ? "" : ln.getPrefix()) + ln.getLnType().replaceAll("[^A-Za-z0-9]", "_") + "_" + ln.getInst() + ".gse_inputs_" + gseControl.getName() + ".";
 
 																gseDecodeDatasetFunction.append("\n\tif (gocbRefLength == " + gocbRef.length() + " && strncmp((const char *) gocbRef, \"" + gocbRef + "\", gocbRefLength) == 0) {");
@@ -941,24 +942,28 @@ public class SCDCodeGenerator {
 		if (initDOTypes.contains(type)) {
 			dataTypesSource.appendFunctions("\tinit_" + type + "(&" + accumulatedName.toString() + name + ");\n");
 		}
+
+		List<TDA> dasList = getDOTypeDAs(dataTypeTemplates, type);
 		
-		Iterator<TDA> das = getDOTypeDAs(dataTypeTemplates, type).iterator();
-		
-		while (das.hasNext()) {
-			TDA da = das.next();
+		if (dasList != null) {
+			Iterator<TDA> das = dasList.iterator();
 			
-			if (initDATypes.contains(da.getType())) {
-				dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + accumulatedName.toString() + name + "." + da.getName().toString() + ");\n");
+			while (das.hasNext()) {
+				TDA da = das.next();
+				
+				if (initDATypes.contains(da.getType())) {
+					dataTypesSource.appendFunctions("\tinit_" + da.getType() + "(&" + accumulatedName.toString() + name + "." + da.getName().toString() + ");\n");
+				}
 			}
-		}
-		
-		// recursively initialise all SDOs
-		Iterator<TSDO> sdos = getDOTypeSDOs(dataTypeTemplates, type).iterator();		
-		while (sdos.hasNext()) {
-			TSDO sdo = sdos.next();
-			StringBuilder sdoName = new StringBuilder(accumulatedName + name + ".");
 			
-			processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, sdoName, sdo.getType(), sdo.getName());
+			// recursively initialise all SDOs
+			Iterator<TSDO> sdos = getDOTypeSDOs(dataTypeTemplates, type).iterator();		
+			while (sdos.hasNext()) {
+				TSDO sdo = sdos.next();
+				StringBuilder sdoName = new StringBuilder(accumulatedName + name + ".");
+				
+				processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, sdoName, sdo.getType(), sdo.getName());
+			}
 		}
 	}
 	

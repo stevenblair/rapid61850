@@ -374,3 +374,4 @@ Java Emitter Template (JET) files (`CSourceTemplate` and `CHeaderTemplate`) are 
  - FCDAs and ExtRefs cannot use the syntax `vector.mag.f` as values for data object or data attribute references.
  - Data types cannot contain arrays.
  - According to [the standard](http://www.tissues.iec61850.com/tissue.mspx?issueid=579), SV datasets should only contain primitive data types, and not constructed types. However, because SV encoding involves fixed-length value fields, it is always possible to reconstruct the data, if encoded and decoded consistently. Therefore, this library will allow constructed types to be encoded in SV packets. Semantically, SV datasets should only contain data values that have been sampled at the specified sampling rate. Again, for practicality, this library allows any DA or DO to be used in SV datasets.
+ - Support for trigger options is not implemented at present.
