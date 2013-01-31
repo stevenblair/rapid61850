@@ -142,7 +142,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.destMACAddress[5] = 0x04;
 	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.APPID = 0x3000;
 	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.VLAN_ID = 0;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.VLAN_ID = 4;
 	E1Q1SB1.S1.C1.LN0.Performance.goID = (unsigned char *) malloc(12);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.goID, "Performance\0", 12);
 	E1Q1SB1.S1.C1.LN0.Performance.t = 0;
@@ -168,7 +168,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[5] = 0x04;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.APPID = 0x3000;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.VLAN_ID = 0;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.VLAN_ID = 4;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.goID = (unsigned char *) malloc(4);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.goID, "Itl\0", 4);
 	E1Q1SB1.S1.C1.LN0.ItlPositions.t = 0;
@@ -194,7 +194,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.destMACAddress[5] = 0x04;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.APPID = 0x3000;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.VLAN_ID = 0;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.VLAN_ID = 4;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.goID = (unsigned char *) malloc(4);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.goID, "Itl\0", 4);
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.t = 0;
@@ -220,7 +220,7 @@ void init_gse() {
 	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.destMACAddress[5] = 0x02;
 	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.APPID = 0x3001;
 	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.VLAN_PRIORITY = 0x4;
-	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.VLAN_ID = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.VLAN_ID = 4;
 	D1Q1SB4.S1.C1.LN0.SyckResult.goID = (unsigned char *) malloc(7);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.goID, "SynChk\0", 7);
 	D1Q1SB4.S1.C1.LN0.SyckResult.t = 0;
@@ -246,7 +246,7 @@ void init_gse() {
 	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.destMACAddress[5] = 0x02;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.APPID = 0x3001;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.VLAN_PRIORITY = 0x4;
-	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.VLAN_ID = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.VLAN_ID = 4;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.goID = (unsigned char *) malloc(11);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.goID, "MMXUResult\0", 11);
 	D1Q1SB4.S1.C1.LN0.MMXUResult.t = 0;

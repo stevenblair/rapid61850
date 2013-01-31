@@ -190,7 +190,7 @@ void gse_sv_packet_filter(unsigned char *buf, int len) {
 
 // copies bytes to network format (big-endian)
 void netmemcpy(void *dst, const void *src, unsigned int len) {
-#ifdef LITTLE_ENDIAN
+#ifdef PLATFORM_LITTLE_ENDIAN
 	reversememcpy((unsigned char *) dst, (const unsigned char *) src, len);
 #else
 	memcpy((unsigned char *) dst, (const unsigned char *) src, len);
@@ -199,7 +199,7 @@ void netmemcpy(void *dst, const void *src, unsigned int len) {
 
 // copies bytes to host format (little-endian)
 void hostmemcpy(void *dst, const void *src, unsigned int len) {
-#ifdef LITTLE_ENDIAN
+#ifdef PLATFORM_LITTLE_ENDIAN
 	memcpy((unsigned char *) dst, (const unsigned char *) src, len);
 #else
 	reversememcpy((unsigned char *) dst, (const unsigned char *) src, len);
