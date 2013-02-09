@@ -27,12 +27,10 @@ extern "C" {
 
 #include <string.h>
 
-#ifndef PLATFORM_LITTLE_ENDIAN
-	#define PLATFORM_LITTLE_ENDIAN			1
-#endif
+#define PLATFORM_LITTLE_ENDIAN	1
 #define TIMESTAMP_SUPPORTED		0
 #define GOOSE_FIXED_SIZE		0	// set to 1 to enable fixed-sized GOOSE encoding, which is slightly more efficient to encode.
-#define HIGH_LEVEL_INTERFACE	1	//
+#define HIGH_LEVEL_INTERFACE	0	//
 
 #define LOCAL_MAC_ADDRESS_VALUE	{0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02}
 
