@@ -142,7 +142,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.destMACAddress[5] = 0x04;
 	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.APPID = 0x3000;
 	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.VLAN_ID = 4;
+	E1Q1SB1.S1.C1.LN0.Performance.ethHeaderData.VLAN_ID = 0;
 	E1Q1SB1.S1.C1.LN0.Performance.goID = (unsigned char *) malloc(12);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.goID, "Performance\0", 12);
 	E1Q1SB1.S1.C1.LN0.Performance.t = 0;
@@ -151,7 +151,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.Performance.datSet = (unsigned char *) malloc(27);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.Performance.datSet, "E1Q1SB1C1/LLN0$Performance\0", 27);
 	E1Q1SB1.S1.C1.LN0.Performance.timeAllowedToLive = 0;
-	E1Q1SB1.S1.C1.LN0.Performance.stNum = 0;
+	E1Q1SB1.S1.C1.LN0.Performance.stNum = 1;
 	E1Q1SB1.S1.C1.LN0.Performance.sqNum = 0;
 	E1Q1SB1.S1.C1.LN0.Performance.test = 0;
 	E1Q1SB1.S1.C1.LN0.Performance.confRev = 1;
@@ -168,7 +168,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.destMACAddress[5] = 0x04;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.APPID = 0x3000;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.VLAN_ID = 4;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.ethHeaderData.VLAN_ID = 0;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.goID = (unsigned char *) malloc(4);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.goID, "Itl\0", 4);
 	E1Q1SB1.S1.C1.LN0.ItlPositions.t = 0;
@@ -177,7 +177,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.ItlPositions.datSet = (unsigned char *) malloc(25);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.ItlPositions.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
 	E1Q1SB1.S1.C1.LN0.ItlPositions.timeAllowedToLive = 0;
-	E1Q1SB1.S1.C1.LN0.ItlPositions.stNum = 0;
+	E1Q1SB1.S1.C1.LN0.ItlPositions.stNum = 1;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.sqNum = 0;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.test = 0;
 	E1Q1SB1.S1.C1.LN0.ItlPositions.confRev = 1;
@@ -194,7 +194,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.destMACAddress[5] = 0x04;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.APPID = 0x3000;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.VLAN_ID = 4;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.ethHeaderData.VLAN_ID = 0;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.goID = (unsigned char *) malloc(4);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.goID, "Itl\0", 4);
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.t = 0;
@@ -203,7 +203,7 @@ void init_gse() {
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.datSet = (unsigned char *) malloc(25);
 	strncpy((char *) E1Q1SB1.S1.C1.LN0.AnotherPositions.datSet, "E1Q1SB1C1/LLN0$Positions\0", 25);
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.timeAllowedToLive = 0;
-	E1Q1SB1.S1.C1.LN0.AnotherPositions.stNum = 0;
+	E1Q1SB1.S1.C1.LN0.AnotherPositions.stNum = 1;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.sqNum = 0;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.test = 0;
 	E1Q1SB1.S1.C1.LN0.AnotherPositions.confRev = 1;
@@ -220,7 +220,7 @@ void init_gse() {
 	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.destMACAddress[5] = 0x02;
 	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.APPID = 0x3001;
 	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.VLAN_PRIORITY = 0x4;
-	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.VLAN_ID = 4;
+	D1Q1SB4.S1.C1.LN0.SyckResult.ethHeaderData.VLAN_ID = 0;
 	D1Q1SB4.S1.C1.LN0.SyckResult.goID = (unsigned char *) malloc(7);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.goID, "SynChk\0", 7);
 	D1Q1SB4.S1.C1.LN0.SyckResult.t = 0;
@@ -229,7 +229,7 @@ void init_gse() {
 	D1Q1SB4.S1.C1.LN0.SyckResult.datSet = (unsigned char *) malloc(26);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.SyckResult.datSet, "D1Q1SB4C1/LLN0$SyckResult\0", 26);
 	D1Q1SB4.S1.C1.LN0.SyckResult.timeAllowedToLive = 0;
-	D1Q1SB4.S1.C1.LN0.SyckResult.stNum = 0;
+	D1Q1SB4.S1.C1.LN0.SyckResult.stNum = 1;
 	D1Q1SB4.S1.C1.LN0.SyckResult.sqNum = 0;
 	D1Q1SB4.S1.C1.LN0.SyckResult.test = 0;
 	D1Q1SB4.S1.C1.LN0.SyckResult.confRev = 0;
@@ -246,7 +246,7 @@ void init_gse() {
 	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.destMACAddress[5] = 0x02;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.APPID = 0x3001;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.VLAN_PRIORITY = 0x4;
-	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.VLAN_ID = 4;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.ethHeaderData.VLAN_ID = 0;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.goID = (unsigned char *) malloc(11);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.goID, "MMXUResult\0", 11);
 	D1Q1SB4.S1.C1.LN0.MMXUResult.t = 0;
@@ -255,7 +255,7 @@ void init_gse() {
 	D1Q1SB4.S1.C1.LN0.MMXUResult.datSet = (unsigned char *) malloc(26);
 	strncpy((char *) D1Q1SB4.S1.C1.LN0.MMXUResult.datSet, "D1Q1SB4C1/LLN0$MMXUResult\0", 26);
 	D1Q1SB4.S1.C1.LN0.MMXUResult.timeAllowedToLive = 0;
-	D1Q1SB4.S1.C1.LN0.MMXUResult.stNum = 0;
+	D1Q1SB4.S1.C1.LN0.MMXUResult.stNum = 1;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.sqNum = 0;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.test = 0;
 	D1Q1SB4.S1.C1.LN0.MMXUResult.confRev = 0;

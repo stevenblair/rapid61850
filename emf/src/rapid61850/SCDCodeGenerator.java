@@ -593,7 +593,7 @@ public class SCDCodeGenerator {
 													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".datSet, \"" + datSet + "\\0\", " + (datSet.length() + 1) + ");\n");
 	
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".timeAllowedToLive = 0;\n");
-													gsePacketDataInit.append("\t" + gsePath + gseName + ".stNum = 0;\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".stNum = 1;\n");
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".sqNum = 0;\n");
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".test = 0;\n");
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".confRev = " + gseControl.getConfRev() + ";\n");
