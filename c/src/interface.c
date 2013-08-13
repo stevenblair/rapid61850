@@ -31,7 +31,7 @@ unsigned char bufOut[2048] = {0};
 pcap_t *fp;
 char errbuf[PCAP_ERRBUF_SIZE];
 
-void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data) {
+void packet_handler_interface(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data) {
     gse_sv_packet_filter((unsigned char *) pkt_data, header->len);
 }
 
@@ -55,7 +55,11 @@ pcap_t *init_pcap() {
 
     used_if = alldevs;
 
+#ifdef _WIN32
     fprintf(stdout, "network interface: %s\n", used_if->description);
+#else
+    fprintf(stdout, "network interface: %s\n", used_if->name);
+#endif
     fflush(stdout);
 
 	if ((fpl = pcap_open_live(used_if->name,	// name of the device
@@ -85,7 +89,7 @@ void stop() {
 }
 
 int readPacket() {
-	return pcap_loop(fp, 1, packet_handler, NULL);
+	return pcap_loop(fp, 1, packet_handler_interface, NULL);
 }
 
 //#endif

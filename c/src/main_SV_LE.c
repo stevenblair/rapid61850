@@ -82,12 +82,14 @@ int main() {
 			LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_3.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, + TWO_PI_OVER_THREE) + harmonic(9, muNumber * 0.01, theta, + TWO_PI_OVER_THREE) + harmonic(15, muNumber * 0.01, theta, + TWO_PI_OVER_THREE));
 			LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.instMag.i = 0;
 
-			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag.i = toI(I, harmonic(1, 1.0, theta - phi, 0)                   + harmonic(2, muNumber * 0.03, theta - phi, 0)                   + harmonic(3, 0.020, theta - phi, 0)                   + harmonic(5, 0.08, theta - phi, 0)                   + harmonic(7, 0.04, theta - phi, 0)                   + harmonic(9, 0.02, theta - phi, 0));
-			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.instMag.i = toI(I, harmonic(1, 0.9, theta - phi, - TWO_PI_OVER_THREE) + harmonic(2, muNumber * 0.03, theta - phi, - TWO_PI_OVER_THREE) + harmonic(3, 0.020, theta - phi, - TWO_PI_OVER_THREE) + harmonic(5, 0.08, theta - phi, - TWO_PI_OVER_THREE) + harmonic(7, 0.04, theta - phi, - TWO_PI_OVER_THREE) + harmonic(9, 0.02, theta - phi, - TWO_PI_OVER_THREE));
-			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.instMag.i = toI(I, harmonic(1, 0.8, theta - phi, + TWO_PI_OVER_THREE) + harmonic(2, muNumber * 0.03, theta - phi, + TWO_PI_OVER_THREE) + harmonic(3, 0.020, theta - phi, + TWO_PI_OVER_THREE) + harmonic(5, 0.08, theta - phi, + TWO_PI_OVER_THREE) + harmonic(7, 0.04, theta - phi, + TWO_PI_OVER_THREE) + harmonic(9, 0.02, theta - phi, + TWO_PI_OVER_THREE));
+			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag.i = toI(I, harmonic(1, 1.0, theta - phi, 0)                   + harmonic(2, muNumber * 0.05, theta - phi, 0)                   + harmonic(3, 0.03, theta - phi, 0) + harmonic(5, 0.10, theta - phi, 0)                   + harmonic(7, 0.05, theta - phi, 0)                   + harmonic(9, 0.03, theta - phi, 0));
+			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.instMag.i = toI(I, harmonic(1, 0.9, theta - phi, - TWO_PI_OVER_THREE) + harmonic(2, muNumber * 0.05, theta - phi, + TWO_PI_OVER_THREE) + harmonic(3, 0.03, theta - phi, 0) + harmonic(5, 0.10, theta - phi, + TWO_PI_OVER_THREE) + harmonic(7, 0.05, theta - phi, - TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
+			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.instMag.i = toI(I, harmonic(1, 0.8, theta - phi, + TWO_PI_OVER_THREE) + harmonic(2, muNumber * 0.05, theta - phi, - TWO_PI_OVER_THREE) + harmonic(3, 0.03, theta - phi, 0) + harmonic(5, 0.10, theta - phi, - TWO_PI_OVER_THREE) + harmonic(7, 0.05, theta - phi, + TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
 			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.instMag.i = 0;
 
 			interface_sv_update_LE_IED_MUnn_MSVCB01();    // send SV packet
+
+			//usleep(1);
 		}
 
 		// simple method to vary Merging Unit number, and phase angle of current waveforms
@@ -96,6 +98,7 @@ int main() {
 		if (muNumber == 4) {
 			muNumber = 0;
 			phi = 0.0;
+			Sleep(1);
 		}
 
 		usleep(200000);

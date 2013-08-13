@@ -245,7 +245,7 @@ The following subsections explain how to change the compiler settings for the `c
 
 ### Building on Linux ###
 
-On Linux, it's easier to create the Python or Java interface with the Terminal, rather than with Eclipse. The steps below assume Ubuntu (and have only been tested on 11.10 64-bit), so it may differ on other distributions.
+On Linux, it's easier to create the Python or Java interface with the Terminal, rather than with Eclipse. The steps below assume Ubuntu (and have only been tested on 11.10 64-bit), so it may differ on other distributions. **Note that because the following scripts compile all *.c files, the example `main*.c` files may need to be deleted from the C source code directory.**
 
 Install the following packages:
 
