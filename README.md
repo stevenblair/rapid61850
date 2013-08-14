@@ -99,6 +99,10 @@ The data structures used for generating GOOSE and SV packets are stored within `
 
 The generated C code implements all IEDs specified in the SCD file. You can use the code to emulate the communications between several IEDs, or just use one IED's implementation.
 
+### Set the local MAC address ###
+
+In `ctypes.h`, set `LOCAL_MAC_ADDRESS_VALUE` to the local network interface's MAC address. This must be done for each physical device.
+
 ### Callbacks after a dataset is decoded ###
 
 Callbacks should be set up in the form:
