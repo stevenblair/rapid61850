@@ -37,7 +37,7 @@ void packet_handler_interface(u_char *param, const struct pcap_pkthdr *header, c
 
 pcap_t *init_pcap() {
 	pcap_t *fpl;
-    pcap_if_t *alldevs;
+    pcap_if_t *alldevs = 0;
     pcap_if_t *used_if;
 
     /* Retrieve the device list from the local machine */
@@ -53,7 +53,7 @@ pcap_t *init_pcap() {
     }
 #endif
 
-    used_if = alldevs;
+    used_if = alldevs->next->next;
 
 #ifdef _WIN32
     fprintf(stdout, "network interface: %s\n", used_if->description);
@@ -90,6 +90,20 @@ void stop() {
 
 int readPacket() {
 	return pcap_loop(fp, 1, packet_handler_interface, NULL);
+}
+
+int	readPacketTimeout() {
+	struct pcap_pkthdr *header;
+	const u_char *pkt_data;
+	int ret = pcap_next_ex(fp, &header, &pkt_data);
+
+	if (ret <= 0) {
+		return ret;
+	}
+
+	// process packet data
+	gse_sv_packet_filter((unsigned char *) pkt_data, header->len);
+	return ret;
 }
 
 //#endif

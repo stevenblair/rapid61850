@@ -41,6 +41,7 @@ extern pcap_t *fp;
 void start();
 void stop();
 int readPacket();
+int readPacketTimeout();
 
 //#endif
 
