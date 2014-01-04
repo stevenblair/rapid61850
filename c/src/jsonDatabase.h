@@ -2,7 +2,7 @@
  * Rapid-prototyping protection schemes with IEC 61850
  *
  * Copyright (c) 2014 Steven Blair
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -18,29 +18,45 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#ifndef GSE_H
-#define GSE_H
+#ifndef JSON_DATABASE_H
+#define JSON_DATABASE_H
 
 #ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
 extern "C" {
 #endif
 
-#include "gseEncode.h"
-#include "gseDecode.h"
-#include "gsePacketData.h"
+typedef enum {
+	BASIC_TYPE_COMPOUND = 0,
+	BASIC_TYPE_BOOLEAN,
+	BASIC_TYPE_INT8,
+	BASIC_TYPE_INT16,
+	BASIC_TYPE_INT32,
+	BASIC_TYPE_INT64,
+	BASIC_TYPE_INT8U,
+	BASIC_TYPE_INT16U,
+	BASIC_TYPE_INT24U,
+	BASIC_TYPE_INT32U,
+	BASIC_TYPE_FLOAT32,
+	BASIC_TYPE_FLOAT64,
+	BASIC_TYPE_ENUMERATED,
+	BASIC_TYPE_CODED_ENUM,
+	BASIC_TYPE_OCTET_STRING,
+	BASIC_TYPE_VISIBLE_STRING,
+	BASIC_TYPE_UNICODE_STRING,
+	BASIC_TYPE_CURRENCY
+} BasicType;
 
+typedef struct Item {
+	char *objectRef;
+	BasicType type;
+	void *data;	// TODO a pointer to the data JSON encoding/decoding functions? Either encode compound, or an actual data type (int, float, etc.)
+	int numberOfItems;
+	struct Item *items;
+} Item;
 
+void init_database();
 
-
-void init_gse();
-int gse_send_E1Q1SB1_C1_Performance(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
-int gse_send_E1Q1SB1_C1_ItlPositions(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
-int gse_send_E1Q1SB1_C1_AnotherPositions(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
-int gse_send_D1Q1SB4_C1_SyckResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
-int gse_send_D1Q1SB4_C1_MMXUResult(unsigned char *buf, CTYPE_BOOLEAN statusChange, CTYPE_INT32U timeAllowedToLive);
-void gseDecode(unsigned char *buf, int len);
-
-
+extern Item database;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

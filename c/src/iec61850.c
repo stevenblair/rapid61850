@@ -24,4 +24,5 @@ void initialise_iec61850() {
 	init_datatypes();
 	init_sv();
 	init_gse();
+	init_database();
 }

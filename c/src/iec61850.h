@@ -29,6 +29,7 @@
 #include "ied.h"
 #include "sv.h"
 #include "gse.h"
+#include "jsonDatabase.h"
 
 void initialise_iec61850();
 
