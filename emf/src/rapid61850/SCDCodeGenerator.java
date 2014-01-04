@@ -753,7 +753,7 @@ public class SCDCodeGenerator {
 									
 
 									int numberOfDAsAndSDOs = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).size() + getDOTypeSDOs(dataTypeTemplates, dataObject.getType()).size();
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + numberOfDAsAndSDOs + "); // DAs\n");
+									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + numberOfDAsAndSDOs + "); // DAs (top level)\n");
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAsAndSDOs + ";\n");
 									iedJSON.addLayer();
 									
@@ -1050,6 +1050,11 @@ public class SCDCodeGenerator {
 			
 			if (bda.getType() != null) {
 				System.out.println("    recursing; name: " + name + ", type: " + type + ", bda.getType(): " + bda.getType() + ", bda.getBType().toString(): " + bda.getBType().toString());
+
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + name + "\"; // BDA\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
+				// TODO add data
+				
 				processDA(dataTypeTemplates, dataTypesSource, new StringBuilder(accumulatedName.toString() + name + "."), bda.getType(), bda.getName().toString(), jsonDatabaseSource, iedJSON);
 			}
 			else {
@@ -1057,15 +1062,15 @@ public class SCDCodeGenerator {
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + bda.getName() + "\";\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + mapSCLTypeToBasicType(bda.getBType().toString()) + ";\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName.toString() + name + "." + bda.getName() + ";\n");
-			}
-			
-			if (bdas.hasNext()) {
-				iedJSON.addItem();
+				
+				if (bdas.hasNext()) {
+					iedJSON.addItem();
+				}
 			}
 		}
 		
 		iedJSON.popLayer();
-		iedJSON.addItem();
+//		iedJSON.addItem();
 	}
 
 	/**
@@ -1104,9 +1109,12 @@ public class SCDCodeGenerator {
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + da.getName().toString() + "\";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + basicType + ";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName.toString() + name + "." + da.getName().toString() + ";\n");
-					
 				}
 				else {
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + da.getName().toString() + "\";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + basicType + ";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName.toString() + name + "." + da.getName().toString() + ";\n");
+					
 					processDA(dataTypeTemplates, dataTypesSource, new StringBuilder(accumulatedName.toString() + name + "."), da.getType(), da.getName().toString(), jsonDatabaseSource, iedJSON);
 				}
 				
@@ -1123,9 +1131,10 @@ public class SCDCodeGenerator {
 				StringBuilder sdoName = new StringBuilder(accumulatedName + name + ".");
 				
 
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + name + "\";\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + name + "\"; // SDO\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName + name + ";\n");
+				
 				if (sdos.hasNext()) {
 					iedJSON.addItem();
 				}

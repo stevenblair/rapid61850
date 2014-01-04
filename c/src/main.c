@@ -30,6 +30,8 @@
 #include "interface.h"
 #endif
 
+#include "jsonRPC.h"
+
 #if HIGH_LEVEL_INTERFACE == 0
 
 #define BUFFER_LENGTH	2048
@@ -104,6 +106,7 @@ int main() {
 	float valueGSE = (float) rand() / (float) RAND_MAX;
 	float valueSV = (float) rand() / (float) RAND_MAX;
 
+	// test GOOSE
 	E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag.f = valueGSE;
 	len = E1Q1SB1.S1.C1.LN0.ItlPositions.send(buf, 0, 512);
 	pcap_sendpacket(fp, buf, len);
@@ -112,6 +115,28 @@ int main() {
 	printf("GSE test: %s\n", D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions.C1_TVTR_1_Vol_instMag.f == valueGSE ? "passed" : "failed");
 	fflush(stdout);
 
+	// test database lookup
+	unsigned char databaseValueResult = 0;
+	Item *ln = getLN("E1Q1SB1", "C1", "TVTRa_1");
+	if (ln != NULL) {
+		Item *valueDatabaseRef = getItem(ln, 3, "Vol", "instMag", "f");
+		if (valueDatabaseRef != NULL) {
+			float *databaseValue = (float *) (valueDatabaseRef->data);
+			if (*databaseValue == valueGSE) {
+				databaseValueResult = TRUE;
+			}
+		}
+		else {
+			printf("Database lookup test: item null\n");
+		}
+	}
+	else {
+		printf("Database lookup test: LN null\n");
+	}
+	printf("Database lookup test: %s\n", databaseValueResult ? "passed" : "failed");
+	fflush(stdout);
+
+	// test Sampled Values
 	E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA.instMag.f = valueSV;
 	int i = 0;
 	for (i = 0; i < E1Q1SB1.S1.C1.LN0.rmxuCB.noASDU; i++) {

@@ -74,9 +74,46 @@ Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef) {
 	int i = 0;
 	for (i = 0; i < LD->numberOfItems; i++) {
 		if (strcmp(objectRef, LD->items[i].objectRef) == 0) {
-			return &LD->items[i];
+			return &(LD->items[i]);
 		}
 	}
 
 	return NULL;
+}
+
+Item *findSingleItem(Item *item, char *objectRef) {
+	if (item == NULL || item->numberOfItems == 0) {
+		return NULL;
+	}
+
+	int i = 0;
+	for (i = 0; i < item->numberOfItems; i++) {
+		if (strcmp(objectRef, item->items[i].objectRef) == 0) {
+			return &item->items[i];
+		}
+	}
+
+	return NULL;
+}
+
+Item *getItem(Item *ln, int num, ...) {
+	va_list arguments;
+	va_start(arguments, num);
+
+	Item *item = ln;
+	int i = 0;
+
+	for (i = 0; i < num; i++) {
+		char *ref = va_arg(arguments, char *);
+//		printf("  %d: %s\n", i, ref);
+
+		item = findSingleItem(item, ref);
+		if (item == NULL) {
+			// TODO call va_end()?
+			return NULL;
+		}
+	}
+	va_end(arguments);
+
+	return item;
 }

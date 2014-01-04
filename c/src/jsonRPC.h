@@ -27,11 +27,14 @@ extern "C" {
 
 
 #include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
 #include "jsonDatabase.h"
 
 Item *getIED(char *iedObjectRef);
 Item *getLD(char *iedObjectRef, char *objectRef);
 Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef);
+Item *getItem(Item *ln, int num, ...);
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
