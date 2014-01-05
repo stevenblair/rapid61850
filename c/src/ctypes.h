@@ -39,8 +39,10 @@ extern "C" {
 #define CTYPE_INT8			char
 #define CTYPE_INT16			short
 #define CTYPE_INT32			int
+#define CTYPE_INT64			long
 #define CTYPE_INT8U			unsigned char
 #define CTYPE_INT16U		unsigned short
+#define CTYPE_INT24U		unsigned int
 #define CTYPE_INT32U		unsigned int
 #if GOOSE_FIXED_SIZE == 1
 #define CTYPE_ENUM			CTYPE_INT8

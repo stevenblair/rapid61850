@@ -154,6 +154,7 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 		return NULL;
 	}
 
+	// copy LD reference string, and find item
 	char ldRef[slashIndex + 1];	// null-terminated
 	lstrcpyn(ldRef, objectRefPath, slashIndex + 1);
 	Item *ld = getLD(iedObjectRef, ldRef);
@@ -161,6 +162,7 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 //	printf("ldRef: %s\n", ldRef);
 //	fflush(stdout);
 
+	// find all items separated by '.'
 	char *path = &objectRefPath[slashIndex + 1];
 	int index = -1;
 	Item *item = ld;
@@ -176,58 +178,63 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 		path = &path[index + 1];
 	}
 
+	// find last item
 	item = findSingleItem(item, path);
 
 	return item;
 }
 
+/**
+ * Prints leaf data items to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ */
 int itemToString(char *buf, Item *item) {
 	void *data = item->data;
-	int n = -1;
 
-	// TODO add sprintf() statements; remove redundant breaks where possible
+	// TODO add sprintf() statements
 	switch (item->type) {
-	case BASIC_TYPE_COMPOUND:
-		break;
-	case BASIC_TYPE_BOOLEAN:
-		break;
-	case BASIC_TYPE_INT8:
-		break;
-	case BASIC_TYPE_INT16:
-		break;
-	case BASIC_TYPE_INT32:
-		break;
-	case BASIC_TYPE_INT64:
-		break;
-	case BASIC_TYPE_INT8U:
-		break;
-	case BASIC_TYPE_INT16U:
-		break;
-	case BASIC_TYPE_INT24U:
-		break;
-	case BASIC_TYPE_INT32U:
-		break;
-	case BASIC_TYPE_FLOAT32:
-		n = sprintf(buf, "%f", *((CTYPE_FLOAT32 *) data));
-		break;
-	case BASIC_TYPE_FLOAT64:
-		n = sprintf(buf, "%f", *((CTYPE_FLOAT64 *) data));
-		break;
-	case BASIC_TYPE_ENUMERATED:
-		break;
-	case BASIC_TYPE_CODED_ENUM:
-		break;
-	case BASIC_TYPE_OCTET_STRING:
-		break;
-	case BASIC_TYPE_VISIBLE_STRING:
-		break;
-	case BASIC_TYPE_UNICODE_STRING:
-		break;
-	case BASIC_TYPE_CURRENCY:
-		break;
-	default:
-		break;
+		case BASIC_TYPE_COMPOUND:
+			// compound data types are not allowed
+			return -1;
+		case BASIC_TYPE_BOOLEAN:
+			if (*(CTYPE_BOOLEAN *) data == FALSE) {
+				return sprintf(buf, "false");
+			}
+			else {
+				return sprintf(buf, "true");
+			}
+		case BASIC_TYPE_INT8:
+			return sprintf(buf, "%d", *((CTYPE_INT8 *) data));
+		case BASIC_TYPE_INT16:
+			return sprintf(buf, "%d", *((CTYPE_INT16 *) data));
+		case BASIC_TYPE_INT32:
+			return sprintf(buf, "%d", *((CTYPE_INT32 *) data));
+		case BASIC_TYPE_INT64:
+			return sprintf(buf, "%ld", *((CTYPE_INT64 *) data));
+		case BASIC_TYPE_INT8U:
+			return sprintf(buf, "%u", *((CTYPE_INT8U *) data));
+		case BASIC_TYPE_INT16U:
+			return sprintf(buf, "%u", *((CTYPE_INT16U *) data));
+		case BASIC_TYPE_INT24U:
+			return sprintf(buf, "%u", *((CTYPE_INT24U *) data));
+		case BASIC_TYPE_INT32U:
+			return sprintf(buf, "%u", *((CTYPE_INT32U *) data));
+		case BASIC_TYPE_FLOAT32:
+			return sprintf(buf, "%f", *((CTYPE_FLOAT32 *) data));
+		case BASIC_TYPE_FLOAT64:
+			return sprintf(buf, "%f", *((CTYPE_FLOAT64 *) data));
+		case BASIC_TYPE_ENUMERATED:
+			return sprintf(buf, "%u", *((CTYPE_ENUM *) data));
+		case BASIC_TYPE_CODED_ENUM:
+			return sprintf(buf, "%u", *((CTYPE_ENUM *) data));
+		case BASIC_TYPE_OCTET_STRING:
+			return -1;
+		case BASIC_TYPE_VISIBLE_STRING:
+			return -1;
+		case BASIC_TYPE_UNICODE_STRING:
+			return -1;
+		case BASIC_TYPE_CURRENCY:
+			return -1;
+		default:
+			return -1;
 	}
-
-	return n;
 }
