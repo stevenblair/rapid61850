@@ -28,13 +28,18 @@ extern "C" {
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include <stdarg.h>
+#include <windows.h>	// TODO cross-platform version?
 #include "jsonDatabase.h"
+#include "ctypes.h"
 
 Item *getIED(char *iedObjectRef);
 Item *getLD(char *iedObjectRef, char *objectRef);
 Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef);
 Item *getItem(Item *ln, int num, ...);
+Item *getItemFromPath(char *iedObjectRef, char *objectRefPath);
+int itemToString(char *buf, Item *item);
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

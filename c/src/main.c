@@ -136,6 +136,13 @@ int main() {
 	printf("Database lookup test: %s\n", databaseValueResult ? "passed" : "failed");
 	fflush(stdout);
 
+	// test database lookup 2
+	Item *valueDatabaseRef2 = getItemFromPath("E1Q1SB1", "C1/TVTRa_1.Vol.instMag.f");
+	char databaseBuf[64] = {0};
+	itemToString(databaseBuf, valueDatabaseRef2);
+	printf("Database lookup test 2: %f, %s\n", *(float *) valueDatabaseRef2->data, databaseBuf);
+	fflush(stdout);
+
 	// test Sampled Values
 	E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA.instMag.f = valueSV;
 	int i = 0;
