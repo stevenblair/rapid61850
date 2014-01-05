@@ -1057,11 +1057,15 @@ public class SCDCodeGenerator {
 				
 				processDA(dataTypeTemplates, dataTypesSource, new StringBuilder(accumulatedName.toString() + name + "."), bda.getType(), bda.getName().toString(), jsonDatabaseSource, iedJSON);
 			}
-			else {
+			else {String ref = "";
+				if (!isStringBasicType(bda.getBType().toString())) {
+					ref = "&";
+				}
+				
 				// add bda to database
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + bda.getName() + "\";\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + mapSCLTypeToBasicType(bda.getBType().toString()) + ";\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName.toString() + name + "." + bda.getName() + ";\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = " + ref + accumulatedName.toString() + name + "." + bda.getName() + ";\n");
 				
 				if (bdas.hasNext()) {
 					iedJSON.addItem();
@@ -1106,9 +1110,14 @@ public class SCDCodeGenerator {
 //					System.out.println("bType: " + bType.toString());
 					basicType = mapSCLTypeToBasicType(bType.toString());
 					
+					String ref = "";
+					if (!isStringBasicType(bType.toString())) {
+						ref = "&";
+					}
+					
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + da.getName().toString() + "\";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + basicType + ";\n");
-					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName.toString() + name + "." + da.getName().toString() + ";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = " + ref + accumulatedName.toString() + name + "." + da.getName().toString() + ";\n");
 				}
 				else {
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + da.getName().toString() + "\";\n");
@@ -1222,6 +1231,21 @@ public class SCDCodeGenerator {
 		}
 		
 		return "BASIC_TYPE_" + bType;
+	}
+	
+
+	private static boolean isStringBasicType(String bType) {
+		if (bType.contains("VisString")) {
+			return true;
+		}
+		else if (bType.contains("Unicode")) {
+			return true;
+		}
+		else if (bType.contains("Octet")) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	public static String initDAI(SCDAdditionalMappings map, String accumulatedName, TDAI dai, TVal val) {

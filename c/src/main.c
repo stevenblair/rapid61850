@@ -139,8 +139,15 @@ int main() {
 	// test database lookup 2
 	Item *valueDatabaseRef2 = getItemFromPath("E1Q1SB1", "C1/TVTRa_1.Vol.instMag.f");
 	char databaseBuf[64] = {0};
-	itemToString(databaseBuf, valueDatabaseRef2);
+	itemToJSON(databaseBuf, valueDatabaseRef2);
 	printf("Database lookup test 2: %f, %s\n", *(float *) valueDatabaseRef2->data, databaseBuf);
+	fflush(stdout);
+
+	// test database print
+	char printBuf[10000];
+	int charsPrinted =  itemTreeToJSON(printBuf, getIED("E1Q1SB1"), 0);
+	printf("Database print test:\n");
+	printf("%d\n%s\n", charsPrinted, printBuf);
 	fflush(stdout);
 
 	// test Sampled Values

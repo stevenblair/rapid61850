@@ -187,14 +187,15 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 /**
  * Prints leaf data items to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
  */
-int itemToString(char *buf, Item *item) {
+int itemToJSON(char *buf, Item *item) {
 	void *data = item->data;
+	int i = 0;
+	int len = 0;
 
-	// TODO add sprintf() statements
 	switch (item->type) {
 		case BASIC_TYPE_COMPOUND:
 			// compound data types are not allowed
-			return -1;
+			return 0;
 		case BASIC_TYPE_BOOLEAN:
 			if (*(CTYPE_BOOLEAN *) data == FALSE) {
 				return sprintf(buf, "false");
@@ -226,15 +227,79 @@ int itemToString(char *buf, Item *item) {
 			return sprintf(buf, "%u", *((CTYPE_ENUM *) data));
 		case BASIC_TYPE_CODED_ENUM:
 			return sprintf(buf, "%u", *((CTYPE_ENUM *) data));
+		// all string types must be null-terminated in data model
 		case BASIC_TYPE_OCTET_STRING:
-			return -1;
+			len = strlen((const char *) data);
+			for (i = 0; i < len; i++) {
+				sprintf(buf, "\"%02X\"", ((unsigned char*) data)[i]);
+			}
+			return len;
 		case BASIC_TYPE_VISIBLE_STRING:
-			return -1;
+			printf("test BASIC_TYPE_VISIBLE_STRING: \"%s\"\n", (CTYPE_VISSTRING255) data);
+			return sprintf(buf, "\"%s\"", (CTYPE_VISSTRING255) data);
 		case BASIC_TYPE_UNICODE_STRING:
-			return -1;
+			return sprintf(buf, "\"%ls\"", (wchar_t *) data);
 		case BASIC_TYPE_CURRENCY:
-			return -1;
+			return sprintf(buf, "\"%s\"", (CTYPE_VISSTRING255) data);
 		default:
-			return -1;
+			return 0;
 	}
+}
+
+/**
+ * Prints hierarchy of items, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ */
+int itemTreeToJSON(char *buf, Item *root, int tab) {
+	int len = 0;
+	int i = 0;
+	Item * item = root;
+
+	if (item == NULL) {
+		return 0;
+	}
+
+	// TODO whitespace-free version - when tab == 0?
+
+	if (item->type == BASIC_TYPE_COMPOUND) {
+		if (tab == 0) {
+			len += sprintf(&buf[len], "{\n    \"%s\" : {", item->objectRef);
+		}
+		else {
+			len += sprintf(&buf[len], "    %*s\"%s\" : {", tab, " ", item->objectRef);
+		}
+	}
+	else {
+		if (tab == 0) {
+			len += sprintf(&buf[len], "    \"%s\" : ", item->objectRef);
+		}
+		else {
+			len += sprintf(&buf[len], "    %*s\"%s\" : ", tab, " ", item->objectRef);
+		}
+	}
+
+	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+		len += sprintf(&buf[len], "\n");
+
+		// loop through each sub-item
+		for (i = 0; i < item->numberOfItems; i++) {
+			len += itemTreeToJSON(&buf[len], &item->items[i], tab + 4);
+			if (i < item->numberOfItems - 1) {
+				len += sprintf(&buf[len], ",\n");
+			}
+		}
+	}
+	else {
+		len += itemToJSON(&buf[len], item);
+	}
+
+	if (item->type == BASIC_TYPE_COMPOUND) {
+		if (tab == 0) {
+			len += sprintf(&buf[len], "\n    }\n}");
+		}
+		else {
+			len += sprintf(&buf[len], "\n    %*s}", tab, " ");
+		}
+	}
+
+	return len;
 }
