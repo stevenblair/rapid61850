@@ -149,8 +149,27 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	Item *ied = getIED(iedObjectRef);
 	int slashIndex = findCharIndex(objectRefPath, '/');
 
-	// check IED exists and that LD reference is at least one character long
-	if (ied == NULL || slashIndex < 1) {
+	// TODO check for no chars after slash
+
+	// check IED exists
+	if (ied == NULL) {
+		return NULL;
+	}
+
+	// check if entire IED is requested
+	if (strlen(objectRefPath) == 0) {
+		return ied;
+	}
+
+	// check if just LD is specified
+	if (slashIndex == -1) {
+		Item *ld = getLD(iedObjectRef, objectRefPath);
+		if (ld != NULL) {
+			return ld;
+		}
+	}
+	// check that LD reference is at least one character long
+	else if (slashIndex < 1) {
 		return NULL;
 	}
 
