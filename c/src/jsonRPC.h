@@ -41,6 +41,7 @@ Item *getItem(Item *ln, int num, ...);
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath);
 int itemToJSON(char *buf, Item *item);
 int itemTreeToJSON(char *buf, Item *root, int tab);
+int itemTreeToJSONPretty(char *buf, Item *root, int tab);
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

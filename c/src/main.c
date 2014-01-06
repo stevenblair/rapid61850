@@ -144,9 +144,11 @@ int main() {
 	fflush(stdout);
 
 	// test database print
+	printf("Database print test:\n");
 	char printBuf[10000];
 	int charsPrinted =  itemTreeToJSON(printBuf, getIED("E1Q1SB1"), 0);
-	printf("Database print test:\n");
+	printf("%d\n%s\n", charsPrinted, printBuf);
+	charsPrinted =  itemTreeToJSONPretty(printBuf, getIED("E1Q1SB1"), 0);
 	printf("%d\n%s\n", charsPrinted, printBuf);
 	fflush(stdout);
 

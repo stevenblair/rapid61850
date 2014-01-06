@@ -235,7 +235,6 @@ int itemToJSON(char *buf, Item *item) {
 			}
 			return len;
 		case BASIC_TYPE_VISIBLE_STRING:
-			printf("test BASIC_TYPE_VISIBLE_STRING: \"%s\"\n", (CTYPE_VISSTRING255) data);
 			return sprintf(buf, "\"%s\"", (CTYPE_VISSTRING255) data);
 		case BASIC_TYPE_UNICODE_STRING:
 			return sprintf(buf, "\"%ls\"", (wchar_t *) data);
@@ -247,18 +246,16 @@ int itemToJSON(char *buf, Item *item) {
 }
 
 /**
- * Prints hierarchy of items, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ * Prints hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
  */
-int itemTreeToJSON(char *buf, Item *root, int tab) {
+int itemTreeToJSONPretty(char *buf, Item *root, int tab) {
 	int len = 0;
 	int i = 0;
-	Item * item = root;
+	Item *item = root;
 
 	if (item == NULL) {
 		return 0;
 	}
-
-	// TODO whitespace-free version - when tab == 0?
 
 	if (item->type == BASIC_TYPE_COMPOUND) {
 		if (tab == 0) {
@@ -282,7 +279,7 @@ int itemTreeToJSON(char *buf, Item *root, int tab) {
 
 		// loop through each sub-item
 		for (i = 0; i < item->numberOfItems; i++) {
-			len += itemTreeToJSON(&buf[len], &item->items[i], tab + 4);
+			len += itemTreeToJSONPretty(&buf[len], &item->items[i], tab + 4);
 			if (i < item->numberOfItems - 1) {
 				len += sprintf(&buf[len], ",\n");
 			}
@@ -298,6 +295,56 @@ int itemTreeToJSON(char *buf, Item *root, int tab) {
 		}
 		else {
 			len += sprintf(&buf[len], "\n    %*s}", tab, " ");
+		}
+	}
+
+	return len;
+}
+
+
+/**
+ * Prints hierarchy of items, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ */
+int itemTreeToJSON(char *buf, Item *root, int tab) {
+	int len = 0;
+	int i = 0;
+	Item *item = root;
+
+	if (item == NULL) {
+		return 0;
+	}
+
+	if (item->type == BASIC_TYPE_COMPOUND) {
+		if (tab == 0) {
+			len += sprintf(&buf[len], "{\"%s\":{", item->objectRef);
+		}
+		else {
+			len += sprintf(&buf[len], "\"%s\":{", item->objectRef);
+		}
+	}
+	else {
+		len += sprintf(&buf[len], "\"%s\":", item->objectRef);
+	}
+
+	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+		// loop through each sub-item
+		for (i = 0; i < item->numberOfItems; i++) {
+			len += itemTreeToJSON(&buf[len], &item->items[i], tab + 4);
+			if (i < item->numberOfItems - 1) {
+				len += sprintf(&buf[len], ",");
+			}
+		}
+	}
+	else {
+		len += itemToJSON(&buf[len], item);
+	}
+
+	if (item->type == BASIC_TYPE_COMPOUND) {
+		if (tab == 0) {
+			len += sprintf(&buf[len], "}}");
+		}
+		else {
+			len += sprintf(&buf[len], "}");
 		}
 	}
 
