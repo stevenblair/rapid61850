@@ -371,7 +371,7 @@ int itemTreeToJSON(char *buf, Item *root, int tab) {
 }
 
 static void *serve(void *server) {
-  for (;;) mg_poll_server((struct mg_server *) server, 1000);
+  for (;;) mg_poll_server((struct mg_server *) server, JSON_WEB_SERVER_SELECT_MAX_TIME);
   return NULL;
 }
 
@@ -380,8 +380,8 @@ static int handle_hello(struct mg_connection *conn) {
 
 	// TODO prevent blocking if not found
 
-	printf("uri: %s, %s\n", conn->uri, conn->server_param);
-	fflush(stdout);
+//	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
+//	fflush(stdout);
 
 	if (item != NULL) {
 		char printBuf[8000];

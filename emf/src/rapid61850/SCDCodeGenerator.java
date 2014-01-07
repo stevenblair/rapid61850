@@ -61,7 +61,7 @@ import ch.iec._61850._2006.scl.TSubNetwork;
 import ch.iec._61850._2006.scl.TVal;
 
 public class SCDCodeGenerator {
-	
+
 	private static final int JSON_WEB_SERVER_START_PORT = 8001;
 
 	public void generateCode(DocumentRoot root, SCDAdditionalMappings map) {
@@ -309,7 +309,7 @@ public class SCDCodeGenerator {
 		JSONDatabaseManager iedJSON = new JSONDatabaseManager(databaseName);
 		int numberOfIEDs = root.getSCL().getIED().size();
 		jsonDatabaseSource.appendInstances("Item " + databaseName + " = {\"root\", BASIC_TYPE_COMPOUND, NULL, " + numberOfIEDs + "};\n");
-		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".items = (Item*) malloc(sizeof(Item) * " + numberOfIEDs + "); // IEDs\n");
+		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".items = (Item*) calloc(" + numberOfIEDs + ", sizeof(Item)); // IEDs\n");
 //		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".numberOfItems = " + numberOfIEDs + ";\n");
 //		iedJSON.addLayer();	// IEDs
 		
@@ -330,7 +330,7 @@ public class SCDCodeGenerator {
 				
 //				JSONDatabaseManager iedJSON = new JSONDatabaseManager(iedName);
 //				jsonDatabaseSource.appendInstances("Item " + iedJSON.getPath() + "_database = {\"" + iedName + "\", &" + iedName + ", " + ied.getAccessPoint().size() + "};\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + ied.getAccessPoint().size() + "); // APs+Servers\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + ied.getAccessPoint().size() + ", sizeof(Item)); // APs+Servers\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + ied.getAccessPoint().size() + ";\n");
 				iedJSON.addLayer();
 				
@@ -347,7 +347,7 @@ public class SCDCodeGenerator {
 					if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
 						Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
 						
-						jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + ap.getServer().getLDevice().size() + "); // LDs\n");
+						jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + ap.getServer().getLDevice().size() + ", sizeof(Item)); // LDs\n");
 						jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + ap.getServer().getLDevice().size() + ";\n");
 						iedJSON.addLayer();
 						
@@ -368,7 +368,7 @@ public class SCDCodeGenerator {
 							if (ld.getLN0() != null) {
 								numberOfLNs++;
 							}
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + numberOfLNs + "); // LNs\n");
+							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfLNs + ", sizeof(Item)); // LNs\n");
 							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfLNs + ";\n");
 							iedJSON.addLayer();
 							
@@ -507,13 +507,13 @@ public class SCDCodeGenerator {
 														svPacketDataInit.append("\t" + svPath + svName + ".ethHeaderData.VLAN_ID = 0;\n");
 													}
 													
-													svPacketDataInit.append("\t" + svPath + svName + ".ASDU = (struct ASDU *) malloc(" + svControl.getNofASDU() + " * sizeof(struct ASDU));\n");
+													svPacketDataInit.append("\t" + svPath + svName + ".ASDU = (struct ASDU *) calloc(" + svControl.getNofASDU() + ", sizeof(struct ASDU));\n");
 													
 													// assume all ASDUs refer to the same dataset
 													svPacketDataInit.append("\tfor (i = 0; i < " + svControl.getNofASDU() + "; i++) {\n");
-													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].svID = (unsigned char *) malloc(" + (svControl.getSmvID().length() + 1) + ");\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].svID = (unsigned char *) calloc(1, " + (svControl.getSmvID().length() + 1) + ");\n");
 													svPacketDataInit.append("\t\tstrncpy((char *) " + svPath + svName + ".ASDU[i].svID, \"" + svControl.getSmvID() + "\\0\", " + (svControl.getSmvID().length() + 1) + ");\n");
-													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].datset = (unsigned char *) malloc(" + (dataset.getName().length() + 1) + ");\n");
+													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].datset = (unsigned char *) calloc(1, " + (dataset.getName().length() + 1) + ");\n");
 													svPacketDataInit.append("\t\tstrncpy((char *) " + svPath + svName + ".ASDU[i].datset, \"" + dataset.getName() + "\\0\", " + (dataset.getName().length() + 1) + ");\n");
 													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].smpCnt = 0;\n");
 													svPacketDataInit.append("\t\t" + svPath + svName + ".ASDU[i].confRev = " + svControl.getConfRev() + ";\n");
@@ -640,7 +640,7 @@ public class SCDCodeGenerator {
 														gsePacketDataInit.append("\t" + gsePath + gseName + ".ethHeaderData.VLAN_ID = 0;\n");
 													}
 	
-													gsePacketDataInit.append("\t" + gsePath + gseName + ".goID = (unsigned char *) malloc(" + (gseControl.getAppID().length() + 1) + ");\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".goID = (unsigned char *) calloc(1, " + (gseControl.getAppID().length() + 1) + ");\n");
 													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".goID, \"" + gseControl.getAppID() + "\\0\", " + (gseControl.getAppID().length() + 1) + ");\n");
 	
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".t = 0;\n");
@@ -649,14 +649,14 @@ public class SCDCodeGenerator {
 													if (gocbRef.length() > 65) {
 														gocbRef = gocbRef.substring(0, 64);
 													}
-													gsePacketDataInit.append("\t" + gsePath + gseName + ".gocbRef = (unsigned char *) malloc(" + (gocbRef.length() + 1) + ");\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".gocbRef = (unsigned char *) calloc(1, " + (gocbRef.length() + 1) + ");\n");
 													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".gocbRef, \"" + gocbRef + "\\0\", " + (gocbRef.length() + 1) + ");\n");
 													
 													String datSet = iedName + ld.getInst() + "/" + ld.getLN0().getLnClass().toString() + "$" + gseControl.getDatSet();
 													if (datSet.length() > 65) {
 														datSet = datSet.substring(0, 64);
 													}
-													gsePacketDataInit.append("\t" + gsePath + gseName + ".datSet = (unsigned char *) malloc(" + (datSet.length() + 1) + ");\n");
+													gsePacketDataInit.append("\t" + gsePath + gseName + ".datSet = (unsigned char *) calloc(1, " + (datSet.length() + 1) + ");\n");
 													gsePacketDataInit.append("\tstrncpy((char *) " + gsePath + gseName + ".datSet, \"" + datSet + "\\0\", " + (datSet.length() + 1) + ");\n");
 	
 													gsePacketDataInit.append("\t" + gsePath + gseName + ".timeAllowedToLive = 0;\n");
@@ -715,7 +715,7 @@ public class SCDCodeGenerator {
 							
 //							Iterator<TLN> lns = ld.getLN().iterator();
 //							
-//							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + (ld.getLN().size() + 1) + ");\n");
+//							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + (ld.getLN().size() + 1) + ", sizeof(Item));\n");
 //							iedJSON.addLayer();
 							
 							while (lns.hasNext()) {
@@ -740,7 +740,7 @@ public class SCDCodeGenerator {
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + lnName + ";\n");
 								
 								int numberOfDOs = getLNTypeDOs(dataTypeTemplates, ln.getLnType()).size();
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + numberOfDOs + "); // DOs\n");
+								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDOs + ", sizeof(Item)); // DOs\n");
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDOs + ";\n");
 								iedJSON.addLayer();
 								
@@ -755,7 +755,7 @@ public class SCDCodeGenerator {
 									
 
 									int numberOfDAsAndSDOs = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).size() + getDOTypeSDOs(dataTypeTemplates, dataObject.getType()).size();
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + numberOfDAsAndSDOs + "); // DAs (top level)\n");
+									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAsAndSDOs + ", sizeof(Item)); // DAs (top level)\n");
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAsAndSDOs + ";\n");
 									iedJSON.addLayer();
 									
@@ -839,14 +839,6 @@ public class SCDCodeGenerator {
 			iedNumber++;
 		}
 		jsonDatabaseSource.appendFunctions("}\n");
-		
-		// TODO add all IEDS; use threads?
-//		jsonDatabaseSource.appendFunctions("\tstruct mg_server *server = mg_create_server(NULL);\n");
-//		jsonDatabaseSource.appendFunctions("\tmg_set_option(server, \"document_root\", \".\");\n");
-//		jsonDatabaseSource.appendFunctions("\tmg_set_option(server, \"listening_port\", \"8087\");\n");
-//		jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server, \"/\", &handle_hello);\n");
-//		jsonDatabaseSource.appendFunctions("\tfor (;;) mg_poll_server(server, 1000);\n");
-//		jsonDatabaseSource.appendFunctions("\tmg_destroy_server(&server);\n");
 		
 		
 		
@@ -1080,7 +1072,7 @@ public class SCDCodeGenerator {
 //		System.out.println("Struct DA: " + accumulatedName + ", " + type + ", " + name);
 		
 		int numberOfDAs = getDATypeDAs(dataTypeTemplates, type).size();
-		jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + numberOfDAs + "); // DAs\n");
+		jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAs + ", sizeof(Item)); // DAs\n");
 		jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAs + ";\n");
 		iedJSON.addLayer();
 		
@@ -1190,7 +1182,7 @@ public class SCDCodeGenerator {
 				}
 				
 				int numberOfDAs = getDOTypeDAs(dataTypeTemplates, sdo.getType()).size();
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) malloc(sizeof(Item) * " + numberOfDAs + "); // DAs within SDO\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAs + ", sizeof(Item)); // DAs within SDO\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAs + ";\n");
 				iedJSON.addLayer();
 				
@@ -1312,7 +1304,7 @@ public class SCDCodeGenerator {
 				initCode = initCode.concat("\t\tfree(" + id + assignment + da.getName().toString() + ");\n");
 				initCode = initCode.concat("\t}\n");
 				
-				initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = (CTYPE_VISSTRING255) malloc(" + valSize + ");\n");
+				initCode = initCode.concat("\t" + id + assignment + da.getName().toString() + " = (CTYPE_VISSTRING255) calloc(1, " + valSize + ");\n");
 				initCode = initCode.concat("\tstrncpy(" + id + assignment + da.getName().toString() + ", \"" + val.getValue() + "\\0\", " + valSize + ");\n");
 			}
 			else if (da.getBType().toString().contains("FLOAT")) {

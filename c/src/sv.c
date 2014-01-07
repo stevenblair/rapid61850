@@ -102,11 +102,11 @@ void init_sv() {
 	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.APPID = 0x4000;
 	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.VLAN_ID = 0x123;
 	E1Q1SB1.S1.C1.LN0.PerformanceSV.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU = (struct ASDU *) malloc(1 * sizeof(struct ASDU));
+	E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU = (struct ASDU *) calloc(1, sizeof(struct ASDU));
 	for (i = 0; i < 1; i++) {
-		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].svID = (unsigned char *) malloc(12);
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].svID = (unsigned char *) calloc(1, 12);
 		strncpy((char *) E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].svID, "Performance\0", 12);
-		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].datset = (unsigned char *) malloc(12);
+		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].datset = (unsigned char *) calloc(1, 12);
 		strncpy((char *) E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].datset, "Performance\0", 12);
 		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].smpCnt = 0;
 		E1Q1SB1.S1.C1.LN0.PerformanceSV.ASDU[i].confRev = 1;
@@ -130,11 +130,11 @@ void init_sv() {
 	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.APPID = 0x4000;
 	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.VLAN_ID = 0x123;
 	E1Q1SB1.S1.C1.LN0.Volt.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.Volt.ASDU = (struct ASDU *) malloc(2 * sizeof(struct ASDU));
+	E1Q1SB1.S1.C1.LN0.Volt.ASDU = (struct ASDU *) calloc(2, sizeof(struct ASDU));
 	for (i = 0; i < 2; i++) {
-		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].svID = (unsigned char *) malloc(3);
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].svID = (unsigned char *) calloc(1, 3);
 		strncpy((char *) E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].svID, "11\0", 3);
-		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].datset = (unsigned char *) malloc(4);
+		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].datset = (unsigned char *) calloc(1, 4);
 		strncpy((char *) E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].datset, "smv\0", 4);
 		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].smpCnt = 0;
 		E1Q1SB1.S1.C1.LN0.Volt.ASDU[i].confRev = 1;
@@ -158,11 +158,11 @@ void init_sv() {
 	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.APPID = 0x4000;
 	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.VLAN_ID = 0x123;
 	E1Q1SB1.S1.C1.LN0.rmxuCB.ethHeaderData.VLAN_PRIORITY = 0x4;
-	E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU = (struct ASDU *) malloc(16 * sizeof(struct ASDU));
+	E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU = (struct ASDU *) calloc(16, sizeof(struct ASDU));
 	for (i = 0; i < 16; i++) {
-		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].svID = (unsigned char *) malloc(5);
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].svID = (unsigned char *) calloc(1, 5);
 		strncpy((char *) E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].svID, "rmxu\0", 5);
-		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].datset = (unsigned char *) malloc(5);
+		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].datset = (unsigned char *) calloc(1, 5);
 		strncpy((char *) E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].datset, "rmxu\0", 5);
 		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].smpCnt = 0;
 		E1Q1SB1.S1.C1.LN0.rmxuCB.ASDU[i].confRev = 1;

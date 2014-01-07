@@ -48,24 +48,24 @@ void init_myLPL(struct myLPL *myLPL) {
 	if (myLPL->ldNs != NULL) {
 		free(myLPL->ldNs);
 	}
-	myLPL->ldNs = (CTYPE_VISSTRING255) malloc(18);
+	myLPL->ldNs = (CTYPE_VISSTRING255) calloc(1, 18);
 	strncpy(myLPL->ldNs, "IEC61850-7-4:2003\0", 18);
 	if (myLPL->configRev != NULL) {
 		free(myLPL->configRev);
 	}
-	myLPL->configRev = (CTYPE_VISSTRING255) malloc(9);
+	myLPL->configRev = (CTYPE_VISSTRING255) calloc(1, 9);
 	strncpy(myLPL->configRev, "Rev 3.45\0", 9);
 }
 void init_myDPL(struct myDPL *myDPL) {
 	if (myDPL->vendor != NULL) {
 		free(myDPL->vendor);
 	}
-	myDPL->vendor = (CTYPE_VISSTRING255) malloc(13);
+	myDPL->vendor = (CTYPE_VISSTRING255) calloc(1, 13);
 	strncpy(myDPL->vendor, "myVendorName\0", 13);
 	if (myDPL->hwRev != NULL) {
 		free(myDPL->hwRev);
 	}
-	myDPL->hwRev = (CTYPE_VISSTRING255) malloc(9);
+	myDPL->hwRev = (CTYPE_VISSTRING255) calloc(1, 9);
 	strncpy(myDPL->hwRev, "Rev 1.23\0", 9);
 }
 void init_myPos(struct myPos *myPos) {
@@ -107,7 +107,7 @@ void init_datatypes() {
 	if (E1Q1SB1.S1.C1.LPHDa_1.PhyNam.hwRev != NULL) {
 		free(E1Q1SB1.S1.C1.LPHDa_1.PhyNam.hwRev);
 	}
-	E1Q1SB1.S1.C1.LPHDa_1.PhyNam.hwRev = (CTYPE_VISSTRING255) malloc(19);
+	E1Q1SB1.S1.C1.LPHDa_1.PhyNam.hwRev = (CTYPE_VISSTRING255) calloc(1, 19);
 	strncpy(E1Q1SB1.S1.C1.LPHDa_1.PhyNam.hwRev, "replacement string\0", 19);
 	init_mySPS(&E1Q1SB1.S1.C1.CSWIa_1.GrpAl);
 	init_mySPS(&E1Q1SB1.S1.C1.CSWIa_2.GrpAl);

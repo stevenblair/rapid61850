@@ -34,6 +34,9 @@ extern "C" {
 #include "jsonDatabase.h"
 #include "ctypes.h"
 
+#define JSON_WEB_SERVER_SELECT_MAX_TIME		100		// ms
+
+
 Item *getIED(char *iedObjectRef);
 Item *getLD(char *iedObjectRef, char *objectRef);
 Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef);
