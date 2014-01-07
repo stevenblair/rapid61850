@@ -747,7 +747,6 @@ public class SCDCodeGenerator {
 								// look up lists of DOs and DAs and initialise if required
 								while (dos.hasNext()) {
 									TDO dataObject = dos.next();
-									
 
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + dataObject.getName() + "\";\n");
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
@@ -1082,13 +1081,16 @@ public class SCDCodeGenerator {
 //			System.out.println("    BDA: " + bda.getType() + ", " + bda.getBType());
 			
 			if (bda.getType() != null) {
-				System.out.println("    recursing; name: " + name + ", type: " + type + ", bda.getType(): " + bda.getType() + ", bda.getBType().toString(): " + bda.getBType().toString());
-
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + name + "\"; // BDA\n");
+//				System.out.println("    recursing; name: " + name + ", bda.getName(): " + bda.getName().toString() + ", type: " + type + ", bda.getType(): " + bda.getType() + ", bda.getBType().toString(): " + bda.getBType().toString());
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + bda.getName().toString() + "\"; // BDA\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
-				// TODO add data
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName + name + "." + bda.getName().toString() + ";\n");
 				
 				processDA(dataTypeTemplates, dataTypesSource, new StringBuilder(accumulatedName.toString() + name + "."), bda.getType(), bda.getName().toString(), jsonDatabaseSource, iedJSON);
+				
+				if (bdas.hasNext()) {
+					iedJSON.addItem();
+				}
 			}
 			else {String ref = "";
 				if (!isStringBasicType(bda.getBType().toString())) {
@@ -1171,11 +1173,11 @@ public class SCDCodeGenerator {
 			while (sdos.hasNext()) {
 				TSDO sdo = sdos.next();
 				StringBuilder sdoName = new StringBuilder(accumulatedName + name + ".");
-				
+//				System.out.println("SDO:    name: " + name + ", sdo.getName(): " + sdo.getName());
 
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + name + "\"; // SDO\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + sdo.getName() + "\"; // SDO\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName + name + ";\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + sdoName + sdo.getName() + ";\n");
 				
 				if (sdos.hasNext()) {
 					iedJSON.addItem();
