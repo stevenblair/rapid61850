@@ -61,6 +61,8 @@ import ch.iec._61850._2006.scl.TSubNetwork;
 import ch.iec._61850._2006.scl.TVal;
 
 public class SCDCodeGenerator {
+	
+	private static final int JSON_WEB_SERVER_START_PORT = 8001;
 
 	public void generateCode(DocumentRoot root, SCDAdditionalMappings map) {
 		// initialise C header files
@@ -805,19 +807,46 @@ public class SCDCodeGenerator {
 		
 //		iedJSON.popLayer();	// IEDs
 
-		dataTypesSource.appendFunctions("}\n");
-		jsonDatabaseSource.appendFunctions("}\n");
 		
+		
+		dataTypesSource.appendFunctions("}\n");
+		jsonDatabaseSource.appendFunctions("}\n\n");
+
+		for (int i = 0; i < numberOfIEDs; i++) {
+			jsonDatabaseSource.appendFunctions("struct mg_server *server" + (i + 1) + ";\n");
+		}
+
+		jsonDatabaseSource.appendFunctions("\nvoid init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {\n");
+		int iedNumber = 1;
+		ieds = root.getSCL().getIED().iterator();
+		while (ieds.hasNext()) {
+			TIED ied = ieds.next();
+
+			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + " = mg_create_server((void *) \"" + ied.getName() + "\");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "\");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server" + iedNumber + ", \"/\", handler);\n");
+			if (iedNumber == numberOfIEDs) {
+				jsonDatabaseSource.appendFunctions("\tthread_serve(server" + iedNumber + ");\n");
+			}
+			else {
+				jsonDatabaseSource.appendFunctions("\tmg_start_thread(thread_serve, server" + iedNumber + ");\n");
+			}
+			
+			if (ieds.hasNext()) {
+				jsonDatabaseSource.appendFunctions("\n");
+			}
+			
+			iedNumber++;
+		}
+		jsonDatabaseSource.appendFunctions("}\n");
 		
 		// TODO add all IEDS; use threads?
-		jsonDatabaseSource.appendFunctions("\nvoid start_JSON_RPC() {\n");
-		jsonDatabaseSource.appendFunctions("\tstruct mg_server *server = mg_create_server(NULL);\n");
-		jsonDatabaseSource.appendFunctions("\tmg_set_option(server, \"document_root\", \".\");\n");
-		jsonDatabaseSource.appendFunctions("\tmg_set_option(server, \"listening_port\", \"8087\");\n");
-		jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server, \"/\", &handle_hello);\n");
-		jsonDatabaseSource.appendFunctions("\tfor (;;) mg_poll_server(server, 1000);\n");
-		jsonDatabaseSource.appendFunctions("\tmg_destroy_server(&server);\n");
-		jsonDatabaseSource.appendFunctions("}\n");
+//		jsonDatabaseSource.appendFunctions("\tstruct mg_server *server = mg_create_server(NULL);\n");
+//		jsonDatabaseSource.appendFunctions("\tmg_set_option(server, \"document_root\", \".\");\n");
+//		jsonDatabaseSource.appendFunctions("\tmg_set_option(server, \"listening_port\", \"8087\");\n");
+//		jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server, \"/\", &handle_hello);\n");
+//		jsonDatabaseSource.appendFunctions("\tfor (;;) mg_poll_server(server, 1000);\n");
+//		jsonDatabaseSource.appendFunctions("\tmg_destroy_server(&server);\n");
 		
 		
 		

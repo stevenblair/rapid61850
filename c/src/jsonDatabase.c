@@ -23,7 +23,6 @@
 #include "datatypes.h"
 #include "ied.h"
 #include "jsonDatabase.h"
-#include "jsonRPC.h"
 
 
 Item database = {"root", BASIC_TYPE_COMPOUND, NULL, 12};
@@ -964,34 +963,78 @@ void init_database() {
 	database.items[11].items[0].items[0].items[3].items[4].items[2].data = &D1Q1SB4.S1.C1.RSYNa_1.Rel.t;
 }
 
-
-
-
-
 struct mg_server *server1;
 struct mg_server *server2;
 struct mg_server *server3;
+struct mg_server *server4;
+struct mg_server *server5;
+struct mg_server *server6;
+struct mg_server *server7;
+struct mg_server *server8;
+struct mg_server *server9;
+struct mg_server *server10;
+struct mg_server *server11;
+struct mg_server *server12;
 
 void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	server1 = mg_create_server((void *) "E1Q1SB1");
-	mg_set_option(server1, "listening_port", "8081");
+	mg_set_option(server1, "listening_port", "8001");
 	mg_add_uri_handler(server1, "/", handler);
 	mg_start_thread(thread_serve, server1);
 
 	server2 = mg_create_server((void *) "E1Q1BP2");
-	mg_set_option(server2, "listening_port", "8082");
+	mg_set_option(server2, "listening_port", "8002");
 	mg_add_uri_handler(server2, "/", handler);
 	mg_start_thread(thread_serve, server2);
 
-	server3 = mg_create_server((void *) "D1Q1SB4");
-	mg_set_option(server3, "listening_port", "8083");
+	server3 = mg_create_server((void *) "E1Q1BP3");
+	mg_set_option(server3, "listening_port", "8003");
 	mg_add_uri_handler(server3, "/", handler);
 	mg_start_thread(thread_serve, server3);
-	thread_serve(server3);
+
+	server4 = mg_create_server((void *) "E1Q2SB1");
+	mg_set_option(server4, "listening_port", "8004");
+	mg_add_uri_handler(server4, "/", handler);
+	mg_start_thread(thread_serve, server4);
+
+	server5 = mg_create_server((void *) "E1Q3SB1");
+	mg_set_option(server5, "listening_port", "8005");
+	mg_add_uri_handler(server5, "/", handler);
+	mg_start_thread(thread_serve, server5);
+
+	server6 = mg_create_server((void *) "E1Q3KA1");
+	mg_set_option(server6, "listening_port", "8006");
+	mg_add_uri_handler(server6, "/", handler);
+	mg_start_thread(thread_serve, server6);
+
+	server7 = mg_create_server((void *) "E1Q3KA2");
+	mg_set_option(server7, "listening_port", "8007");
+	mg_add_uri_handler(server7, "/", handler);
+	mg_start_thread(thread_serve, server7);
+
+	server8 = mg_create_server((void *) "E1Q3KA3");
+	mg_set_option(server8, "listening_port", "8008");
+	mg_add_uri_handler(server8, "/", handler);
+	mg_start_thread(thread_serve, server8);
+
+	server9 = mg_create_server((void *) "D1Q1SB1");
+	mg_set_option(server9, "listening_port", "8009");
+	mg_add_uri_handler(server9, "/", handler);
+	mg_start_thread(thread_serve, server9);
+
+	server10 = mg_create_server((void *) "D1Q1BP2");
+	mg_set_option(server10, "listening_port", "8010");
+	mg_add_uri_handler(server10, "/", handler);
+	mg_start_thread(thread_serve, server10);
+
+	server11 = mg_create_server((void *) "D1Q1BP3");
+	mg_set_option(server11, "listening_port", "8011");
+	mg_add_uri_handler(server11, "/", handler);
+	mg_start_thread(thread_serve, server11);
+
+	server12 = mg_create_server((void *) "D1Q1SB4");
+	mg_set_option(server12, "listening_port", "8012");
+	mg_add_uri_handler(server12, "/", handler);
+	thread_serve(server12);
 }
 
-void destroy_JSON_RPC() {
-	mg_destroy_server(&server1);
-	mg_destroy_server(&server2);
-	mg_destroy_server(&server3);
-}
