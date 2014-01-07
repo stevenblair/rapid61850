@@ -369,3 +369,38 @@ int itemTreeToJSON(char *buf, Item *root, int tab) {
 
 	return len;
 }
+
+static void *serve(void *server) {
+  for (;;) mg_poll_server((struct mg_server *) server, 1000);
+  return NULL;
+}
+
+static int handle_hello(struct mg_connection *conn) {
+	Item *item = getItemFromPath(conn->server_param, (char *) &conn->uri[1]);	// exclude the forward slash
+
+	// TODO prevent blocking if not found
+
+	printf("uri: %s, %s\n", conn->uri, conn->server_param);
+	fflush(stdout);
+
+	if (item != NULL) {
+		char printBuf[8000];
+		int len =  itemTreeToJSONPretty(printBuf, item, 0);
+	//	printf("%d\n%s\n", len, printBuf);
+
+		if (len > 0) {
+			mg_send_data(conn, printBuf, len);
+		}
+	}
+	return 1;
+}
+
+void start_JSON_RPC() {
+	init_JSON_RPC(&handle_hello, serve);
+//	struct mg_server *server = mg_create_server(NULL);
+//	mg_set_option(server, "document_root", ".");
+//	mg_set_option(server, "listening_port", "8087");	// TODO generate these strings in Java? or use threads?
+//	mg_add_uri_handler(server, "/", &handle_hello);
+//	for (;;) mg_poll_server(server, 1000);  // Infinite loop, Ctrl-C to stop
+//	mg_destroy_server(&server);
+}

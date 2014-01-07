@@ -42,7 +42,7 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath);
 int itemToJSON(char *buf, Item *item);
 int itemTreeToJSON(char *buf, Item *root, int tab);
 int itemTreeToJSONPretty(char *buf, Item *root, int tab);
-
+void start_JSON_RPC();
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
 }

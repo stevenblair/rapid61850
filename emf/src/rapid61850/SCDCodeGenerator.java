@@ -809,6 +809,18 @@ public class SCDCodeGenerator {
 		jsonDatabaseSource.appendFunctions("}\n");
 		
 		
+		// TODO add all IEDS; use threads?
+		jsonDatabaseSource.appendFunctions("\nvoid start_JSON_RPC() {\n");
+		jsonDatabaseSource.appendFunctions("\tstruct mg_server *server = mg_create_server(NULL);\n");
+		jsonDatabaseSource.appendFunctions("\tmg_set_option(server, \"document_root\", \".\");\n");
+		jsonDatabaseSource.appendFunctions("\tmg_set_option(server, \"listening_port\", \"8087\");\n");
+		jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server, \"/\", &handle_hello);\n");
+		jsonDatabaseSource.appendFunctions("\tfor (;;) mg_poll_server(server, 1000);\n");
+		jsonDatabaseSource.appendFunctions("\tmg_destroy_server(&server);\n");
+		jsonDatabaseSource.appendFunctions("}\n");
+		
+		
+		
 		// process Logical Node Types
 		Iterator<TLNodeType> lnTypes = dataTypeTemplates.getLNodeType().iterator();
 		dataTypesHeader.appendDatatypes("\n\n// logical nodes\n");

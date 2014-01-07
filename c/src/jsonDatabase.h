@@ -25,6 +25,10 @@
 extern "C" {
 #endif
 
+#include <stdlib.h>
+#include <string.h>
+#include "mongoose.h"
+
 typedef enum {
 	BASIC_TYPE_COMPOUND = 0,
 	BASIC_TYPE_BOOLEAN,
@@ -55,6 +59,8 @@ typedef struct Item {
 } Item;
 
 void init_database();
+
+void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *));
 
 extern Item database;
 

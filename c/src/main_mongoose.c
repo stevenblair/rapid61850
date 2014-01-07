@@ -27,7 +27,6 @@
 
 #include "iec61850.h"
 #include "jsonRPC.h"
-#include "mongoose.h"
 
 
 
@@ -92,26 +91,6 @@
 
 
 
-static int handle_hello(struct mg_connection *conn) {
-	Item *item = getItemFromPath("E1Q1SB1", (char *) &conn->uri[1]);	// exclude the forward slash
-
-	// TODO prevent blocking if not found
-
-	printf("uri: %s\n", conn->uri);
-	fflush(stdout);
-
-	if (item != NULL) {
-		char printBuf[8000];
-		int len =  itemTreeToJSONPretty(printBuf, item, 0);
-	//	printf("%d\n%s\n", len, printBuf);
-
-		if (len > 0) {
-			mg_send_data(conn, printBuf, len);
-		}
-	}
-	return 1;
-}
-
 
 
 
@@ -119,16 +98,7 @@ int main() {
 	initialise_iec61850();
 //	fp = initWinpcap();
 
-
-	// TODO move to function and generate from SCD
-	struct mg_server *server = mg_create_server(NULL);
-	mg_set_option(server, "document_root", ".");
-	mg_set_option(server, "listening_port", "8087");	// TODO generate these strings in Java? or use threads?
-	mg_add_uri_handler(server, "/", &handle_hello);
-	for (;;) mg_poll_server(server, 1000);  // Infinite loop, Ctrl-C to stop
-	mg_destroy_server(&server);
-
-
+	start_JSON_RPC();
 
 
 //	pcap_close(fp);

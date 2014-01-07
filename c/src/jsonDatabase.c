@@ -23,6 +23,7 @@
 #include "datatypes.h"
 #include "ied.h"
 #include "jsonDatabase.h"
+#include "jsonRPC.h"
 
 
 Item database = {"root", BASIC_TYPE_COMPOUND, NULL, 12};
@@ -963,3 +964,34 @@ void init_database() {
 	database.items[11].items[0].items[0].items[3].items[4].items[2].data = &D1Q1SB4.S1.C1.RSYNa_1.Rel.t;
 }
 
+
+
+
+
+struct mg_server *server1;
+struct mg_server *server2;
+struct mg_server *server3;
+
+void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
+	server1 = mg_create_server((void *) "E1Q1SB1");
+	mg_set_option(server1, "listening_port", "8081");
+	mg_add_uri_handler(server1, "/", handler);
+	mg_start_thread(thread_serve, server1);
+
+	server2 = mg_create_server((void *) "E1Q1BP2");
+	mg_set_option(server2, "listening_port", "8082");
+	mg_add_uri_handler(server2, "/", handler);
+	mg_start_thread(thread_serve, server2);
+
+	server3 = mg_create_server((void *) "D1Q1SB4");
+	mg_set_option(server3, "listening_port", "8083");
+	mg_add_uri_handler(server3, "/", handler);
+	mg_start_thread(thread_serve, server3);
+	thread_serve(server3);
+}
+
+void destroy_JSON_RPC() {
+	mg_destroy_server(&server1);
+	mg_destroy_server(&server2);
+	mg_destroy_server(&server3);
+}
