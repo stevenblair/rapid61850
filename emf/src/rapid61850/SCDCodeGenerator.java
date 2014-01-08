@@ -822,7 +822,12 @@ public class SCDCodeGenerator {
 			TIED ied = ieds.next();
 
 			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + " = mg_create_server((void *) \"" + ied.getName() + "\");\n");
+			jsonDatabaseSource.appendFunctions("#ifndef USE_SSL\n");
 			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "\");\n");
+			jsonDatabaseSource.appendFunctions("#else\n");
+			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "s\");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"ssl_certificate\", \"ssl_cert.pem\");\n");
+			jsonDatabaseSource.appendFunctions("#endif\n");
 			jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server" + iedNumber + ", \"/\", handler);\n");
 			if (iedNumber == numberOfIEDs) {
 				jsonDatabaseSource.appendFunctions("\tthread_serve(server" + iedNumber + ");\n");

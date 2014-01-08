@@ -205,12 +205,16 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 
 
 /**
- * Sets the value of leaf data items.
+ * Sets the value of leaf data items. Returns 1 if successful, or 0 otherwise.
  */
 int setItem(Item *item, char *input) {
 	void *data = item->data;
 	int i = 0;
 	int len = 0;
+
+	if (item == NULL) {
+		return 0;
+	}
 
 	switch (item->type) {
 		case BASIC_TYPE_COMPOUND:
@@ -226,7 +230,7 @@ int setItem(Item *item, char *input) {
 				return 1;
 			}
 		case BASIC_TYPE_INT8:
-			return sscanf(input, "%c", (CTYPE_INT8 *) data);
+			return sscanf(input, "%c", (CTYPE_INT8 *) data);	// TODO may not work correctly on ARM platforms
 		case BASIC_TYPE_INT16:
 			return sscanf(input, "%hd", ((CTYPE_INT16 *) data));
 		case BASIC_TYPE_INT32:
@@ -255,7 +259,7 @@ int setItem(Item *item, char *input) {
 			for (i = 0; i < len; i++) {
 				((unsigned char*) data)[i] = input[i];
 			}
-			return len;
+			return 1;
 		case BASIC_TYPE_VISIBLE_STRING:
 			return sscanf(input, "\"%s\"", (CTYPE_VISSTRING255) data);
 		case BASIC_TYPE_UNICODE_STRING:
@@ -339,6 +343,8 @@ int itemTreeToJSONPretty(char *buf, Item *root, int tab) {
 	if (item == NULL) {
 		return 0;
 	}
+
+	// TODO leaf nodes, when requested individually, are not wrapped in curlies
 
 	if (item->type == BASIC_TYPE_COMPOUND) {
 		if (tab == 0) {
@@ -440,9 +446,10 @@ static void *serve(void *server) {
 }
 
 static int handle_hello(struct mg_connection *conn) {
-	Item *item = getItemFromPath(conn->server_param, (char *) &conn->uri[1]);	// exclude the forward slash
+	Item *item = getItemFromPath(conn->server_param, (char *) &conn->uri[1]);	// exclude the starting /
 
 	// TODO prevent blocking if not found
+	// TODO ignore a single trailing / in the url
 
 //	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
 //	fflush(stdout);
@@ -456,11 +463,14 @@ static int handle_hello(struct mg_connection *conn) {
 			mg_send_data(conn, printBuf, len);
 		}
 	}
-
-	if (strcmp(&conn->uri[1], "C1/exampleMMXU_1.A.phsC.cVal.mag.f") == 0) {
-		Item *tempItem = getItemFromPath("D1Q1SB4", "C1/exampleMMXU_1.A.phsC.cVal.mag.f");
-		setItem(tempItem, "123.456");
+	else {
+		mg_send_data(conn, "", 0);
 	}
+
+//	if (strcmp(&conn->uri[1], "C1/exampleMMXU_1.A.phsC.cVal.mag.f") == 0) {
+//		Item *tempItem = getItemFromPath("D1Q1SB4", "C1/exampleMMXU_1.A.phsC.cVal.mag.f");
+//		setItem(tempItem, "123.456");
+//	}
 
 	return 1;
 }

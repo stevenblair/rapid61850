@@ -42,6 +42,7 @@ Item *getLD(char *iedObjectRef, char *objectRef);
 Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef);
 Item *getItem(Item *ln, int num, ...);
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath);
+int setItem(Item *item, char *input);
 int itemToJSON(char *buf, Item *item);
 int itemTreeToJSON(char *buf, Item *root, int tab);
 int itemTreeToJSONPretty(char *buf, Item *root, int tab);

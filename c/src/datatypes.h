@@ -300,7 +300,7 @@ struct RSYNa {
 		CTYPE_TIMESTAMP T;
 		CTYPE_INT32U stNum;
 		CTYPE_INT32U sqNum;
-	} gse_inputs_ItlPositions;
+	} gse_inputs_AnotherPositions;
 	struct {
 		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
 		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
@@ -308,7 +308,7 @@ struct RSYNa {
 		CTYPE_TIMESTAMP T;
 		CTYPE_INT32U stNum;
 		CTYPE_INT32U sqNum;
-	} gse_inputs_AnotherPositions;
+	} gse_inputs_ItlPositions;
 };
 
 void init_datatypes();

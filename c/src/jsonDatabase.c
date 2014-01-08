@@ -984,62 +984,122 @@ struct mg_server *server12;
 
 void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	server1 = mg_create_server((void *) "E1Q1SB1");
+#ifndef USE_SSL
 	mg_set_option(server1, "listening_port", "8001");
+#else
+	mg_set_option(server1, "listening_port", "8001s");
+	mg_set_option(server1, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server1, "/", handler);
 	mg_start_thread(thread_serve, server1);
 
 	server2 = mg_create_server((void *) "E1Q1BP2");
+#ifndef USE_SSL
 	mg_set_option(server2, "listening_port", "8002");
+#else
+	mg_set_option(server2, "listening_port", "8002s");
+	mg_set_option(server2, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server2, "/", handler);
 	mg_start_thread(thread_serve, server2);
 
 	server3 = mg_create_server((void *) "E1Q1BP3");
+#ifndef USE_SSL
 	mg_set_option(server3, "listening_port", "8003");
+#else
+	mg_set_option(server3, "listening_port", "8003s");
+	mg_set_option(server3, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server3, "/", handler);
 	mg_start_thread(thread_serve, server3);
 
 	server4 = mg_create_server((void *) "E1Q2SB1");
+#ifndef USE_SSL
 	mg_set_option(server4, "listening_port", "8004");
+#else
+	mg_set_option(server4, "listening_port", "8004s");
+	mg_set_option(server4, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server4, "/", handler);
 	mg_start_thread(thread_serve, server4);
 
 	server5 = mg_create_server((void *) "E1Q3SB1");
+#ifndef USE_SSL
 	mg_set_option(server5, "listening_port", "8005");
+#else
+	mg_set_option(server5, "listening_port", "8005s");
+	mg_set_option(server5, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server5, "/", handler);
 	mg_start_thread(thread_serve, server5);
 
 	server6 = mg_create_server((void *) "E1Q3KA1");
+#ifndef USE_SSL
 	mg_set_option(server6, "listening_port", "8006");
+#else
+	mg_set_option(server6, "listening_port", "8006s");
+	mg_set_option(server6, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server6, "/", handler);
 	mg_start_thread(thread_serve, server6);
 
 	server7 = mg_create_server((void *) "E1Q3KA2");
+#ifndef USE_SSL
 	mg_set_option(server7, "listening_port", "8007");
+#else
+	mg_set_option(server7, "listening_port", "8007s");
+	mg_set_option(server7, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server7, "/", handler);
 	mg_start_thread(thread_serve, server7);
 
 	server8 = mg_create_server((void *) "E1Q3KA3");
+#ifndef USE_SSL
 	mg_set_option(server8, "listening_port", "8008");
+#else
+	mg_set_option(server8, "listening_port", "8008s");
+	mg_set_option(server8, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server8, "/", handler);
 	mg_start_thread(thread_serve, server8);
 
 	server9 = mg_create_server((void *) "D1Q1SB1");
+#ifndef USE_SSL
 	mg_set_option(server9, "listening_port", "8009");
+#else
+	mg_set_option(server9, "listening_port", "8009s");
+	mg_set_option(server9, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server9, "/", handler);
 	mg_start_thread(thread_serve, server9);
 
 	server10 = mg_create_server((void *) "D1Q1BP2");
+#ifndef USE_SSL
 	mg_set_option(server10, "listening_port", "8010");
+#else
+	mg_set_option(server10, "listening_port", "8010s");
+	mg_set_option(server10, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server10, "/", handler);
 	mg_start_thread(thread_serve, server10);
 
 	server11 = mg_create_server((void *) "D1Q1BP3");
+#ifndef USE_SSL
 	mg_set_option(server11, "listening_port", "8011");
+#else
+	mg_set_option(server11, "listening_port", "8011s");
+	mg_set_option(server11, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server11, "/", handler);
 	mg_start_thread(thread_serve, server11);
 
 	server12 = mg_create_server((void *) "D1Q1SB4");
+#ifndef USE_SSL
 	mg_set_option(server12, "listening_port", "8012");
+#else
+	mg_set_option(server12, "listening_port", "8012s");
+	mg_set_option(server12, "ssl_certificate", "ssl_cert.pem");
+#endif
 	mg_add_uri_handler(server12, "/", handler);
 	thread_serve(server12);
 }
