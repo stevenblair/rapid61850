@@ -1179,18 +1179,18 @@ public class SCDCodeGenerator {
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + sdoName + sdo.getName() + ";\n");
 				
-				if (sdos.hasNext()) {
-					iedJSON.addItem();
-				}
-				
 				int numberOfDAs = getDOTypeDAs(dataTypeTemplates, sdo.getType()).size();
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAs + ", sizeof(Item)); // DAs within SDO\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAs + ";\n");
 				iedJSON.addLayer();
 				
 				processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, sdoName, sdo.getType(), sdo.getName(), jsonDatabaseSource, iedJSON);
-				
+
 				iedJSON.popLayer();
+				
+				if (sdos.hasNext()) {
+					iedJSON.addItem();
+				}
 			}
 		}
 	}

@@ -203,6 +203,70 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	return item;
 }
 
+
+/**
+ * Sets the value of leaf data items.
+ */
+int setItem(Item *item, char *input) {
+	void *data = item->data;
+	int i = 0;
+	int len = 0;
+
+	switch (item->type) {
+		case BASIC_TYPE_COMPOUND:
+			// compound data types are not allowed
+			return 0;
+		case BASIC_TYPE_BOOLEAN:
+			if (strcmp(input, "false") == 0) {
+				*(CTYPE_BOOLEAN *) data = 0;
+				return 1;
+			}
+			else {
+				*(CTYPE_BOOLEAN *) data = 1;
+				return 1;
+			}
+		case BASIC_TYPE_INT8:
+			return sscanf(input, "%c", (CTYPE_INT8 *) data);
+		case BASIC_TYPE_INT16:
+			return sscanf(input, "%hd", ((CTYPE_INT16 *) data));
+		case BASIC_TYPE_INT32:
+			return sscanf(input, "%d", ((CTYPE_INT32 *) data));
+		case BASIC_TYPE_INT64:
+			return sscanf(input, "%ld", ((CTYPE_INT64 *) data));
+		case BASIC_TYPE_INT8U:
+			return sscanf(input, "%cu", ((CTYPE_INT8U *) data));
+		case BASIC_TYPE_INT16U:
+			return sscanf(input, "%hu", ((CTYPE_INT16U *) data));
+		case BASIC_TYPE_INT24U:
+			return sscanf(input, "%u", ((CTYPE_INT24U *) data));	// TODO format correctly
+		case BASIC_TYPE_INT32U:
+			return sscanf(input, "%u", ((CTYPE_INT32U *) data));
+		case BASIC_TYPE_FLOAT32:
+			return sscanf(input, "%f", ((CTYPE_FLOAT32 *) data));
+		case BASIC_TYPE_FLOAT64:
+			return sscanf(input, "%lf", ((CTYPE_FLOAT64 *) data));
+		case BASIC_TYPE_ENUMERATED:
+			return sscanf(input, "%u", ((CTYPE_ENUM *) data));
+		case BASIC_TYPE_CODED_ENUM:
+			return sscanf(input, "%u", ((CTYPE_ENUM *) data));
+		// all string types must be null-terminated in data model
+		case BASIC_TYPE_OCTET_STRING:
+			len = strlen((const char *) data);
+			for (i = 0; i < len; i++) {
+				((unsigned char*) data)[i] = input[i];
+			}
+			return len;
+		case BASIC_TYPE_VISIBLE_STRING:
+			return sscanf(input, "\"%s\"", (CTYPE_VISSTRING255) data);
+		case BASIC_TYPE_UNICODE_STRING:
+			return sscanf(input, "\"%ls\"", (wchar_t *) data);
+		case BASIC_TYPE_CURRENCY:
+			return sscanf(input, "\"%s\"", (CTYPE_VISSTRING255) data);
+		default:
+			return 0;
+	}
+}
+
 /**
  * Prints leaf data items to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
  */
@@ -225,7 +289,7 @@ int itemToJSON(char *buf, Item *item) {
 		case BASIC_TYPE_INT8:
 			return sprintf(buf, "%d", *((CTYPE_INT8 *) data));
 		case BASIC_TYPE_INT16:
-			return sprintf(buf, "%d", *((CTYPE_INT16 *) data));
+			return sprintf(buf, "%hd", *((CTYPE_INT16 *) data));
 		case BASIC_TYPE_INT32:
 			return sprintf(buf, "%d", *((CTYPE_INT32 *) data));
 		case BASIC_TYPE_INT64:
@@ -233,15 +297,15 @@ int itemToJSON(char *buf, Item *item) {
 		case BASIC_TYPE_INT8U:
 			return sprintf(buf, "%u", *((CTYPE_INT8U *) data));
 		case BASIC_TYPE_INT16U:
-			return sprintf(buf, "%u", *((CTYPE_INT16U *) data));
+			return sprintf(buf, "%hu", *((CTYPE_INT16U *) data));
 		case BASIC_TYPE_INT24U:
-			return sprintf(buf, "%u", *((CTYPE_INT24U *) data));
+			return sprintf(buf, "%u", *((CTYPE_INT24U *) data));	// TODO format correctly
 		case BASIC_TYPE_INT32U:
 			return sprintf(buf, "%u", *((CTYPE_INT32U *) data));
 		case BASIC_TYPE_FLOAT32:
 			return sprintf(buf, "%f", *((CTYPE_FLOAT32 *) data));
 		case BASIC_TYPE_FLOAT64:
-			return sprintf(buf, "%f", *((CTYPE_FLOAT64 *) data));
+			return sprintf(buf, "%lf", *((CTYPE_FLOAT64 *) data));
 		case BASIC_TYPE_ENUMERATED:
 			return sprintf(buf, "%u", *((CTYPE_ENUM *) data));
 		case BASIC_TYPE_CODED_ENUM:
@@ -250,7 +314,7 @@ int itemToJSON(char *buf, Item *item) {
 		case BASIC_TYPE_OCTET_STRING:
 			len = strlen((const char *) data);
 			for (i = 0; i < len; i++) {
-				sprintf(buf, "\"%02X\"", ((unsigned char*) data)[i]);
+				buf[i] = ((unsigned char *) data)[i];
 			}
 			return len;
 		case BASIC_TYPE_VISIBLE_STRING:
@@ -392,6 +456,12 @@ static int handle_hello(struct mg_connection *conn) {
 			mg_send_data(conn, printBuf, len);
 		}
 	}
+
+	if (strcmp(&conn->uri[1], "C1/exampleMMXU_1.A.phsC.cVal.mag.f") == 0) {
+		Item *tempItem = getItemFromPath("D1Q1SB4", "C1/exampleMMXU_1.A.phsC.cVal.mag.f");
+		setItem(tempItem, "123.456");
+	}
+
 	return 1;
 }
 
