@@ -44,8 +44,8 @@ Item *getItem(Item *ln, int num, ...);
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath);
 int setItem(Item *item, char *input);
 int itemToJSON(char *buf, Item *item);
-int itemTreeToJSON(char *buf, Item *root, int tab);
-int itemTreeToJSONPretty(char *buf, Item *root, int tab);
+int itemTreeToJSON(char *buf, Item *root);
+int itemTreeToJSONPretty(char *buf, Item *root);
 void start_JSON_RPC();
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

@@ -333,9 +333,9 @@ int itemToJSON(char *buf, Item *item) {
 }
 
 /**
- * Prints hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ * Internal helper function.
  */
-int itemTreeToJSONPretty(char *buf, Item *root, int tab) {
+int itemDescriptionTreeToJSONPretty2(char *buf, Item *root, int tab) {
 	int len = 0;
 	int i = 0;
 	Item *item = root;
@@ -344,23 +344,11 @@ int itemTreeToJSONPretty(char *buf, Item *root, int tab) {
 		return 0;
 	}
 
-	// TODO leaf nodes, when requested individually, are not wrapped in curlies
-
 	if (item->type == BASIC_TYPE_COMPOUND) {
-		if (tab == 0) {
-			len += sprintf(&buf[len], "{\n    \"%s\" : {", item->objectRef);
-		}
-		else {
-			len += sprintf(&buf[len], "    %*s\"%s\" : {", tab, " ", item->objectRef);
-		}
+		len += sprintf(&buf[len], "    %*s\"%s\" : {", tab, " ", item->objectRef);
 	}
 	else {
-		if (tab == 0) {
-			len += sprintf(&buf[len], "    \"%s\" : ", item->objectRef);
-		}
-		else {
-			len += sprintf(&buf[len], "    %*s\"%s\" : ", tab, " ", item->objectRef);
-		}
+		len += sprintf(&buf[len], "    %*s\"%s\" : ", tab, " ", item->objectRef);
 	}
 
 	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
@@ -368,7 +356,7 @@ int itemTreeToJSONPretty(char *buf, Item *root, int tab) {
 
 		// loop through each sub-item
 		for (i = 0; i < item->numberOfItems; i++) {
-			len += itemTreeToJSONPretty(&buf[len], &item->items[i], tab + 4);
+			len += itemDescriptionTreeToJSONPretty2(&buf[len], &item->items[i], tab + 4);
 			if (i < item->numberOfItems - 1) {
 				len += sprintf(&buf[len], ",\n");
 			}
@@ -379,22 +367,59 @@ int itemTreeToJSONPretty(char *buf, Item *root, int tab) {
 	}
 
 	if (item->type == BASIC_TYPE_COMPOUND) {
-		if (tab == 0) {
-			len += sprintf(&buf[len], "\n    }\n}");
-		}
-		else {
-			len += sprintf(&buf[len], "\n    %*s}", tab, " ");
-		}
+		len += sprintf(&buf[len], "\n    %*s}", tab, " ");
 	}
 
 	return len;
 }
 
+/**
+ * Prints a self-descriptive hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ */
+int itemDescriptionTreeToJSONPretty(char *buf, Item *root) {
+	int len = 0;
+	int i = 0;
+	Item *item = root;
+
+	// TODO
+
+	if (item == NULL) {
+		return 0;
+	}
+
+	buf[len] = '{';
+	len++;
+
+	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+		len += sprintf(&buf[len], "\n    \"%s\" : {\n", item->objectRef);
+
+		// loop through each sub-item
+		for (i = 0; i < item->numberOfItems; i++) {
+			len += itemDescriptionTreeToJSONPretty2(&buf[len], &item->items[i], 4);
+			if (i < item->numberOfItems - 1) {
+				len += sprintf(&buf[len], ",\n");
+			}
+		}
+
+		len += sprintf(&buf[len], "\n    }");
+	}
+	else {
+		len += sprintf(&buf[len], "\n    \"%s\" : ", item->objectRef);
+		len += itemToJSON(&buf[len], item);
+	}
+
+	buf[len] = '\n';
+	len++;
+	buf[len] = '}';
+	len++;
+
+	return len;
+}
 
 /**
- * Prints hierarchy of items, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ * Internal helper function.
  */
-int itemTreeToJSON(char *buf, Item *root, int tab) {
+int itemTreeToJSONPretty2(char *buf, Item *root, int tab) {
 	int len = 0;
 	int i = 0;
 	Item *item = root;
@@ -404,23 +429,20 @@ int itemTreeToJSON(char *buf, Item *root, int tab) {
 	}
 
 	if (item->type == BASIC_TYPE_COMPOUND) {
-		if (tab == 0) {
-			len += sprintf(&buf[len], "{\"%s\":{", item->objectRef);
-		}
-		else {
-			len += sprintf(&buf[len], "\"%s\":{", item->objectRef);
-		}
+		len += sprintf(&buf[len], "    %*s\"%s\" : {", tab, " ", item->objectRef);
 	}
 	else {
-		len += sprintf(&buf[len], "\"%s\":", item->objectRef);
+		len += sprintf(&buf[len], "    %*s\"%s\" : ", tab, " ", item->objectRef);
 	}
 
 	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+		len += sprintf(&buf[len], "\n");
+
 		// loop through each sub-item
 		for (i = 0; i < item->numberOfItems; i++) {
-			len += itemTreeToJSON(&buf[len], &item->items[i], tab + 4);
+			len += itemTreeToJSONPretty2(&buf[len], &item->items[i], tab + 4);
 			if (i < item->numberOfItems - 1) {
-				len += sprintf(&buf[len], ",");
+				len += sprintf(&buf[len], ",\n");
 			}
 		}
 	}
@@ -429,26 +451,136 @@ int itemTreeToJSON(char *buf, Item *root, int tab) {
 	}
 
 	if (item->type == BASIC_TYPE_COMPOUND) {
-		if (tab == 0) {
-			len += sprintf(&buf[len], "}}");
-		}
-		else {
-			len += sprintf(&buf[len], "}");
-		}
+		len += sprintf(&buf[len], "\n    %*s}", tab, " ");
 	}
 
 	return len;
 }
 
-static void *serve(void *server) {
-  for (;;) mg_poll_server((struct mg_server *) server, JSON_WEB_SERVER_SELECT_MAX_TIME);
-  return NULL;
+/**
+ * Prints hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ */
+int itemTreeToJSONPretty(char *buf, Item *root) {
+	int len = 0;
+	int i = 0;
+	Item *item = root;
+
+	if (item == NULL) {
+		return 0;
+	}
+
+	buf[len] = '{';
+	len++;
+
+	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+		len += sprintf(&buf[len], "\n    \"%s\" : {\n", item->objectRef);
+
+		// loop through each sub-item
+		for (i = 0; i < item->numberOfItems; i++) {
+			len += itemTreeToJSONPretty2(&buf[len], &item->items[i], 4);
+			if (i < item->numberOfItems - 1) {
+				len += sprintf(&buf[len], ",\n");
+			}
+		}
+
+		len += sprintf(&buf[len], "\n    }");
+	}
+	else {
+		len += sprintf(&buf[len], "\n    \"%s\" : ", item->objectRef);
+		len += itemToJSON(&buf[len], item);
+	}
+
+	buf[len] = '\n';
+	len++;
+	buf[len] = '}';
+	len++;
+
+	return len;
+}
+
+/**
+ * Internal helper function.
+ */
+int itemTreeToJSON2(char *buf, Item *root, int tab) {
+	int len = 0;
+	int i = 0;
+	Item *item = root;
+
+	if (item == NULL) {
+		return 0;
+	}
+
+	len += sprintf(&buf[len], "\"%s\":", item->objectRef);
+
+	if (item->type == BASIC_TYPE_COMPOUND) {
+		buf[len] = '{';
+		len++;
+	}
+
+	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+		// loop through each sub-item
+		for (i = 0; i < item->numberOfItems; i++) {
+			len += itemTreeToJSON2(&buf[len], &item->items[i], tab + 4);
+			if (i < item->numberOfItems - 1) {
+				buf[len] = ',';
+				len++;
+			}
+		}
+	}
+	else {
+		len += itemToJSON(&buf[len], item);
+	}
+
+	if (item->type == BASIC_TYPE_COMPOUND) {
+		buf[len] = '}';
+		len++;
+	}
+
+	return len;
+}
+
+/**
+ * Prints hierarchy of items without whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ */
+int itemTreeToJSON(char *buf, Item *root) {
+	int len = 0;
+	int i = 0;
+	Item *item = root;
+
+	if (item == NULL) {
+		return 0;
+	}
+
+	buf[len] = '{';
+	len++;
+
+	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+		len += sprintf(&buf[len], "\"%s\":{", item->objectRef);
+
+		// loop through each sub-item
+		for (i = 0; i < item->numberOfItems; i++) {
+			len += itemTreeToJSON2(&buf[len], &item->items[i], 4);
+			if (i < item->numberOfItems - 1) {
+				len += sprintf(&buf[len], ",");
+			}
+		}
+
+		len += sprintf(&buf[len], "}");
+	}
+	else {
+		len += sprintf(&buf[len], "\"%s\":", item->objectRef);
+		len += itemToJSON(&buf[len], item);
+	}
+
+	buf[len] = '}';
+	len++;
+
+	return len;
 }
 
 static int handle_hello(struct mg_connection *conn) {
-	Item *item = getItemFromPath(conn->server_param, (char *) &conn->uri[1]);	// exclude the starting /
+	Item *item = getItemFromPath(conn->server_param, (char *) &conn->uri[1]);	// excludes the starting /
 
-	// TODO prevent blocking if not found
 	// TODO ignore a single trailing / in the url
 
 //	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
@@ -456,7 +588,7 @@ static int handle_hello(struct mg_connection *conn) {
 
 	if (item != NULL) {
 		char printBuf[8000];
-		int len =  itemTreeToJSONPretty(printBuf, item, 0);
+		int len =  itemTreeToJSON(printBuf, item);
 	//	printf("%d\n%s\n", len, printBuf);
 
 		if (len > 0) {
@@ -475,12 +607,13 @@ static int handle_hello(struct mg_connection *conn) {
 	return 1;
 }
 
+static void *serve(void *server) {
+  for (;;) {
+	  mg_poll_server((struct mg_server *) server, JSON_WEB_SERVER_SELECT_MAX_TIME);
+  }
+  return NULL;
+}
+
 void start_JSON_RPC() {
 	init_JSON_RPC(&handle_hello, serve);
-//	struct mg_server *server = mg_create_server(NULL);
-//	mg_set_option(server, "document_root", ".");
-//	mg_set_option(server, "listening_port", "8087");	// TODO generate these strings in Java? or use threads?
-//	mg_add_uri_handler(server, "/", &handle_hello);
-//	for (;;) mg_poll_server(server, 1000);  // Infinite loop, Ctrl-C to stop
-//	mg_destroy_server(&server);
 }
