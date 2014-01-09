@@ -982,7 +982,7 @@ struct mg_server *server10;
 struct mg_server *server11;
 struct mg_server *server12;
 
-void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
+void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 	server1 = mg_create_server((void *) "E1Q1SB1");
 #ifndef USE_SSL
 	mg_set_option(server1, "listening_port", "8001");
@@ -991,7 +991,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server1, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server1, "/", handler);
-	mg_start_thread(thread_serve, server1);
+	mg_start_thread(serve, server1);
 
 	server2 = mg_create_server((void *) "E1Q1BP2");
 #ifndef USE_SSL
@@ -1001,7 +1001,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server2, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server2, "/", handler);
-	mg_start_thread(thread_serve, server2);
+	mg_start_thread(serve, server2);
 
 	server3 = mg_create_server((void *) "E1Q1BP3");
 #ifndef USE_SSL
@@ -1011,7 +1011,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server3, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server3, "/", handler);
-	mg_start_thread(thread_serve, server3);
+	mg_start_thread(serve, server3);
 
 	server4 = mg_create_server((void *) "E1Q2SB1");
 #ifndef USE_SSL
@@ -1021,7 +1021,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server4, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server4, "/", handler);
-	mg_start_thread(thread_serve, server4);
+	mg_start_thread(serve, server4);
 
 	server5 = mg_create_server((void *) "E1Q3SB1");
 #ifndef USE_SSL
@@ -1031,7 +1031,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server5, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server5, "/", handler);
-	mg_start_thread(thread_serve, server5);
+	mg_start_thread(serve, server5);
 
 	server6 = mg_create_server((void *) "E1Q3KA1");
 #ifndef USE_SSL
@@ -1041,7 +1041,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server6, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server6, "/", handler);
-	mg_start_thread(thread_serve, server6);
+	mg_start_thread(serve, server6);
 
 	server7 = mg_create_server((void *) "E1Q3KA2");
 #ifndef USE_SSL
@@ -1051,7 +1051,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server7, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server7, "/", handler);
-	mg_start_thread(thread_serve, server7);
+	mg_start_thread(serve, server7);
 
 	server8 = mg_create_server((void *) "E1Q3KA3");
 #ifndef USE_SSL
@@ -1061,7 +1061,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server8, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server8, "/", handler);
-	mg_start_thread(thread_serve, server8);
+	mg_start_thread(serve, server8);
 
 	server9 = mg_create_server((void *) "D1Q1SB1");
 #ifndef USE_SSL
@@ -1071,7 +1071,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server9, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server9, "/", handler);
-	mg_start_thread(thread_serve, server9);
+	mg_start_thread(serve, server9);
 
 	server10 = mg_create_server((void *) "D1Q1BP2");
 #ifndef USE_SSL
@@ -1081,7 +1081,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server10, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server10, "/", handler);
-	mg_start_thread(thread_serve, server10);
+	mg_start_thread(serve, server10);
 
 	server11 = mg_create_server((void *) "D1Q1BP3");
 #ifndef USE_SSL
@@ -1091,7 +1091,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server11, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server11, "/", handler);
-	mg_start_thread(thread_serve, server11);
+	mg_start_thread(serve, server11);
 
 	server12 = mg_create_server((void *) "D1Q1SB4");
 #ifndef USE_SSL
@@ -1101,6 +1101,6 @@ void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {
 	mg_set_option(server12, "ssl_certificate", "ssl_cert.pem");
 #endif
 	mg_add_uri_handler(server12, "/", handler);
-	thread_serve(server12);
+	mg_start_thread(serve, server12);
 }
 

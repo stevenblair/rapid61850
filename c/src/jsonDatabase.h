@@ -60,7 +60,7 @@ typedef struct Item {
 
 void init_database();
 
-void init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *));
+void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *));
 
 extern Item database;
 

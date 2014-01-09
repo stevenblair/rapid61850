@@ -100,6 +100,9 @@ int main() {
 
 	start_JSON_RPC();
 
+	for (;;) {
+
+	}
 
 //	pcap_close(fp);
 

@@ -815,7 +815,7 @@ public class SCDCodeGenerator {
 			jsonDatabaseSource.appendFunctions("struct mg_server *server" + (i + 1) + ";\n");
 		}
 
-		jsonDatabaseSource.appendFunctions("\nvoid init_JSON_RPC(mg_handler_t handler, void *(*thread_serve)(void *)) {\n");
+		jsonDatabaseSource.appendFunctions("\nvoid init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {\n");
 		int iedNumber = 1;
 		ieds = root.getSCL().getIED().iterator();
 		while (ieds.hasNext()) {
@@ -829,12 +829,8 @@ public class SCDCodeGenerator {
 			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"ssl_certificate\", \"ssl_cert.pem\");\n");
 			jsonDatabaseSource.appendFunctions("#endif\n");
 			jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server" + iedNumber + ", \"/\", handler);\n");
-			if (iedNumber == numberOfIEDs) {
-				jsonDatabaseSource.appendFunctions("\tthread_serve(server" + iedNumber + ");\n");
-			}
-			else {
-				jsonDatabaseSource.appendFunctions("\tmg_start_thread(thread_serve, server" + iedNumber + ");\n");
-			}
+			jsonDatabaseSource.appendFunctions("\tmg_start_thread(serve, server" + iedNumber + ");\n");
+			
 			
 			if (ieds.hasNext()) {
 				jsonDatabaseSource.appendFunctions("\n");
