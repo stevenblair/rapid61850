@@ -53,6 +53,7 @@ typedef enum {
 typedef struct Item {
 	char *objectRef;
 	BasicType type;
+	char *typeSCL;
 	void *data;	// TODO a pointer to the data JSON encoding/decoding functions? Either encode compound, or an actual data type (int, float, etc.)
 	int numberOfItems;
 	struct Item *items;

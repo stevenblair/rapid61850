@@ -97,6 +97,7 @@ void init_datatypes() {
 	init_myLPL(&E1Q1SB1.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&E1Q1SB1.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&E1Q1SB1.S1.C1.LN0.LLN0.NamPlt);
+	init_myLPL(&E1Q1SB1.S1.C1.LN0.LLN0.NamPlt);
 	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA.instMag);
 	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsB.instMag);
 	init_myAnalogValue(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC.instMag);
@@ -116,6 +117,7 @@ void init_datatypes() {
 	E1Q1SB1.S1.C1.MMXUa_1.Volts.sVC.offset = 10;
 	E1Q1SB1.S1.C1.MMXUa_1.Volts.sVC.scaleFactor = 200;
 	init_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
+	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
 	init_myLPL(&D1Q1SB4.S1.C1.LN0.LLN0.NamPlt);
 	init_simpleCMV(&D1Q1SB4.S1.C1.exampleMMXU_1.A.phsA);
