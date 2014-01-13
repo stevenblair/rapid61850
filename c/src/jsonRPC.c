@@ -467,17 +467,25 @@ int itemDescriptionTreeToJSONPretty(char *buf, Item *root) {
 	buf[len] = '{';
 	len++;
 
-	len += sprintf(&buf[len], "\n    \"name\" : \"%s\",\n    \"type\" : \"%s\",\n    \"basictype\" : \"%s\",\n    \"items\" : [\n", item->objectRef, item->typeSCL, basicTypeToString(item));
+	len += sprintf(&buf[len], "\n    \"name\" : \"%s\",\n    \"type\" : \"%s\",\n    \"basictype\" : \"%s\",\n    \"items\" : [", item->objectRef, item->typeSCL, basicTypeToString(item));
 
 	// loop through each sub-item
-	for (i = 0; i < item->numberOfItems; i++) {
-		len += itemDescriptionTreeToJSONPretty2(&buf[len], &item->items[i], 8);
-		if (i < item->numberOfItems - 1) {
-			len += sprintf(&buf[len], ",\n");
+	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+		for (i = 0; i < item->numberOfItems; i++) {
+			if (i == 0) {
+				buf[len] = '\n';
+				len++;
+			}
+			len += itemDescriptionTreeToJSONPretty2(&buf[len], &item->items[i], 8);
+			if (i < item->numberOfItems - 1) {
+				len += sprintf(&buf[len], ",\n");
+			}
 		}
+		len += sprintf(&buf[len], "\n   ]");
 	}
-
-	len += sprintf(&buf[len], "\n    ]");
+	else {
+		len += sprintf(&buf[len], "]");
+	}
 
 	buf[len] = '\n';
 	len++;
