@@ -309,7 +309,7 @@ public class SCDCodeGenerator {
 		String databaseName = "database";
 		JSONDatabaseManager iedJSON = new JSONDatabaseManager(databaseName);
 		int numberOfIEDs = root.getSCL().getIED().size();
-		jsonDatabaseSource.appendInstances("Item " + databaseName + " = {\"root\", BASIC_TYPE_COMPOUND, \"\", NULL, " + numberOfIEDs + "};\n");
+		jsonDatabaseSource.appendInstances("Item " + databaseName + " = {\"root\", BASIC_TYPE_CONSTRUCTED, \"\", NULL, " + numberOfIEDs + "};\n");
 		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".items = (Item*) calloc(" + numberOfIEDs + ", sizeof(Item)); // IEDs\n");
 //		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".numberOfItems = " + numberOfIEDs + ";\n");
 //		iedJSON.addLayer();	// IEDs
@@ -322,8 +322,8 @@ public class SCDCodeGenerator {
 			
 
 			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + iedName + "\";\n");
-			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
-			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"\";\n");
+			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"IED\";\n");
 			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + ";\n");
 			
 			
@@ -343,8 +343,8 @@ public class SCDCodeGenerator {
 					iedHeader.appendDatatypes("\tstruct {\n");
 					
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + apName + "\";\n");
-					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
-					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"\";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"AccessPoint\";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + ";\n");
 					
 					if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
@@ -361,8 +361,8 @@ public class SCDCodeGenerator {
 							iedHeader.appendDatatypes("\t\tstruct {\n");
 							
 							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + ldName + "\";\n");
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"\";\n");
+							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"LogicalDevice\";\n");
 							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + ";\n");
 //							iedJSON.addItem();
 							
@@ -386,21 +386,22 @@ public class SCDCodeGenerator {
 								
 
 //								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + ln0.getLnType() + "\";\n");
-//								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
+//								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 //								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + ln0.getLnType() + "\";\n");
 //								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + ".LN0.LLN0" + ";\n");
 //								iedJSON.addItem();
 								
 								
-								// TODO penetrate LLN0 data type hierarchy
 								// initialise LN0 data hierarchy
 								Iterator<TDO> ln0Dos = getLNTypeDOs(dataTypeTemplates, ln0.getLnType()).iterator();
 								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0.");
 
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + ln0Name + "\";\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
+								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + ln0.getLnType() + "\";\n");
+								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".lnClass = \"" + ln0.getLnClass().toString() + "\";\n");
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0;\n");
+								
 								
 								int numberOfDOs = getLNTypeDOs(dataTypeTemplates, ln0.getLnType()).size();
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDOs + ", sizeof(Item)); // DOs\n");
@@ -412,8 +413,9 @@ public class SCDCodeGenerator {
 									TDO dataObject = ln0Dos.next();
 
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + dataObject.getName() + "\";\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
+									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + dataObject.getType() + "\";\n");
+									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".CDC = \"" + getDOTypeCDC(dataTypeTemplates, dataObject.getType()) + "\";\n");
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0." + dataObject.getName() + ";\n");
 
 									int numberOfDAsAndSDOs = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).size() + getDOTypeSDOs(dataTypeTemplates, dataObject.getType()).size();
@@ -781,8 +783,9 @@ public class SCDCodeGenerator {
 
 
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + lnName + "\";\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
+								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + ln.getLnType() + "\";\n");
+								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".lnClass = \"" + ln.getLnClass().toString() + "\";\n");
 								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + lnName + ";\n");
 								
 								int numberOfDOs = getLNTypeDOs(dataTypeTemplates, ln.getLnType()).size();
@@ -793,10 +796,11 @@ public class SCDCodeGenerator {
 								// look up lists of DOs and DAs and initialise if required
 								while (dos.hasNext()) {
 									TDO dataObject = dos.next();
-
+									
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + dataObject.getName() + "\";\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
+									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + dataObject.getType() + "\";\n");
+									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".CDC = \"" + getDOTypeCDC(dataTypeTemplates, dataObject.getType()) + "\";\n");
 									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + lnName + "." + dataObject.getName() + ";\n");
 									
 
@@ -1130,7 +1134,7 @@ public class SCDCodeGenerator {
 			if (bda.getType() != null) {
 //				System.out.println("    recursing; name: " + name + ", bda.getName(): " + bda.getName().toString() + ", type: " + type + ", bda.getType(): " + bda.getType() + ", bda.getBType().toString(): " + bda.getBType().toString());
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + bda.getName().toString() + "\"; // BDA\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + bda.getType() + "\";\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName + name + "." + bda.getName().toString() + ";\n");
 				
@@ -1190,7 +1194,7 @@ public class SCDCodeGenerator {
 				}
 				
 				Object bType = da.getBType();
-				String basicType = "BASIC_TYPE_COMPOUND";
+				String basicType = "BASIC_TYPE_CONSTRUCTED";
 				if (bType != null && bType.toString().compareTo("Struct") != 0) {
 //					System.out.println("bType: " + bType.toString());
 					basicType = mapSCLTypeToBasicType(bType.toString());
@@ -1203,12 +1207,54 @@ public class SCDCodeGenerator {
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + da.getName().toString() + "\";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + basicType + ";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + da.getBType() + "\";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".FC = \"" + da.getFc().getLiteral() + "\";\n");
+					String dchg = "NOT_SPECIFIED";
+					if (da.isSetDchg()) {
+						if (da.isDchg()) {
+							dchg = "TRUE";
+						}
+						else {
+							dchg = "FALSE";
+						}
+					}
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".dchg = TRIGGER_OPTION_" + dchg + ";\n");
+					String qchg = "NOT_SPECIFIED";
+					if (da.isSetQchg()) {
+						if (da.isQchg()) {
+							qchg = "TRUE";
+						}
+						else {
+							qchg = "FALSE";
+						}
+					}
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".qchg = TRIGGER_OPTION_" + qchg + ";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = " + ref + accumulatedName.toString() + name + "." + da.getName().toString() + ";\n");
 				}
 				else {
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + da.getName().toString() + "\";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + basicType + ";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + da.getType() + "\";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".FC = \"" + da.getFc().getLiteral() + "\";\n");
+					String dchg = "NOT_SPECIFIED";
+					if (da.isSetDchg()) {
+						if (da.isDchg()) {
+							dchg = "TRUE";
+						}
+						else {
+							dchg = "FALSE";
+						}
+					}
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".dchg = TRIGGER_OPTION_" + dchg + ";\n");
+					String qchg = "NOT_SPECIFIED";
+					if (da.isSetQchg()) {
+						if (da.isQchg()) {
+							qchg = "TRUE";
+						}
+						else {
+							qchg = "FALSE";
+						}
+					}
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".qchg = TRIGGER_OPTION_" + qchg + ";\n");
 					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName.toString() + name + "." + da.getName().toString() + ";\n");
 					
 					processDA(dataTypeTemplates, dataTypesSource, new StringBuilder(accumulatedName.toString() + name + "."), da.getType(), da.getName().toString(), jsonDatabaseSource, iedJSON);
@@ -1228,7 +1274,7 @@ public class SCDCodeGenerator {
 //				System.out.println("SDO:    name: " + name + ", sdo.getName(): " + sdo.getName());
 
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + sdo.getName() + "\"; // SDO\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_COMPOUND;\n");
+				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + sdo.getType() + "\";\n");
 				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + sdoName + sdo.getName() + ";\n");
 				
@@ -1419,6 +1465,26 @@ public class SCDCodeGenerator {
 		}
 		
 		return null;
+	}
+
+	/**
+	 * Gets CDC of the specified DO type.
+	 * @param dataTypeTemplates
+	 * @param doTypeName
+	 * @return
+	 */
+	public static String getDOTypeCDC(TDataTypeTemplates dataTypeTemplates, String doTypeName) {
+		Iterator<TDOType> doTypes = dataTypeTemplates.getDOType().iterator();
+		
+		while (doTypes.hasNext()) {
+			TDOType doType = doTypes.next();
+			
+			if (doType.getId().equals(doTypeName)) {
+				return doType.getCdc().toString();
+			}
+		}
+		
+		return "";
 	}
 
 	/**

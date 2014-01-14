@@ -217,7 +217,7 @@ int setItem(Item *item, char *input) {
 	}
 
 	switch (item->type) {
-		case BASIC_TYPE_COMPOUND:
+		case BASIC_TYPE_CONSTRUCTED:
 			// compound data types are not allowed
 			return 0;
 		case BASIC_TYPE_BOOLEAN:
@@ -280,7 +280,7 @@ int itemToJSON(char *buf, Item *item) {
 	int len = 0;
 
 	switch (item->type) {
-		case BASIC_TYPE_COMPOUND:
+		case BASIC_TYPE_CONSTRUCTED:
 			// compound data types are not allowed
 			return 0;
 		case BASIC_TYPE_BOOLEAN:
@@ -337,7 +337,7 @@ int itemToJSON(char *buf, Item *item) {
  */
 const char* basicTypeToString(Item *item) {
 	switch (item->type) {
-		case BASIC_TYPE_COMPOUND:
+		case BASIC_TYPE_CONSTRUCTED:
 			// compound data types are not allowed
 			return "CONSTRUCTED";
 		case BASIC_TYPE_BOOLEAN:
@@ -383,7 +383,7 @@ const char* basicTypeToString(Item *item) {
 /**
  * Prints a self-descriptive hierarchy of items without whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
  */
-int itemDescriptionTreeToJSON(char *buf, Item *root) {
+int itemDescriptionTreeToJSON(char *buf, Item *root, unsigned char deep) {
 	int len = 0;
 	int i = 0;
 	Item *item = root;
@@ -395,17 +395,37 @@ int itemDescriptionTreeToJSON(char *buf, Item *root) {
 	buf[len] = '{';
 	len++;
 
-	len += sprintf(&buf[len], "\"name\":\"%s\",\"type\":\"%s\",\"basictype\":\"%s\",\"items\":[", item->objectRef, item->typeSCL, basicTypeToString(item));
+	len += sprintf(&buf[len], "\"name\":\"%s\",\"type\":\"%s\",\"basicType\":\"%s\"", item->objectRef, item->typeSCL, basicTypeToString(item));
 
-	// loop through each sub-item
-	for (i = 0; i < item->numberOfItems; i++) {
-		len += itemDescriptionTreeToJSON(&buf[len], &item->items[i]);
-		if (i < item->numberOfItems - 1) {
-			len += sprintf(&buf[len], ",");
-		}
+	if (item->lnClass != NULL) {
+		len += sprintf(&buf[len], ",\"lnClass\":\"%s\"", item->lnClass);
+	}
+	if (item->CDC != NULL) {
+		len += sprintf(&buf[len], ",\"CDC\":\"%s\"", item->CDC);
+	}
+	if (item->FC != NULL) {
+		len += sprintf(&buf[len], ",\"FC\":\"%s\"", item->FC);
+	}
+	if (item->dchg != TRIGGER_OPTION_NOT_SPECIFIED) {
+		len += sprintf(&buf[len], ",\"dchg\":%s", item->dchg == TRIGGER_OPTION_TRUE ? "true" : "false");
+	}
+	if (item->qchg != TRIGGER_OPTION_NOT_SPECIFIED) {
+		len += sprintf(&buf[len], ",\"qchg\":%s", item->qchg == TRIGGER_OPTION_TRUE ? "true" : "false");
 	}
 
-	len += sprintf(&buf[len], "]");
+	if (deep > 0) {
+		len += sprintf(&buf[len], ",\"items\":[");
+
+		// loop through each sub-item
+		for (i = 0; i < item->numberOfItems; i++) {
+			len += itemDescriptionTreeToJSON(&buf[len], &item->items[i], TRUE);
+			if (i < item->numberOfItems - 1) {
+				len += sprintf(&buf[len], ",");
+			}
+		}
+
+		len += sprintf(&buf[len], "]");
+	}
 
 	buf[len] = '}';
 	len++;
@@ -426,10 +446,30 @@ int itemDescriptionTreeToJSONPretty2(char *buf, Item *root, int tab) {
 	}
 
 	len += sprintf(&buf[len], "%*s{", tab, " ");
-	len += sprintf(&buf[len], "\n    %*s\"name\" : \"%s\",\n    %*s\"type\" : \"%s\",\n    %*s\"basictype\" : \"%s\",\n    %*s\"items\" : [", tab, " ", item->objectRef, tab, " ", item->typeSCL, tab, " ", basicTypeToString(item), tab, " ");
+//	len += sprintf(&buf[len], "\n    %*s\"name\" : \"%s\",\n    %*s\"type\" : \"%s\",\n    %*s\"basictype\" : \"%s\",\n    %*s\"items\" : [", tab, " ", item->objectRef, tab, " ", item->typeSCL, tab, " ", basicTypeToString(item), tab, " ");
+
+	len += sprintf(&buf[len], "\n    %*s\"name\" : \"%s\",\n    %*s\"type\" : \"%s\",\n    %*s\"basictype\" : \"%s\"", tab, " ", item->objectRef, tab, " ", item->typeSCL, tab, " ", basicTypeToString(item));
+
+	if (item->lnClass != NULL) {
+		len += sprintf(&buf[len], ",\n    %*s\"lnClass\" : \"%s\"", tab, " ", item->lnClass);
+	}
+	if (item->CDC != NULL) {
+		len += sprintf(&buf[len], ",\n    %*s\"CDC\" : \"%s\"", tab, " ", item->CDC);
+	}
+	if (item->FC != NULL) {
+		len += sprintf(&buf[len], ",\n    %*s\"FC\" : \"%s\"", tab, " ", item->FC);
+	}
+	if (item->dchg != TRIGGER_OPTION_NOT_SPECIFIED) {
+		len += sprintf(&buf[len], ",\n    %*s\"dchg\" : %s", tab, " ", item->dchg == TRIGGER_OPTION_TRUE ? "true" : "false");
+	}
+	if (item->qchg != TRIGGER_OPTION_NOT_SPECIFIED) {
+		len += sprintf(&buf[len], ",\n    %*s\"qchg\" : %s", tab, " ", item->qchg == TRIGGER_OPTION_TRUE ? "true" : "false");
+	}
+
+	len += sprintf(&buf[len], ",\n    %*s\"items\" : [", tab, " ");
 
 	// loop through each sub-item
-	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED && item->numberOfItems > 0) {
 		for (i = 0; i < item->numberOfItems; i++) {
 			if (i == 0) {
 				buf[len] = '\n';
@@ -455,7 +495,7 @@ int itemDescriptionTreeToJSONPretty2(char *buf, Item *root, int tab) {
 /**
  * Prints a self-descriptive hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
  */
-int itemDescriptionTreeToJSONPretty(char *buf, Item *root) {
+int itemDescriptionTreeToJSONPretty(char *buf, Item *root, unsigned char deep) {
 	int len = 0;
 	int i = 0;
 	Item *item = root;
@@ -467,24 +507,44 @@ int itemDescriptionTreeToJSONPretty(char *buf, Item *root) {
 	buf[len] = '{';
 	len++;
 
-	len += sprintf(&buf[len], "\n    \"name\" : \"%s\",\n    \"type\" : \"%s\",\n    \"basictype\" : \"%s\",\n    \"items\" : [", item->objectRef, item->typeSCL, basicTypeToString(item));
+	len += sprintf(&buf[len], "\n    \"name\" : \"%s\",\n    \"type\" : \"%s\",\n    \"basictype\" : \"%s\"", item->objectRef, item->typeSCL, basicTypeToString(item));
 
-	// loop through each sub-item
-	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
-		for (i = 0; i < item->numberOfItems; i++) {
-			if (i == 0) {
-				buf[len] = '\n';
-				len++;
-			}
-			len += itemDescriptionTreeToJSONPretty2(&buf[len], &item->items[i], 8);
-			if (i < item->numberOfItems - 1) {
-				len += sprintf(&buf[len], ",\n");
-			}
-		}
-		len += sprintf(&buf[len], "\n   ]");
+	if (item->lnClass != NULL) {
+		len += sprintf(&buf[len], ",\n    \"lnClass\" : \"%s\"", item->lnClass);
 	}
-	else {
-		len += sprintf(&buf[len], "]");
+	if (item->CDC != NULL) {
+		len += sprintf(&buf[len], ",\n    \"CDC\" : \"%s\"", item->CDC);
+	}
+	if (item->FC != NULL) {
+		len += sprintf(&buf[len], ",\n    \"FC\" : \"%s\"", item->FC);
+	}
+	if (item->dchg != TRIGGER_OPTION_NOT_SPECIFIED) {
+		len += sprintf(&buf[len], ",\n    \"dchg\" : %s", item->dchg == TRIGGER_OPTION_TRUE ? "true" : "false");
+	}
+	if (item->qchg != TRIGGER_OPTION_NOT_SPECIFIED) {
+		len += sprintf(&buf[len], ",\n    \"qchg\" : %s", item->qchg == TRIGGER_OPTION_TRUE ? "true" : "false");
+	}
+
+	if (deep > 0) {
+		len += sprintf(&buf[len], ",\n    \"items\" : [");
+
+		// loop through each sub-item
+		if (item->type == BASIC_TYPE_CONSTRUCTED && item->numberOfItems > 0) {
+			for (i = 0; i < item->numberOfItems; i++) {
+				if (i == 0) {
+					buf[len] = '\n';
+					len++;
+				}
+				len += itemDescriptionTreeToJSONPretty2(&buf[len], &item->items[i], 8);
+				if (i < item->numberOfItems - 1) {
+					len += sprintf(&buf[len], ",\n");
+				}
+			}
+			len += sprintf(&buf[len], "\n   ]");
+		}
+		else {
+			len += sprintf(&buf[len], "]");
+		}
 	}
 
 	buf[len] = '\n';
@@ -507,14 +567,14 @@ int itemTreeToJSONPretty2(char *buf, Item *root, int tab) {
 		return 0;
 	}
 
-	if (item->type == BASIC_TYPE_COMPOUND) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED) {
 		len += sprintf(&buf[len], "    %*s\"%s\" : {", tab, " ", item->objectRef);
 	}
 	else {
 		len += sprintf(&buf[len], "    %*s\"%s\" : ", tab, " ", item->objectRef);
 	}
 
-	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED && item->numberOfItems > 0) {
 		len += sprintf(&buf[len], "\n");
 
 		// loop through each sub-item
@@ -529,7 +589,7 @@ int itemTreeToJSONPretty2(char *buf, Item *root, int tab) {
 		len += itemToJSON(&buf[len], item);
 	}
 
-	if (item->type == BASIC_TYPE_COMPOUND) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED) {
 		len += sprintf(&buf[len], "\n    %*s}", tab, " ");
 	}
 
@@ -551,7 +611,7 @@ int itemTreeToJSONPretty(char *buf, Item *root) {
 	buf[len] = '{';
 	len++;
 
-	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED && item->numberOfItems > 0) {
 		len += sprintf(&buf[len], "\n    \"%s\" : {\n", item->objectRef);
 
 		// loop through each sub-item
@@ -591,12 +651,12 @@ int itemTreeToJSON2(char *buf, Item *root, int tab) {
 
 	len += sprintf(&buf[len], "\"%s\":", item->objectRef);
 
-	if (item->type == BASIC_TYPE_COMPOUND) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED) {
 		buf[len] = '{';
 		len++;
 	}
 
-	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED && item->numberOfItems > 0) {
 		// loop through each sub-item
 		for (i = 0; i < item->numberOfItems; i++) {
 			len += itemTreeToJSON2(&buf[len], &item->items[i], tab + 4);
@@ -610,7 +670,7 @@ int itemTreeToJSON2(char *buf, Item *root, int tab) {
 		len += itemToJSON(&buf[len], item);
 	}
 
-	if (item->type == BASIC_TYPE_COMPOUND) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED) {
 		buf[len] = '}';
 		len++;
 	}
@@ -633,7 +693,7 @@ int itemTreeToJSON(char *buf, Item *root) {
 	buf[len] = '{';
 	len++;
 
-	if (item->type == BASIC_TYPE_COMPOUND && item->numberOfItems > 0) {
+	if (item->type == BASIC_TYPE_CONSTRUCTED && item->numberOfItems > 0) {
 		len += sprintf(&buf[len], "\"%s\":{", item->objectRef);
 
 		// loop through each sub-item
@@ -667,8 +727,9 @@ static int handle_hello(struct mg_connection *conn) {
 
 	if (item != NULL) {
 		char printBuf[64000];
-		int len =  itemDescriptionTreeToJSONPretty(printBuf, item);
-	//	printf("%d\n%s\n", len, printBuf);
+		int len =  itemDescriptionTreeToJSONPretty(printBuf, item, TRUE);
+		printf("%d\n", len);
+		fflush(stdout);
 
 		if (len > 0) {
 			mg_send_data(conn, printBuf, len);

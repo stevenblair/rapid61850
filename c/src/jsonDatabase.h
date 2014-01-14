@@ -29,8 +29,11 @@ extern "C" {
 #include <string.h>
 #include "mongoose.h"
 
+/**
+ * The basic data types defined in IEC 61850-7-2:2010, plus an identifier for constructed data types.
+ */
 typedef enum {
-	BASIC_TYPE_COMPOUND = 0,
+	BASIC_TYPE_CONSTRUCTED = 0,
 	BASIC_TYPE_BOOLEAN,
 	BASIC_TYPE_INT8,
 	BASIC_TYPE_INT16,
@@ -50,13 +53,27 @@ typedef enum {
 	BASIC_TYPE_CURRENCY
 } BasicType;
 
+typedef enum {
+	TRIGGER_OPTION_NOT_SPECIFIED = 0,
+	TRIGGER_OPTION_FALSE = 1,
+	TRIGGER_OPTION_TRUE = 2
+} TriggerOptionValue;
+
+/**
+ * A generic description of any data "item" in IEC 61850. Some fields are not needed for all data types.
+ */
 typedef struct Item {
 	char *objectRef;
 	BasicType type;
 	char *typeSCL;
-	void *data;	// TODO a pointer to the data JSON encoding/decoding functions? Either encode compound, or an actual data type (int, float, etc.)
+	void *data;			// a pointer to the data within the data model
 	int numberOfItems;
 	struct Item *items;
+	char *lnClass;
+	char *CDC;
+	char *FC;
+	TriggerOptionValue dchg;
+	TriggerOptionValue qchg;
 } Item;
 
 void init_database();
