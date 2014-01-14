@@ -332,52 +332,52 @@ int itemToJSON(char *buf, Item *item) {
 	}
 }
 
-/**
- * .
- */
-const char* basicTypeToString(Item *item) {
-	switch (item->type) {
-		case BASIC_TYPE_CONSTRUCTED:
-			// compound data types are not allowed
-			return "CONSTRUCTED";
-		case BASIC_TYPE_BOOLEAN:
-			return "BOOLEAN";
-		case BASIC_TYPE_INT8:
-			return "INT8";
-		case BASIC_TYPE_INT16:
-			return "INT16";
-		case BASIC_TYPE_INT32:
-			return "INT32";
-		case BASIC_TYPE_INT64:
-			return "INT64";
-		case BASIC_TYPE_INT8U:
-			return "INT8U";
-		case BASIC_TYPE_INT16U:
-			return "INT16U";
-		case BASIC_TYPE_INT24U:
-			return "INT24U";
-		case BASIC_TYPE_INT32U:
-			return "INT32U";
-		case BASIC_TYPE_FLOAT32:
-			return "FLOAT32";
-		case BASIC_TYPE_FLOAT64:
-			return "FLOAT64";
-		case BASIC_TYPE_ENUMERATED:
-			return "ENUMERATED";
-		case BASIC_TYPE_CODED_ENUM:
-			return "CODED ENUM";
-		case BASIC_TYPE_OCTET_STRING:
-			return "OCTET STRING";
-		case BASIC_TYPE_VISIBLE_STRING:
-			return "VISIBLE STRING";
-		case BASIC_TYPE_UNICODE_STRING:
-			return "UNICODE STRING";
-		case BASIC_TYPE_CURRENCY:
-			return "CURRENCY";
-		default:
-			return "UNKNOWN TYPE";
-	}
-}
+///**
+// * Converts enum of BasicType to printable string literal.
+// */
+//const char* basicTypeToString(Item *item) {
+//	switch (item->type) {
+//		case BASIC_TYPE_CONSTRUCTED:
+//			// compound data types are not allowed
+//			return "CONSTRUCTED";
+//		case BASIC_TYPE_BOOLEAN:
+//			return "BOOLEAN";
+//		case BASIC_TYPE_INT8:
+//			return "INT8";
+//		case BASIC_TYPE_INT16:
+//			return "INT16";
+//		case BASIC_TYPE_INT32:
+//			return "INT32";
+//		case BASIC_TYPE_INT64:
+//			return "INT64";
+//		case BASIC_TYPE_INT8U:
+//			return "INT8U";
+//		case BASIC_TYPE_INT16U:
+//			return "INT16U";
+//		case BASIC_TYPE_INT24U:
+//			return "INT24U";
+//		case BASIC_TYPE_INT32U:
+//			return "INT32U";
+//		case BASIC_TYPE_FLOAT32:
+//			return "FLOAT32";
+//		case BASIC_TYPE_FLOAT64:
+//			return "FLOAT64";
+//		case BASIC_TYPE_ENUMERATED:
+//			return "ENUMERATED";
+//		case BASIC_TYPE_CODED_ENUM:
+//			return "CODED ENUM";
+//		case BASIC_TYPE_OCTET_STRING:
+//			return "OCTET STRING";
+//		case BASIC_TYPE_VISIBLE_STRING:
+//			return "VISIBLE STRING";
+//		case BASIC_TYPE_UNICODE_STRING:
+//			return "UNICODE STRING";
+//		case BASIC_TYPE_CURRENCY:
+//			return "CURRENCY";
+//		default:
+//			return "UNKNOWN TYPE";
+//	}
+//}
 
 
 /**
@@ -395,7 +395,7 @@ int itemDescriptionTreeToJSON(char *buf, Item *root, unsigned char deep) {
 	buf[len] = '{';
 	len++;
 
-	len += sprintf(&buf[len], "\"name\":\"%s\",\"type\":\"%s\",\"basicType\":\"%s\"", item->objectRef, item->typeSCL, basicTypeToString(item));
+	len += sprintf(&buf[len], "\"name\":\"%s\",\"type\":\"%s\"", item->objectRef, item->typeSCL);
 
 	if (item->lnClass != NULL) {
 		len += sprintf(&buf[len], ",\"lnClass\":\"%s\"", item->lnClass);
@@ -448,7 +448,7 @@ int itemDescriptionTreeToJSONPretty2(char *buf, Item *root, int tab) {
 	len += sprintf(&buf[len], "%*s{", tab, " ");
 //	len += sprintf(&buf[len], "\n    %*s\"name\" : \"%s\",\n    %*s\"type\" : \"%s\",\n    %*s\"basictype\" : \"%s\",\n    %*s\"items\" : [", tab, " ", item->objectRef, tab, " ", item->typeSCL, tab, " ", basicTypeToString(item), tab, " ");
 
-	len += sprintf(&buf[len], "\n    %*s\"name\" : \"%s\",\n    %*s\"type\" : \"%s\",\n    %*s\"basictype\" : \"%s\"", tab, " ", item->objectRef, tab, " ", item->typeSCL, tab, " ", basicTypeToString(item));
+	len += sprintf(&buf[len], "\n    %*s\"name\" : \"%s\",\n    %*s\"type\" : \"%s\"", tab, " ", item->objectRef, tab, " ", item->typeSCL);
 
 	if (item->lnClass != NULL) {
 		len += sprintf(&buf[len], ",\n    %*s\"lnClass\" : \"%s\"", tab, " ", item->lnClass);
@@ -507,7 +507,7 @@ int itemDescriptionTreeToJSONPretty(char *buf, Item *root, unsigned char deep) {
 	buf[len] = '{';
 	len++;
 
-	len += sprintf(&buf[len], "\n    \"name\" : \"%s\",\n    \"type\" : \"%s\",\n    \"basictype\" : \"%s\"", item->objectRef, item->typeSCL, basicTypeToString(item));
+	len += sprintf(&buf[len], "\n    \"name\" : \"%s\",\n    \"type\" : \"%s\"", item->objectRef, item->typeSCL);
 
 	if (item->lnClass != NULL) {
 		len += sprintf(&buf[len], ",\n    \"lnClass\" : \"%s\"", item->lnClass);
