@@ -1982,9 +1982,11 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 	server12 = mg_create_server((void *) "D1Q1SB4");
 #ifndef USE_SSL
 	mg_set_option(server12, "listening_port", "8012");
+
 #else
 	mg_set_option(server12, "listening_port", "8012s");
 	mg_set_option(server12, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server12, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server12, "/", handler);
 	mg_start_thread(serve, server12);

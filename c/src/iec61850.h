@@ -21,9 +21,9 @@
 #ifndef IEC61850_H
 #define IEC61850_H
 
-//#ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
-//extern "C" {
-//#endif
+#ifdef __cplusplus /* If this is a C++ compiler, use C linkage */
+extern "C" {
+#endif
 
 
 #include "ied.h"
@@ -37,8 +37,8 @@
 void initialise_iec61850();
 
 
-//#ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
-//}
-//#endif
+#ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
+}
+#endif
 
 #endif

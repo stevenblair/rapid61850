@@ -20,7 +20,7 @@
 #ifndef MONGOOSE_HEADER_INCLUDED
 #define  MONGOOSE_HEADER_INCLUDED
 
-#define MONGOOSE_VERSION "5.0"
+#define MONGOOSE_VERSION "5.2"
 
 #include <stdio.h>      // required for FILE
 #include <stddef.h>     // required for size_t
@@ -92,10 +92,16 @@ const char *mg_get_mime_type(const char *file_name);
 int mg_get_var(const struct mg_connection *conn, const char *var_name,
                char *buf, size_t buf_len);
 int mg_parse_header(const char *hdr, const char *var_name, char *buf, size_t);
+int mg_parse_multipart(const char *buf, int buf_len,
+                       char *var_name, int var_name_len,
+                       char *file_name, int file_name_len,
+                       const char **data, int *data_len);
 
 // Utility functions
 void *mg_start_thread(void *(*func)(void *), void *param);
 char *mg_md5(char buf[33], ...);
+int mg_authorize_digest(struct mg_connection *c, FILE *fp);
+void mg_send_digest_auth_request(struct mg_connection *conn);
 
 #ifdef __cplusplus
 }

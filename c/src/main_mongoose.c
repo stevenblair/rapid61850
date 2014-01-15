@@ -18,19 +18,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
 #define WPCAP
 #define HAVE_REMOTE
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #endif
 
+
 #include <pcap.h>
-
 #include "iec61850.h"
+
+#if JSON_INTERFACE == 1
+#include "mongoose.h"
 #include "json.h"
-
-
+#endif
 
 
 #if HIGH_LEVEL_INTERFACE == 0
@@ -97,9 +98,19 @@ int main() {
 
 #if JSON_INTERFACE == 1
 	start_JSON_RPC();
+//	mg_modify_passwords_file(".htpasswd", "localhost", "admin", "admin");
+
+
+
+//	struct mg_connection* connection = mg_download();
+//	char* data = read_conn(connection, &sz);
+
+	char hash[64];
+	mg_md5(hash, "admin", ":", "localhost", ":", "admin", NULL);
+	printf("%s\n", hash);
 
 	for (;;) {
-		Sleep(1);
+		Sleep(1000);
 	}
 #endif
 

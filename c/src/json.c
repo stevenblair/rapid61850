@@ -723,19 +723,34 @@ int itemTreeToJSON(char *buf, Item *root) {
 static int handle_http(struct mg_connection *conn) {
 	// TODO ignore a single trailing / in the url
 	char *url = (char *) &conn->uri[1];	// excludes the starting '/'
+	static const char *passwords_file = "htpasswd.txt";
+	FILE *fp = fopen(passwords_file, "r");
 
-	Item *item = getItemFromPath(conn->server_param, (char *) url);
+	// TODO check for method names in url
 
-	if (item != NULL) {
-		char printBuf[64000];
-		int len =  itemTreeToJSONPretty(printBuf, item);
-		printf("%d\n", len);
-		fflush(stdout);
+	// TODO add USE_SSL conditions
+	// TODO update Java code
+	if (mg_authorize_digest(conn, fp)) {
+		Item *item = getItemFromPath(conn->server_param, (char *) url);
 
-		if (len > 0) {
-			mg_send_data(conn, printBuf, len);
-			return 1;
+		if (item != NULL) {
+			char printBuf[64000];
+			int len =  itemTreeToJSONPretty(printBuf, item);
+			printf("%d\n", len);
+			fflush(stdout);
+
+			if (len > 0) {
+				mg_send_data(conn, printBuf, len);
+				return 1;
+			}
 		}
+	}
+	else {
+		mg_send_digest_auth_request(conn);
+	}
+
+	if (fp != NULL) {
+	fclose(fp);
 	}
 
 //	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
