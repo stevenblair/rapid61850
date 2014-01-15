@@ -107,7 +107,7 @@ public class SCDCodeGenerator {
 		CSource iedSource = new CSource("ied.c");
 		CSource dataTypesSource = new CSource("datatypes.c");
 		CSource interfaceSource = new CSource("interfaceSendPacket.c");
-		CSource jsonDatabaseSource = new CSource("jsonDatabase.c");
+		CSource jsonDatabaseSource = new CSource("dataModelIndex.c");
 
 		svEncodeSource.addIncludeLocal("svEncodeBasic.h");
 		svEncodeSource.addIncludeLocal(iedHeader);
@@ -150,7 +150,7 @@ public class SCDCodeGenerator {
 		jsonDatabaseSource.addIncludeLocal(dataTypesHeader);
 		jsonDatabaseSource.addIncludeLocal(iedHeader);
 		jsonDatabaseSource.addIncludeSystem("stdlib.h");
-		jsonDatabaseSource.addIncludeLocal("jsonDatabase.h");
+		jsonDatabaseSource.addIncludeLocal("dataModelIndex.h");
 		
 		interfaceSource.addIncludeLocal(interfaceHeader);
 		
@@ -306,10 +306,11 @@ public class SCDCodeGenerator {
 		boolean svExists = false;
 
 		// create IED-to-JSON database
-		String databaseName = "database";
+		String databaseName = "dataModelIndex";
 		JSONDatabaseManager iedJSON = new JSONDatabaseManager(databaseName);
 		int numberOfIEDs = root.getSCL().getIED().size();
-		jsonDatabaseSource.appendInstances("Item " + databaseName + " = {\"root\", BASIC_TYPE_CONSTRUCTED, \"\", NULL, " + numberOfIEDs + "};\n");
+		jsonDatabaseSource.appendInstances("#if JSON_INTERFACE == 1\n\n");
+		jsonDatabaseSource.appendInstances("Item " + databaseName + " = {\"root\", BASIC_TYPE_CONSTRUCTED, \"\", NULL, " + numberOfIEDs + "};");
 		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".items = (Item*) calloc(" + numberOfIEDs + ", sizeof(Item)); // IEDs\n");
 //		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".numberOfItems = " + numberOfIEDs + ";\n");
 //		iedJSON.addLayer();	// IEDs
@@ -877,6 +878,7 @@ public class SCDCodeGenerator {
 			jsonDatabaseSource.appendFunctions("#else\n");
 			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "s\");\n");
 			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"ssl_certificate\", \"ssl_cert.pem\");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"auth_domain\", \"localhost\");\n");
 			jsonDatabaseSource.appendFunctions("#endif\n");
 			jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server" + iedNumber + ", \"/\", handler);\n");
 			jsonDatabaseSource.appendFunctions("\tmg_start_thread(serve, server" + iedNumber + ");\n");
@@ -889,6 +891,7 @@ public class SCDCodeGenerator {
 			iedNumber++;
 		}
 		jsonDatabaseSource.appendFunctions("}\n");
+		jsonDatabaseSource.appendInstances("\n#endif // JSON_INTERFACE\n");
 		
 		
 		

@@ -720,38 +720,43 @@ int itemTreeToJSON(char *buf, Item *root) {
 	return len;
 }
 
+/**
+ * Callback function which handles all HTTP requests.
+ */
 static int handle_http(struct mg_connection *conn) {
-	// TODO ignore a single trailing / in the url
+	// TODO ignore a single trailing / at end of url
 	char *url = (char *) &conn->uri[1];	// excludes the starting '/'
+
+#ifdef USE_SSL
 	static const char *passwords_file = "htpasswd.txt";
 	FILE *fp = fopen(passwords_file, "r");
 
+	if (!mg_authorize_digest(conn, fp)) {
+		mg_send_digest_auth_request(conn);
+		return 1;
+	}
+#endif
+
 	// TODO check for method names in url
+	Item *item = getItemFromPath(conn->server_param, (char *) url);
 
-	// TODO add USE_SSL conditions
-	// TODO update Java code
-	if (mg_authorize_digest(conn, fp)) {
-		Item *item = getItemFromPath(conn->server_param, (char *) url);
+	if (item != NULL) {
+		char printBuf[64000];
+		int len =  itemTreeToJSONPretty(printBuf, item);
+		printf("%d\n", len);
+		fflush(stdout);
 
-		if (item != NULL) {
-			char printBuf[64000];
-			int len =  itemTreeToJSONPretty(printBuf, item);
-			printf("%d\n", len);
-			fflush(stdout);
-
-			if (len > 0) {
-				mg_send_data(conn, printBuf, len);
-				return 1;
-			}
+		if (len > 0) {
+			mg_send_data(conn, printBuf, len);
+			return 1;
 		}
 	}
-	else {
-		mg_send_digest_auth_request(conn);
-	}
 
+#ifdef USE_SSL
 	if (fp != NULL) {
-	fclose(fp);
+		fclose(fp);
 	}
+#endif
 
 //	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
 //	fflush(stdout);

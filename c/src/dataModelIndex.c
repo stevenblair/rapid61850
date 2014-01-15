@@ -18,16 +18,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "ctypes.h"
-#if JSON_INTERFACE == 1
-
 #include <stdlib.h>
+#include "ctypes.h"
 #include "datatypes.h"
 #include "ied.h"
 #include "dataModelIndex.h"
 
 
+#if JSON_INTERFACE == 1
+
 Item dataModelIndex = {"root", BASIC_TYPE_CONSTRUCTED, "", NULL, 12};
+#endif // JSON_INTERFACE
 
 
 
@@ -1875,6 +1876,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server1, "listening_port", "8001s");
 	mg_set_option(server1, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server1, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server1, "/", handler);
 	mg_start_thread(serve, server1);
@@ -1885,6 +1887,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server2, "listening_port", "8002s");
 	mg_set_option(server2, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server2, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server2, "/", handler);
 	mg_start_thread(serve, server2);
@@ -1895,6 +1898,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server3, "listening_port", "8003s");
 	mg_set_option(server3, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server3, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server3, "/", handler);
 	mg_start_thread(serve, server3);
@@ -1905,6 +1909,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server4, "listening_port", "8004s");
 	mg_set_option(server4, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server4, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server4, "/", handler);
 	mg_start_thread(serve, server4);
@@ -1915,6 +1920,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server5, "listening_port", "8005s");
 	mg_set_option(server5, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server5, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server5, "/", handler);
 	mg_start_thread(serve, server5);
@@ -1925,6 +1931,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server6, "listening_port", "8006s");
 	mg_set_option(server6, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server6, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server6, "/", handler);
 	mg_start_thread(serve, server6);
@@ -1935,6 +1942,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server7, "listening_port", "8007s");
 	mg_set_option(server7, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server7, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server7, "/", handler);
 	mg_start_thread(serve, server7);
@@ -1945,6 +1953,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server8, "listening_port", "8008s");
 	mg_set_option(server8, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server8, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server8, "/", handler);
 	mg_start_thread(serve, server8);
@@ -1955,6 +1964,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server9, "listening_port", "8009s");
 	mg_set_option(server9, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server9, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server9, "/", handler);
 	mg_start_thread(serve, server9);
@@ -1965,6 +1975,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server10, "listening_port", "8010s");
 	mg_set_option(server10, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server10, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server10, "/", handler);
 	mg_start_thread(serve, server10);
@@ -1975,6 +1986,7 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 #else
 	mg_set_option(server11, "listening_port", "8011s");
 	mg_set_option(server11, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server11, "auth_domain", "localhost");
 #endif
 	mg_add_uri_handler(server11, "/", handler);
 	mg_start_thread(serve, server11);
@@ -1982,7 +1994,6 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 	server12 = mg_create_server((void *) "D1Q1SB4");
 #ifndef USE_SSL
 	mg_set_option(server12, "listening_port", "8012");
-
 #else
 	mg_set_option(server12, "listening_port", "8012s");
 	mg_set_option(server12, "ssl_certificate", "ssl_cert.pem");
@@ -1992,4 +2003,3 @@ void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
 	mg_start_thread(serve, server12);
 }
 
-#endif
