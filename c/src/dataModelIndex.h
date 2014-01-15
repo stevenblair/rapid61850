@@ -34,7 +34,7 @@ extern "C" {
 #include "mongoose.h"
 
 /**
- * The basic data types defined in IEC 61850-7-2:2010, plus an identifier for constructed data types.
+ * The basic data types defined in IEC 61850-7-2:2010, with an additional identifier for constructed data types.
  */
 typedef enum {
 	BASIC_TYPE_CONSTRUCTED = 0,
@@ -57,6 +57,9 @@ typedef enum {
 	BASIC_TYPE_CURRENCY
 } BasicType;
 
+/**
+ * Trigger Option state. Defaults to 'not specified'.
+ */
 typedef enum {
 	TRIGGER_OPTION_NOT_SPECIFIED = 0,
 	TRIGGER_OPTION_FALSE = 1,
@@ -80,10 +83,19 @@ typedef struct Item {
 	TriggerOptionValue qchg;
 } Item;
 
-void init_database();
+/**
+ * Calls auto-generated function to instantiate the index of the data model.
+ */
+void init_data_model_index();
 
-void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *));
+/**
+ * Calls auto-generated function to start a webserver for each IED. Each server is started in a new thread to avoid blocking the main thread.
+ */
+void init_webservers(mg_handler_t handler, void *(*serve)(void *));
 
+/**
+ * Stores the data model index hierarchy.
+ */
 extern Item dataModelIndex;
 
 
@@ -91,6 +103,6 @@ extern Item dataModelIndex;
 }
 #endif
 
-#endif
+#endif // JSON_DATABASE_H
 
-#endif
+#endif // JSON_INTERFACE

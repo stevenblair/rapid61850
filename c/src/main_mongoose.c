@@ -97,7 +97,7 @@ int main() {
 	fp = initWinpcap();
 
 #if JSON_INTERFACE == 1
-	start_JSON_RPC();
+	start_json_interface();
 //	mg_modify_passwords_file(".htpasswd", "localhost", "admin", "admin");
 
 
@@ -109,8 +109,16 @@ int main() {
 	mg_md5(hash, "admin", ":", "localhost", ":", "admin", NULL);
 	printf("%s\n", hash);
 
-	for (;;) {
-		Sleep(1000);
+	while (1) {
+		int port;
+		for (port = 8001; port <= 8012; port++) {
+			int reply_len;
+			char *reply = send_http_request(port, &reply_len, "GET", "/");
+	//		printf("reply:\n%s\n", reply);
+	//		fflush(stdout);
+			free(reply);
+			Sleep(100);
+		}
 	}
 #endif
 

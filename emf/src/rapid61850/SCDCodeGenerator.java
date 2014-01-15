@@ -866,7 +866,7 @@ public class SCDCodeGenerator {
 			jsonDatabaseSource.appendFunctions("struct mg_server *server" + (i + 1) + ";\n");
 		}
 
-		jsonDatabaseSource.appendFunctions("\nvoid init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {\n");
+		jsonDatabaseSource.appendFunctions("\nvoid init_webservers(mg_handler_t handler, void *(*serve)(void *)) {\n");
 		int iedNumber = 1;
 		ieds = root.getSCL().getIED().iterator();
 		while (ieds.hasNext()) {

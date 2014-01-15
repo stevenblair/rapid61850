@@ -47,6 +47,8 @@ Item *getLD(char *iedObjectRef, char *objectRef) {
 		return NULL;
 	}
 
+	// TODO needs AP name
+
 	// check contains a server
 	if (ied->items == NULL) {
 		return NULL;
@@ -85,7 +87,7 @@ Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef) {
 }
 
 /**
- * Find an sub-item within an item, using the object reference string. Only checks within a single layer.
+ * Internal helper function. Finds a sub-item within an item, using the object reference string. Only checks within a single layer.
  */
 Item *findSingleItem(Item *item, char *objectRef) {
 	if (item == NULL || item->numberOfItems == 0) {
@@ -102,9 +104,6 @@ Item *findSingleItem(Item *item, char *objectRef) {
 	return NULL;
 }
 
-/**
- * Find an item within the specified Logical Node object hierarchy.
- */
 Item *getItem(Item *ln, int num, ...) {
 	if (num < 1) {
 		return NULL;
@@ -132,6 +131,9 @@ Item *getItem(Item *ln, int num, ...) {
 	return item;
 }
 
+/**
+ * Internal helper function to find the first occurrence of char c in string s.
+ */
 int findCharIndex(char *s, char c) {
 	int len = strlen(s);
 	int i = 0;
@@ -145,9 +147,6 @@ int findCharIndex(char *s, char c) {
 	return -1;
 }
 
-/**
- * Converts data object reference (DataObjectRef), e.g., "myLD/MMXU1.PhV.phsA", to the database Item, if found.
- */
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	Item *ied = getIED(iedObjectRef);
 	int slashIndex = findCharIndex(objectRefPath, '/');
@@ -206,10 +205,6 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	return item;
 }
 
-
-/**
- * Sets the value of leaf data items. Returns 1 if successful, or 0 otherwise.
- */
 int setItem(Item *item, char *input) {
 	void *data = item->data;
 	int i = 0;
@@ -274,9 +269,6 @@ int setItem(Item *item, char *input) {
 	}
 }
 
-/**
- * Prints leaf data items to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
- */
 int itemToJSON(char *buf, Item *item) {
 	void *data = item->data;
 	int i = 0;
@@ -382,10 +374,6 @@ int itemToJSON(char *buf, Item *item) {
 //	}
 //}
 
-
-/**
- * Prints a self-descriptive hierarchy of items without whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
- */
 int itemDescriptionTreeToJSON(char *buf, Item *root, unsigned char deep) {
 	int len = 0;
 	int i = 0;
@@ -495,9 +483,6 @@ int itemDescriptionTreeToJSONPretty2(char *buf, Item *root, int tab) {
 	return len;
 }
 
-/**
- * Prints a self-descriptive hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
- */
 int itemDescriptionTreeToJSONPretty(char *buf, Item *root, unsigned char deep) {
 	int len = 0;
 	int i = 0;
@@ -599,9 +584,6 @@ int itemTreeToJSONPretty2(char *buf, Item *root, int tab) {
 	return len;
 }
 
-/**
- * Prints hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
- */
 int itemTreeToJSONPretty(char *buf, Item *root) {
 	int len = 0;
 	int i = 0;
@@ -681,9 +663,6 @@ int itemTreeToJSON2(char *buf, Item *root, int tab) {
 	return len;
 }
 
-/**
- * Prints hierarchy of items without whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
- */
 int itemTreeToJSON(char *buf, Item *root) {
 	int len = 0;
 	int i = 0;
@@ -724,31 +703,36 @@ int itemTreeToJSON(char *buf, Item *root) {
  * Callback function which handles all HTTP requests.
  */
 static int handle_http(struct mg_connection *conn) {
-	// TODO ignore a single trailing / at end of url
 	char *url = (char *) &conn->uri[1];	// excludes the starting '/'
 
 #ifdef USE_SSL
 	static const char *passwords_file = "htpasswd.txt";
 	FILE *fp = fopen(passwords_file, "r");
 
-	if (!mg_authorize_digest(conn, fp)) {
+	if (fp == NULL || !mg_authorize_digest(conn, fp)) {
 		mg_send_digest_auth_request(conn);
 		return 1;
 	}
 #endif
 
+	// TODO ignore a single trailing '/' at end of url
 	// TODO check for method names in url
 	Item *item = getItemFromPath(conn->server_param, (char *) url);
 
 	if (item != NULL) {
-		char printBuf[64000];
-		int len =  itemTreeToJSONPretty(printBuf, item);
-		printf("%d\n", len);
-		fflush(stdout);
+		if (strcmp(conn->request_method, "GET") == 0) {
+			char printBuf[64000];
+			int len = itemTreeToJSONPretty(printBuf, item);
+//			printf("%d\n", len);
+//			fflush(stdout);
 
-		if (len > 0) {
-			mg_send_data(conn, printBuf, len);
-			return 1;
+			if (len > 0) {
+				mg_send_data(conn, printBuf, len);
+				return 1;
+			}
+		}
+		else if (strcmp(conn->request_method, "POST") == 0) {
+			setItem(item, conn->content);
 		}
 	}
 
@@ -771,15 +755,71 @@ static int handle_http(struct mg_connection *conn) {
 	return 1;
 }
 
+/**
+ * Internal helper function for processing HTTP events on threads.
+ */
 static void *serve(void *server) {
-  for (;;) {
+  while (1) {
 	  mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
   }
   return NULL;
 }
 
-void start_JSON_RPC() {
-	init_JSON_RPC(&handle_http, serve);
+void start_json_interface() {
+	init_webservers(&handle_http, serve);
+}
+
+
+
+
+// TODO combine into one function
+// TODO avoid repeating socket open/close?
+// From: https://github.com/cesanta/mongoose/blob/master/unit_test.c
+// Connects to host:port, and sends formatted request to it. Returns
+// malloc-ed reply and reply length, or NULL on error. Reply contains
+// everything including headers, not just the message body.
+char *wget(const char *host, int port, int *len, const char *fmt, ...) {
+	char buf[2000], *reply = NULL;
+	int request_len, reply_size = 0, n, sock = -1;
+	struct sockaddr_in sin;
+	struct hostent *he = NULL;
+	va_list ap;
+
+	if (host != NULL && (he = gethostbyname(host)) != NULL && (sock = socket(PF_INET, SOCK_STREAM, 0)) != -1) {
+		sin.sin_family = AF_INET;
+		sin.sin_port = htons((uint16_t) port);
+		sin.sin_addr = * (struct in_addr *) he->h_addr_list[0];
+		if (connect(sock, (struct sockaddr *) &sin, sizeof(sin)) == 0) {
+			// Format and send the request.
+			va_start(ap, fmt);
+			request_len = vsnprintf(buf, sizeof(buf), fmt, ap);
+			va_end(ap);
+			while (request_len > 0 && (n = send(sock, buf, request_len, 0)) > 0) {
+				request_len -= n;
+			}
+			if (request_len == 0) {
+				*len = 0;
+				while ((n = recv(sock, buf, sizeof(buf), 0)) > 0) {
+					if (*len + n > reply_size) {
+						// Leak possible
+						reply = (char *) realloc(reply, reply_size + sizeof(buf));
+						reply_size += sizeof(buf);
+					}
+					if (reply != NULL) {
+						memcpy(reply + *len, buf, n);
+						*len += n;
+					}
+				}
+			}
+			closesocket(sock);
+		}
+	}
+
+	return reply;
+}
+
+char *send_http_request(int port, int *len, char *method, char *url) {
+	return wget("localhost", port, len, "%s %s HTTP/1.0\r\n\r\n", method, url);
 }
 
 

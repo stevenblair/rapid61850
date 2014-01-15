@@ -32,7 +32,7 @@ Item dataModelIndex = {"root", BASIC_TYPE_CONSTRUCTED, "", NULL, 12};
 
 
 
-void init_database() {
+void init_data_model_index() {
 	dataModelIndex.items = (Item*) calloc(12, sizeof(Item)); // IEDs
 	dataModelIndex.items[0].objectRef = "E1Q1SB1";
 	dataModelIndex.items[0].type = BASIC_TYPE_CONSTRUCTED;
@@ -1869,7 +1869,7 @@ struct mg_server *server10;
 struct mg_server *server11;
 struct mg_server *server12;
 
-void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *)) {
+void init_webservers(mg_handler_t handler, void *(*serve)(void *)) {
 	server1 = mg_create_server((void *) "E1Q1SB1");
 #ifndef USE_SSL
 	mg_set_option(server1, "listening_port", "8001");

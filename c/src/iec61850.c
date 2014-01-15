@@ -26,7 +26,7 @@ void initialise_iec61850() {
 	init_gse();
 
 #if JSON_INTERFACE == 1
-	init_database();
+	init_data_model_index();
 #endif
 
 }
