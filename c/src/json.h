@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#if JSON_INTERFACE == 1
+
 #ifndef JSONRPC_H_
 #define JSONRPC_H_
 
@@ -31,11 +33,10 @@ extern "C" {
 #include <stdio.h>
 #include <stdarg.h>
 #include <windows.h>	// TODO cross-platform version?
-#include "jsonDatabase.h"
+#include "dataModelIndex.h"
 #include "ctypes.h"
 
-#define JSON_WEB_SERVER_SELECT_MAX_TIME		10		// ms
-
+#define WEB_SERVER_SELECT_MAX_TIME		10		// ms
 
 Item *getIED(char *iedObjectRef);
 Item *getLD(char *iedObjectRef, char *objectRef);
@@ -53,3 +54,5 @@ void start_JSON_RPC();
 #endif
 
 #endif /* JSONRPC_H_ */
+
+#endif

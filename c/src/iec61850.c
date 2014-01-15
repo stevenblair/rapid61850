@@ -24,5 +24,9 @@ void initialise_iec61850() {
 	init_datatypes();
 	init_sv();
 	init_gse();
+
+#if JSON_INTERFACE == 1
 	init_database();
+#endif
+
 }

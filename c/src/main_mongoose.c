@@ -19,92 +19,91 @@
  */
 
 
-//#define WPCAP
-//#define HAVE_REMOTE
-//#define WIN32_LEAN_AND_MEAN
+#define WPCAP
+#define HAVE_REMOTE
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#endif
 
-//	#include <pcap.h>
+#include <pcap.h>
 
 #include "iec61850.h"
-#include "jsonRPC.h"
+#include "json.h"
 
 
 
 
-//#if HIGH_LEVEL_INTERFACE == 0
-//
-//#define BUFFER_LENGTH	2048
-//
-//pcap_t *fp;
-//char errbuf[PCAP_ERRBUF_SIZE];
-//unsigned char buf[BUFFER_LENGTH] = {0};
-//int len = 0;
-//
-//void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data) {
-//	gse_sv_packet_filter((unsigned char *) pkt_data, header->len);
-//}
-//
-//pcap_t *initWinpcap() {
-//	pcap_t *fpl;
-//    pcap_if_t *alldevs;
-//    pcap_if_t *used_if;
-//
-//    // Retrieve the device list from the local machine
-//#ifdef _WIN32
-//	if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL /* auth is not needed */, &alldevs, errbuf) == -1) {
-//		fprintf(stderr, "Error in pcap_findalldevs_ex: %s\n", errbuf);
-//		exit(1);
-//	}
-//#else
-//	if (pcap_findalldevs(&alldevs, errbuf) == -1) {
-//		fprintf(stderr, "Error in pcap_findalldevs: %s\n", errbuf);
-//		exit(1);
-//	}
-//#endif
-//
-//    used_if = alldevs;
-//
-//#ifdef _WIN32
-//    fprintf(stdout, "%s\n", used_if->description);
-//#else
-//    fprintf(stdout, "%s\n", used_if->name);
-//#endif
-//    fflush(stdout);
-//
-//	if ((fpl = pcap_open_live(used_if->name,	// name of the device
-//							 65536,				// portion of the packet to capture. It doesn't matter in this case
-//							 1,					// promiscuous mode (nonzero means promiscuous)
-//							 1000,				// read timeout
-//							 errbuf				// error buffer
-//							 )) == NULL)
-//	{
-//		fprintf(stderr, "\nUnable to open the adapter. %s is not supported by WinPcap\n", alldevs->name);
-//		exit(2);
-//	}
-//
-//    //pcap_freealldevs(alldevs);
-//
-//	return fpl;
-//}
-//#endif
+#if HIGH_LEVEL_INTERFACE == 0
 
+#define BUFFER_LENGTH	2048
 
+pcap_t *fp;
+char errbuf[PCAP_ERRBUF_SIZE];
+unsigned char buf[BUFFER_LENGTH] = {0};
+int len = 0;
 
+void packet_handler(u_char *param, const struct pcap_pkthdr *header, const u_char *pkt_data) {
+	gse_sv_packet_filter((unsigned char *) pkt_data, header->len);
+}
 
+pcap_t *initWinpcap() {
+	pcap_t *fpl;
+    pcap_if_t *alldevs;
+    pcap_if_t *used_if;
 
+    // Retrieve the device list from the local machine
+#ifdef _WIN32
+	if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL /* auth is not needed */, &alldevs, errbuf) == -1) {
+		fprintf(stderr, "Error in pcap_findalldevs_ex: %s\n", errbuf);
+		exit(1);
+	}
+#else
+	if (pcap_findalldevs(&alldevs, errbuf) == -1) {
+		fprintf(stderr, "Error in pcap_findalldevs: %s\n", errbuf);
+		exit(1);
+	}
+#endif
+
+    used_if = alldevs;
+
+#ifdef _WIN32
+    fprintf(stdout, "%s\n", used_if->description);
+#else
+    fprintf(stdout, "%s\n", used_if->name);
+#endif
+    fflush(stdout);
+
+	if ((fpl = pcap_open_live(used_if->name,	// name of the device
+							 65536,				// portion of the packet to capture. It doesn't matter in this case
+							 1,					// promiscuous mode (nonzero means promiscuous)
+							 1000,				// read timeout
+							 errbuf				// error buffer
+							 )) == NULL)
+	{
+		fprintf(stderr, "\nUnable to open the adapter. %s is not supported by WinPcap\n", alldevs->name);
+		exit(2);
+	}
+
+    //pcap_freealldevs(alldevs);
+
+	return fpl;
+}
+#endif
 
 
 int main() {
 	initialise_iec61850();
-//	fp = initWinpcap();
+	fp = initWinpcap();
 
+#if JSON_INTERFACE == 1
 	start_JSON_RPC();
 
 	for (;;) {
-
+		Sleep(1);
 	}
+#endif
 
-//	pcap_close(fp);
+	pcap_close(fp);
 
 	return 0;
 }

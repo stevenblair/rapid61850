@@ -18,18 +18,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include "jsonRPC.h"
+#include "ctypes.h"
+#if JSON_INTERFACE == 1
+
+#include "json.h"
 
 Item *getIED(char *iedObjectRef) {
 	// check contains at least one IED
-	if (database.items == NULL) {
+	if (dataModelIndex.items == NULL) {
 		return NULL;
 	}
 
 	int i = 0;
-	for (i = 0; i < database.numberOfItems; i++) {
-		if (strcmp(iedObjectRef, database.items[i].objectRef) == 0) {
-			return &database.items[i];
+	for (i = 0; i < dataModelIndex.numberOfItems; i++) {
+		if (strcmp(iedObjectRef, dataModelIndex.items[i].objectRef) == 0) {
+			return &dataModelIndex.items[i];
 		}
 	}
 
@@ -717,43 +720,47 @@ int itemTreeToJSON(char *buf, Item *root) {
 	return len;
 }
 
-static int handle_hello(struct mg_connection *conn) {
-	Item *item = getItemFromPath(conn->server_param, (char *) &conn->uri[1]);	// excludes the starting /
-
+static int handle_http(struct mg_connection *conn) {
 	// TODO ignore a single trailing / in the url
+	char *url = (char *) &conn->uri[1];	// excludes the starting '/'
 
-//	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
-//	fflush(stdout);
+	Item *item = getItemFromPath(conn->server_param, (char *) url);
 
 	if (item != NULL) {
 		char printBuf[64000];
-		int len =  itemDescriptionTreeToJSONPretty(printBuf, item, TRUE);
+		int len =  itemTreeToJSONPretty(printBuf, item);
 		printf("%d\n", len);
 		fflush(stdout);
 
 		if (len > 0) {
 			mg_send_data(conn, printBuf, len);
+			return 1;
 		}
 	}
-	else {
-		mg_send_data(conn, "", 0);
-	}
+
+//	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
+//	fflush(stdout);
 
 //	if (strcmp(&conn->uri[1], "C1/exampleMMXU_1.A.phsC.cVal.mag.f") == 0) {
 //		Item *tempItem = getItemFromPath("D1Q1SB4", "C1/exampleMMXU_1.A.phsC.cVal.mag.f");
 //		setItem(tempItem, "123.456");
 //	}
 
+	mg_send_status(conn, 404);
+	mg_send_data(conn, "404", 3);
 	return 1;
 }
 
 static void *serve(void *server) {
   for (;;) {
-	  mg_poll_server((struct mg_server *) server, JSON_WEB_SERVER_SELECT_MAX_TIME);
+	  mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
   }
   return NULL;
 }
 
 void start_JSON_RPC() {
-	init_JSON_RPC(&handle_hello, serve);
+	init_JSON_RPC(&handle_http, serve);
 }
+
+
+#endif

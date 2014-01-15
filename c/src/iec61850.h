@@ -29,7 +29,10 @@
 #include "ied.h"
 #include "sv.h"
 #include "gse.h"
-#include "jsonDatabase.h"
+
+#if JSON_INTERFACE == 1
+#include "dataModelIndex.h"
+#endif
 
 void initialise_iec61850();
 

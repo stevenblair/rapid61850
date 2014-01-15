@@ -18,6 +18,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+
+#include "ctypes.h"
+#if JSON_INTERFACE == 1
+
 #ifndef JSON_DATABASE_H
 #define JSON_DATABASE_H
 
@@ -80,11 +84,13 @@ void init_database();
 
 void init_JSON_RPC(mg_handler_t handler, void *(*serve)(void *));
 
-extern Item database;
+extern Item dataModelIndex;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
 }
+#endif
+
 #endif
 
 #endif
