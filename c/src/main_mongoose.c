@@ -98,14 +98,8 @@ int main() {
 
 #if JSON_INTERFACE == 1
 	start_json_interface();
-//	mg_modify_passwords_file(".htpasswd", "localhost", "admin", "admin");
 
-
-
-//	struct mg_connection* connection = mg_download();
-//	char* data = read_conn(connection, &sz);
-
-	char hash[64];
+	char hash[33];
 	mg_md5(hash, "admin", ":", "localhost", ":", "admin", NULL);
 	printf("%s\n", hash);
 

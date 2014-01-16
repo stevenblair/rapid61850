@@ -58,7 +58,7 @@ typedef enum {
 } BasicType;
 
 /**
- * Trigger Option state. Defaults to 'not specified'.
+ * Trigger Option state. Will default to 'not specified'.
  */
 typedef enum {
 	TRIGGER_OPTION_NOT_SPECIFIED = 0,
