@@ -19,7 +19,10 @@ This readme file describes how to set up the software, and its basic use.
  - Simple API. The platform can be used in two ways:
    - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
    - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to automatically handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
+ - An experimental JSON-based implementation of the IEC 61850 ACSI (in short, the spec for comms). A very lightweight HTTP/HTTPS stack makes the rapid61850 data model self-describing and accessible on-demand. This is a significantly simplified alternative to the MMS protocol. The use of JSON as the data format is easily supported by several programming languages, and especially JavaScript-based web apps.
  - Open source, under the GPL 2
+
+You can read more about the motivation and benefits of the project [here](http://strathprints.strath.ac.uk/43427/1/S_Blair_Rapid_IEC_61850_preprint.pdf).
 
 ## Installation ##
 
@@ -147,6 +150,12 @@ All `CTYPE_*` definitions must map to local datatypes of the correct size and si
 In `ctypes.c`, the basic library function `memcpy()` is used to copy bytes in order (according to platform endianness), and `reversememcpy()` copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these should work, they can be replaced with platform-specific alternatives for better performance.
 
 The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.
+
+## Using the JSON interface ##
+
+*This functionality is highly experimental. Several data types have not been fully tested yet. There is only support for Windows at present.*
+
+
 
 ## Using the Python or Java interfaces ##
 
