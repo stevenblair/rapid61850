@@ -28,5 +28,4 @@ void initialise_iec61850() {
 #if JSON_INTERFACE == 1
 	init_data_model_index();
 #endif
-
 }

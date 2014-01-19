@@ -77,9 +77,12 @@ public abstract class CFile {
 	}
 
 	public void saveFile(String fileText) {
-		
+		saveFile(fileText, "");
+	}
+
+	public void saveFile(String fileText, String folder) {
 		try {
-			File f = new File(C_PATH + filename);
+			File f = new File(C_PATH + folder + filename);
 			
 			File copyrightTextFile = new File(LICENSE_PATH);
 			FileInputStream fis  = new FileInputStream(copyrightTextFile);

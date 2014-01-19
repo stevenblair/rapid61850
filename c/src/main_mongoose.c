@@ -29,12 +29,10 @@
 #include "iec61850.h"
 
 #if JSON_INTERFACE == 1
-#include "mongoose.h"
-#include "json.h"
+#include "json\mongoose.h"
+#include "json\json.h"
 #endif
 
-
-#if HIGH_LEVEL_INTERFACE == 0
 
 #define BUFFER_LENGTH	2048
 
@@ -89,7 +87,6 @@ pcap_t *initWinpcap() {
 
 	return fpl;
 }
-#endif
 
 
 int main() {

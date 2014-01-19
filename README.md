@@ -155,7 +155,18 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 *This functionality is highly experimental. Several data types have not been fully tested yet. There is only support for Windows at present.*
 
+### Building the code ###
 
+TODO put json code in own folder?
+
+### Using SSL ###
+
+ 1. Install OpenSSL for your operating system, and ensure that the path to the `/bin` directory is within the OS PATH environment variable.
+ 2. 
+
+TODO put json code in own folder?
+
+[Mongoose web server](https://github.com/cesanta/mongoose)
 
 ## Using the Python or Java interfaces ##
 

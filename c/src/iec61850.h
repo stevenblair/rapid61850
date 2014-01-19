@@ -31,7 +31,7 @@ extern "C" {
 #include "gse.h"
 
 #if JSON_INTERFACE == 1
-#include "dataModelIndex.h"
+#include "json\dataModelIndex.h"
 #endif
 
 void initialise_iec61850();

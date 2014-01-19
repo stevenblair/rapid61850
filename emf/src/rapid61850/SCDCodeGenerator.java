@@ -20,11 +20,10 @@
 
 package rapid61850;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.eclipse.emf.common.util.EList;
 
 import ch.iec._61850._2006.scl.DocumentRoot;
 import ch.iec._61850._2006.scl.SclPackage;
@@ -302,7 +301,7 @@ public class SCDCodeGenerator {
 		
 		dataTypesHeader.appendDatatypes("\n\n// datasets");
 		dataTypesSource.appendFunctions("void init_datatypes() {\n");
-		jsonDatabaseSource.appendFunctions("void init_database() {\n");
+		jsonDatabaseSource.appendFunctions("void init_data_model_index() {\n");
 		boolean svExists = false;
 
 		// create IED-to-JSON database
@@ -1074,7 +1073,7 @@ public class SCDCodeGenerator {
 		iedSource.saveFile();
 		dataTypesSource.saveFile();
 		interfaceSource.saveFile();
-		jsonDatabaseSource.saveFile();
+		jsonDatabaseSource.saveFile("json" + File.separator);
 
 		svEncodeHeader.saveFile();
 		svDecodeHeader.saveFile();

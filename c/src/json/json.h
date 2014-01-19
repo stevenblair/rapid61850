@@ -39,6 +39,10 @@ extern "C" {
 
 #define WEB_SERVER_SELECT_MAX_TIME		10	// ms
 
+#define ACSI_GET_DEFINITION	"definition"
+#define ACSI_GET_DIRECTORY	"directory"
+
+
 Item *getIED(char *iedObjectRef);
 Item *getLD(char *iedObjectRef, char *objectRef);
 Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef);

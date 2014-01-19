@@ -151,7 +151,7 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	Item *ied = getIED(iedObjectRef);
 	int slashIndex = findCharIndex(objectRefPath, '/');
 
-	// TODO check for no chars after slash
+	// TODO ignore a single trailing '/' at end of url: check for no chars after slash?
 
 	// check IED exists
 	if (ied == NULL) {
@@ -703,7 +703,10 @@ int itemTreeToJSON(char *buf, Item *root) {
  * Callback function which handles all HTTP requests.
  */
 static int handle_http(struct mg_connection *conn) {
-	char *url = (char *) &conn->uri[1];	// excludes the starting '/'
+	char printBuf[64000];
+	int len = 0;
+	char *url = (char *) &conn->uri[1];	// exclude the starting '/'
+	Item *item;
 
 #ifdef USE_SSL
 	static const char *passwords_file = "htpasswd.txt";
@@ -715,25 +718,29 @@ static int handle_http(struct mg_connection *conn) {
 	}
 #endif
 
-	// TODO ignore a single trailing '/' at end of url
-	// TODO check for method names in url
-	Item *item = getItemFromPath(conn->server_param, (char *) url);
-
-	if (item != NULL) {
-		if (strcmp(conn->request_method, "GET") == 0) {
-			char printBuf[64000];
-			int len = itemTreeToJSONPretty(printBuf, item);
-//			printf("%d\n", len);
-//			fflush(stdout);
-
-			if (len > 0) {
-				mg_send_data(conn, printBuf, len);
-				return 1;
-			}
+	// check for method names in url
+	if (strcmp(conn->request_method, "GET") == 0) {
+		if (strncmp(url, ACSI_GET_DEFINITION, strlen(ACSI_GET_DEFINITION)) == 0) {
+			item = getItemFromPath(conn->server_param, (char *) &url[strlen(ACSI_GET_DEFINITION) + 1]);
+			len = itemDescriptionTreeToJSONPretty(printBuf, item, FALSE);
 		}
-		else if (strcmp(conn->request_method, "POST") == 0) {
-			setItem(item, conn->content);
+		else if (strncmp(url, ACSI_GET_DIRECTORY, strlen(ACSI_GET_DIRECTORY)) == 0) {
+			item = getItemFromPath(conn->server_param, (char *) &url[strlen(ACSI_GET_DIRECTORY) + 1]);
+			len = itemDescriptionTreeToJSONPretty(printBuf, item, TRUE);
 		}
+		else {
+			item = getItemFromPath(conn->server_param, (char *) url);
+			len = itemTreeToJSONPretty(printBuf, item);
+		}
+
+		if (item != NULL && len > 0) {
+			mg_send_data(conn, printBuf, len);
+			return 1;
+		}
+	}
+	else if (strcmp(conn->request_method, "POST") == 0) {
+		item = getItemFromPath(conn->server_param, (char *) url);
+		setItem(item, conn->content);
 	}
 
 #ifdef USE_SSL

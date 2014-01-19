@@ -84,6 +84,10 @@ public class CSource extends CFile {
 		return h;
 	}
 
+	public void saveFile(String folder) {
+		saveFile(template.generate(this), folder);
+	}
+	
 	public void saveFile() {
 		saveFile(template.generate(this));
 	}
