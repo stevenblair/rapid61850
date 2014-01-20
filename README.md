@@ -147,26 +147,30 @@ to:
 
 All `CTYPE_*` definitions must map to local datatypes of the correct size and sign.
 
-In `ctypes.c`, the basic library function `memcpy()` is used to copy bytes in order (according to platform endianness), and `reversememcpy()` copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these should work, they can be replaced with platform-specific alternatives for better performance.
+In `ctypes.c`, the basic library function `memcpy()` is used to copy bytes in order (according to platform endianness), and `reversememcpy()` copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these will work, they can be replaced with platform-specific alternatives for better performance.
 
 The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.
 
 ## Using the JSON interface ##
 
-*This functionality is highly experimental. Several data types have not been fully tested yet. There is only support for Windows at present.*
+*This functionality is highly experimental. Several data types have not been fully tested yet. There is only support for Windows at present, but Linux and OS X will be supported. At the moment, it will be difficult to use the JSON interface on an embedded platform.*
+
+[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server.
 
 ### Building the code ###
 
-TODO put json code in own folder?
-
-### Using SSL ###
-
- 1. Install OpenSSL for your operating system, and ensure that the path to the `/bin` directory is within the OS PATH environment variable.
+ 1. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. The ensures the JSON code can access the other header files.
  2. 
 
-TODO put json code in own folder?
+### Using SSL to encrypt all data ###
 
-[Mongoose web server](https://github.com/cesanta/mongoose)
+ 1. Install OpenSSL for your operating system.
+ 2. In the C project build settings:
+   a. define the symbol `USE_SSL`
+   b. link to the library `ssl32`
+   b. add the linker search path to the OpenSSL `bin` directory (e.g., `"C:\OpenSSL-Win32\bin"` on Windows)
+ 3. Ensure that the SSL certificate (ssl_cert.pem) is in the appropriate directory: typically at the root of the `C` directory if running from Eclipse. WARNING: the included certificate file is for testing only. Generate or purchase a new certificate for production purposes.
+ 4. If you wish to use HTTP authentication, set `USE_HTTP_AUTH` to `1` in `json.h`. Create your password file called `htpasswd.txt`, in the same directory as the SSL certificate. Mongoose (as well as various web sites) can be used to help create the MD5 hash: see `main_json.c`.
 
 ## Using the Python or Java interfaces ##
 

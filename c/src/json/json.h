@@ -39,6 +39,7 @@ extern "C" {
 
 #define WEB_SERVER_SELECT_MAX_TIME		10	// ms
 #define JSON_OUTPUT_PRETTIFY			0
+#define JSON_USE_HTTP_AUTH				0
 
 #if JSON_OUTPUT_PRETTIFY == 1
 #define ACSI_RESPONSE_MAX_SIZE			64000

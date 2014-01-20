@@ -730,12 +730,11 @@ int itemTreeToJSON(char *buf, Item *root) {
  * Callback function which handles all HTTP requests.
  */
 static int handle_http(struct mg_connection *conn) {
-	char printBuf[ACSI_RESPONSE_MAX_SIZE];
-	int len = 0;
 	char *url = (char *) &conn->uri[1];	// exclude the starting '/'
 	Item *item;
 
 #ifdef USE_SSL
+#if USE_HTTP_AUTH == 1
 	static const char *passwords_file = "htpasswd.txt";
 	FILE *fp = fopen(passwords_file, "r");
 
@@ -743,10 +742,18 @@ static int handle_http(struct mg_connection *conn) {
 		mg_send_digest_auth_request(conn);
 		return 1;
 	}
+
+	if (fp != NULL) {
+		fclose(fp);
+	}
+#endif
 #endif
 
 	// check for method names in url
 	if (strcmp(conn->request_method, "GET") == 0) {
+		int len = 0;
+		char printBuf[ACSI_RESPONSE_MAX_SIZE];
+
 		if (strncmp(url, ACSI_GET_DEFINITION, strlen(ACSI_GET_DEFINITION)) == 0) {
 			item = getItemFromPath(conn->server_param, (char *) &url[strlen(ACSI_GET_DEFINITION) + 1]);
 			len = itemDescriptionTreeToJSON(printBuf, item, FALSE);
@@ -777,12 +784,6 @@ static int handle_http(struct mg_connection *conn) {
 		mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
 		return 1;
 	}
-
-#ifdef USE_SSL
-	if (fp != NULL) {
-		fclose(fp);
-	}
-#endif
 
 //	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
 //	fflush(stdout);
