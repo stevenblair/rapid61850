@@ -70,6 +70,6 @@ public class CHeader extends CFile {
 	}
 
 	public void saveFile() {
-		saveFile(template.generate(this));
+		saveFile(template.generate(this), "");
 	}
 }

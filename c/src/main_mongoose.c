@@ -102,9 +102,24 @@ int main() {
 
 	while (1) {
 		int port;
+		int reply_len;
+		char *reply;
 		for (port = 8001; port <= 8012; port++) {
-			int reply_len;
-			char *reply = send_http_request(port, &reply_len, "GET", "/");
+			reply = send_http_request(port, &reply_len, "GET", "/");
+	//		printf("reply:\n%s\n", reply);
+	//		fflush(stdout);
+			free(reply);
+			Sleep(100);
+		}
+		for (port = 8001; port <= 8012; port++) {
+			char *reply = send_http_request(port, &reply_len, "GET", "/directory/");
+	//		printf("reply:\n%s\n", reply);
+	//		fflush(stdout);
+			free(reply);
+			Sleep(100);
+		}
+		for (port = 8001; port <= 8012; port++) {
+			reply = send_http_request(port, &reply_len, "GET", "/definition/");
 	//		printf("reply:\n%s\n", reply);
 	//		fflush(stdout);
 			free(reply);

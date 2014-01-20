@@ -38,9 +38,21 @@ extern "C" {
 #include "ctypes.h"
 
 #define WEB_SERVER_SELECT_MAX_TIME		10	// ms
+#define JSON_OUTPUT_PRETTIFY			0
 
-#define ACSI_GET_DEFINITION	"definition"
-#define ACSI_GET_DIRECTORY	"directory"
+#if JSON_OUTPUT_PRETTIFY == 1
+#define ACSI_RESPONSE_MAX_SIZE			64000
+#else
+#define ACSI_RESPONSE_MAX_SIZE			16000
+#endif
+#define ACSI_RESPONSE_SIZE_WARNING		128
+#define ACSI_GET_DEFINITION				"definition"
+#define ACSI_GET_DIRECTORY				"directory"
+#define ACSI_OK							"ok"
+#define ACSI_NOT_FOUND					"404"
+#define ACSI_BUFFER_OVERRUN				"buffer overrun; increase ACSI_RESPONSE_MAX_SIZE"
+#define ACSI_REQUEST_CHECK_LENGTH(len)	if (len > ACSI_RESPONSE_MAX_SIZE - ACSI_RESPONSE_SIZE_WARNING) {return -1;}
+#define ACSI_REQUEST_CHECK_LENGTH2(len)	if (len > ACSI_RESPONSE_MAX_SIZE - ACSI_RESPONSE_SIZE_WARNING) {return len;}
 
 
 Item *getIED(char *iedObjectRef);
@@ -48,7 +60,9 @@ Item *getLD(char *iedObjectRef, char *objectRef);
 Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef);
 
 /**
- * Find an item within the specified Logical Node object hierarchy. Provide a list of item names (where num is the number), e.g., getItem(ln, 3, "C1", "LN0", "Mod").
+ * Find an item within the specified Logical Node object hierarchy.
+ *
+ * Provide a list of item names (where num is the number), e.g., getItem(ln, 3, "C1", "LN0", "Mod").
  */
 Item *getItem(Item *ln, int num, ...);
 
@@ -68,22 +82,30 @@ int setItem(Item *item, char *input);
 int itemToJSON(char *buf, Item *item);
 
 /**
- * Prints hierarchy of items without whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ * Prints hierarchy of items without whitespace, starting from the root, to the specified buffer.
+ *
+ * The buffer must be large enough. Returns the number of characters printed.
  */
 int itemTreeToJSON(char *buf, Item *root);
 
 /**
- * Prints hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ * Prints hierarchy of items with whitespace, starting from the root, to the specified buffer.
+ *
+ * The buffer must be large enough. Returns the number of characters printed.
  */
 int itemTreeToJSONPretty(char *buf, Item *root);
 
 /**
- * Prints a self-descriptive hierarchy of items with whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ * Prints a self-descriptive hierarchy of items with whitespace, starting from the root, to the specified buffer.
+ *
+ * The buffer must be large enough. Returns the number of characters printed.
  */
 int itemDescriptionTreeToJSONPretty(char *buf, Item *root, unsigned char deep);
 
 /**
- * Prints a self-descriptive hierarchy of items without whitespace, starting from the root, to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
+ * Prints a self-descriptive hierarchy of items without whitespace, starting from the root, to the specified buffer.
+ *
+ * The buffer must be large enough. Returns the number of characters printed.
  */
 int itemDescriptionTreeToJSON(char *buf, Item *root, unsigned char deep);
 

@@ -76,13 +76,19 @@ public abstract class CFile {
 		return allIncludes.toString();
 	}
 
-	public void saveFile(String fileText) {
-		saveFile(fileText, "");
-	}
+//	public void saveFile(String fileText) {
+//		saveFile(fileText, null);
+//	}
 
 	public void saveFile(String fileText, String folder) {
 		try {
-			File f = new File(C_PATH + folder + filename);
+			File f;
+			if (folder != null && folder.length() > 0) {
+				f = new File(C_PATH + folder + filename);
+			}
+			else {
+				f = new File(C_PATH + filename);
+			}
 			
 			File copyrightTextFile = new File(LICENSE_PATH);
 			FileInputStream fis  = new FileInputStream(copyrightTextFile);

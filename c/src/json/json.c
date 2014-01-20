@@ -375,6 +375,9 @@ int itemToJSON(char *buf, Item *item) {
 //}
 
 int itemDescriptionTreeToJSON(char *buf, Item *root, unsigned char deep) {
+#if JSON_OUTPUT_PRETTIFY == 1
+	return itemDescriptionTreeToJSONPretty(buf, root, deep);
+#else
 	int len = 0;
 	int i = 0;
 	Item *item = root;
@@ -382,6 +385,8 @@ int itemDescriptionTreeToJSON(char *buf, Item *root, unsigned char deep) {
 	if (item == NULL) {
 		return 0;
 	}
+
+	ACSI_REQUEST_CHECK_LENGTH(len);
 
 	buf[len] = '{';
 	len++;
@@ -413,6 +418,7 @@ int itemDescriptionTreeToJSON(char *buf, Item *root, unsigned char deep) {
 			if (i < item->numberOfItems - 1) {
 				len += sprintf(&buf[len], ",");
 			}
+			ACSI_REQUEST_CHECK_LENGTH(len);
 		}
 
 		len += sprintf(&buf[len], "]");
@@ -422,6 +428,7 @@ int itemDescriptionTreeToJSON(char *buf, Item *root, unsigned char deep) {
 	len++;
 
 	return len;
+#endif
 }
 
 /**
@@ -435,6 +442,8 @@ int itemDescriptionTreeToJSONPretty2(char *buf, Item *root, int tab) {
 	if (item == NULL) {
 		return 0;
 	}
+
+	ACSI_REQUEST_CHECK_LENGTH2(len);
 
 	len += sprintf(&buf[len], "%*s{", tab, " ");
 //	len += sprintf(&buf[len], "\n    %*s\"name\" : \"%s\",\n    %*s\"type\" : \"%s\",\n    %*s\"basictype\" : \"%s\",\n    %*s\"items\" : [", tab, " ", item->objectRef, tab, " ", item->typeSCL, tab, " ", basicTypeToString(item), tab, " ");
@@ -467,6 +476,7 @@ int itemDescriptionTreeToJSONPretty2(char *buf, Item *root, int tab) {
 				len++;
 			}
 			len += itemDescriptionTreeToJSONPretty2(&buf[len], &item->items[i], tab + 8);
+			ACSI_REQUEST_CHECK_LENGTH2(len);
 			if (i < item->numberOfItems - 1) {
 				buf[len] = ',';
 				len++;
@@ -491,6 +501,8 @@ int itemDescriptionTreeToJSONPretty(char *buf, Item *root, unsigned char deep) {
 	if (item == NULL) {
 		return 0;
 	}
+
+	ACSI_REQUEST_CHECK_LENGTH(len);
 
 	buf[len] = '{';
 	len++;
@@ -524,6 +536,7 @@ int itemDescriptionTreeToJSONPretty(char *buf, Item *root, unsigned char deep) {
 					len++;
 				}
 				len += itemDescriptionTreeToJSONPretty2(&buf[len], &item->items[i], 8);
+				ACSI_REQUEST_CHECK_LENGTH(len);
 				if (i < item->numberOfItems - 1) {
 					len += sprintf(&buf[len], ",\n");
 				}
@@ -555,6 +568,8 @@ int itemTreeToJSONPretty2(char *buf, Item *root, int tab) {
 		return 0;
 	}
 
+	ACSI_REQUEST_CHECK_LENGTH2(len);
+
 	if (item->type == BASIC_TYPE_CONSTRUCTED) {
 		len += sprintf(&buf[len], "    %*s\"%s\" : {", tab, " ", item->objectRef);
 	}
@@ -568,6 +583,7 @@ int itemTreeToJSONPretty2(char *buf, Item *root, int tab) {
 		// loop through each sub-item
 		for (i = 0; i < item->numberOfItems; i++) {
 			len += itemTreeToJSONPretty2(&buf[len], &item->items[i], tab + 4);
+			ACSI_REQUEST_CHECK_LENGTH2(len);
 			if (i < item->numberOfItems - 1) {
 				len += sprintf(&buf[len], ",\n");
 			}
@@ -593,6 +609,8 @@ int itemTreeToJSONPretty(char *buf, Item *root) {
 		return 0;
 	}
 
+	ACSI_REQUEST_CHECK_LENGTH(len);
+
 	buf[len] = '{';
 	len++;
 
@@ -602,6 +620,7 @@ int itemTreeToJSONPretty(char *buf, Item *root) {
 		// loop through each sub-item
 		for (i = 0; i < item->numberOfItems; i++) {
 			len += itemTreeToJSONPretty2(&buf[len], &item->items[i], 4);
+			ACSI_REQUEST_CHECK_LENGTH(len);
 			if (i < item->numberOfItems - 1) {
 				len += sprintf(&buf[len], ",\n");
 			}
@@ -649,6 +668,7 @@ int itemTreeToJSON2(char *buf, Item *root, int tab) {
 				buf[len] = ',';
 				len++;
 			}
+			ACSI_REQUEST_CHECK_LENGTH(len);
 		}
 	}
 	else {
@@ -664,6 +684,9 @@ int itemTreeToJSON2(char *buf, Item *root, int tab) {
 }
 
 int itemTreeToJSON(char *buf, Item *root) {
+#if JSON_OUTPUT_PRETTIFY == 1
+	return itemTreeToJSONPretty(buf, root);
+#else
 	int len = 0;
 	int i = 0;
 	Item *item = root;
@@ -671,6 +694,8 @@ int itemTreeToJSON(char *buf, Item *root) {
 	if (item == NULL) {
 		return 0;
 	}
+
+	ACSI_REQUEST_CHECK_LENGTH(len);
 
 	buf[len] = '{';
 	len++;
@@ -681,6 +706,7 @@ int itemTreeToJSON(char *buf, Item *root) {
 		// loop through each sub-item
 		for (i = 0; i < item->numberOfItems; i++) {
 			len += itemTreeToJSON2(&buf[len], &item->items[i], 4);
+			ACSI_REQUEST_CHECK_LENGTH2(len);
 			if (i < item->numberOfItems - 1) {
 				len += sprintf(&buf[len], ",");
 			}
@@ -697,13 +723,14 @@ int itemTreeToJSON(char *buf, Item *root) {
 	len++;
 
 	return len;
+#endif
 }
 
 /**
  * Callback function which handles all HTTP requests.
  */
 static int handle_http(struct mg_connection *conn) {
-	char printBuf[64000];
+	char printBuf[ACSI_RESPONSE_MAX_SIZE];
 	int len = 0;
 	char *url = (char *) &conn->uri[1];	// exclude the starting '/'
 	Item *item;
@@ -722,25 +749,33 @@ static int handle_http(struct mg_connection *conn) {
 	if (strcmp(conn->request_method, "GET") == 0) {
 		if (strncmp(url, ACSI_GET_DEFINITION, strlen(ACSI_GET_DEFINITION)) == 0) {
 			item = getItemFromPath(conn->server_param, (char *) &url[strlen(ACSI_GET_DEFINITION) + 1]);
-			len = itemDescriptionTreeToJSONPretty(printBuf, item, FALSE);
+			len = itemDescriptionTreeToJSON(printBuf, item, FALSE);
 		}
 		else if (strncmp(url, ACSI_GET_DIRECTORY, strlen(ACSI_GET_DIRECTORY)) == 0) {
 			item = getItemFromPath(conn->server_param, (char *) &url[strlen(ACSI_GET_DIRECTORY) + 1]);
-			len = itemDescriptionTreeToJSONPretty(printBuf, item, TRUE);
+			len = itemDescriptionTreeToJSON(printBuf, item, TRUE);
 		}
 		else {
 			item = getItemFromPath(conn->server_param, (char *) url);
-			len = itemTreeToJSONPretty(printBuf, item);
+			len = itemTreeToJSON(printBuf, item);
 		}
 
-		if (item != NULL && len > 0) {
+		if (item != NULL && len == -1) {
+			mg_send_status(conn, 500);
+			mg_send_data(conn, ACSI_BUFFER_OVERRUN, strlen(ACSI_BUFFER_OVERRUN));
+			return 1;
+		}
+		else if (item != NULL && len > 0) {
 			mg_send_data(conn, printBuf, len);
+			printf("len: %d\n", len);
+			fflush(stdout);
 			return 1;
 		}
 	}
 	else if (strcmp(conn->request_method, "POST") == 0) {
 		item = getItemFromPath(conn->server_param, (char *) url);
-		setItem(item, conn->content);
+		mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
+		return 1;
 	}
 
 #ifdef USE_SSL
@@ -758,7 +793,7 @@ static int handle_http(struct mg_connection *conn) {
 //	}
 
 	mg_send_status(conn, 404);
-	mg_send_data(conn, "404", 3);
+	mg_send_data(conn, ACSI_NOT_FOUND, strlen(ACSI_NOT_FOUND));
 	return 1;
 }
 
@@ -779,6 +814,7 @@ void start_json_interface() {
 
 
 
+// TODO use mg_connect() instead
 // TODO combine into one function
 // TODO avoid repeating socket open/close?
 // From: https://github.com/cesanta/mongoose/blob/master/unit_test.c
