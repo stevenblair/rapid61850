@@ -155,14 +155,16 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 *This functionality is highly experimental. Several data types have not been fully tested yet. There is only support for Windows at present, but Linux and OS X will be supported. At the moment, it will be difficult to use the JSON interface on an embedded platform.*
 
-[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server.
+An "index" of the data model provided by rapid61850 is generated automatically. This fully exposes the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been specified for implementing the IEC 61850 abstract communication service interface (ACSI), and the JSON interface is exposed via HTTP (or HTTPS).
+
+[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server. A new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model.)
 
 ### Building the code ###
 
  1. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. The ensures the JSON code can access the other header files.
  2. 
 
-### Using SSL to encrypt all data ###
+### Using SSL to encrypt all connections ###
 
  1. Install OpenSSL for your operating system.
  2. In the C project build settings:

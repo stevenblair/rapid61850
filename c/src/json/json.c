@@ -214,6 +214,10 @@ int setItem(Item *item, char *input) {
 		return 0;
 	}
 
+	if (strlen(input) <= 0) {
+		return 0;
+	}
+
 	switch (item->type) {
 		case BASIC_TYPE_CONSTRUCTED:
 			// compound data types are not allowed
@@ -774,13 +778,14 @@ static int handle_http(struct mg_connection *conn) {
 		}
 		else if (item != NULL && len > 0) {
 			mg_send_data(conn, printBuf, len);
-			printf("len: %d\n", len);
-			fflush(stdout);
+//			printf("len: %d\n", len);
+//			fflush(stdout);
 			return 1;
 		}
 	}
 	else if (strcmp(conn->request_method, "POST") == 0) {
 		item = getItemFromPath(conn->server_param, (char *) url);
+		setItem(item, conn->content);										// TODO implement this
 		mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
 		return 1;
 	}
@@ -864,6 +869,11 @@ char *wget(const char *host, int port, int *len, const char *fmt, ...) {
 
 char *send_http_request(int port, int *len, char *method, char *url) {
 	return wget("localhost", port, len, "%s %s HTTP/1.0\r\n\r\n", method, url);
+}
+
+char *send_http_request_post(int port, int *len, char *url, char *value) {
+	int value_len = strlen(value);
+	return wget("localhost", port, len, "POST %s HTTP/1.0\r\nHost: example.com\r\nContent-Type: text/html\r\nContent-Length: %d\r\n\r\n%s\r\n\r\n", url, value_len, value);
 }
 
 

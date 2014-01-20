@@ -120,7 +120,10 @@ void start_json_interface();
  */
 char *send_http_request(int port, int *len, char *method, char *url);
 
-
+/**
+ * Send an HTTP POST request to a server.
+ */
+char *send_http_request_post(int port, int *len, char *url, char *value);
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
 }
