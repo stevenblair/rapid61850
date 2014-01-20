@@ -205,7 +205,7 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	return item;
 }
 
-int setItem(Item *item, char *input) {
+int setItem(Item *item, char *input, int input_len) {
 	void *data = item->data;
 	int i = 0;
 	int len = 0;
@@ -217,6 +217,9 @@ int setItem(Item *item, char *input) {
 	if (strlen(input) <= 0) {
 		return 0;
 	}
+
+	// TODO check lengths of all string types
+	// TODO memcpy strings (endian safe), with len checks?
 
 	switch (item->type) {
 		case BASIC_TYPE_CONSTRUCTED:
@@ -248,6 +251,8 @@ int setItem(Item *item, char *input) {
 		case BASIC_TYPE_INT32U:
 			return sscanf(input, "%u", ((CTYPE_INT32U *) data));
 		case BASIC_TYPE_FLOAT32:
+//			printf("BASIC_TYPE_FLOAT32: input: (%d), data: (%d)\n", strlen(input), strlen(data));
+//			fflush(stdout);
 			return sscanf(input, "%f", ((CTYPE_FLOAT32 *) data));
 		case BASIC_TYPE_FLOAT64:
 			return sscanf(input, "%lf", ((CTYPE_FLOAT64 *) data));
@@ -261,9 +266,19 @@ int setItem(Item *item, char *input) {
 			for (i = 0; i < len; i++) {
 				((unsigned char*) data)[i] = input[i];
 			}
-			return 1;
+			return len;
 		case BASIC_TYPE_VISIBLE_STRING:
-			return sscanf(input, "\"%s\"", (CTYPE_VISSTRING255) data);
+//			printf("CTYPE_VISSTRING255: input: (%d), data: (%d)\n", input_len, strlen((CTYPE_VISSTRING255) data));
+//			fflush(stdout);
+			if (input_len == strlen((CTYPE_VISSTRING255) data)) {
+				memcpy(data, input, input_len);
+				return input_len;
+			}
+			else {
+				// TODO reallocate memory if too small (and too large?)
+				return 0;
+			}
+//			return sscanf(input, "\"%s\"", (CTYPE_VISSTRING255) data);
 		case BASIC_TYPE_UNICODE_STRING:
 			return sscanf(input, "\"%ls\"", (wchar_t *) data);
 		case BASIC_TYPE_CURRENCY:
@@ -785,8 +800,14 @@ static int handle_http(struct mg_connection *conn) {
 	}
 	else if (strcmp(conn->request_method, "POST") == 0) {
 		item = getItemFromPath(conn->server_param, (char *) url);
-		setItem(item, conn->content);										// TODO implement this
-		mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
+		int setReturn = setItem(item, conn->content, conn->content_len);
+
+		if (setReturn > 0) {
+			mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
+		}
+		else {
+			mg_send_data(conn, ACSI_NOT_POSSIBLE, strlen(ACSI_NOT_POSSIBLE));
+		}
 		return 1;
 	}
 
@@ -873,7 +894,7 @@ char *send_http_request(int port, int *len, char *method, char *url) {
 
 char *send_http_request_post(int port, int *len, char *url, char *value) {
 	int value_len = strlen(value);
-	return wget("localhost", port, len, "POST %s HTTP/1.0\r\nHost: example.com\r\nContent-Type: text/html\r\nContent-Length: %d\r\n\r\n%s\r\n\r\n", url, value_len, value);
+	return wget("localhost", port, len, "POST %s HTTP/1.0\r\nHost: localhost\r\nContent-Type: text/html\r\nContent-Length: %d\r\n\r\n%s\r\n\r\n", url, value_len, value);
 }
 
 

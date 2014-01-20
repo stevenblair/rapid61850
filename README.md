@@ -159,6 +159,12 @@ An "index" of the data model provided by rapid61850 is generated automatically. 
 
 [Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server. A new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model.)
 
+
+TODO api
+
+case-sensitive
+
+
 ### Building the code ###
 
  1. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. The ensures the JSON code can access the other header files.

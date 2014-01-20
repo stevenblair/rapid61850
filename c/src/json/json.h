@@ -50,6 +50,7 @@ extern "C" {
 #define ACSI_GET_DEFINITION				"definition"
 #define ACSI_GET_DIRECTORY				"directory"
 #define ACSI_OK							"ok"
+#define ACSI_NOT_POSSIBLE				"not possible"
 #define ACSI_NOT_FOUND					"404"
 #define ACSI_BUFFER_OVERRUN				"buffer overrun; increase ACSI_RESPONSE_MAX_SIZE"
 #define ACSI_REQUEST_CHECK_LENGTH(len)	if (len > ACSI_RESPONSE_MAX_SIZE - ACSI_RESPONSE_SIZE_WARNING) {return -1;}
@@ -73,9 +74,9 @@ Item *getItem(Item *ln, int num, ...);
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath);
 
 /**
- * Sets the value of leaf data items. Returns 1 if successful, or 0 otherwise.
+ * Sets the value of leaf data items. Returns the number of bytes written if successful, or 0 otherwise.
  */
-int setItem(Item *item, char *input);
+int setItem(Item *item, char *input, int input_len);
 
 /**
  * Prints leaf data items to the specified buffer. The buffer must be large enough. Returns the number of characters printed.
