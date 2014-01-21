@@ -147,11 +147,34 @@ int findCharIndex(char *s, char c) {
 	return -1;
 }
 
+//char **tokenize(const char *str, const char *tok) {
+//    int count = 0;
+//    int capacity = 10;
+//    char **result = malloc(capacity * sizeof(*result));
+//
+//    const char* e = str;
+//
+//    if (e) do {
+//        const char *s = e;
+//        e = strpbrk(s, tok);
+//
+//        if (count >= capacity) {
+//            result = realloc(result, (capacity *= 2) * sizeof(*result));
+//        }
+//
+//        result[count++] = e ? strndup(s, e - s) : strdup(s);
+//    } while (e && *(++e));
+//
+//    if (count >= capacity) {
+//        result = realloc(result, (capacity += 1) * sizeof(*result));
+//    }
+//    result[count++] = 0;
+//
+//    return result;
+//}
+
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	Item *ied = getIED(iedObjectRef);
-	int slashIndex = findCharIndex(objectRefPath, '/');
-
-	// TODO ignore a single trailing '/' at end of url: check for no chars after slash?
 
 	// check IED exists
 	if (ied == NULL) {
@@ -163,37 +186,47 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 		return ied;
 	}
 
-	// check if just LD is specified
-	if (slashIndex == -1) {
-		Item *ld = getLD(iedObjectRef, objectRefPath);
-		if (ld != NULL) {
-			return ld;
-		}
+	// get url length; ignore trailing '/' at end of url
+	int objectRefPathLen = strlen(objectRefPath);
+	if (objectRefPath[objectRefPathLen - 1] == '/') {
+		objectRefPathLen--;
 	}
-	// check that LD reference is at least one character long
+
+	// create copy of object ref
+	char *objectRefPathCopy = calloc(objectRefPathLen + 1, sizeof(char));
+	memcpy(objectRefPathCopy, objectRefPath, objectRefPathLen);
+
+	// replace all '.' in object ref with '/'
+	char *e;
+	while ((e = strpbrk(objectRefPathCopy, ".")) != NULL) {
+		*e = '/';
+	}
+
+	// check if just LD is requested
+	int slashIndex = findCharIndex(objectRefPathCopy, '/');
+//	printf("%s, slashIndex=%d, objectRefPathLen=%d\n", objectRefPathCopy, slashIndex, objectRefPathLen);
+//	fflush(stdout);
+	if (slashIndex == -1) {
+		Item *ld = getLD(iedObjectRef, objectRefPathCopy);
+		return ld;
+	}
 	else if (slashIndex < 1) {
+		// check that LD reference is at least one character long
 		return NULL;
 	}
 
 	// copy LD reference string, and find item
 	char ldRef[slashIndex + 1];	// null-terminated
-	lstrcpyn(ldRef, objectRefPath, slashIndex + 1);
+	lstrcpyn(ldRef, objectRefPathCopy, slashIndex + 1);
 	Item *ld = getLD(iedObjectRef, ldRef);
 
-//	printf("ldRef: %s\n", ldRef);
-//	fflush(stdout);
-
-	// find all items separated by '.'
-	char *path = &objectRefPath[slashIndex + 1];
+	// find all items separated by '/'
+	char *path = &objectRefPathCopy[slashIndex + 1];
 	int index = -1;
 	Item *item = ld;
-	while (item != NULL && (index = findCharIndex(path, '.')) > 0) {
+	while (item != NULL && (index = findCharIndex(path, '/')) > 0) {
 		char objectRef[index + 1];	// null-terminated
 		lstrcpyn(objectRef, path, index + 1);
-
-//		printf("path: %s\n", path);
-//		printf("objectRef: %s\n", objectRef);
-//		fflush(stdout);
 
 		item = findSingleItem(item, objectRef);
 		path = &path[index + 1];

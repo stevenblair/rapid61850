@@ -69,7 +69,7 @@ Item *getLN(char *iedObjectRef, char *LDObjectRef, char *objectRef);
 Item *getItem(Item *ln, int num, ...);
 
 /**
- * Converts data object reference (DataObjectRef), e.g., "myLD/MMXU1.PhV.phsA", to the database Item, if found.
+ * Converts data object reference (DataObjectRef), e.g., "myLD/MMXU1.PhV.phsA", to the database Item, if found. Returns NULL otherwise.
  */
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath);
 
