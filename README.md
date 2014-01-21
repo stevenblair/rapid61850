@@ -161,11 +161,21 @@ An "index" of the data model provided by rapid61850 is generated automatically. 
 
 ### API details ###
 
+There are examples of how to use each command from C code in `main_json.c`. JSON prettification (formatting with whitespace) can be enabled at compile-time.
+
 #### Get value ####
 
 Returns the value of the specified element.
 
 HTTP `GET` with: `/<LD>/<ObjectRef>`
+
+---
+
+Example: `GET http://localhost:8001/C1/LN0.NamPlt.configRev`
+Returns: `{"configRev":"Rev 3.45"}`
+
+Example: `GET http://localhost:8001/C1/exampleRMXU_1.AmpLocPhsB`
+Returns: `{"AmpLocPhsB":{"instMag":{"f":1.024000},"q":0}}`
 
 #### Get definition ####
 
@@ -173,11 +183,59 @@ Returns the data definition of the specified element.
 
 HTTP `GET` with: `/definition/<LD>/<ObjectRef>`
 
+---
+
+Example: `GET http://localhost:8001/definition/C1/LN0.NamPlt.configRev`
+Returns: `{"name":"configRev","type":"VisString255","FC":"DC"}`
+
+Example: `GET http://localhost:8001/definition/C1/exampleRMXU_1.AmpLocPhsB`
+Returns: `{"name":"AmpLocPhsB","type":"simpleSAV","CDC":"SAV"}`
+
 #### Get directory ####
 
 Returns the definition of the full hierarchy, starting from the specified element. I.e., does the same as "get definition", except that it recursively seeks out all leaf nodes.
 
 HTTP `GET` with: `/directory/<LD>/<ObjectRef>`
+
+---
+
+Example: `GET http://localhost:8001/directory/C1/LN0.NamPlt.configRev`
+Returns:
+`{
+    "name" : "configRev",
+    "type" : "VisString255",
+    "FC" : "DC",
+    "items" : []
+}`
+
+Example: `GET http://localhost:8001/directory/C1/exampleRMXU_1.AmpLocPhsB`
+Returns:
+`{
+    "name" : "AmpLocPhsB",
+    "type" : "simpleSAV",
+    "CDC" : "SAV",
+    "items" : [
+        {
+            "name" : "instMag",
+            "type" : "myAnalogValue",
+            "FC" : "MX",
+            "items" : [
+                {
+                    "name" : "f",
+                    "type" : "FLOAT32",
+                    "items" : []
+                }
+            ]
+        },
+        {
+            "name" : "q",
+            "type" : "Quality",
+            "FC" : "MX",
+            "qchg" : true,
+            "items" : []
+        }
+   ]
+}`
 
 #### Set value ####
 
@@ -187,10 +245,12 @@ HTTP `POST` with: `/<LD>/<ObjectRef>`
 
 Apart from the Logical Device separator, either '.' or '/' can be used to separate items in the object reference. All URLs are case-sensitive.
 
-### Building the code ###
+### Building the JSON interface code ###
 
  1. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. The ensures the JSON code can access the other header files.
- 2. 
+ 2. Ensure that the *.c files in the `c/src/json directory` and `main_json.c` are included in the build.
+ 3. In `ctypes.h`, set `JSON_INTERFACE` to `1`.
+ 4. Build and run `main_json.c`.
 
 ### Using SSL to encrypt all connections ###
 
