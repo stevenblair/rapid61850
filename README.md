@@ -153,17 +153,39 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 ## Using the JSON interface ##
 
-*This functionality is highly experimental. Several data types have not been fully tested yet. There is only support for Windows at present, but Linux and OS X will be supported. At the moment, it will be difficult to use the JSON interface on an embedded platform.*
+*This functionality is highly experimental. Some data types have not been fully tested yet. There is only support for Windows at present, but Linux and OS X will be supported. At the moment, it will be difficult, although possible, to use the JSON interface on an embedded (i.e., non-POSIX) platform.*
 
-An "index" of the data model provided by rapid61850 is generated automatically. This fully exposes the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been specified for implementing the IEC 61850 abstract communication service interface (ACSI), and the JSON interface is exposed via HTTP (or HTTPS).
+An "index" of the data model provided by rapid61850 is generated automatically. This fully "exposes" the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been provided for implementing the IEC 61850 abstract communication service interface (ACSI), and this JSON interface is exposed via HTTP (or HTTPS).
 
-[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server. A new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model.)
+[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server. By default, a new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model; but different IEDs should not modify each other's data directly.) There is a basic facility for an HTTP client, for IEDs perform GET and POST operations on other IEDs - whether local or remote.
 
 ### API details ###
 
-TODO api
+#### Get value ####
 
-case-sensitive
+Returns the value of the specified element.
+
+HTTP `GET` with: `/<LD>/<ObjectRef>`
+
+#### Get definition ####
+
+Returns the data definition of the specified element.
+
+HTTP `GET` with: `/definition/<LD>/<ObjectRef>`
+
+#### Get directory ####
+
+Returns the definition of the full hierarchy, starting from the specified element. I.e., does the same as "get definition", except that it recursively seeks out all leaf nodes.
+
+HTTP `GET` with: `/directory/<LD>/<ObjectRef>`
+
+#### Set value ####
+
+Attempts to set the value of the specified element.
+
+HTTP `POST` with: `/<LD>/<ObjectRef>`
+
+Apart from the Logical Device separator, either '.' or '/' can be used to separate items in the object reference. All URLs are case-sensitive.
 
 ### Building the code ###
 

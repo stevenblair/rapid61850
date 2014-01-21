@@ -147,32 +147,6 @@ int findCharIndex(char *s, char c) {
 	return -1;
 }
 
-//char **tokenize(const char *str, const char *tok) {
-//    int count = 0;
-//    int capacity = 10;
-//    char **result = malloc(capacity * sizeof(*result));
-//
-//    const char* e = str;
-//
-//    if (e) do {
-//        const char *s = e;
-//        e = strpbrk(s, tok);
-//
-//        if (count >= capacity) {
-//            result = realloc(result, (capacity *= 2) * sizeof(*result));
-//        }
-//
-//        result[count++] = e ? strndup(s, e - s) : strdup(s);
-//    } while (e && *(++e));
-//
-//    if (count >= capacity) {
-//        result = realloc(result, (capacity += 1) * sizeof(*result));
-//    }
-//    result[count++] = 0;
-//
-//    return result;
-//}
-
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	Item *ied = getIED(iedObjectRef);
 
@@ -204,8 +178,6 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 
 	// check if just LD is requested
 	int slashIndex = findCharIndex(objectRefPathCopy, '/');
-//	printf("%s, slashIndex=%d, objectRefPathLen=%d\n", objectRefPathCopy, slashIndex, objectRefPathLen);
-//	fflush(stdout);
 	if (slashIndex == -1) {
 		Item *ld = getLD(iedObjectRef, objectRefPathCopy);
 		return ld;
@@ -249,7 +221,12 @@ int setItem(Item *item, char *input, int input_len) {
 		return 0;
 	}
 
-	// TODO examine FC
+	// TODO limit write access based on FC
+//	if (item->FC != NULL) {
+//		if (strcmp(item->FC, "") == 0) {
+//
+//		}
+//	}
 
 	switch (item->type) {
 		case BASIC_TYPE_CONSTRUCTED:
@@ -281,8 +258,6 @@ int setItem(Item *item, char *input, int input_len) {
 		case BASIC_TYPE_INT32U:
 			return sscanf(input, "%u", (CTYPE_INT32U *) data);
 		case BASIC_TYPE_FLOAT32:
-//			printf("BASIC_TYPE_FLOAT32: input: (%d), data: (%d)\n", strlen(input), strlen(data));
-//			fflush(stdout);
 			return sscanf(input, "%f", (CTYPE_FLOAT32 *) data);
 		case BASIC_TYPE_FLOAT64:
 			return sscanf(input, "%lf", (CTYPE_FLOAT64 *) data);
@@ -291,7 +266,7 @@ int setItem(Item *item, char *input, int input_len) {
 		case BASIC_TYPE_CODED_ENUM:
 			return sscanf(input, "%u", (CTYPE_ENUM *) data);
 
-		// all string types must be null-terminated in data model
+		// all string types must be null-terminated in internal data model
 		case BASIC_TYPE_OCTET_STRING:
 		case BASIC_TYPE_VISIBLE_STRING:
 		case BASIC_TYPE_UNICODE_STRING:

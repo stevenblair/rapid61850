@@ -132,17 +132,17 @@ int main() {
 			Sleep(1);
 		}
 
-		// test set values
+		// test setting values
 		{
 			float x = (float) rand() / (float) (RAND_MAX / 10000.0);
-			char value[64] = {0};
+			char value[32] = {0};
 			sprintf(value, "%f", x);
 			reply = send_http_request_post(8012, &reply_len, "/C1/exampleMMXU_1.A.phsA.cVal.mag.f", value);
 			free(reply);
 			Sleep(1);
 
 			sprintf(value, "%d", (int) x);
-			reply = send_http_request_post(8012, &reply_len, "/C1/exampleMMXU_1.A.phsA.testInteger", value);
+			reply = send_http_request_post(8012, &reply_len, "/C1/exampleMMXU_1.A/phsA.testInteger", value);
 			free(reply);
 			Sleep(1);
 
@@ -150,7 +150,7 @@ int main() {
 			free(reply);
 			Sleep(10);
 
-			reply = send_http_request_post(8012, &reply_len, "/C1/LN0.NamPlt.configRev", "xyz");
+			reply = send_http_request_post(8012, &reply_len, "/C1/LN0/NamPlt/configRev/", "xyz");
 			free(reply);
 			Sleep(10);
 
