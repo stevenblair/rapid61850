@@ -801,6 +801,7 @@ static int handle_http(struct mg_connection *conn) {
 			return 1;
 		}
 		else if (item != NULL && len > 0) {
+		    mg_send_header(conn, "Content-Type", "application/json");
 			mg_send_data(conn, printBuf, len);
 //			printf("len: %d\n", len);
 //			fflush(stdout);

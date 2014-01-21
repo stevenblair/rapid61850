@@ -163,6 +163,8 @@ An "index" of the data model provided by rapid61850 is generated automatically. 
 
 There are examples of how to use each command from C code in `main_json.c`. JSON prettification (formatting with whitespace) can be enabled at compile-time.
 
+Apart from the Logical Device separator which must be '/', either '.' or '/' can be used to separate items in the object reference. All URLs are case-sensitive.
+
 #### Get value ####
 
 Returns the value of the specified element.
@@ -172,9 +174,13 @@ HTTP `GET` with: `/<LD>/<ObjectRef>`
 ---
 
 Example: `GET http://localhost:8001/C1/LN0.NamPlt.configRev`
+
 Returns: `{"configRev":"Rev 3.45"}`
 
+---
+
 Example: `GET http://localhost:8001/C1/exampleRMXU_1.AmpLocPhsB`
+
 Returns: `{"AmpLocPhsB":{"instMag":{"f":1.024000},"q":0}}`
 
 #### Get definition ####
@@ -186,9 +192,13 @@ HTTP `GET` with: `/definition/<LD>/<ObjectRef>`
 ---
 
 Example: `GET http://localhost:8001/definition/C1/LN0.NamPlt.configRev`
+
 Returns: `{"name":"configRev","type":"VisString255","FC":"DC"}`
 
+---
+
 Example: `GET http://localhost:8001/definition/C1/exampleRMXU_1.AmpLocPhsB`
+
 Returns: `{"name":"AmpLocPhsB","type":"simpleSAV","CDC":"SAV"}`
 
 #### Get directory ####
@@ -200,17 +210,24 @@ HTTP `GET` with: `/directory/<LD>/<ObjectRef>`
 ---
 
 Example: `GET http://localhost:8001/directory/C1/LN0.NamPlt.configRev`
+
 Returns:
-`{
+```JSON
+{
     "name" : "configRev",
     "type" : "VisString255",
     "FC" : "DC",
     "items" : []
-}`
+}
+```
+
+---
 
 Example: `GET http://localhost:8001/directory/C1/exampleRMXU_1.AmpLocPhsB`
+
 Returns:
-`{
+```JSON
+{
     "name" : "AmpLocPhsB",
     "type" : "simpleSAV",
     "CDC" : "SAV",
@@ -235,15 +252,20 @@ Returns:
             "items" : []
         }
    ]
-}`
+}
+```
 
 #### Set value ####
 
 Attempts to set the value of the specified element.
 
-HTTP `POST` with: `/<LD>/<ObjectRef>`
+HTTP `POST` with: `/<LD>/<ObjectRef>` and with the new data value encoded as a string in the message body
 
-Apart from the Logical Device separator, either '.' or '/' can be used to separate items in the object reference. All URLs are case-sensitive.
+---
+
+Example: `GET http://localhost:8001/C1/exampleMMXU_1.A.phsA.cVal.mag.f`, `123.456`
+
+Returns: `ok` if successful
 
 ### Building the JSON interface code ###
 
