@@ -1856,150 +1856,186 @@ void init_data_model_index() {
 	dataModelIndex.items[11].items[0].items[0].items[3].items[4].items[2].data = &D1Q1SB4.S1.C1.RSYNa_1.Rel.t;
 }
 
-struct mg_server *server1;
-struct mg_server *server2;
-struct mg_server *server3;
-struct mg_server *server4;
-struct mg_server *server5;
-struct mg_server *server6;
-struct mg_server *server7;
-struct mg_server *server8;
-struct mg_server *server9;
-struct mg_server *server10;
-struct mg_server *server11;
-struct mg_server *server12;
+ACSIServer *server1;
+ACSIServer *server2;
+ACSIServer *server3;
+ACSIServer *server4;
+ACSIServer *server5;
+ACSIServer *server6;
+ACSIServer *server7;
+ACSIServer *server8;
+ACSIServer *server9;
+ACSIServer *server10;
+ACSIServer *server11;
+ACSIServer *server12;
 
 void init_webservers(mg_handler_t handler, void *(*serve)(void *)) {
-	server1 = mg_create_server((void *) "E1Q1SB1");
+	server1 = calloc(1, sizeof(ACSIServer));
+	server1->iedName = "E1Q1SB1";
+	server1->apName = "S1";
+	server1->mg = mg_create_server((void *) server1);
 #ifndef USE_SSL
-	mg_set_option(server1, "listening_port", "8001");
+	mg_set_option(server1->mg, "listening_port", "8001");
 #else
-	mg_set_option(server1, "listening_port", "8001s");
-	mg_set_option(server1, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server1, "auth_domain", "localhost");
+	mg_set_option(server1->mg, "listening_port", "8001s");
+	mg_set_option(server1->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server1->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server1, "/", handler);
-	mg_start_thread(serve, server1);
+	mg_add_uri_handler(server1->mg, "/", handler);
+	mg_start_thread(serve, server1->mg);
 
-	server2 = mg_create_server((void *) "E1Q1BP2");
+	server2 = calloc(1, sizeof(ACSIServer));
+	server2->iedName = "E1Q1BP2";
+	server2->apName = "S1";
+	server2->mg = mg_create_server((void *) server2);
 #ifndef USE_SSL
-	mg_set_option(server2, "listening_port", "8002");
+	mg_set_option(server2->mg, "listening_port", "8002");
 #else
-	mg_set_option(server2, "listening_port", "8002s");
-	mg_set_option(server2, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server2, "auth_domain", "localhost");
+	mg_set_option(server2->mg, "listening_port", "8002s");
+	mg_set_option(server2->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server2->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server2, "/", handler);
-	mg_start_thread(serve, server2);
+	mg_add_uri_handler(server2->mg, "/", handler);
+	mg_start_thread(serve, server2->mg);
 
-	server3 = mg_create_server((void *) "E1Q1BP3");
+	server3 = calloc(1, sizeof(ACSIServer));
+	server3->iedName = "E1Q1BP3";
+	server3->apName = "S1";
+	server3->mg = mg_create_server((void *) server3);
 #ifndef USE_SSL
-	mg_set_option(server3, "listening_port", "8003");
+	mg_set_option(server3->mg, "listening_port", "8003");
 #else
-	mg_set_option(server3, "listening_port", "8003s");
-	mg_set_option(server3, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server3, "auth_domain", "localhost");
+	mg_set_option(server3->mg, "listening_port", "8003s");
+	mg_set_option(server3->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server3->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server3, "/", handler);
-	mg_start_thread(serve, server3);
+	mg_add_uri_handler(server3->mg, "/", handler);
+	mg_start_thread(serve, server3->mg);
 
-	server4 = mg_create_server((void *) "E1Q2SB1");
+	server4 = calloc(1, sizeof(ACSIServer));
+	server4->iedName = "E1Q2SB1";
+	server4->apName = "S1";
+	server4->mg = mg_create_server((void *) server4);
 #ifndef USE_SSL
-	mg_set_option(server4, "listening_port", "8004");
+	mg_set_option(server4->mg, "listening_port", "8004");
 #else
-	mg_set_option(server4, "listening_port", "8004s");
-	mg_set_option(server4, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server4, "auth_domain", "localhost");
+	mg_set_option(server4->mg, "listening_port", "8004s");
+	mg_set_option(server4->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server4->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server4, "/", handler);
-	mg_start_thread(serve, server4);
+	mg_add_uri_handler(server4->mg, "/", handler);
+	mg_start_thread(serve, server4->mg);
 
-	server5 = mg_create_server((void *) "E1Q3SB1");
+	server5 = calloc(1, sizeof(ACSIServer));
+	server5->iedName = "E1Q3SB1";
+	server5->apName = "S1";
+	server5->mg = mg_create_server((void *) server5);
 #ifndef USE_SSL
-	mg_set_option(server5, "listening_port", "8005");
+	mg_set_option(server5->mg, "listening_port", "8005");
 #else
-	mg_set_option(server5, "listening_port", "8005s");
-	mg_set_option(server5, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server5, "auth_domain", "localhost");
+	mg_set_option(server5->mg, "listening_port", "8005s");
+	mg_set_option(server5->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server5->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server5, "/", handler);
-	mg_start_thread(serve, server5);
+	mg_add_uri_handler(server5->mg, "/", handler);
+	mg_start_thread(serve, server5->mg);
 
-	server6 = mg_create_server((void *) "E1Q3KA1");
+	server6 = calloc(1, sizeof(ACSIServer));
+	server6->iedName = "E1Q3KA1";
+	server6->apName = "S1";
+	server6->mg = mg_create_server((void *) server6);
 #ifndef USE_SSL
-	mg_set_option(server6, "listening_port", "8006");
+	mg_set_option(server6->mg, "listening_port", "8006");
 #else
-	mg_set_option(server6, "listening_port", "8006s");
-	mg_set_option(server6, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server6, "auth_domain", "localhost");
+	mg_set_option(server6->mg, "listening_port", "8006s");
+	mg_set_option(server6->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server6->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server6, "/", handler);
-	mg_start_thread(serve, server6);
+	mg_add_uri_handler(server6->mg, "/", handler);
+	mg_start_thread(serve, server6->mg);
 
-	server7 = mg_create_server((void *) "E1Q3KA2");
+	server7 = calloc(1, sizeof(ACSIServer));
+	server7->iedName = "E1Q3KA2";
+	server7->apName = "S1";
+	server7->mg = mg_create_server((void *) server7);
 #ifndef USE_SSL
-	mg_set_option(server7, "listening_port", "8007");
+	mg_set_option(server7->mg, "listening_port", "8007");
 #else
-	mg_set_option(server7, "listening_port", "8007s");
-	mg_set_option(server7, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server7, "auth_domain", "localhost");
+	mg_set_option(server7->mg, "listening_port", "8007s");
+	mg_set_option(server7->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server7->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server7, "/", handler);
-	mg_start_thread(serve, server7);
+	mg_add_uri_handler(server7->mg, "/", handler);
+	mg_start_thread(serve, server7->mg);
 
-	server8 = mg_create_server((void *) "E1Q3KA3");
+	server8 = calloc(1, sizeof(ACSIServer));
+	server8->iedName = "E1Q3KA3";
+	server8->apName = "S1";
+	server8->mg = mg_create_server((void *) server8);
 #ifndef USE_SSL
-	mg_set_option(server8, "listening_port", "8008");
+	mg_set_option(server8->mg, "listening_port", "8008");
 #else
-	mg_set_option(server8, "listening_port", "8008s");
-	mg_set_option(server8, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server8, "auth_domain", "localhost");
+	mg_set_option(server8->mg, "listening_port", "8008s");
+	mg_set_option(server8->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server8->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server8, "/", handler);
-	mg_start_thread(serve, server8);
+	mg_add_uri_handler(server8->mg, "/", handler);
+	mg_start_thread(serve, server8->mg);
 
-	server9 = mg_create_server((void *) "D1Q1SB1");
+	server9 = calloc(1, sizeof(ACSIServer));
+	server9->iedName = "D1Q1SB1";
+	server9->apName = "S1";
+	server9->mg = mg_create_server((void *) server9);
 #ifndef USE_SSL
-	mg_set_option(server9, "listening_port", "8009");
+	mg_set_option(server9->mg, "listening_port", "8009");
 #else
-	mg_set_option(server9, "listening_port", "8009s");
-	mg_set_option(server9, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server9, "auth_domain", "localhost");
+	mg_set_option(server9->mg, "listening_port", "8009s");
+	mg_set_option(server9->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server9->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server9, "/", handler);
-	mg_start_thread(serve, server9);
+	mg_add_uri_handler(server9->mg, "/", handler);
+	mg_start_thread(serve, server9->mg);
 
-	server10 = mg_create_server((void *) "D1Q1BP2");
+	server10 = calloc(1, sizeof(ACSIServer));
+	server10->iedName = "D1Q1BP2";
+	server10->apName = "S1";
+	server10->mg = mg_create_server((void *) server10);
 #ifndef USE_SSL
-	mg_set_option(server10, "listening_port", "8010");
+	mg_set_option(server10->mg, "listening_port", "8010");
 #else
-	mg_set_option(server10, "listening_port", "8010s");
-	mg_set_option(server10, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server10, "auth_domain", "localhost");
+	mg_set_option(server10->mg, "listening_port", "8010s");
+	mg_set_option(server10->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server10->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server10, "/", handler);
-	mg_start_thread(serve, server10);
+	mg_add_uri_handler(server10->mg, "/", handler);
+	mg_start_thread(serve, server10->mg);
 
-	server11 = mg_create_server((void *) "D1Q1BP3");
+	server11 = calloc(1, sizeof(ACSIServer));
+	server11->iedName = "D1Q1BP3";
+	server11->apName = "S1";
+	server11->mg = mg_create_server((void *) server11);
 #ifndef USE_SSL
-	mg_set_option(server11, "listening_port", "8011");
+	mg_set_option(server11->mg, "listening_port", "8011");
 #else
-	mg_set_option(server11, "listening_port", "8011s");
-	mg_set_option(server11, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server11, "auth_domain", "localhost");
+	mg_set_option(server11->mg, "listening_port", "8011s");
+	mg_set_option(server11->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server11->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server11, "/", handler);
-	mg_start_thread(serve, server11);
+	mg_add_uri_handler(server11->mg, "/", handler);
+	mg_start_thread(serve, server11->mg);
 
-	server12 = mg_create_server((void *) "D1Q1SB4");
+	server12 = calloc(1, sizeof(ACSIServer));
+	server12->iedName = "D1Q1SB4";
+	server12->apName = "S1";
+	server12->mg = mg_create_server((void *) server12);
 #ifndef USE_SSL
-	mg_set_option(server12, "listening_port", "8012");
+	mg_set_option(server12->mg, "listening_port", "8012");
 #else
-	mg_set_option(server12, "listening_port", "8012s");
-	mg_set_option(server12, "ssl_certificate", "ssl_cert.pem");
-	mg_set_option(server12, "auth_domain", "localhost");
+	mg_set_option(server12->mg, "listening_port", "8012s");
+	mg_set_option(server12->mg, "ssl_certificate", "ssl_cert.pem");
+	mg_set_option(server12->mg, "auth_domain", "localhost");
 #endif
-	mg_add_uri_handler(server12, "/", handler);
-	mg_start_thread(serve, server12);
+	mg_add_uri_handler(server12->mg, "/", handler);
+	mg_start_thread(serve, server12->mg);
 }
 

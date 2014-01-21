@@ -862,7 +862,7 @@ public class SCDCodeGenerator {
 		jsonDatabaseSource.appendFunctions("}\n\n");
 
 		for (int i = 0; i < numberOfIEDs; i++) {
-			jsonDatabaseSource.appendFunctions("struct mg_server *server" + (i + 1) + ";\n");
+			jsonDatabaseSource.appendFunctions("ACSIServer *server" + (i + 1) + ";\n");
 		}
 
 		jsonDatabaseSource.appendFunctions("\nvoid init_webservers(mg_handler_t handler, void *(*serve)(void *)) {\n");
@@ -871,16 +871,22 @@ public class SCDCodeGenerator {
 		while (ieds.hasNext()) {
 			TIED ied = ieds.next();
 
-			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + " = mg_create_server((void *) \"" + ied.getName() + "\");\n");
+			// TODO does not handle multiple APs; see get(0)
+			// TODO do not set to root of data model index
+
+			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + " = calloc(1, sizeof(ACSIServer));\n");
+			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + "->iedName = \"" + ied.getName()  + "\";\n");
+			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + "->apName = \"" + ied.getAccessPoint().get(0).getName()  + "\";\n");
+			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + "->mg = mg_create_server((void *) server" + iedNumber + ");\n");
 			jsonDatabaseSource.appendFunctions("#ifndef USE_SSL\n");
-			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "\");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "\");\n");
 			jsonDatabaseSource.appendFunctions("#else\n");
-			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "s\");\n");
-			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"ssl_certificate\", \"ssl_cert.pem\");\n");
-			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + ", \"auth_domain\", \"localhost\");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "s\");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"ssl_certificate\", \"ssl_cert.pem\");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"auth_domain\", \"localhost\");\n");
 			jsonDatabaseSource.appendFunctions("#endif\n");
-			jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server" + iedNumber + ", \"/\", handler);\n");
-			jsonDatabaseSource.appendFunctions("\tmg_start_thread(serve, server" + iedNumber + ");\n");
+			jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server" + iedNumber + "->mg, \"/\", handler);\n");
+			jsonDatabaseSource.appendFunctions("\tmg_start_thread(serve, server" + iedNumber + "->mg);\n");
 			
 			
 			if (ieds.hasNext()) {

@@ -425,7 +425,7 @@ static void to_wchar(const char *path, wchar_t *wbuf, size_t wbuf_len) {
 
   // Trim trailing slashes
   p = buf + strlen(buf) - 1;
-  while (p > buf && p[0] == '\\' || p[0] == '/') *p-- = '\0';
+  while ((p > buf && p[0] == '\\') || p[0] == '/') *p-- = '\0';
   //change_slashes_to_backslashes(buf);
 
   // Convert to Unicode and back. If doubly-converted string does not
@@ -1935,7 +1935,7 @@ static void write_to_client(struct connection *conn) {
     call_uri_handler(conn);
   }
 
-  if (io->len == 0 && conn->flags & CONN_SPOOL_DONE) {
+  if (io->len == 0 && (conn->flags & CONN_SPOOL_DONE)) {
     conn->flags |= CONN_CLOSE;
   }
 }
@@ -3688,7 +3688,7 @@ unsigned int mg_poll_server(struct mg_server *server, int milliseconds) {
     if (conn->mg_conn.is_websocket) {
       ping_idle_websocket_connection(conn, current_time);
     }
-    if (conn->flags & CONN_CLOSE || conn->last_activity_time < expire_time) {
+    if ((conn->flags & CONN_CLOSE) || conn->last_activity_time < expire_time) {
       close_conn(conn);
     }
   }

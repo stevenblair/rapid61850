@@ -150,6 +150,8 @@ int findCharIndex(char *s, char c) {
 Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	Item *ied = getIED(iedObjectRef);
 
+	// TODO must consider AP
+
 	// check IED exists
 	if (ied == NULL) {
 		return NULL;
@@ -760,6 +762,7 @@ int itemTreeToJSON(char *buf, Item *root) {
 static int handle_http(struct mg_connection *conn) {
 	char *url = (char *) &conn->uri[1];	// exclude the starting '/'
 	Item *item;
+	ACSIServer *acsiServer = (ACSIServer *) conn->server_param;
 
 #ifdef USE_SSL
 #if USE_HTTP_AUTH == 1
@@ -783,15 +786,15 @@ static int handle_http(struct mg_connection *conn) {
 		char printBuf[ACSI_RESPONSE_MAX_SIZE];
 
 		if (strncmp(url, ACSI_GET_DEFINITION, strlen(ACSI_GET_DEFINITION)) == 0) {
-			item = getItemFromPath(conn->server_param, (char *) &url[strlen(ACSI_GET_DEFINITION) + 1]);
+			item = getItemFromPath(acsiServer->iedName, (char *) &url[strlen(ACSI_GET_DEFINITION) + 1]);
 			len = itemDescriptionTreeToJSON(printBuf, item, FALSE);
 		}
 		else if (strncmp(url, ACSI_GET_DIRECTORY, strlen(ACSI_GET_DIRECTORY)) == 0) {
-			item = getItemFromPath(conn->server_param, (char *) &url[strlen(ACSI_GET_DIRECTORY) + 1]);
+			item = getItemFromPath(acsiServer->iedName, (char *) &url[strlen(ACSI_GET_DIRECTORY) + 1]);
 			len = itemDescriptionTreeToJSON(printBuf, item, TRUE);
 		}
 		else {
-			item = getItemFromPath(conn->server_param, (char *) url);
+			item = getItemFromPath(acsiServer->iedName, (char *) url);
 			len = itemTreeToJSON(printBuf, item);
 		}
 
@@ -809,7 +812,7 @@ static int handle_http(struct mg_connection *conn) {
 		}
 	}
 	else if (strcmp(conn->request_method, "POST") == 0) {
-		item = getItemFromPath(conn->server_param, (char *) url);
+		item = getItemFromPath(acsiServer->iedName, (char *) url);
 		int setReturn = setItem(item, conn->content, conn->content_len);
 
 		if (setReturn > 0) {

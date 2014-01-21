@@ -84,6 +84,23 @@ typedef struct Item {
 } Item;
 
 /**
+ * Linked list definition for associated clients.
+ */
+typedef struct ACSIClient {
+	char ip[48];         // Max IPv6 string length is 45 characters
+	int port;            // Client's port
+	struct ACSIClient *next;
+} ACSIClient;
+
+typedef struct ACSIServer {
+	char *iedName;			// the name of the IED
+	char *apName;			// the name of the Access Point
+	struct mg_server *mg;	// mongoose web server instance
+	ACSIClient *clients;	// list of associated clients
+	Item *dataModel;		// pointer to root of data model index
+} ACSIServer;
+
+/**
  * Calls auto-generated function to instantiate the index of the data model.
  */
 void init_data_model_index();
@@ -97,7 +114,6 @@ void init_webservers(mg_handler_t handler, void *(*serve)(void *));
  * Stores the data model index hierarchy.
  */
 extern Item dataModelIndex;
-
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
 }

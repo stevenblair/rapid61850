@@ -126,6 +126,63 @@ char *send_http_request(int port, int *len, char *method, char *url);
  */
 char *send_http_request_post(int port, int *len, char *url, char *value);
 
+
+unsigned char isClient(ACSIClient *client, char ip[48], int port) {
+	if (client == NULL) {
+		return FALSE;
+	}
+
+	if (strcmp(client->ip, ip) == 0 && client->port == port) {
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+ACSIClient *findClient(ACSIClient *client_list, char ip[48], int port) {
+	ACSIClient *client = client_list;
+
+	while (client != NULL) {
+		if (isClient(client, ip, port)) {
+			return client;
+		}
+
+		client = client->next;
+	}
+
+	return NULL;
+}
+
+ACSIClient *addClient(ACSIClient *client_list, char ip[48], int port) {
+	if (client_list == NULL) {
+		client_list = (ACSIClient *) calloc(1, sizeof(ACSIClient));
+		memcpy(client_list->ip, ip, 48);
+		client_list->port = port;
+		return client_list;
+	}
+
+	ACSIClient *found = findClient(client_list, ip, port);
+
+	if (found == NULL) {
+		ACSIClient *end = client_list;
+		while (end->next != NULL) {
+			end = end->next;
+		}
+
+		end->next = (ACSIClient *) calloc(1, sizeof(ACSIClient));
+		memcpy(end->next->ip, ip, 48);
+		end->next->port = port;
+		return end->next;
+
+		return end;
+	}
+	else {
+		return found;
+	}
+}
+
+
+
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
 }
 #endif
