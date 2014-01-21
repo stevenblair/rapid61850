@@ -148,15 +148,15 @@ int main() {
 
 			reply = send_http_request_post(8012, &reply_len, "/C1/LN0.NamPlt.configRev", "abcdefgh");
 			free(reply);
-			Sleep(1);
+			Sleep(100);
 
 			reply = send_http_request_post(8012, &reply_len, "/C1/LN0.NamPlt.configRev", "xyz");
 			free(reply);
-			Sleep(1);
+			Sleep(100);
 
 			reply = send_http_request_post(8012, &reply_len, "/C1/LN0.NamPlt.configRev", "1234567890");
 			free(reply);
-			Sleep(1);
+			Sleep(100);
 		}
 #else
 		Sleep(100);

@@ -207,8 +207,6 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 
 int setItem(Item *item, char *input, int input_len) {
 	void *data = item->data;
-	int i = 0;
-	int len = 0;
 
 	if (item == NULL) {
 		return 0;
@@ -218,8 +216,7 @@ int setItem(Item *item, char *input, int input_len) {
 		return 0;
 	}
 
-	// TODO check lengths of all string types
-	// TODO memcpy strings (endian safe), with len checks?
+	// TODO examine FC
 
 	switch (item->type) {
 		case BASIC_TYPE_CONSTRUCTED:
@@ -237,52 +234,56 @@ int setItem(Item *item, char *input, int input_len) {
 		case BASIC_TYPE_INT8:
 			return sscanf(input, "%c", (CTYPE_INT8 *) data);	// TODO may not work correctly on ARM platforms
 		case BASIC_TYPE_INT16:
-			return sscanf(input, "%hd", ((CTYPE_INT16 *) data));
+			return sscanf(input, "%hd", (CTYPE_INT16 *) data);
 		case BASIC_TYPE_INT32:
-			return sscanf(input, "%d", ((CTYPE_INT32 *) data));
+			return sscanf(input, "%d", (CTYPE_INT32 *) data);
 		case BASIC_TYPE_INT64:
-			return sscanf(input, "%ld", ((CTYPE_INT64 *) data));
+			return sscanf(input, "%ld", (CTYPE_INT64 *) data);
 		case BASIC_TYPE_INT8U:
-			return sscanf(input, "%cu", ((CTYPE_INT8U *) data));
+			return sscanf(input, "%cu", (CTYPE_INT8U *) data);
 		case BASIC_TYPE_INT16U:
-			return sscanf(input, "%hu", ((CTYPE_INT16U *) data));
+			return sscanf(input, "%hu", (CTYPE_INT16U *) data);
 		case BASIC_TYPE_INT24U:
-			return sscanf(input, "%u", ((CTYPE_INT24U *) data));	// TODO format correctly
+			return sscanf(input, "%u", (CTYPE_INT24U *) data);	// TODO format correctly
 		case BASIC_TYPE_INT32U:
-			return sscanf(input, "%u", ((CTYPE_INT32U *) data));
+			return sscanf(input, "%u", (CTYPE_INT32U *) data);
 		case BASIC_TYPE_FLOAT32:
 //			printf("BASIC_TYPE_FLOAT32: input: (%d), data: (%d)\n", strlen(input), strlen(data));
 //			fflush(stdout);
-			return sscanf(input, "%f", ((CTYPE_FLOAT32 *) data));
+			return sscanf(input, "%f", (CTYPE_FLOAT32 *) data);
 		case BASIC_TYPE_FLOAT64:
-			return sscanf(input, "%lf", ((CTYPE_FLOAT64 *) data));
+			return sscanf(input, "%lf", (CTYPE_FLOAT64 *) data);
 		case BASIC_TYPE_ENUMERATED:
-			return sscanf(input, "%u", ((CTYPE_ENUM *) data));
+			return sscanf(input, "%u", (CTYPE_ENUM *) data);
 		case BASIC_TYPE_CODED_ENUM:
-			return sscanf(input, "%u", ((CTYPE_ENUM *) data));
+			return sscanf(input, "%u", (CTYPE_ENUM *) data);
+
 		// all string types must be null-terminated in data model
 		case BASIC_TYPE_OCTET_STRING:
-			len = strlen((const char *) data);
-			for (i = 0; i < len; i++) {
-				((unsigned char*) data)[i] = input[i];
-			}
-			return len;
 		case BASIC_TYPE_VISIBLE_STRING:
-//			printf("CTYPE_VISSTRING255: input: (%d), data: (%d)\n", input_len, strlen((CTYPE_VISSTRING255) data));
-//			fflush(stdout);
-			if (input_len == strlen((CTYPE_VISSTRING255) data)) {
+		case BASIC_TYPE_UNICODE_STRING:
+			if (input_len == strlen(data)) {
 				memcpy(data, input, input_len);
 				return input_len;
 			}
 			else {
-				// TODO reallocate memory if too small (and too large?)
+				// reallocate memory if too small or too large
+				char *new_data = (char *) realloc(data, input_len + 1);
+				memcpy(new_data, input, input_len);
+				new_data[input_len] = '\0';
+				data = new_data;
+				return input_len;
+			}
+		case BASIC_TYPE_CURRENCY:
+			if (strlen(input) == 3) {
+				((CTYPE_VISSTRING255) data)[0] = input[0];
+				((CTYPE_VISSTRING255) data)[1] = input[1];
+				((CTYPE_VISSTRING255) data)[2] = input[2];
+				return 3;
+			}
+			else {
 				return 0;
 			}
-//			return sscanf(input, "\"%s\"", (CTYPE_VISSTRING255) data);
-		case BASIC_TYPE_UNICODE_STRING:
-			return sscanf(input, "\"%ls\"", (wchar_t *) data);
-		case BASIC_TYPE_CURRENCY:
-			return sscanf(input, "\"%s\"", (CTYPE_VISSTRING255) data);
 		default:
 			return 0;
 	}
