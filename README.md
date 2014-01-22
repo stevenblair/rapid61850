@@ -185,7 +185,7 @@ HTTP `GET` with: `/abort`
 
 #### Get value ####
 
-Returns the value of the specified element.
+Returns the value of the specified element and all sub-elements, if applicable. The is effectively the default response for the server; if no Logical Device is specified, then all data for the entire IED will be returned.
 
 HTTP `GET` with: `/<LD>/<ObjectRef>`
 

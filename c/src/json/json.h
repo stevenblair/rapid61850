@@ -33,7 +33,11 @@ extern "C" {
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
-#include <windows.h>	// TODO cross-platform version?
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <netinet/in.h>
+#endif
 #include "ctypes.h"
 #include "dataModelIndex.h"
 

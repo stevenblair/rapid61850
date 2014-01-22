@@ -190,8 +190,9 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	}
 
 	// copy LD reference string, and find item
-	char ldRef[slashIndex + 1];	// null-terminated
-	lstrcpyn(ldRef, objectRefPathCopy, slashIndex + 1);
+	char ldRef[slashIndex + 1];	// ensure null-terminated
+	strncpy(ldRef, objectRefPathCopy, slashIndex);
+	ldRef[slashIndex] = '\0';
 	Item *ld = getLD(iedObjectRef, ldRef);
 
 	// find all items separated by '/'
@@ -199,8 +200,9 @@ Item *getItemFromPath(char *iedObjectRef, char *objectRefPath) {
 	int index = -1;
 	Item *item = ld;
 	while (item != NULL && (index = findCharIndex(path, '/')) > 0) {
-		char objectRef[index + 1];	// null-terminated
-		lstrcpyn(objectRef, path, index + 1);
+		char objectRef[index + 1];	// ensure null-terminated
+		strncpy(objectRef, path, index);
+		objectRef[index] = '\0';
 
 		item = findSingleItem(item, objectRef);
 		path = &path[index + 1];
@@ -901,6 +903,10 @@ static int handle_http(struct mg_connection *conn) {
 			item = getItemFromPath(acsiServer->iedName, (char *) &url[strlen(ACSI_GET_DIRECTORY) + 1]);
 			len = itemDescriptionTreeToJSON(printBuf, item, TRUE);
 		}
+//		else if (strncmp(url, "scd", strlen("scd")) == 0) {
+//		    mg_send_header(conn, "Content-Type", "application/xml");
+//			mg_send_data(conn, scd_file, strlen(scd_file));
+//		}
 		else if (strncmp(url, ACSI_ASSOCIATE, strlen(ACSI_ASSOCIATE)) == 0) {
 			acsiServer->clients = addClient(acsiServer->clients, conn->remote_ip, conn->remote_port);
 			mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
@@ -965,9 +971,9 @@ static void *serve(void *server) {
 
 	while (1) {
 		// TODO add processing of associated clients here
-//		mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
+		mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
 //		printf("IED %s, looping\n", s->iedName);
-		fflush(stdout);
+//		fflush(stdout);
 	}
 	return NULL;
 }

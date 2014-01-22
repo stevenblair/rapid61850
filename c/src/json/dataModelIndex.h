@@ -118,6 +118,8 @@ void init_webservers(mg_handler_t handler, void *(*serve)(void *));
  */
 extern Item dataModelIndex;
 
+//extern const unsigned char scd_file[];
+
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */
 }
 #endif
