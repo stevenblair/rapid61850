@@ -163,11 +163,11 @@ An "index" of the data model provided by rapid61850 is generated automatically. 
 
 There are examples of how to use each command from C code in `main_json.c`. JSON prettification (formatting with whitespace) can be enabled at compile-time.
 
-Apart from the Logical Device separator which must be '/', either '.' or '/' can be used to separate items in the object reference. All URLs are case-sensitive.
+Either '.' or '/' can be used to separate items in the object reference, but the separator between the Logical Device and the object reference must be '/'. All URLs are case-sensitive.
 
 #### Associate ####
 
-Explicitly creates an ACSI association, using the IP address and port of the requester as the ID. `ACSI_AUTO_ASSOCIATE` can be set to `1` to automatically associate any client that requests data. Alternatively, this command can be ignored for convenience. If using HTTP authentication (with SSL), the username and password act as the authentication parameters for the association.
+Explicitly creates an ACSI association, using the IP address and port of the requester as the ID. `ACSI_AUTO_ASSOCIATE` can be set to `1` to automatically associate any client that requests data. Alternatively, this command can be completely ignored for convenience. If using HTTP authentication (with SSL), the username and password act as the authentication parameters for the association.
 
 HTTP `GET` with: `/associate`
 
