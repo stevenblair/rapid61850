@@ -113,21 +113,21 @@ int main() {
 
 		// test get values
 		for (port = 8001; port <= 8012; port++) {
-			reply = send_http_request(port, &reply_len, "GET", "/");
+			reply = send_http_request_get(port, &reply_len, "/");
 			free(reply);
 			Sleep(1);
 		}
 
 		// test get definition
 		for (port = 8001; port <= 8012; port++) {
-			reply = send_http_request(port, &reply_len, "GET", "/definition/");
+			reply = send_http_request_get(port, &reply_len, "/definition/");
 			free(reply);
 			Sleep(1);
 		}
 
 		// test get directory
 		for (port = 8001; port <= 8012; port++) {
-			char *reply = send_http_request(port, &reply_len, "GET", "/directory/");
+			char *reply = send_http_request_get(port, &reply_len, "/directory/");
 			free(reply);
 			Sleep(1);
 		}

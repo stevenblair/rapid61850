@@ -87,17 +87,20 @@ typedef struct Item {
  * Linked list definition for associated clients.
  */
 typedef struct ACSIClient {
-	char ip[48];         // Max IPv6 string length is 45 characters
-	int port;            // Client's port
+	char ip[48];         		// max IPv6 string length is 45 characters
+	int port;            		// client's port
 	struct ACSIClient *next;
 } ACSIClient;
 
+/**
+ * Defines an ACSI server, which contains a mongoose web server instance.
+ */
 typedef struct ACSIServer {
-	char *iedName;			// the name of the IED
-	char *apName;			// the name of the Access Point
-	struct mg_server *mg;	// mongoose web server instance
-	ACSIClient *clients;	// list of associated clients
-	Item *dataModel;		// pointer to root of data model index
+	char *iedName;				// the name of the IED
+	char *apName;				// the name of the Access Point
+	struct mg_server *mg;		// mongoose web server instance
+	ACSIClient *clients;		// list of associated clients
+	Item *dataModel;			// pointer to root of data model index
 } ACSIServer;
 
 /**

@@ -756,6 +756,114 @@ int itemTreeToJSON(char *buf, Item *root) {
 #endif
 }
 
+
+
+
+
+
+unsigned char isClient(ACSIClient *client, char ip[48], int port) {
+	if (client == NULL) {
+		return FALSE;
+	}
+
+	if (strcmp(client->ip, ip) == 0 && client->port == port) {
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+ACSIClient *findClient(ACSIClient *client_list, char ip[48], int port) {
+	ACSIClient *client = client_list;
+
+	while (client != NULL) {
+		if (isClient(client, ip, port)) {
+			return client;
+		}
+
+		client = client->next;
+	}
+
+	return NULL;
+}
+
+ACSIClient *addClient(ACSIClient *client_list, char ip[48], int port) {
+	if (client_list == NULL) {
+		client_list = (ACSIClient *) calloc(1, sizeof(ACSIClient));
+		memcpy(client_list->ip, ip, 48);
+		client_list->port = port;
+		return client_list;
+	}
+
+	ACSIClient *found = findClient(client_list, ip, port);
+
+	if (found == NULL) {
+		ACSIClient *end = client_list;
+		while (end->next != NULL) {
+			end = end->next;
+		}
+
+		end->next = (ACSIClient *) calloc(1, sizeof(ACSIClient));
+		memcpy(end->next->ip, ip, 48);
+		end->next->port = port;
+		return end->next;
+
+		return end;
+	}
+	else {
+		return found;
+	}
+}
+
+ACSIClient *removeClient(ACSIClient *client_list, ACSIClient *remove) {
+	if (client_list == NULL || remove == NULL) {
+		return client_list;
+	}
+
+	if (client_list == remove) {
+		ACSIClient *next = client_list->next;
+		free(client_list);
+		return next;
+	}
+
+	ACSIClient *prev = client_list;
+	ACSIClient *client = prev->next;
+
+	while (client != NULL) {
+		if (client == remove) {
+			prev->next = client->next;
+			free(client);
+			return client_list;
+		}
+
+		prev = client;
+		client = client->next;
+	}
+
+	return client_list;
+}
+
+ACSIClient *removeClientByConnection(ACSIClient *client_list, char ip[48], int port) {
+	ACSIClient *found = findClient(client_list, ip, port);
+	return removeClient(client_list, found);
+}
+
+void printClients(ACSIClient *client_list) {
+	ACSIClient *client = client_list;
+
+	printf("client_list:\n");
+	while (client != NULL) {
+		printf("  %s : %d\n", client->ip, client->port);
+		client = client->next;
+	}
+	fflush(stdout);
+}
+
+
+
+
+
+
 /**
  * Callback function which handles all HTTP requests.
  */
@@ -793,6 +901,22 @@ static int handle_http(struct mg_connection *conn) {
 			item = getItemFromPath(acsiServer->iedName, (char *) &url[strlen(ACSI_GET_DIRECTORY) + 1]);
 			len = itemDescriptionTreeToJSON(printBuf, item, TRUE);
 		}
+		else if (strncmp(url, ACSI_ASSOCIATE, strlen(ACSI_ASSOCIATE)) == 0) {
+			acsiServer->clients = addClient(acsiServer->clients, conn->remote_ip, conn->remote_port);
+			mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
+			return 1;
+		}
+		else if (strncmp(url, ACSI_RELEASE, strlen(ACSI_RELEASE)) == 0) {
+			// TODO raise flag here, rather than remove?
+			acsiServer->clients = removeClientByConnection(acsiServer->clients, conn->remote_ip, conn->remote_port);
+			mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
+			return 1;
+		}
+		else if (strncmp(url, ACSI_ABORT, strlen(ACSI_ABORT)) == 0) {
+			acsiServer->clients = removeClientByConnection(acsiServer->clients, conn->remote_ip, conn->remote_port);
+			mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
+			return 1;
+		}
 		else {
 			item = getItemFromPath(acsiServer->iedName, (char *) url);
 			len = itemTreeToJSON(printBuf, item);
@@ -804,6 +928,9 @@ static int handle_http(struct mg_connection *conn) {
 			return 1;
 		}
 		else if (item != NULL && len > 0) {
+#if ACSI_AUTO_ASSOCIATE == 1
+			acsiServer->clients = addClient(acsiServer->clients, conn->remote_ip, conn->remote_port);
+#endif
 		    mg_send_header(conn, "Content-Type", "application/json");
 			mg_send_data(conn, printBuf, len);
 //			printf("len: %d\n", len);
@@ -824,14 +951,7 @@ static int handle_http(struct mg_connection *conn) {
 		return 1;
 	}
 
-//	printf("uri: %s, %s\n", conn->uri, (char *) conn->server_param);
-//	fflush(stdout);
-
-//	if (strcmp(&conn->uri[1], "C1/exampleMMXU_1.A.phsC.cVal.mag.f") == 0) {
-//		Item *tempItem = getItemFromPath("D1Q1SB4", "C1/exampleMMXU_1.A.phsC.cVal.mag.f");
-//		setItem(tempItem, "123.456");
-//	}
-
+	// by default, return 404
 	mg_send_status(conn, 404);
 	mg_send_data(conn, ACSI_NOT_FOUND, strlen(ACSI_NOT_FOUND));
 	return 1;
@@ -841,26 +961,30 @@ static int handle_http(struct mg_connection *conn) {
  * Internal helper function for processing HTTP events on threads.
  */
 static void *serve(void *server) {
-  while (1) {
-	  mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
-  }
-  return NULL;
+	ACSIServer *s = (ACSIServer *) mg_get_server_data((struct mg_server *) server);
+
+	while (1) {
+		// TODO add processing of associated clients here
+//		mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
+//		printf("IED %s, looping\n", s->iedName);
+		fflush(stdout);
+	}
+	return NULL;
 }
 
 void start_json_interface() {
 	init_webservers(&handle_http, serve);
 }
 
-
-
-
 // TODO use mg_connect() instead
-// TODO combine into one function
 // TODO avoid repeating socket open/close?
-// From: https://github.com/cesanta/mongoose/blob/master/unit_test.c
-// Connects to host:port, and sends formatted request to it. Returns
-// malloc-ed reply and reply length, or NULL on error. Reply contains
-// everything including headers, not just the message body.
+/**
+ * From: https://github.com/cesanta/mongoose/blob/master/unit_test.c
+ *
+ * Connects to host:port, and sends formatted request to it. Returns malloc-ed reply and reply length, or NULL on error.
+ *
+ * Reply contains everything including headers, not just the message body.
+ */
 char *wget(const char *host, int port, int *len, const char *fmt, ...) {
 	char buf[2000], *reply = NULL;
 	int request_len, reply_size = 0, n, sock = -1;
@@ -901,8 +1025,8 @@ char *wget(const char *host, int port, int *len, const char *fmt, ...) {
 	return reply;
 }
 
-char *send_http_request(int port, int *len, char *method, char *url) {
-	return wget("localhost", port, len, "%s %s HTTP/1.0\r\n\r\n", method, url);
+char *send_http_request_get(int port, int *len, char *url) {
+	return wget("localhost", port, len, "GET %s HTTP/1.0\r\n\r\n", url);
 }
 
 char *send_http_request_post(int port, int *len, char *url, char *value) {

@@ -34,8 +34,8 @@ extern "C" {
 #include <stdarg.h>
 #include <stdint.h>
 #include <windows.h>	// TODO cross-platform version?
-#include "dataModelIndex.h"
 #include "ctypes.h"
+#include "dataModelIndex.h"
 
 #define WEB_SERVER_SELECT_MAX_TIME		5	// ms
 #define JSON_OUTPUT_PRETTIFY			0
@@ -47,6 +47,10 @@ extern "C" {
 #define ACSI_RESPONSE_MAX_SIZE			16000
 #endif
 #define ACSI_RESPONSE_SIZE_WARNING		128
+#define ACSI_AUTO_ASSOCIATE				1
+#define ACSI_ASSOCIATE					"associate"
+#define ACSI_RELEASE					"release"
+#define ACSI_ABORT						"abort"
 #define ACSI_GET_DEFINITION				"definition"
 #define ACSI_GET_DIRECTORY				"directory"
 #define ACSI_OK							"ok"
@@ -119,7 +123,7 @@ void start_json_interface();
 /**
  * Send an HTTP request to a server.
  */
-char *send_http_request(int port, int *len, char *method, char *url);
+char *send_http_request_get(int port, int *len, char *url);
 
 /**
  * Send an HTTP POST request to a server.
@@ -127,60 +131,15 @@ char *send_http_request(int port, int *len, char *method, char *url);
 char *send_http_request_post(int port, int *len, char *url, char *value);
 
 
-unsigned char isClient(ACSIClient *client, char ip[48], int port) {
-	if (client == NULL) {
-		return FALSE;
-	}
+unsigned char isClient(ACSIClient *client, char ip[48], int port);
 
-	if (strcmp(client->ip, ip) == 0 && client->port == port) {
-		return TRUE;
-	}
+ACSIClient *findClient(ACSIClient *client_list, char ip[48], int port);
 
-	return FALSE;
-}
+ACSIClient *addClient(ACSIClient *client_list, char ip[48], int port);
 
-ACSIClient *findClient(ACSIClient *client_list, char ip[48], int port) {
-	ACSIClient *client = client_list;
+ACSIClient *removeClient(ACSIClient *client_list, ACSIClient *remove);
 
-	while (client != NULL) {
-		if (isClient(client, ip, port)) {
-			return client;
-		}
-
-		client = client->next;
-	}
-
-	return NULL;
-}
-
-ACSIClient *addClient(ACSIClient *client_list, char ip[48], int port) {
-	if (client_list == NULL) {
-		client_list = (ACSIClient *) calloc(1, sizeof(ACSIClient));
-		memcpy(client_list->ip, ip, 48);
-		client_list->port = port;
-		return client_list;
-	}
-
-	ACSIClient *found = findClient(client_list, ip, port);
-
-	if (found == NULL) {
-		ACSIClient *end = client_list;
-		while (end->next != NULL) {
-			end = end->next;
-		}
-
-		end->next = (ACSIClient *) calloc(1, sizeof(ACSIClient));
-		memcpy(end->next->ip, ip, 48);
-		end->next->port = port;
-		return end->next;
-
-		return end;
-	}
-	else {
-		return found;
-	}
-}
-
+ACSIClient *removeClientByConnection(ACSIClient *client_list, char ip[48], int port);
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

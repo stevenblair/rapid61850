@@ -59,6 +59,7 @@ struct mg_server; // Opaque structure describing server instance
 typedef int (*mg_handler_t)(struct mg_connection *);
 
 // Server management functions
+void *mg_get_server_data(struct mg_server *server);
 struct mg_server *mg_create_server(void *server_param);
 void mg_destroy_server(struct mg_server **);
 const char *mg_set_option(struct mg_server *, const char *opt, const char *val);

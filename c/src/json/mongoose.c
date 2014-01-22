@@ -390,6 +390,10 @@ static const struct {
   {NULL,  0, NULL}
 };
 
+void *mg_get_server_data(struct mg_server *server) {
+	return server->server_data;
+}
+
 #ifndef NO_THREADS
 void *mg_start_thread(void *(*f)(void *), void *p) {
 #ifdef _WIN32
