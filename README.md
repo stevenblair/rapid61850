@@ -165,6 +165,24 @@ There are examples of how to use each command from C code in `main_json.c`. JSON
 
 Apart from the Logical Device separator which must be '/', either '.' or '/' can be used to separate items in the object reference. All URLs are case-sensitive.
 
+#### Associate ####
+
+Explicitly creates an ACSI association, using the IP address and port of the requester as the ID. `ACSI_AUTO_ASSOCIATE` can be set to `1` to automatically associate any client that requests data. Alternatively, this can be ignored for convenience. If using HTTP authentication (with SSL), this acts as the authentication parameters for the association.
+
+HTTP `GET` with: `/associate`
+
+#### Release ####
+
+Releases an ACSI association.
+
+HTTP `GET` with: `/release`
+
+#### Abort ####
+
+Aborts an ACSI association.
+
+HTTP `GET` with: `/abort`
+
 #### Get value ####
 
 Returns the value of the specified element.

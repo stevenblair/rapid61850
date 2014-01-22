@@ -21,6 +21,8 @@
 package rapid61850;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -106,7 +108,7 @@ public class SCDCodeGenerator {
 		CSource iedSource = new CSource("ied.c");
 		CSource dataTypesSource = new CSource("datatypes.c");
 		CSource interfaceSource = new CSource("interfaceSendPacket.c");
-		CSource jsonDatabaseSource = new CSource("dataModelIndex.c");
+		CSource jsonDataModelIndexSource = new CSource("dataModelIndex.c");
 
 		svEncodeSource.addIncludeLocal("svEncodeBasic.h");
 		svEncodeSource.addIncludeLocal(iedHeader);
@@ -145,11 +147,11 @@ public class SCDCodeGenerator {
 		dataTypesSource.addIncludeLocal(iedHeader);
 		dataTypesSource.addIncludeSystem("stdlib.h");
 
-		jsonDatabaseSource.addIncludeLocal("ctypes.h");
-		jsonDatabaseSource.addIncludeLocal(dataTypesHeader);
-		jsonDatabaseSource.addIncludeLocal(iedHeader);
-		jsonDatabaseSource.addIncludeSystem("stdlib.h");
-		jsonDatabaseSource.addIncludeLocal("dataModelIndex.h");
+		jsonDataModelIndexSource.addIncludeLocal("ctypes.h");
+		jsonDataModelIndexSource.addIncludeLocal(dataTypesHeader);
+		jsonDataModelIndexSource.addIncludeLocal(iedHeader);
+		jsonDataModelIndexSource.addIncludeSystem("stdlib.h");
+		jsonDataModelIndexSource.addIncludeLocal("dataModelIndex.h");
 		
 		interfaceSource.addIncludeLocal(interfaceHeader);
 		
@@ -301,16 +303,16 @@ public class SCDCodeGenerator {
 		
 		dataTypesHeader.appendDatatypes("\n\n// datasets");
 		dataTypesSource.appendFunctions("void init_datatypes() {\n");
-		jsonDatabaseSource.appendFunctions("void init_data_model_index() {\n");
+		jsonDataModelIndexSource.appendFunctions("void init_data_model_index() {\n");
 		boolean svExists = false;
 
 		// create IED-to-JSON database
 		String databaseName = "dataModelIndex";
 		JSONDatabaseManager iedJSON = new JSONDatabaseManager(databaseName);
 		int numberOfIEDs = root.getSCL().getIED().size();
-		jsonDatabaseSource.appendInstances("#if JSON_INTERFACE == 1\n\n");
-		jsonDatabaseSource.appendInstances("Item " + databaseName + " = {\"root\", BASIC_TYPE_CONSTRUCTED, \"\", NULL, " + numberOfIEDs + "};");
-		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".items = (Item*) calloc(" + numberOfIEDs + ", sizeof(Item)); // IEDs\n");
+		jsonDataModelIndexSource.appendInstances("#if JSON_INTERFACE == 1\n\n");
+		jsonDataModelIndexSource.appendInstances("Item " + databaseName + " = {\"root\", BASIC_TYPE_CONSTRUCTED, \"\", NULL, " + numberOfIEDs + "};");
+		jsonDataModelIndexSource.appendFunctions("\t" + databaseName + ".items = (Item*) calloc(" + numberOfIEDs + ", sizeof(Item)); // IEDs\n");
 //		jsonDatabaseSource.appendFunctions("\t" + databaseName + ".numberOfItems = " + numberOfIEDs + ";\n");
 //		iedJSON.addLayer();	// IEDs
 		
@@ -321,10 +323,10 @@ public class SCDCodeGenerator {
 			iedHeader.appendDatatypes("struct " +  iedName + "_t {\n");
 			
 
-			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + iedName + "\";\n");
-			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
-			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"IED\";\n");
-			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + ";\n");
+			jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + iedName + "\";\n");
+			jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+			jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"IED\";\n");
+			jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + ";\n");
 			
 			
 			if (ied.getAccessPoint() != null) {
@@ -332,8 +334,8 @@ public class SCDCodeGenerator {
 				
 //				JSONDatabaseManager iedJSON = new JSONDatabaseManager(iedName);
 //				jsonDatabaseSource.appendInstances("Item " + iedJSON.getPath() + "_database = {\"" + iedName + "\", &" + iedName + ", " + ied.getAccessPoint().size() + "};\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + ied.getAccessPoint().size() + ", sizeof(Item)); // APs+Servers\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + ied.getAccessPoint().size() + ";\n");
+				jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + ied.getAccessPoint().size() + ", sizeof(Item)); // APs+Servers\n");
+				jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + ied.getAccessPoint().size() + ";\n");
 				iedJSON.addLayer();
 				
 				while (aps.hasNext()) {
@@ -342,16 +344,16 @@ public class SCDCodeGenerator {
 					
 					iedHeader.appendDatatypes("\tstruct {\n");
 					
-					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + apName + "\";\n");
-					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
-					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"AccessPoint\";\n");
-					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + ";\n");
+					jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + apName + "\";\n");
+					jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+					jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"AccessPoint\";\n");
+					jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + ";\n");
 					
 					if (ap.getServer() != null && ap.getServer().getLDevice().size() > 0) {
 						Iterator<TLDevice> lds = ap.getServer().getLDevice().iterator();
 						
-						jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + ap.getServer().getLDevice().size() + ", sizeof(Item)); // LDs\n");
-						jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + ap.getServer().getLDevice().size() + ";\n");
+						jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + ap.getServer().getLDevice().size() + ", sizeof(Item)); // LDs\n");
+						jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + ap.getServer().getLDevice().size() + ";\n");
 						iedJSON.addLayer();
 						
 						while (lds.hasNext()) {
@@ -360,10 +362,10 @@ public class SCDCodeGenerator {
 
 							iedHeader.appendDatatypes("\t\tstruct {\n");
 							
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + ldName + "\";\n");
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"LogicalDevice\";\n");
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + ";\n");
+							jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + ldName + "\";\n");
+							jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+							jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"LogicalDevice\";\n");
+							jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + ";\n");
 //							iedJSON.addItem();
 							
 							Iterator<TLN> lns = ld.getLN().iterator();
@@ -372,8 +374,8 @@ public class SCDCodeGenerator {
 							if (ld.getLN0() != null) {
 								numberOfLNs++;
 							}
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfLNs + ", sizeof(Item)); // LNs\n");
-							jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfLNs + ";\n");
+							jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfLNs + ", sizeof(Item)); // LNs\n");
+							jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfLNs + ";\n");
 							iedJSON.addLayer();
 							
 							// generate SV and GOOSE dataset encoders
@@ -396,34 +398,34 @@ public class SCDCodeGenerator {
 								Iterator<TDO> ln0Dos = getLNTypeDOs(dataTypeTemplates, ln0.getLnType()).iterator();
 								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0.");
 
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + ln0Name + "\";\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + ln0.getLnType() + "\";\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".lnClass = \"" + ln0.getLnClass().toString() + "\";\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0;\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + ln0Name + "\";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + ln0.getLnType() + "\";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".lnClass = \"" + ln0.getLnClass().toString() + "\";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0;\n");
 								
 								
 								int numberOfDOs = getLNTypeDOs(dataTypeTemplates, ln0.getLnType()).size();
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDOs + ", sizeof(Item)); // DOs\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDOs + ";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDOs + ", sizeof(Item)); // DOs\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDOs + ";\n");
 								iedJSON.addLayer();
 								
 								// look up lists of DOs and DAs and initialise if required
 								while (ln0Dos.hasNext()) {
 									TDO dataObject = ln0Dos.next();
 
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + dataObject.getName() + "\";\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + dataObject.getType() + "\";\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".CDC = \"" + getDOTypeCDC(dataTypeTemplates, dataObject.getType()) + "\";\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0." + dataObject.getName() + ";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + dataObject.getName() + "\";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + dataObject.getType() + "\";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".CDC = \"" + getDOTypeCDC(dataTypeTemplates, dataObject.getType()) + "\";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0." + dataObject.getName() + ";\n");
 
 									int numberOfDAsAndSDOs = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).size() + getDOTypeSDOs(dataTypeTemplates, dataObject.getType()).size();
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAsAndSDOs + ", sizeof(Item)); // DAs (top level)\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAsAndSDOs + ";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAsAndSDOs + ", sizeof(Item)); // DAs (top level)\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAsAndSDOs + ";\n");
 									iedJSON.addLayer();
 									
-									processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, accumulatedName, dataObject.getType(), dataObject.getName(), jsonDatabaseSource, iedJSON);
+									processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, accumulatedName, dataObject.getType(), dataObject.getName(), jsonDataModelIndexSource, iedJSON);
 									
 									iedJSON.popLayer();
 									
@@ -782,34 +784,34 @@ public class SCDCodeGenerator {
 								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + lnName + ".");
 
 
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + lnName + "\";\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + ln.getLnType() + "\";\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".lnClass = \"" + ln.getLnClass().toString() + "\";\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + lnName + ";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + lnName + "\";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + ln.getLnType() + "\";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".lnClass = \"" + ln.getLnClass().toString() + "\";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + lnName + ";\n");
 								
 								int numberOfDOs = getLNTypeDOs(dataTypeTemplates, ln.getLnType()).size();
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDOs + ", sizeof(Item)); // DOs\n");
-								jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDOs + ";\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDOs + ", sizeof(Item)); // DOs\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDOs + ";\n");
 								iedJSON.addLayer();
 								
 								// look up lists of DOs and DAs and initialise if required
 								while (dos.hasNext()) {
 									TDO dataObject = dos.next();
 									
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + dataObject.getName() + "\";\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + dataObject.getType() + "\";\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".CDC = \"" + getDOTypeCDC(dataTypeTemplates, dataObject.getType()) + "\";\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + lnName + "." + dataObject.getName() + ";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + dataObject.getName() + "\";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + dataObject.getType() + "\";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".CDC = \"" + getDOTypeCDC(dataTypeTemplates, dataObject.getType()) + "\";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + lnName + "." + dataObject.getName() + ";\n");
 									
 
 									int numberOfDAsAndSDOs = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).size() + getDOTypeSDOs(dataTypeTemplates, dataObject.getType()).size();
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAsAndSDOs + ", sizeof(Item)); // DAs (top level)\n");
-									jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAsAndSDOs + ";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAsAndSDOs + ", sizeof(Item)); // DAs (top level)\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAsAndSDOs + ";\n");
 									iedJSON.addLayer();
 									
-									processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, accumulatedName, dataObject.getType(), dataObject.getName(), jsonDatabaseSource, iedJSON);
+									processDO(dataTypeTemplates, dataTypesSource, initDOTypes, initDATypes, accumulatedName, dataObject.getType(), dataObject.getName(), jsonDataModelIndexSource, iedJSON);
 									
 									iedJSON.popLayer();
 									iedJSON.addItem();
@@ -859,13 +861,13 @@ public class SCDCodeGenerator {
 		
 		
 		dataTypesSource.appendFunctions("}\n");
-		jsonDatabaseSource.appendFunctions("}\n\n");
+		jsonDataModelIndexSource.appendFunctions("}\n\n");
 
 		for (int i = 0; i < numberOfIEDs; i++) {
-			jsonDatabaseSource.appendFunctions("ACSIServer *server" + (i + 1) + ";\n");
+			jsonDataModelIndexSource.appendFunctions("ACSIServer *server" + (i + 1) + ";\n");
 		}
 
-		jsonDatabaseSource.appendFunctions("\nvoid init_webservers(mg_handler_t handler, void *(*serve)(void *)) {\n");
+		jsonDataModelIndexSource.appendFunctions("\nvoid init_webservers(mg_handler_t handler, void *(*serve)(void *)) {\n");
 		int iedNumber = 1;
 		ieds = root.getSCL().getIED().iterator();
 		while (ieds.hasNext()) {
@@ -874,29 +876,29 @@ public class SCDCodeGenerator {
 			// TODO does not handle multiple APs; see get(0)
 			// TODO do not set to root of data model index
 
-			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + " = calloc(1, sizeof(ACSIServer));\n");
-			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + "->iedName = \"" + ied.getName()  + "\";\n");
-			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + "->apName = \"" + ied.getAccessPoint().get(0).getName()  + "\";\n");
-			jsonDatabaseSource.appendFunctions("\tserver" + iedNumber + "->mg = mg_create_server((void *) server" + iedNumber + ");\n");
-			jsonDatabaseSource.appendFunctions("#ifndef USE_SSL\n");
-			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "\");\n");
-			jsonDatabaseSource.appendFunctions("#else\n");
-			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "s\");\n");
-			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"ssl_certificate\", \"ssl_cert.pem\");\n");
-			jsonDatabaseSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"auth_domain\", \"localhost\");\n");
-			jsonDatabaseSource.appendFunctions("#endif\n");
-			jsonDatabaseSource.appendFunctions("\tmg_add_uri_handler(server" + iedNumber + "->mg, \"/\", handler);\n");
-			jsonDatabaseSource.appendFunctions("\tmg_start_thread(serve, server" + iedNumber + "->mg);\n");
+			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + " = calloc(1, sizeof(ACSIServer));\n");
+			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + "->iedName = \"" + ied.getName()  + "\";\n");
+			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + "->apName = \"" + ied.getAccessPoint().get(0).getName()  + "\";\n");
+			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + "->mg = mg_create_server((void *) server" + iedNumber + ");\n");
+			jsonDataModelIndexSource.appendFunctions("#ifndef USE_SSL\n");
+			jsonDataModelIndexSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "\");\n");
+			jsonDataModelIndexSource.appendFunctions("#else\n");
+			jsonDataModelIndexSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"listening_port\", \"" + (JSON_WEB_SERVER_START_PORT + iedNumber - 1) + "s\");\n");
+			jsonDataModelIndexSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"ssl_certificate\", \"ssl_cert.pem\");\n");
+			jsonDataModelIndexSource.appendFunctions("\tmg_set_option(server" + iedNumber + "->mg, \"auth_domain\", \"localhost\");\n");
+			jsonDataModelIndexSource.appendFunctions("#endif\n");
+			jsonDataModelIndexSource.appendFunctions("\tmg_add_uri_handler(server" + iedNumber + "->mg, \"/\", handler);\n");
+			jsonDataModelIndexSource.appendFunctions("\tmg_start_thread(serve, server" + iedNumber + "->mg);\n");
 			
 			
 			if (ieds.hasNext()) {
-				jsonDatabaseSource.appendFunctions("\n");
+				jsonDataModelIndexSource.appendFunctions("\n");
 			}
 			
 			iedNumber++;
 		}
-		jsonDatabaseSource.appendFunctions("}\n");
-		jsonDatabaseSource.appendInstances("\n#endif // JSON_INTERFACE\n");
+		jsonDataModelIndexSource.appendFunctions("}\n");
+		jsonDataModelIndexSource.appendInstances("\n#endif // JSON_INTERFACE\n");
 		
 		
 		
@@ -1044,6 +1046,52 @@ public class SCDCodeGenerator {
 			}
 		}
 		
+		
+//		try {
+//			RandomAccessFile f = new RandomAccessFile(Main.PATH_TO_SOURCE + Main.SCD_FILENAME, "r");
+//			byte[] bytes = new byte[(int)f.length()];
+//			f.read(bytes);
+//			
+//			StringBuilder sb = new StringBuilder();
+////			for (int i = 0; i < bytes.length; i++) {
+//			for (byte b : bytes) {
+////				switch ((char) b[i]) {
+////					case '"':
+////					case '\'':
+////					case '\\':
+////							sb.append('\\');
+////							sb.append((char) b[i]);
+////							break;
+////					case '\t':
+////						sb.append('\t');
+////						break;
+////					case '\n':
+////						sb.append('\n');
+////						break;
+////					case '\r':
+////						sb.append('\r');
+////						break;
+////					case '\f':
+////						sb.append('\f');
+////						break;
+////					case '\b':
+////						sb.append('\b');
+////						break;
+////					default:
+////						sb.append((char) b[i]);
+////						break;
+////				}
+//				sb.append(String.format("0x" + "%02X", b) + ",");
+////				System.out.println("\'" + (char) b[i] + "\'");
+//            }
+//			
+//			jsonDataModelIndexSource.appendFunctions("\nconst unsigned char scd_file[] = {" + sb + "0x00};\n");
+//		}
+//		catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
+		
 		dataTypesHeader.appendFunctionPrototypes("void init_datatypes();\n");
 		svDecodeDatasetFunction.append("\n}\n\n");
 		svDecodeSource.appendFunctions(svDecodeDatasetFunction);
@@ -1079,7 +1127,7 @@ public class SCDCodeGenerator {
 		iedSource.saveFile();
 		dataTypesSource.saveFile();
 		interfaceSource.saveFile();
-		jsonDatabaseSource.saveFile("json" + File.separator);
+		jsonDataModelIndexSource.saveFile("json" + File.separator);
 
 		svEncodeHeader.saveFile();
 		svDecodeHeader.saveFile();
