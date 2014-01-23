@@ -153,7 +153,7 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 ## Using the JSON interface ##
 
-*This functionality is highly experimental. Some data types have not been fully tested yet. There is only support for Windows at present, but Linux and OS X will be supported. At the moment, it will be difficult, although possible, to use the JSON interface on an embedded (i.e., non-POSIX) platform.*
+*This functionality is highly experimental. Some data types have not been fully tested yet. There is only verified support for Windows at present, but Linux and OS X will be supported. At the moment, it will be difficult, although possible, to use the JSON interface on an embedded (i.e., non-POSIX) platform.*
 
 An "index" of the data model provided by rapid61850 is generated automatically. This fully "exposes" the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been provided for implementing the IEC 61850 abstract communication service interface (ACSI), and this JSON interface is exposed via HTTP (or HTTPS).
 
@@ -287,20 +287,23 @@ Returns: `ok` if successful
 
 ### Building the JSON interface code ###
 
- 1. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. The ensures the JSON code can access the other header files.
- 2. Ensure that the *.c files in the `c/src/json directory` and `main_json.c` are included in the build.
- 3. In `ctypes.h`, set `JSON_INTERFACE` to `1`.
- 4. Build and run `main_json.c`.
+ 1. Switch to the 'json' branch
+ 2. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. The ensures the JSON code can access the other header files.
+ 3. Ensure that the *.c files in the `c/src/json directory` and `main_json.c` are included in the build, and that the other `main*.c` files are not included.
+ 4. In `ctypes.h`, set `JSON_INTERFACE` to `1`.
+ 5. Build and run `main_json.c`.
 
 ### Using SSL to encrypt all connections ###
 
  1. Install OpenSSL for your operating system.
  2. In the C project build settings:
    a. define the symbol `USE_SSL`
-   b. link to the library `ssl32`
-   b. add the linker search path to the OpenSSL `bin` directory (e.g., `"C:\OpenSSL-Win32\bin"` on Windows)
+   b. link to the library `ssleay32`
+ 3. Link with SSL library
+   a. Copy the file `ssleay32.dll` from the OpenSSL `bin` directory (e.g., `"C:\OpenSSL-Win32\bin"` on Windows) to the `c/Lib` directory in the repository.
+   b. Rename the DLL to `libssleay32.a`.
  3. Ensure that the SSL certificate (ssl_cert.pem) is in the appropriate directory: typically at the root of the `C` directory if running from Eclipse. WARNING: the included certificate file is for testing only. Generate or purchase a new certificate for production purposes.
- 4. If you wish to use HTTP authentication, set `USE_HTTP_AUTH` to `1` in `json.h`. Create your password file called `htpasswd.txt`, in the same directory as the SSL certificate. Mongoose (as well as various web sites) can be used to help create the MD5 hash: see `main_json.c`.
+ 4. If you wish to use HTTP authentication, set `USE_HTTP_AUTH` to `1` in `json.h`. Create your password file called `htpasswd.txt`, in the same directory as the SSL certificate. Mongoose (as well as various web sites) can be used to help create the MD5 hash: see `main_json.c` for an example.
 
 ## Using the Python or Java interfaces ##
 
