@@ -288,7 +288,7 @@ Returns: `ok` if successful
 ### Building the JSON interface code ###
 
  1. Switch to the 'json' branch
- 2. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. The ensures the JSON code can access the other header files.
+ 2. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. This ensures the JSON code can access the other header files.
  3. Ensure that the *.c files in the `c/src/json directory` and `main_json.c` are included in the build, and that the other `main*.c` files are not included.
  4. In `ctypes.h`, set `JSON_INTERFACE` to `1`.
  5. Build and run `main_json.c`.
