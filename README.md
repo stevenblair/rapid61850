@@ -157,7 +157,7 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 An "index" of the data model provided by rapid61850 is generated automatically. This fully "exposes" the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been provided for implementing the IEC 61850 abstract communication service interface (ACSI), and this JSON interface is exposed via HTTP (or HTTPS).
 
-[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server. By default, a new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model; but different IEDs should not modify each other's data directly.) There is a basic facility for an HTTP client, for IEDs perform GET and POST operations on other IEDs - whether local or remote.
+[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server. As with the rest of rapid61850, the JSON interface "implements" all IEDs specified in the SCD file. By default, a new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model, but different IEDs should not modify each other's data directly.) As well as the HTTP server for each IED, there is a basic facility for an HTTP client, for IEDs to perform GET and POST operations on other IEDs - whether local or remote.
 
 ### API details ###
 

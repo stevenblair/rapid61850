@@ -967,7 +967,7 @@ static int handle_http(struct mg_connection *conn) {
  * Internal helper function for processing HTTP events on threads.
  */
 static void *serve(void *server) {
-	ACSIServer *s = (ACSIServer *) mg_get_server_data((struct mg_server *) server);
+	ACSIServer *acsiServer = (ACSIServer *) mg_get_server_data((struct mg_server *) server);
 
 	while (1) {
 		// TODO add processing of associated clients here

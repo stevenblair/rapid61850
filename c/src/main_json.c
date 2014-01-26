@@ -154,7 +154,7 @@ int main() {
 			free(reply);
 			Sleep(1);
 
-			reply = send_http_request_post(8012, &reply_len, "/C1/LN0.NamPlt.configRev", "1234567890");
+			reply = send_http_request_post(8012, &reply_len, "/C1/LN0/NamPlt/configRev", "1234567890");
 			free(reply);
 			Sleep(1);
 		}
