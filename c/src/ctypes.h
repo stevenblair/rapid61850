@@ -95,6 +95,7 @@ extern "C" {
 #define BER_GET_LENGTH_CTYPE_INT8(x)			(ber_integer_length((x), SV_GET_LENGTH_INT8))
 #define BER_GET_LENGTH_CTYPE_INT16(x)			(ber_integer_length((x), SV_GET_LENGTH_INT16))
 #define BER_GET_LENGTH_CTYPE_INT32(x)			(ber_integer_length((x), SV_GET_LENGTH_INT32))
+#define BER_GET_LENGTH_CTYPE_INT8U(x)			(ber_integer_length((x), SV_GET_LENGTH_INT8U))
 #define BER_GET_LENGTH_CTYPE_INT16U(x)			(ber_integer_length((x), SV_GET_LENGTH_INT16U))
 #define BER_GET_LENGTH_CTYPE_INT32U(x)			(ber_integer_length((x), SV_GET_LENGTH_INT32U))
 #define BER_GET_LENGTH_CTYPE_VISSTRING255(x)	(SV_GET_LENGTH_VISSTRING255)

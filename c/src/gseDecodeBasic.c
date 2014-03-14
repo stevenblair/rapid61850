@@ -147,6 +147,19 @@ int BER_DECODE_CTYPE_INT32(unsigned char *buf, CTYPE_INT32 *value) {
 
 	return offset + len;
 }
+int BER_DECODE_CTYPE_INT8U(unsigned char *buf, CTYPE_INT8U *value) {
+	CTYPE_INT16U offset = 0;
+	CTYPE_INT16U len = 0;
+
+	if (buf[offset++] == ASN1_TAG_INTEGER) {
+		len += decodeLength(&buf[offset]);
+		offset += getLengthFieldSize(buf[offset]);
+
+		ber_decode_integer(&buf[offset], len, value, SV_GET_LENGTH_INT8U);
+	}
+
+	return offset + len;
+}
 int BER_DECODE_CTYPE_INT16U(unsigned char *buf, CTYPE_INT16U *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = 0;

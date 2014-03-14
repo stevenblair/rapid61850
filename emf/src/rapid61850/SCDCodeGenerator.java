@@ -402,7 +402,7 @@ public class SCDCodeGenerator {
 								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + ln0.getLnType() + "\";\n");
 								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".lnClass = \"" + ln0.getLnClass().toString() + "\";\n");
-								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0;\n");
+								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + "LN0" + ".LLN0;\n");
 								
 								
 								int numberOfDOs = getLNTypeDOs(dataTypeTemplates, ln0.getLnType()).size();
@@ -418,7 +418,7 @@ public class SCDCodeGenerator {
 									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
 									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + dataObject.getType() + "\";\n");
 									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".CDC = \"" + getDOTypeCDC(dataTypeTemplates, dataObject.getType()) + "\";\n");
-									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0." + dataObject.getName() + ";\n");
+									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + "LN0" + ".LLN0." + dataObject.getName() + ";\n");
 
 									int numberOfDAsAndSDOs = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).size() + getDOTypeSDOs(dataTypeTemplates, dataObject.getType()).size();
 									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAsAndSDOs + ", sizeof(Item)); // DAs (top level)\n");
@@ -1177,49 +1177,52 @@ public class SCDCodeGenerator {
 	private void processDA(TDataTypeTemplates dataTypeTemplates, CSource dataTypesSource, StringBuilder accumulatedName, String type, String name, CSource jsonDatabaseSource, JSONDatabaseManager iedJSON) {
 //		System.out.println("Struct DA: " + accumulatedName + ", " + type + ", " + name);
 		
-		int numberOfDAs = getDATypeDAs(dataTypeTemplates, type).size();
-		jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAs + ", sizeof(Item)); // DAs\n");
-		jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAs + ";\n");
-		iedJSON.addLayer();
-		
-		Iterator<TBDA> bdas = getDATypeDAs(dataTypeTemplates, type).iterator();
-		while (bdas.hasNext()) {
-			TBDA bda = bdas.next();
-//			System.out.println("    BDA: " + bda.getType() + ", " + bda.getBType());
+		List<TBDA> daTypeDAs = getDATypeDAs(dataTypeTemplates, type);
+		if (daTypeDAs != null) {
+			int numberOfDAs = daTypeDAs.size();
+			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAs + ", sizeof(Item)); // DAs\n");
+			jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAs + ";\n");
+			iedJSON.addLayer();
 			
-			if (bda.getType() != null) {
-//				System.out.println("    recursing; name: " + name + ", bda.getName(): " + bda.getName().toString() + ", type: " + type + ", bda.getType(): " + bda.getType() + ", bda.getBType().toString(): " + bda.getBType().toString());
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + bda.getName().toString() + "\"; // BDA\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + bda.getType() + "\";\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName + name + "." + bda.getName().toString() + ";\n");
+			Iterator<TBDA> bdas = getDATypeDAs(dataTypeTemplates, type).iterator();
+			while (bdas.hasNext()) {
+				TBDA bda = bdas.next();
+	//			System.out.println("    BDA: " + bda.getType() + ", " + bda.getBType());
 				
-				processDA(dataTypeTemplates, dataTypesSource, new StringBuilder(accumulatedName.toString() + name + "."), bda.getType(), bda.getName().toString(), jsonDatabaseSource, iedJSON);
-				
-				if (bdas.hasNext()) {
-					iedJSON.addItem();
+				if (bda.getType() != null) {
+	//				System.out.println("    recursing; name: " + name + ", bda.getName(): " + bda.getName().toString() + ", type: " + type + ", bda.getType(): " + bda.getType() + ", bda.getBType().toString(): " + bda.getBType().toString());
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + bda.getName().toString() + "\"; // BDA\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + bda.getType() + "\";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + accumulatedName + name + "." + bda.getName().toString() + ";\n");
+					
+					processDA(dataTypeTemplates, dataTypesSource, new StringBuilder(accumulatedName.toString() + name + "."), bda.getType(), bda.getName().toString(), jsonDatabaseSource, iedJSON);
+					
+					if (bdas.hasNext()) {
+						iedJSON.addItem();
+					}
+				}
+				else {
+					String ref = "";
+					if (!isStringBasicType(bda.getBType().toString())) {
+						ref = "&";
+					}
+					
+					// add bda to database
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + bda.getName() + "\";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + mapSCLTypeToBasicType(bda.getBType().toString()) + ";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + bda.getBType().toString() + "\";\n");
+					jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = " + ref + accumulatedName.toString() + name + "." + bda.getName() + ";\n");
+					
+					if (bdas.hasNext()) {
+						iedJSON.addItem();
+					}
 				}
 			}
-			else {
-				String ref = "";
-				if (!isStringBasicType(bda.getBType().toString())) {
-					ref = "&";
-				}
-				
-				// add bda to database
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + bda.getName() + "\";\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".type = " + mapSCLTypeToBasicType(bda.getBType().toString()) + ";\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".typeSCL = \"" + bda.getBType().toString() + "\";\n");
-				jsonDatabaseSource.appendFunctions("\t" + iedJSON.getPath() + ".data = " + ref + accumulatedName.toString() + name + "." + bda.getName() + ";\n");
-				
-				if (bdas.hasNext()) {
-					iedJSON.addItem();
-				}
-			}
+			
+			iedJSON.popLayer();
+	//		iedJSON.addItem();
 		}
-		
-		iedJSON.popLayer();
-//		iedJSON.addItem();
 	}
 
 	/**

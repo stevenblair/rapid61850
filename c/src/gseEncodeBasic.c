@@ -135,6 +135,21 @@ int BER_ENCODE_CTYPE_INT32(unsigned char *buf, CTYPE_INT32 *value) {
 
 	return offset + len;
 }
+int BER_ENCODE_CTYPE_INT8U(unsigned char *buf, CTYPE_INT8U *value) {
+	CTYPE_INT16U offset = 0;
+	CTYPE_INT16U len = BER_GET_LENGTH_CTYPE_INT8U(value);
+
+	buf[offset++] = ASN1_TAG_INTEGER;
+	offset += encodeLength(&buf[offset], len);
+
+#if GOOSE_FIXED_SIZE == 1
+	ber_encode_integer_fixed_size(&buf[offset], value, SV_GET_LENGTH_INT8U);
+#else
+	ber_encode_integer(&buf[offset], value, SV_GET_LENGTH_INT8U);
+#endif
+
+	return offset + len;
+}
 int BER_ENCODE_CTYPE_INT16U(unsigned char *buf, CTYPE_INT16U *value) {
 	CTYPE_INT16U offset = 0;
 	CTYPE_INT16U len = BER_GET_LENGTH_CTYPE_INT16U(value);

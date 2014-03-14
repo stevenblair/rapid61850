@@ -64,6 +64,11 @@ int ENCODE_CTYPE_INT32(unsigned char *buf, CTYPE_INT32 *value) {
 
 	return SV_GET_LENGTH_INT32;
 }
+int ENCODE_CTYPE_INT8U(unsigned char *buf, CTYPE_INT8U *value) {
+	netmemcpy(buf, value, SV_GET_LENGTH_INT8U);
+
+	return SV_GET_LENGTH_INT8U;
+}
 int ENCODE_CTYPE_INT16U(unsigned char *buf, CTYPE_INT16U *value) {
 	netmemcpy(buf, value, SV_GET_LENGTH_INT16U);
 
