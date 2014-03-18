@@ -806,7 +806,9 @@ public class SCDCodeGenerator {
 									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".data = &" + iedName + "." + apName + "." + ldName + "." + lnName + "." + dataObject.getName() + ";\n");
 									
 
-									int numberOfDAsAndSDOs = getDOTypeDAs(dataTypeTemplates, dataObject.getType()).size() + getDOTypeSDOs(dataTypeTemplates, dataObject.getType()).size();
+									List<TDA> DOtypeDAs = getDOTypeDAs(dataTypeTemplates, dataObject.getType());
+									List<TSDO> DOTypeSDOs = getDOTypeSDOs(dataTypeTemplates, dataObject.getType());
+									int numberOfDAsAndSDOs = (DOtypeDAs != null ? DOtypeDAs.size() : 0) + (DOTypeSDOs != null ? DOTypeSDOs.size() : 0);
 									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".items = (Item*) calloc(" + numberOfDAsAndSDOs + ", sizeof(Item)); // DAs (top level)\n");
 									jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".numberOfItems = " + numberOfDAsAndSDOs + ";\n");
 									iedJSON.addLayer();
