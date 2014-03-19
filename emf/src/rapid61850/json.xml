@@ -258,8 +258,46 @@
 				<LDevice inst="C1">
 					<LN0 lnType="LN0" lnClass="LLN0" inst="">
 					</LN0>
-					<LN lnType="exampleJSON" lnClass="JSON" inst="1"/>
-					<LN lnType="exampleJSON" lnClass="JSON" inst="2"/>
+					<LN lnType="exampleJSON" lnClass="JSON" inst="1">
+						<DOI name="Attr">
+							<DAI name="IPAddr">
+                				<Val>192.168.2.21</Val>
+							</DAI>
+							<DAI name="Location">
+                				<Val>Bay 1</Val>
+							</DAI>
+						</DOI>
+					</LN>
+ 					<LN lnType="exampleJSON" lnClass="JSON" inst="2">
+						<DOI name="Attr">
+							<DAI name="IPAddr">
+                				<Val>192.168.2.22</Val>
+							</DAI>
+							<DAI name="Location">
+                				<Val>Bay 1</Val>
+							</DAI>
+						</DOI>
+					</LN>
+					<LN lnType="exampleJSON" lnClass="JSON" inst="3">
+						<DOI name="Attr">
+							<DAI name="IPAddr">
+                				<Val>192.168.2.23</Val>
+							</DAI>
+							<DAI name="Location">
+                				<Val>Bay 2</Val>
+							</DAI>
+						</DOI>
+					</LN>
+					<LN lnType="exampleJSON" lnClass="JSON" inst="4">
+						<DOI name="Attr">
+							<DAI name="IPAddr">
+                				<Val>192.168.2.24</Val>
+							</DAI>
+							<DAI name="Location">
+                				<Val>Bay 2</Val>
+							</DAI>
+						</DOI>
+					</LN>
 				</LDevice>
 			</Server>
 		</AccessPoint>
@@ -310,6 +348,7 @@
 			<DO name="V1" type="jsonWYE"/>
 			<DO name="SeqV" type="jsonWYE"/>
 			<DO name="A1" type="jsonWYE"/>
+			<DO name="SeqA" type="jsonWYE"/>
 			<DO name="Hz" type="jsonFloat"/>
 			<DO name="Ind" type="jsonIndications"/>
 			<DO name="Attr" type="jsonAttributes"/>
@@ -446,7 +485,7 @@
 				<Val>4</Val>
 			</DA>
 			<DA name="IPAddr" fc="ST" bType="VisString255">
-				<Val>192.168.1.20</Val>
+				<Val>192.168.2.20</Val>
 			</DA>
 			<DA name="Location" fc="ST" bType="VisString255">
 				<Val>Bay 1</Val>
@@ -486,13 +525,13 @@
 			<DA name="instMag" fc="MX" bType="Struct" type="myAnalogValue"/>
 			<DA name="q" fc="MX" bType="Quality" qchg="true"/>
 		</DOType>
+		<DOType id="jsonFloat" cdc="SAV">
+			<DA name="mag" bType="FLOAT32"/>
+		</DOType>
 		<DAType id="myAnalogValue">
 			<BDA name="f" bType="FLOAT32">
 				 <Val>1.024</Val>
 			</BDA>
-		</DAType>
-		<DAType id="jsonFloat">
-			<BDA name="mag" bType="FLOAT32"/>
 		</DAType>
 		<DAType id="ScaledValueConfig">
 			<BDA name="scaleFactor" bType="FLOAT32"/>

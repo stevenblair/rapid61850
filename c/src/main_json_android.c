@@ -26,6 +26,7 @@
 
 
 #include <pcap.h>
+#include <math.h>
 #include "iec61850.h"
 
 #if JSON_INTERFACE == 1
@@ -105,12 +106,98 @@ int main() {
 	fflush(stdout);
 #endif
 
-	while (1) {
-#ifndef USE_SSL
-		int port;
-		int reply_len;
-		char *reply;
+	srand(time(NULL));
 
+	struct exampleJSON *relays[] = {&JSON.S1.C1.exampleJSON_1, &JSON.S1.C1.exampleJSON_2, &JSON.S1.C1.exampleJSON_3, &JSON.S1.C1.exampleJSON_4};
+	int numberOfRelays = sizeof relays / sizeof relays[0];
+
+	int timer = 0;
+	int alarmTimer = 0;
+	int lampTestMonitor = relays[0]->Ind.LEDTest;
+	int resetTripMonitor = relays[0]->Ind.Trip;
+
+	float phaseVoltageMag = (float) (11000.0 / sqrt(3));
+
+	while (1) {
+		if (++timer == 5) {
+			timer = 0;
+
+			int i = 0;
+			for (i = 0; i < numberOfRelays; i++) {
+				float phaseCurrentMag = 100.0 + 500.0 * (float) rand() / (float) RAND_MAX;
+				float phaseCurrentAng = -30.0 * (float) rand() / (float) RAND_MAX;
+
+				relays[i]->Hz.mag = 50.0;
+
+				relays[i]->SeqV.phsA.cVal.mag.f = phaseVoltageMag;
+				relays[i]->SeqV.phsA.cVal.ang.f = 0.0;
+				relays[i]->SeqV.phsB.cVal.mag.f = 0.0;
+				relays[i]->SeqV.phsB.cVal.ang.f = -120.0;
+				relays[i]->SeqV.phsC.cVal.mag.f = 0.0;
+				relays[i]->SeqV.phsC.cVal.ang.f = 120.0;
+				relays[i]->SeqV.neut.cVal.mag.f = 0.0;
+				relays[i]->SeqV.phsA.cVal.ang.f = 0.0;
+
+				relays[i]->PhV.phsA.cVal.mag.f = phaseVoltageMag;
+				relays[i]->PhV.phsA.cVal.ang.f = 0.0;
+				relays[i]->PhV.phsB.cVal.mag.f = phaseVoltageMag;
+				relays[i]->PhV.phsB.cVal.ang.f = -120.0;
+				relays[i]->PhV.phsC.cVal.mag.f = phaseVoltageMag;
+				relays[i]->PhV.phsC.cVal.ang.f = 120.0;
+				relays[i]->PhV.neut.cVal.mag.f = 0.0;
+				relays[i]->PhV.phsA.cVal.ang.f = 0.0;
+
+				relays[i]->V1.phsA.cVal.mag.f = phaseVoltageMag;
+				relays[i]->V1.phsA.cVal.ang.f = 0.0;
+				relays[i]->V1.phsB.cVal.mag.f = 0.0;
+				relays[i]->V1.phsB.cVal.ang.f = -120.0;
+				relays[i]->V1.phsC.cVal.mag.f = 0.0;
+				relays[i]->V1.phsC.cVal.ang.f = 120.0;
+				relays[i]->V1.neut.cVal.mag.f = 0.0;
+				relays[i]->V1.phsA.cVal.ang.f = 0.0;
+
+				relays[i]->SeqA.phsA.cVal.mag.f = phaseCurrentMag;
+				relays[i]->SeqA.phsA.cVal.ang.f = phaseCurrentAng;
+
+				relays[i]->A1.phsA.cVal.mag.f = phaseCurrentMag;
+				relays[i]->A1.phsA.cVal.ang.f = phaseCurrentAng;
+				relays[i]->A1.phsB.cVal.mag.f = phaseCurrentMag;
+				relays[i]->A1.phsB.cVal.ang.f = -120.0 + phaseCurrentAng;
+				relays[i]->A1.phsC.cVal.mag.f = phaseCurrentMag;
+				relays[i]->A1.phsC.cVal.ang.f = 120.0 + phaseCurrentAng;
+				relays[i]->A1.neut.cVal.mag.f = 0.0;
+				relays[i]->A1.neut.cVal.ang.f = 0.0;
+
+				relays[i]->Ind.Trip = 1;
+			}
+		}
+
+		if (++alarmTimer == 100) {
+			alarmTimer = 0;
+			relays[0]->Ind.NumOfAlarms++;
+		}
+
+		if (lampTestMonitor != relays[0]->Ind.LEDTest) {
+			lampTestMonitor = relays[0]->Ind.LEDTest;
+			printf("LED lamp test: %i\n", relays[0]->Ind.LEDTest);
+			fflush(stdout);
+		}
+
+		if (resetTripMonitor != relays[0]->Ind.Trip) {
+			resetTripMonitor = relays[0]->Ind.Trip;
+			relays[0]->Ind.NumOfAlarms = 0;
+			alarmTimer = 0;
+		}
+
+//		printf("trip: %i, SG: %i\n", relays[i]->Ind.Trip, relays[i]->Attr.ActiveSettingGroup);
+//		fflush(stdout);
+
+
+#ifndef USE_SSL
+//		int port;
+//		int reply_len;
+//		char *reply;
+//
 //		// test get values
 //		for (port = 8001; port <= 8012; port++) {
 //			reply = send_http_request_get(port, &reply_len, "/");
