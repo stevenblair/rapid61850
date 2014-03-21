@@ -90,6 +90,13 @@ pcap_t *init_pcap() {
 }
 
 
+/**
+ * Returns a random number between 0.0 and 1.0.
+ */
+float getRand() {
+	return (float) rand() / (float) RAND_MAX;
+}
+
 int main() {
 	initialise_iec61850();
 	fp = init_pcap();
@@ -97,37 +104,39 @@ int main() {
 #if JSON_INTERFACE == 1
 	start_json_interface();
 
-#ifdef USE_SSL
-	// generate and print out hash, to be copied into password file
-	// WARNING: for convenience only; do not store passwords in plain text in production code
-	char hash[33];
-	mg_md5(hash, "admin", ":", "localhost", ":", "admin", NULL);
-	printf("%s\n", hash);
-	fflush(stdout);
-#endif
-
 	srand(time(NULL));
 
-	struct exampleJSON *relays[] = {&JSON.S1.C1.exampleJSON_1, &JSON.S1.C1.exampleJSON_2, &JSON.S1.C1.exampleJSON_3, &JSON.S1.C1.exampleJSON_4};
+	struct exampleJSON *relays[] = {&JSON.S1.C1.exampleJSON_1, &JSON.S1.C1.exampleJSON_2, &JSON.S1.C1.exampleJSON_3, &JSON.S1.C1.exampleJSON_4, &JSON.S1.C1.exampleJSON_5};
 	int numberOfRelays = sizeof relays / sizeof relays[0];
 
 	int timer = 0;
-	int alarmTimer = 0;
-	int lampTestMonitor = relays[0]->Ind.LEDTest;
-	int resetTripMonitor = relays[0]->Ind.Trip;
+	int alarmTimer[numberOfRelays];
+	int alarmTimerThreshold[numberOfRelays];
+	int tripTimer[numberOfRelays];
+	int tripTimerThreshold[numberOfRelays];
+	int lampTestMonitor[numberOfRelays];
+
+	int i = 0;
+	for (i = 0; i < numberOfRelays; i++) {
+		alarmTimer[i] = 0;
+		alarmTimerThreshold[i] = (int) 200 * getRand();
+		tripTimer[i] = 0;
+		tripTimerThreshold[i] = (int) 1000 * getRand();
+		lampTestMonitor[i] = relays[i]->Ind.LEDTest;
+//		relays[i]->Ind.Trip = 1;
+	}
 
 	float phaseVoltageMag = (float) (11000.0 / sqrt(3));
 
 	while (1) {
-		if (++timer == 5) {
+		if (++timer >= 5) {
 			timer = 0;
 
-			int i = 0;
 			for (i = 0; i < numberOfRelays; i++) {
 				float phaseCurrentMag = 100.0 + 500.0 * (float) rand() / (float) RAND_MAX;
 				float phaseCurrentAng = -30.0 * (float) rand() / (float) RAND_MAX;
 
-				relays[i]->Hz.mag = 50.0;
+				relays[i]->Hz.mag = 50.0 + getRand() / 100.0;
 
 				relays[i]->SeqV.phsA.cVal.mag.f = phaseVoltageMag;
 				relays[i]->SeqV.phsA.cVal.ang.f = 0.0;
@@ -167,88 +176,38 @@ int main() {
 				relays[i]->A1.phsC.cVal.ang.f = 120.0 + phaseCurrentAng;
 				relays[i]->A1.neut.cVal.mag.f = 0.0;
 				relays[i]->A1.neut.cVal.ang.f = 0.0;
-
-				relays[i]->Ind.Trip = 1;
 			}
 		}
 
-		if (++alarmTimer == 100) {
-			alarmTimer = 0;
-			relays[0]->Ind.NumOfAlarms++;
+		for (i = 0; i < numberOfRelays; i++) {
+			if (++alarmTimer[i] >= alarmTimerThreshold[i]) {
+				alarmTimer[i] = 0;
+				relays[i]->Ind.NumOfAlarms++;
+			}
+			if (++tripTimer[i] >= tripTimerThreshold[i]) {
+				tripTimer[i] = 0;
+				relays[i]->Ind.Trip = 1;
+			}
+
+			if (lampTestMonitor[i] != relays[i]->Ind.LEDTest) {
+				lampTestMonitor[i] = relays[i]->Ind.LEDTest;
+				printf("Relay %i LED lamp test: %i\n", i + 1, relays[i]->Ind.LEDTest);
+				fflush(stdout);
+			}
+
+			if (relays[i]->Ind.ResetIndications != 0) {
+				relays[i]->Ind.ResetIndications = 0;
+				relays[i]->Ind.Trip = 0;
+				relays[i]->Ind.NumOfAlarms = 0;
+				alarmTimer[i] = 0;
+				tripTimer[i] = 0;
+//				printf("Relay %i reset trips\n", i + 1);
+//				fflush(stdout);
+			}
 		}
 
-		if (lampTestMonitor != relays[0]->Ind.LEDTest) {
-			lampTestMonitor = relays[0]->Ind.LEDTest;
-			printf("LED lamp test: %i\n", relays[0]->Ind.LEDTest);
-			fflush(stdout);
-		}
 
-		if (resetTripMonitor != relays[0]->Ind.Trip) {
-			resetTripMonitor = relays[0]->Ind.Trip;
-			relays[0]->Ind.NumOfAlarms = 0;
-			alarmTimer = 0;
-		}
-
-//		printf("trip: %i, SG: %i\n", relays[i]->Ind.Trip, relays[i]->Attr.ActiveSettingGroup);
-//		fflush(stdout);
-
-
-#ifndef USE_SSL
-//		int port;
-//		int reply_len;
-//		char *reply;
-//
-//		// test get values
-//		for (port = 8001; port <= 8012; port++) {
-//			reply = send_http_request_get(port, &reply_len, "/");
-//			free(reply);
-//			Sleep(1);
-//		}
-//
-//		// test get definition
-//		for (port = 8001; port <= 8012; port++) {
-//			reply = send_http_request_get(port, &reply_len, "/definition/");
-//			free(reply);
-//			Sleep(1);
-//		}
-//
-//		// test get directory
-//		for (port = 8001; port <= 8012; port++) {
-//			char *reply = send_http_request_get(port, &reply_len, "/directory/");
-//			free(reply);
-//			Sleep(1);
-//		}
-//
-//		// test setting values
-//		{
-//			float x = (float) rand() / (float) (RAND_MAX / 10000.0);
-//			char value[32] = {0};
-//			sprintf(value, "%f", x);
-//			reply = send_http_request_post(8012, &reply_len, "/C1/exampleMMXU_1.A.phsA.cVal.mag.f", value);
-//			free(reply);
-//			Sleep(1);
-//
-//			sprintf(value, "%d", (int) x);
-//			reply = send_http_request_post(8012, &reply_len, "/C1/exampleMMXU_1.A/phsA.testInteger", value);
-//			free(reply);
-//			Sleep(1);
-//
-//			reply = send_http_request_post(8001, &reply_len, "/C1/LN0.NamPlt.configRev", "abcdefgh");
-//			free(reply);
-//			Sleep(1);
-//
-//			reply = send_http_request_post(8012, &reply_len, "/C1/LN0/NamPlt/configRev/", "xyz");
-//			free(reply);
-//			Sleep(1);
-//
-//			reply = send_http_request_post(8012, &reply_len, "/C1/LN0/NamPlt/configRev", "1234567890");
-//			free(reply);
-//			Sleep(1);
-//		}
 		Sleep(100);
-#else
-		Sleep(100);
-#endif
 	}
 #endif
 

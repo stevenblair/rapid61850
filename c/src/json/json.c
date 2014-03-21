@@ -237,12 +237,12 @@ int setItem(Item *item, char *input, int input_len) {
 			// compound data types are not allowed
 			return 0;
 		case BASIC_TYPE_BOOLEAN:
-			if (strcmp(input, "false") == 0) {
-				*(CTYPE_BOOLEAN *) data = 0;
+			if (strncmp(input, "true", 4) == 0) {
+				*(CTYPE_BOOLEAN *) data = 1;
 				return 1;
 			}
 			else {
-				*(CTYPE_BOOLEAN *) data = 1;
+				*(CTYPE_BOOLEAN *) data = 0;
 				return 1;
 			}
 		case BASIC_TYPE_INT8:
@@ -947,6 +947,9 @@ static int handle_http(struct mg_connection *conn) {
 	else if (strcmp(conn->request_method, "POST") == 0) {
 		item = getItemFromPath(acsiServer->iedName, (char *) url);
 		int setReturn = setItem(item, conn->content, conn->content_len);
+
+//		printf("content: %.*s\n", conn->content_len, conn->content);
+//		fflush(stdout);
 
 		if (setReturn > 0) {
 			mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
