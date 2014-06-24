@@ -938,6 +938,8 @@ static int handle_http(struct mg_connection *conn) {
 			acsiServer->clients = addClient(acsiServer->clients, conn->remote_ip, conn->remote_port);
 #endif
 		    mg_send_header(conn, "Content-Type", "application/json");
+		    mg_send_header(conn, "Cache-Control", "no-cache");
+		    mg_send_header(conn, "Access-Control-Allow-Origin", "*");
 			mg_send_data(conn, printBuf, len);
 //			printf("len: %d\n", len);
 //			fflush(stdout);
