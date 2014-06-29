@@ -115,13 +115,14 @@ int main() {
 	int tripTimer[numberOfRelays];
 	int tripTimerThreshold[numberOfRelays];
 	int lampTestMonitor[numberOfRelays];
+	int maxAlarms = 10;
 
 	int i = 0;
 	for (i = 0; i < numberOfRelays; i++) {
 		alarmTimer[i] = 0;
-		alarmTimerThreshold[i] = (int) 200 * getRand();
+		alarmTimerThreshold[i] = (int) 20000 * getRand();
 		tripTimer[i] = 0;
-		tripTimerThreshold[i] = (int) 1000 * getRand();
+		tripTimerThreshold[i] = (int) 100000 * getRand();
 		lampTestMonitor[i] = relays[i]->Ind.LEDTest;
 //		relays[i]->Ind.Trip = 1;
 	}
@@ -133,7 +134,7 @@ int main() {
 			timer = 0;
 
 			for (i = 0; i < numberOfRelays; i++) {
-				float phaseCurrentMag = 100.0 + 500.0 * (float) rand() / (float) RAND_MAX;
+				float phaseCurrentMag = 200.0 + 50.0 * (float) rand() / (float) RAND_MAX;
 				float phaseCurrentAng = -30.0 * (float) rand() / (float) RAND_MAX;
 
 				relays[i]->Hz.mag = 50.0 + getRand() / 100.0;
@@ -180,7 +181,7 @@ int main() {
 		}
 
 		for (i = 0; i < numberOfRelays; i++) {
-			if (++alarmTimer[i] >= alarmTimerThreshold[i]) {
+			if (++alarmTimer[i] >= alarmTimerThreshold[i] && relays[i]->Ind.NumOfAlarms < maxAlarms) {
 				alarmTimer[i] = 0;
 				relays[i]->Ind.NumOfAlarms++;
 			}
@@ -207,7 +208,7 @@ int main() {
 		}
 
 
-		Sleep(100);
+		usleep(1000);
 	}
 #endif
 

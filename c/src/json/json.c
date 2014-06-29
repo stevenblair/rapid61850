@@ -954,6 +954,8 @@ static int handle_http(struct mg_connection *conn) {
 //		fflush(stdout);
 
 		if (setReturn > 0) {
+		    mg_send_header(conn, "Cache-Control", "no-cache");
+		    mg_send_header(conn, "Access-Control-Allow-Origin", "*");
 			mg_send_data(conn, ACSI_OK, strlen(ACSI_OK));
 		}
 		else {
