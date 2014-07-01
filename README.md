@@ -19,7 +19,7 @@ This readme file describes how to set up the software, and its basic use.
  - Simple API. The platform can be used in two ways:
    - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
    - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to automatically handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
- - An experimental JSON-based implementation of the IEC 61850 ACSI. A very lightweight HTTP/HTTPS stack makes the rapid61850 data model self-describing and accessible on-demand. This is a significantly simplified alternative to the MMS protocol or the mapping to SOAP-based web services in IEC 61400-25-4. The use of JSON as the data format is easily supported by several programming languages, and especially JavaScript-based web apps.
+ - An experimental JSON-based implementation of the IEC 61850-7-2 ACSI. A very lightweight HTTP/HTTPS stack makes the rapid61850 data model self-describing and accessible on-demand. This is a significantly simplified alternative to the MMS protocol or the mapping to SOAP-based web services as in IEC 61400-25-4. The use of JSON as the data format is easily supported by several programming languages, and especially JavaScript-based web apps. Therefore, it is simpler to create multi-vendor IED monitoring applications.
  - Open source, under the GPL 2
 
 You can read more about the motivation and benefits of the project [here](http://strathprints.strath.ac.uk/43427/1/S_Blair_Rapid_IEC_61850_preprint.pdf).
@@ -153,7 +153,7 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 ## Using the JSON interface ##
 
-*This functionality is highly experimental. Some data types have not been fully tested yet. There is only verified support for Windows at present, but Linux and OS X will be supported. At the moment, it will be difficult, although possible, to use the JSON interface on an embedded (i.e., non-POSIX) platform.*
+*This functionality is highly experimental. Some data types have not been fully tested yet. Support for Windows and Linux has been verified; OS X should work too. The JSON interface can run on an embedded (i.e., non-POSIX) platform, but an alternative web server is necessary.*
 
 An "index" of the data model provided by rapid61850 is generated automatically. This fully "exposes" the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been provided for implementing the IEC 61850 abstract communication service interface (ACSI), and this JSON interface is exposed via HTTP (or HTTPS).
 
