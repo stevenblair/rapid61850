@@ -153,17 +153,17 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 ## Using the JSON interface ##
 
-*This functionality is highly experimental. Some data types have not been fully tested yet. Support for Windows and Linux has been verified; OS X should work too. The JSON interface can run on an embedded (i.e., non-POSIX) platform, but an alternative web server is necessary.*
+*This functionality is highly experimental. Some data types and ACSI services have not been fully tested yet. Support for Windows and Linux has been verified; OS X should work too. The JSON interface can run on an embedded (i.e., non-POSIX) platform, but an alternative web server is necessary.*
 
-An "index" of the data model provided by rapid61850 is generated automatically. This fully "exposes" the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been provided for implementing the IEC 61850 abstract communication service interface (ACSI), and this JSON interface is exposed via HTTP (or HTTPS).
+An "index" of the data model provided by rapid61850 is generated automatically. This fully exposes the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been provided for implementing the IEC 61850-7-2 abstract communication service interface (ACSI), and this JSON interface is exposed via HTTP (or HTTPS).
 
-[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository, provides a simple and lightweight web server. As with the rest of rapid61850, the JSON interface "implements" all IEDs specified in the SCD file. By default, a new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model, but different IEDs should not modify each other's data directly.) As well as the HTTP server for each IED, there is a basic facility for an HTTP client, for IEDs to perform GET and POST operations on other IEDs - whether local or remote.
+[Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository and has an open source GPL 2 license, provides a simple and lightweight web server. As with the rest of `rapid61850`, the JSON interface "implements" all IEDs specified in the SCD file. By default, a new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model, but different IEDs should not modify each other's data directly.) As well as the HTTP server for each IED, there is a basic facility for an HTTP client, for IEDs to perform GET and POST operations on other IEDs - whether local or remote.
 
 ### API details ###
 
 There are examples of how to use each command from C code in `main_json.c`. JSON prettification (formatting with whitespace) can be enabled at compile-time.
 
-Either '.' or '/' can be used to separate items in the object reference, but the separator between the Logical Device and the object reference must be '/'. All URLs are case-sensitive.
+Either `.` or `/` can be used to separate items in the object reference, but the separator between the Logical Device and the object reference must be `/`. All URLs are case-sensitive.
 
 #### Associate ####
 
@@ -297,11 +297,11 @@ Returns: `ok` if successful
 
  1. Install OpenSSL for your operating system.
  2. In the C project build settings:
-   a. define the symbol `USE_SSL`
-   b. link to the library `ssleay32`
+    1. define the symbol `USE_SSL`
+    2. link to the library `ssleay32`
  3. Link with SSL library
-   a. Copy the file `ssleay32.dll` from the OpenSSL `bin` directory (e.g., `"C:\OpenSSL-Win32\bin"` on Windows) to the `c/Lib` directory in the repository.
-   b. Rename the DLL to `libssleay32.a`.
+    1. Copy the file `ssleay32.dll` from the OpenSSL `bin` directory (e.g., `"C:\OpenSSL-Win32\bin"` on Windows) to the `c/Lib` directory in the repository.
+    2. Rename the DLL to `libssleay32.a`.
  3. Ensure that the SSL certificate (ssl_cert.pem) is in the appropriate directory: typically at the root of the `C` directory if running from Eclipse. WARNING: the included certificate file is for testing only. Generate or purchase a new certificate for production purposes.
  4. If you wish to use HTTP authentication, set `USE_HTTP_AUTH` to `1` in `json.h`. Create your password file called `htpasswd.txt`, in the same directory as the SSL certificate. Mongoose (as well as various web sites) can be used to help create the MD5 hash: see `main_json.c` for an example.
 
