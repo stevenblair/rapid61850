@@ -4,40 +4,28 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>rapid61850 by stevenblair</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-
+    <div class="wrapper">
       <header>
         <h1>rapid61850</h1>
         <p>Rapid-prototyping protection and control schemes with IEC 61850</p>
+        <p class="view"><a href="https://github.com/stevenblair/rapid61850">View the Project on GitHub <small>stevenblair/rapid61850</small></a></p>
+        <ul>
+          <li><a href="https://github.com/stevenblair/rapid61850/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/stevenblair/rapid61850/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/stevenblair/rapid61850">View On <strong>GitHub</strong></a></li>
+        </ul>
       </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/stevenblair/rapid61850" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/stevenblair/rapid61850/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/stevenblair/rapid61850/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
-
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
       <section>
         <h1>
 <a name="rapid-prototyping-protection-schemes-with-iec-61850" class="anchor" href="#rapid-prototyping-protection-schemes-with-iec-61850"><span class="octicon octicon-link"></span></a>Rapid-prototyping protection schemes with IEC 61850</h1>
@@ -46,7 +34,7 @@
 
 <p>This readme file describes how to set up the software, and its basic use.</p>
 
-<p><em>The code is meant to be a proof of concept, and is highly experimental. It has not been tested on many SCD files. Some features may be incomplete.</em></p>
+<p><em>The code is meant to be a proof of concept, and some parts are experimental. It has not been tested on many SCD files. Some features may be incomplete.</em></p>
 
 <p><img src="http://personal.strath.ac.uk/steven.m.blair/mbed-cropped.png"></p>
 
@@ -67,8 +55,11 @@
 <li>As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to automatically handle the communications and data model, with <a href="http://www.swig.org">SWIG</a> wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.</li>
 </ul>
 </li>
+<li>An HTTP and JSON-based implementation of the IEC 61850-7-2 ACSI. A very lightweight HTTP/HTTPS stack makes the rapid61850 data model self-describing and accessible at run-time, on-demand. This is a significantly simplified alternative to the MMS protocol or the mapping to SOAP-based web services as in IEC 61400-25-4. The use of JSON as the data format is easily supported by several programming languages, and especially JavaScript-based web applications. Therefore, it is simpler to create multi-vendor IED monitoring and control applications.</li>
 <li>Open source, under the GPL 2</li>
-</ul><h2>
+</ul><p>You can read more about the motivation and benefits of the project <a href="http://strathprints.strath.ac.uk/43427/1/S_Blair_Rapid_IEC_61850_preprint.pdf">here</a>.</p>
+
+<h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>This process has been tested on Windows and Ubuntu, but other Linux flavours and OS X should work too. Most steps only need to be completed once.</p>
@@ -216,11 +207,180 @@
 
 <p>All <code>CTYPE_*</code> definitions must map to local datatypes of the correct size and sign.</p>
 
-<p>In <code>ctypes.c</code>, the basic library function <code>memcpy()</code> is used to copy bytes in order (according to platform endianness), and <code>reversememcpy()</code> copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these should work, they can be replaced with platform-specific alternatives for better performance.</p>
+<p>In <code>ctypes.c</code>, the basic library function <code>memcpy()</code> is used to copy bytes in order (according to platform endianness), and <code>reversememcpy()</code> copies the bytes of multi-byte data types in reverse order (for converting between endianness). Although these will work, they can be replaced with platform-specific alternatives for better performance.</p>
 
 <p>The value of <code>TIMESTAMP_SUPPORTED</code> should be set to <code>0</code>, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.</p>
 
 <h2>
+<a name="using-the-http-and-json-interface" class="anchor" href="#using-the-http-and-json-interface"><span class="octicon octicon-link"></span></a>Using the HTTP and JSON interface</h2>
+
+<p><em>This functionality is experimental. Some data types and ACSI services have not been fully tested yet. Support for Windows and Linux has been verified; OS X should work too. The JSON interface can run on an embedded (i.e., non-POSIX) platform, but an alternative web server is necessary.</em></p>
+
+<p>An "index" of the data model provided by rapid61850 is generated automatically. This fully exposes the data model, including all metadata (such as data types and functional constraints), at run-time. A JavaScript object notation (JSON) data format, with an interface which is exposed via HTTP (or HTTPS), has been provided for implementing the IEC 61850-7-2 abstract communication service interface (ACSI).</p>
+
+<p><a href="https://github.com/cesanta/mongoose">Mongoose</a>, which is embedded in the repository and has an open source GPL 2 license, provides a simple and lightweight web server. As with the rest of <code>rapid61850</code>, the JSON interface "implements" all IEDs specified in the SCD file. By default, a new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model, but different IEDs should not modify each other's data directly.) As well as the HTTP server for each IED, there is a basic facility for an HTTP client, for IEDs to perform GET and POST operations on other IEDs - whether local or remote.</p>
+
+<h3>
+<a name="api-details" class="anchor" href="#api-details"><span class="octicon octicon-link"></span></a>API details</h3>
+
+<p>There are examples of how to use each command from C code in <code>main_json.c</code>. JSON prettification (formatting with whitespace) can be enabled at compile-time.</p>
+
+<p>Either <code>.</code> or <code>/</code> can be used to separate items in the object reference, but the separator between the Logical Device and the object reference must be <code>/</code>. All URLs are case-sensitive.</p>
+
+<h4>
+<a name="associate" class="anchor" href="#associate"><span class="octicon octicon-link"></span></a>Associate</h4>
+
+<p>Explicitly creates an ACSI association, using the IP address and port of the requester as the ID. <code>ACSI_AUTO_ASSOCIATE</code> can be set to <code>1</code> to automatically associate any client that requests data. Alternatively, this command can be completely ignored for convenience. If using HTTP authentication (with SSL), the username and password act as the authentication parameters for the association.</p>
+
+<p>HTTP <code>GET</code> with: <code>/associate</code></p>
+
+<h4>
+<a name="release" class="anchor" href="#release"><span class="octicon octicon-link"></span></a>Release</h4>
+
+<p>Releases an ACSI association.</p>
+
+<p>HTTP <code>GET</code> with: <code>/release</code></p>
+
+<h4>
+<a name="abort" class="anchor" href="#abort"><span class="octicon octicon-link"></span></a>Abort</h4>
+
+<p>Aborts an ACSI association.</p>
+
+<p>HTTP <code>GET</code> with: <code>/abort</code></p>
+
+<h4>
+<a name="get-value" class="anchor" href="#get-value"><span class="octicon octicon-link"></span></a>Get value</h4>
+
+<p>Returns the value of the specified element and all sub-elements, if applicable. The is effectively the default response for the server; if no Logical Device is specified, then all data for the entire IED will be returned.</p>
+
+<p>HTTP <code>GET</code> with: <code>/&lt;LD&gt;/&lt;ObjectRef&gt;</code></p>
+
+<hr><p>Example: <code>GET http://localhost:8001/C1/LN0.NamPlt.configRev</code></p>
+
+<p>Returns: <code>{"configRev":"Rev 3.45"}</code></p>
+
+<hr><p>Example: <code>GET http://localhost:8001/C1/exampleRMXU_1.AmpLocPhsB</code></p>
+
+<p>Returns: <code>{"AmpLocPhsB":{"instMag":{"f":1.024000},"q":0}}</code></p>
+
+<h4>
+<a name="get-definition" class="anchor" href="#get-definition"><span class="octicon octicon-link"></span></a>Get definition</h4>
+
+<p>Returns the data definition of the specified element.</p>
+
+<p>HTTP <code>GET</code> with: <code>/definition/&lt;LD&gt;/&lt;ObjectRef&gt;</code></p>
+
+<hr><p>Example: <code>GET http://localhost:8001/definition/C1/LN0.NamPlt.configRev</code></p>
+
+<p>Returns: <code>{"name":"configRev","type":"VisString255","FC":"DC"}</code></p>
+
+<hr><p>Example: <code>GET http://localhost:8001/definition/C1/exampleRMXU_1.AmpLocPhsB</code></p>
+
+<p>Returns: <code>{"name":"AmpLocPhsB","type":"simpleSAV","CDC":"SAV"}</code></p>
+
+<h4>
+<a name="get-directory" class="anchor" href="#get-directory"><span class="octicon octicon-link"></span></a>Get directory</h4>
+
+<p>Returns the definition of the full hierarchy, starting from the specified element. I.e., does the same as "get definition", except that it recursively seeks out all leaf nodes.</p>
+
+<p>HTTP <code>GET</code> with: <code>/directory/&lt;LD&gt;/&lt;ObjectRef&gt;</code></p>
+
+<hr><p>Example: <code>GET http://localhost:8001/directory/C1/LN0.NamPlt.configRev</code></p>
+
+<p>Returns:</p>
+
+<div class="highlight highlight-JSON"><pre><span class="p">{</span>
+    <span class="nt">"name"</span> <span class="p">:</span> <span class="s2">"configRev"</span><span class="p">,</span>
+    <span class="nt">"type"</span> <span class="p">:</span> <span class="s2">"VisString255"</span><span class="p">,</span>
+    <span class="nt">"FC"</span> <span class="p">:</span> <span class="s2">"DC"</span><span class="p">,</span>
+    <span class="nt">"items"</span> <span class="p">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+</pre></div>
+
+<hr><p>Example: <code>GET http://localhost:8001/directory/C1/exampleRMXU_1.AmpLocPhsB</code></p>
+
+<p>Returns:</p>
+
+<div class="highlight highlight-JSON"><pre><span class="p">{</span>
+    <span class="nt">"name"</span> <span class="p">:</span> <span class="s2">"AmpLocPhsB"</span><span class="p">,</span>
+    <span class="nt">"type"</span> <span class="p">:</span> <span class="s2">"simpleSAV"</span><span class="p">,</span>
+    <span class="nt">"CDC"</span> <span class="p">:</span> <span class="s2">"SAV"</span><span class="p">,</span>
+    <span class="nt">"items"</span> <span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">"name"</span> <span class="p">:</span> <span class="s2">"instMag"</span><span class="p">,</span>
+            <span class="nt">"type"</span> <span class="p">:</span> <span class="s2">"myAnalogValue"</span><span class="p">,</span>
+            <span class="nt">"FC"</span> <span class="p">:</span> <span class="s2">"MX"</span><span class="p">,</span>
+            <span class="nt">"items"</span> <span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="nt">"name"</span> <span class="p">:</span> <span class="s2">"f"</span><span class="p">,</span>
+                    <span class="nt">"type"</span> <span class="p">:</span> <span class="s2">"FLOAT32"</span><span class="p">,</span>
+                    <span class="nt">"items"</span> <span class="p">:</span> <span class="p">[]</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">"name"</span> <span class="p">:</span> <span class="s2">"q"</span><span class="p">,</span>
+            <span class="nt">"type"</span> <span class="p">:</span> <span class="s2">"Quality"</span><span class="p">,</span>
+            <span class="nt">"FC"</span> <span class="p">:</span> <span class="s2">"MX"</span><span class="p">,</span>
+            <span class="nt">"qchg"</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">"items"</span> <span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+   <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+<h4>
+<a name="set-value" class="anchor" href="#set-value"><span class="octicon octicon-link"></span></a>Set value</h4>
+
+<p>Attempts to set the value of the specified element.</p>
+
+<p>HTTP <code>POST</code> with: <code>/&lt;LD&gt;/&lt;ObjectRef&gt;</code> and with the new data value encoded as a string in the message body</p>
+
+<hr><p>Example: <code>GET http://localhost:8001/C1/exampleMMXU_1.A.phsA.cVal.mag.f</code>, <code>123.456</code></p>
+
+<p>Returns: <code>ok</code> if successful</p>
+
+<h3>
+<a name="building-the-json-interface-code" class="anchor" href="#building-the-json-interface-code"><span class="octicon octicon-link"></span></a>Building the JSON interface code</h3>
+
+<p>Two JSON examples are provided in the repository:</p>
+
+<ol>
+<li>A generic testing application, using <code>scd.xml</code> with <code>main_json.c</code>, and</li>
+<li>A simplified multi-vendor IED monitoring application, using <code>ied_monitor.xml</code> with <code>main_json_ied_monitor.c</code>.</li>
+</ol><p>To run the IED monitoring application:</p>
+
+<ol>
+<li>Generate C code for the <code>ied_monitor.xml</code> SCD file included in the repository. You may need to alter the <code>JSON_WEB_SERVER_START_PORT</code> variable in <code>SCDCodeGenerator.java</code> to control the TCP port range used for web server instances.</li>
+<li>In the C project build settings, add <code>"${workspace_loc:/${ProjName}/src}"</code> as an include path. This ensures the JSON code can access the other header files.</li>
+<li>Ensure that the <em>.c files in the <code>c/src/json directory</code> and <code>main_json_ied_monitor.c</code> are included in the build, and that the other `main</em>.c` files are not included.</li>
+<li>In <code>ctypes.h</code>, set <code>JSON_INTERFACE</code> to <code>1</code>.</li>
+<li>Build and run the C project. On Windows, this step can take a long time, depending on the size of the data model.</li>
+<li>Open a web browser and go to <code>http://localhost:8001/C1</code> to confirm that the web server is working.</li>
+</ol><h3>
+<a name="using-ssl-to-encrypt-all-connections" class="anchor" href="#using-ssl-to-encrypt-all-connections"><span class="octicon octicon-link"></span></a>Using SSL to encrypt all connections</h3>
+
+<ol>
+<li>Install OpenSSL for your operating system.</li>
+<li>In the C project build settings:
+
+<ol>
+<li>define the symbol <code>USE_SSL</code>
+</li>
+<li>link to the library <code>ssleay32</code>
+</li>
+</ol>
+</li>
+<li>Link with SSL library
+
+<ol>
+<li>Copy the file <code>ssleay32.dll</code> from the OpenSSL <code>bin</code> directory (e.g., <code>"C:\OpenSSL-Win32\bin"</code> on Windows) to the <code>c/Lib</code> directory in the repository.</li>
+<li>Rename the DLL to <code>libssleay32.a</code>.</li>
+</ol>
+</li>
+<li>Ensure that the SSL certificate (ssl_cert.pem) is in the appropriate directory: typically at the root of the <code>C</code> directory if running from Eclipse. WARNING: the included certificate file is for testing only. Generate or purchase a new certificate for production purposes.</li>
+<li>If you wish to use HTTP authentication, set <code>USE_HTTP_AUTH</code> to <code>1</code> in <code>json.h</code>. Create your password file called <code>htpasswd.txt</code>, in the same directory as the SSL certificate. Mongoose (as well as various web sites) can be used to help create the MD5 hash: see <code>main_json.c</code> for an example.</li>
+</ol><h2>
 <a name="using-the-python-or-java-interfaces" class="anchor" href="#using-the-python-or-java-interfaces"><span class="octicon octicon-link"></span></a>Using the Python or Java interfaces</h2>
 
 <p>So far, this readme has described how to use the native C/C++ interface. It's also possible to use <a href="http://www.swig.org/">SWIG</a> to automatically generate wrappers for high-level languages from C/C++ header files. At the moment, Python and Java interfaces on Windows and Linux have been tested, but other languages (such as C#, Lua, Perl, Ruby, etc.) should work too. (You can also use the high-level interface from C/C++ too, but not alongside the native interface.)</p>
@@ -372,7 +532,7 @@
 </ul><h3>
 <a name="building-on-linux" class="anchor" href="#building-on-linux"><span class="octicon octicon-link"></span></a>Building on Linux</h3>
 
-<p>On Linux, it's easier to create the Python or Java interface with the Terminal, rather than with Eclipse. The steps below assume Ubuntu (and have only been tested on 11.10 64-bit), so it may differ on other distributions. <strong>Note that because the following scripts compile all *.c files, the example <code>main*.c</code> files may need to be deleted from the C source code directory.</strong></p>
+<p>On Linux, it's easier to create the Python or Java interface with the Terminal, rather than with Eclipse. The steps below assume Ubuntu (and have only been tested on 11.10 64-bit), so it may differ on other distributions. <strong>Note that because the following scripts compile all <em>.c files, the example `main</em>.c` files may need to be deleted from the C source code directory.</strong></p>
 
 <p>Install the following packages:</p>
 
@@ -455,12 +615,12 @@ sudo java -Djava.library.path<span class="o">=</span>/home/steven/rapid61850/c/s
 
 <div class="highlight highlight-java"><pre><span class="kd">public</span> <span class="kt">void</span> <span class="nf">checkForDuplicateNames</span><span class="o">(</span><span class="n">DocumentRoot</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// describe a condition: is the object an IED (called `TIED` in EMF)?</span>
-    <span class="kd">final</span> <span class="n">EObjectCondition</span> <span class="n">isIED</span> <span class="o">=</span> <span class="k">new</span> <span class="n">EObjectTypeRelationCondition</span><span class="o">(</span>
+    <span class="kd">final</span> <span class="n">EObjectCondition</span> <span class="n">isIED</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">EObjectTypeRelationCondition</span><span class="o">(</span>
         <span class="n">SclPackage</span><span class="o">.</span><span class="na">eINSTANCE</span><span class="o">.</span><span class="na">getTIED</span><span class="o">()</span>
     <span class="o">);</span>
 
     <span class="c1">// build and execute a query</span>
-    <span class="n">IQueryResult</span> <span class="n">iedResult</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SELECT</span><span class="o">(</span>
+    <span class="n">IQueryResult</span> <span class="n">iedResult</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">SELECT</span><span class="o">(</span>
         <span class="k">new</span> <span class="nf">FROM</span><span class="o">(</span><span class="n">root</span><span class="o">),</span>
         <span class="k">new</span> <span class="nf">WHERE</span><span class="o">(</span><span class="n">isIED</span><span class="o">)</span>
     <span class="o">).</span><span class="na">execute</span><span class="o">();</span>
@@ -513,11 +673,11 @@ sudo java -Djava.library.path<span class="o">=</span>/home/steven/rapid61850/c/s
 <li>Support for trigger options is not implemented at present.</li>
 </ul>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/stevenblair">stevenblair</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
-      </footer>
     </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/stevenblair">stevenblair</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
