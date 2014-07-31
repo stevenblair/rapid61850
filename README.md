@@ -4,7 +4,7 @@ The goal of this software is to automatically generate C/C++ code which reads an
 
 This readme file describes how to set up the software, and its basic use.
 
-*The code is meant to be a proof of concept, and is highly experimental. It has not been tested on many SCD files. Some features may be incomplete.*
+*The code is meant to be a proof of concept, and some parts are experimental. It has not been tested on many SCD files. Some features may be incomplete.*
 
 <img style="float:right" src="http://personal.strath.ac.uk/steven.m.blair/mbed-cropped.png" />
 
@@ -19,7 +19,7 @@ This readme file describes how to set up the software, and its basic use.
  - Simple API. The platform can be used in two ways:
    - As part of a native C/C++ program. This approach would be used where deterministic real-time performance is important, or where the network interface is custom (such as on a microcontroller). It also works well with the Qt C++ GUI framework.
    - As part of a Python or Java program. This approach uses additional C code (with winpcap/libpcap) to automatically handle the communications and data model, with [SWIG](http://www.swig.org) wrappers to link to a Python or Java program. All the communications is handled behind the scenes. It is useful for any application where sub-millisecond performance is not needed, because it offers the comfort and convenience of writing your control logic code in a high-level language.
- - An experimental JSON-based implementation of the IEC 61850-7-2 ACSI. A very lightweight HTTP/HTTPS stack makes the rapid61850 data model self-describing and accessible on-demand. This is a significantly simplified alternative to the MMS protocol or the mapping to SOAP-based web services as in IEC 61400-25-4. The use of JSON as the data format is easily supported by several programming languages, and especially JavaScript-based web apps. Therefore, it is simpler to create multi-vendor IED monitoring applications.
+ - An HTTP and JSON-based implementation of the IEC 61850-7-2 ACSI. A very lightweight HTTP/HTTPS stack makes the rapid61850 data model self-describing and accessible at run-time, on-demand. This is a significantly simplified alternative to the MMS protocol or the mapping to SOAP-based web services as in IEC 61400-25-4. The use of JSON as the data format is easily supported by several programming languages, and especially JavaScript-based web applications. Therefore, it is simpler to create multi-vendor IED monitoring and control applications.
  - Open source, under the GPL 2
 
 You can read more about the motivation and benefits of the project [here](http://strathprints.strath.ac.uk/43427/1/S_Blair_Rapid_IEC_61850_preprint.pdf).
@@ -151,11 +151,11 @@ In `ctypes.c`, the basic library function `memcpy()` is used to copy bytes in or
 
 The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.
 
-## Using the JSON interface ##
+## Using the HTTP and JSON interface ##
 
-*This functionality is highly experimental. Some data types and ACSI services have not been fully tested yet. Support for Windows and Linux has been verified; OS X should work too. The JSON interface can run on an embedded (i.e., non-POSIX) platform, but an alternative web server is necessary.*
+*This functionality is experimental. Some data types and ACSI services have not been fully tested yet. Support for Windows and Linux has been verified; OS X should work too. The JSON interface can run on an embedded (i.e., non-POSIX) platform, but an alternative web server is necessary.*
 
-An "index" of the data model provided by rapid61850 is generated automatically. This fully exposes the data model, including all meta data (such as data types and functional constraints). A JavaScript object notation (JSON) interface has been provided for implementing the IEC 61850-7-2 abstract communication service interface (ACSI), and this JSON interface is exposed via HTTP (or HTTPS).
+An "index" of the data model provided by rapid61850 is generated automatically. This fully exposes the data model, including all metadata (such as data types and functional constraints), at run-time. A JavaScript object notation (JSON) data format, with an interface which is exposed via HTTP (or HTTPS), has been provided for implementing the IEC 61850-7-2 abstract communication service interface (ACSI).
 
 [Mongoose](https://github.com/cesanta/mongoose), which is embedded in the repository and has an open source GPL 2 license, provides a simple and lightweight web server. As with the rest of `rapid61850`, the JSON interface "implements" all IEDs specified in the SCD file. By default, a new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model, but different IEDs should not modify each other's data directly.) As well as the HTTP server for each IED, there is a basic facility for an HTTP client, for IEDs to perform GET and POST operations on other IEDs - whether local or remote.
 
@@ -287,11 +287,19 @@ Returns: `ok` if successful
 
 ### Building the JSON interface code ###
 
- 1. Switch to the 'json' branch
+Two JSON examples are provided in the repository:
+
+ 1. A generic testing application, using `scd.xml` with `main_json.c`, and
+ 2. A simplified multi-vendor IED monitoring application, using `ied_monitor.xml` with `main_json_ied_monitor.c`.
+
+To run the IED monitoring application:
+
+ 1. Generate C code for the `ied_monitor.xml` SCD file included in the repository. You may need to alter the `JSON_WEB_SERVER_START_PORT` variable in `SCDCodeGenerator.java` to control the TCP port range used for web server instances.
  2. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. This ensures the JSON code can access the other header files.
- 3. Ensure that the *.c files in the `c/src/json directory` and `main_json.c` are included in the build, and that the other `main*.c` files are not included.
+ 3. Ensure that the *.c files in the `c/src/json directory` and `main_json_ied_monitor.c` are included in the build, and that the other `main*.c` files are not included.
  4. In `ctypes.h`, set `JSON_INTERFACE` to `1`.
- 5. Build and run `main_json.c`.
+ 5. Build and run the C project. On Windows, this step can take a long time, depending on the size of the data model.
+ 6. Open a web browser and go to `http://localhost:8001/C1` to confirm that the web server is working.
 
 ### Using SSL to encrypt all connections ###
 

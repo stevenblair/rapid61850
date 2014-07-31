@@ -115,21 +115,21 @@ int main() {
 		for (port = 8001; port <= 8012; port++) {
 			reply = send_http_request_get(port, &reply_len, "/");
 			free(reply);
-			Sleep(1);
+			usleep(1000);
 		}
 
 		// test get definition
 		for (port = 8001; port <= 8012; port++) {
 			reply = send_http_request_get(port, &reply_len, "/definition/");
 			free(reply);
-			Sleep(1);
+			usleep(1000);
 		}
 
 		// test get directory
 		for (port = 8001; port <= 8012; port++) {
 			char *reply = send_http_request_get(port, &reply_len, "/directory/");
 			free(reply);
-			Sleep(1);
+			usleep(1000);
 		}
 
 		// test setting values
@@ -139,27 +139,28 @@ int main() {
 			sprintf(value, "%f", x);
 			reply = send_http_request_post(8012, &reply_len, "/C1/exampleMMXU_1.A.phsA.cVal.mag.f", value);
 			free(reply);
-			Sleep(1);
+			usleep(1000);
 
 			sprintf(value, "%d", (int) x);
 			reply = send_http_request_post(8012, &reply_len, "/C1/exampleMMXU_1.A/phsA.testInteger", value);
 			free(reply);
-			Sleep(1);
+			usleep(1000);
 
 			reply = send_http_request_post(8001, &reply_len, "/C1/LN0.NamPlt.configRev", "abcdefgh");
 			free(reply);
-			Sleep(1);
+			usleep(1000);
 
 			reply = send_http_request_post(8012, &reply_len, "/C1/LN0/NamPlt/configRev/", "xyz");
 			free(reply);
-			Sleep(1);
+			usleep(1000);
 
 			reply = send_http_request_post(8012, &reply_len, "/C1/LN0/NamPlt/configRev", "1234567890");
 			free(reply);
-			Sleep(1);
+			usleep(1000);
 		}
+		usleep(1000);
 #else
-		Sleep(100);
+		usleep(10000);
 #endif
 	}
 #endif

@@ -104,6 +104,23 @@ typedef struct ACSIServer {
 } ACSIServer;
 
 /**
+ * Linked list definition for DataSet items.
+ */
+typedef struct ItemList {
+   Item *item;
+   struct ItemList *next;
+} ItemList;
+
+/**
+ * Linked list definition of DataSets.
+ */
+typedef struct DataSet {
+   char *name;
+   ItemList *itemList;
+   struct DataSet *next;
+} DataSet;
+
+/**
  * Calls auto-generated function to instantiate the index of the data model.
  */
 void init_data_model_index();
