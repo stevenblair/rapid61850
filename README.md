@@ -296,7 +296,7 @@ To run the IED monitoring application:
 
  1. Generate C code for the `ied_monitor.xml` SCD file included in the repository. You may need to alter the `JSON_WEB_SERVER_START_PORT` variable in `SCDCodeGenerator.java` to control the TCP port range used for web server instances.
  2. In the C project build settings, add `"${workspace_loc:/${ProjName}/src}"` as an include path. This ensures the JSON code can access the other header files.
- 3. Ensure that the *.c files in the `c/src/json directory` and `main_json_ied_monitor.c` are included in the build, and that the other `main*.c` files are not included.
+ 3. Ensure that the `*.c` files in the `c/src/json directory` and `main_json_ied_monitor.c` are included in the build, and that the other `main*.c` files are not included.
  4. In `ctypes.h`, set `JSON_INTERFACE` to `1`.
  5. Build and run the C project. On Windows, this step can take a long time, depending on the size of the data model.
  6. Open a web browser and go to `http://localhost:8001/C1` to confirm that the web server is working.
