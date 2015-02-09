@@ -70,12 +70,14 @@ int main() {
 	LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount].smpRate = f_nominal * samplesPerCycle;
 
 	while (1) {
-		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[0].svID[9] = (char) (((int)'0') + muNumber);
+//		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[0].svID[9] = (char) (((int)'0') + muNumber);
 		//phi = (((double) rand()) / ((double) RAND_MAX)) * PI;
 
 		for (t = 0; t < LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount].smpRate; t++) {
 			w = 2 * PI * f;
 			theta = w * (((double) t) * Ts);
+//			printf("running\n");
+//			fflush(stdout);
 
 			LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_1.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, 0)                   + harmonic(9, muNumber * 0.04, theta, 0)                   + harmonic(11, muNumber * 0.01, theta, 0));
 			LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_2.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, - TWO_PI_OVER_THREE) + harmonic(9, muNumber * 0.02, theta, - TWO_PI_OVER_THREE) + harmonic(13, muNumber * 0.01, theta, - TWO_PI_OVER_THREE));
@@ -89,19 +91,19 @@ int main() {
 
 			interface_sv_update_LE_IED_MUnn_MSVCB01();    // send SV packet
 
-			//usleep(1);
+//			usleep(250);
 		}
 
 		// simple method to vary Merging Unit number, and phase angle of current waveforms
-		muNumber++;
-		phi += 0.10 * PI;
-		if (muNumber == 4) {
-			muNumber = 0;
-			phi = 0.0;
-			Sleep(1);
-		}
+//		muNumber++;
+//		phi += 0.10 * PI;
+//		if (muNumber == 1) {
+//			muNumber = 0;
+//			phi = 0.0;
+////			usleep(1000000);//Sleep(1);
+//		}
 
-		usleep(200000);
+		usleep(1000000);
 	}
 
 	return 0;
