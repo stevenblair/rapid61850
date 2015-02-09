@@ -66,7 +66,7 @@ pcap_t *init_pcap() {
 	}
 #endif
 
-    used_if = alldevs;
+    used_if = alldevs->next->next->next;
 
 #ifdef _WIN32
     fprintf(stdout, "%s\n", used_if->description);
