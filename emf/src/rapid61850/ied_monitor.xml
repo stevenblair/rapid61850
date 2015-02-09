@@ -7,111 +7,6 @@
         <SubNetwork name="W01" type="8-MMS">
             <Text>Station bus</Text>
             <BitRate unit="b/s">10</BitRate>
-            <ConnectedAP iedName="D1Q1SB4" apName="S1">
-                <Address>
-                    <P type="IP">10.0.0.11</P>
-                    <P type="IP-SUBNET">255.255.255.0</P>
-                    <P type="IP-GATEWAY">10.0.0.101</P>
-                    <P type="OSI-TSEL">00000001</P>
-                    <P type="OSI-PSEL">01</P>
-                    <P type="OSI-SSEL">01</P>
-                </Address>
-                <GSE ldInst="C1" cbName="SyckResult">
-                    <Address>
-                        <P type="MAC-Address">01-0C-CD-01-00-02</P>
-                        <P type="APPID">3001</P>
-                        <P type="VLAN-PRIORITY">4</P>
-                    </Address>
-                </GSE>
-                <GSE ldInst="C1" cbName="MMXUResult">
-                    <Address>
-                        <P type="MAC-Address">01-0C-CD-01-00-02</P>
-                        <P type="APPID">3001</P>
-                        <P type="VLAN-PRIORITY">4</P>
-                    </Address>
-                </GSE>
-                <PhysConn type="Plug">
-                    <P type="Type">FOC</P>
-                    <P type="Plug">ST</P>
-                </PhysConn>
-            </ConnectedAP>
-            <ConnectedAP iedName="E1Q1SB1" apName="S1">
-                <Address>
-                    <P type="IP">10.0.0.1</P>
-                    <P type="IP-SUBNET">255.255.255.0</P>
-                    <P type="IP-GATEWAY">10.0.0.101</P>
-                    <P type="OSI-TSEL">00000001</P>
-                    <P type="OSI-PSEL">01</P>
-                    <P type="OSI-SSEL">01</P>
-                </Address>
-                <GSE ldInst="C1" cbName="ItlPositions">
-                    <Address>
-                        <P type="MAC-Address">01-0C-CD-01-00-04</P>
-                        <P type="APPID">3000</P>
-                        <P type="VLAN-PRIORITY">4</P>
-                    </Address>
-                </GSE>
-                <GSE ldInst="C1" cbName="AnotherPositions">
-                    <Address>
-                        <P type="MAC-Address">01-0C-CD-01-00-04</P>
-                        <P type="APPID">3000</P>
-                        <P type="VLAN-PRIORITY">4</P>
-                    </Address>
-                </GSE>
-                <GSE ldInst="C1" cbName="Performance">
-                    <Address>
-                        <P type="MAC-Address">01-0C-CD-01-00-04</P>
-                        <P type="APPID">3000</P>
-                        <P type="VLAN-PRIORITY">4</P>
-                    </Address>
-                </GSE>
-                <SMV ldInst="C1" cbName="PerformanceSV">
-                    <Address>
-                        <P type="MAC-Address">01-0C-CD-04-00-01</P>
-                        <P type="APPID">4000</P>
-                        <P type="VLAN-ID">123</P>
-                        <P type="VLAN-PRIORITY">4</P>
-                    </Address>
-                </SMV>
-                <SMV ldInst="C1" cbName="Volt">
-                    <Address>
-                        <P type="MAC-Address">01-0C-CD-04-00-01</P>
-                        <P type="APPID">4000</P>
-                        <P type="VLAN-ID">123</P>
-                        <P type="VLAN-PRIORITY">4</P>
-                    </Address>
-                </SMV>
-                <SMV ldInst="C1" cbName="rmxuCB">
-                    <Address>
-                        <P type="MAC-Address">01-0C-CD-04-00-01</P>
-                        <P type="APPID">4000</P>
-                        <P type="VLAN-ID">123</P>
-                        <P type="VLAN-PRIORITY">4</P>
-                    </Address>
-                </SMV>
-            </ConnectedAP>
-            <ConnectedAP iedName="E1Q1BP2" apName="S1">
-                <Address>
-                    <P type="IP">10.0.0.2</P>
-                    <P type="IP-SUBNET">255.255.255.0</P>
-                    <P type="IP-GATEWAY">10.0.0.101</P>
-                    <P type="OSI-TSEL">00000001</P>
-                    <P type="OSI-PSEL">01</P>
-                    <P type="OSI-SSEL">01</P>
-                </Address>
-            </ConnectedAP>
-            <ConnectedAP iedName="E1Q1BP3" apName="S1">
-                <Address>
-                    <P type="IP">10.0.0.3</P>
-                    <P type="IP-SUBNET">255.255.255.0</P>
-                    <P type="IP-GATEWAY">10.0.0.101</P>
-                    <P type="OSI-TSEL">00000001</P>
-                    <P type="OSI-PSEL">01</P>
-                    <P type="OSI-SSEL">01</P>
-                </Address>
-            </ConnectedAP>
-
-
             <ConnectedAP iedName="JSON" apName="S1">
                 <Address>
                     <P type="IP">192.168.2.21</P>
@@ -156,23 +51,26 @@
                 <LDevice inst="C1">
                     <LN0 lnType="LN0" lnClass="LLN0" inst="">
                         <DataSet name="PhsMeas1">
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="1" fc="MX" doName="Amp" daName="instMag" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="1" fc="MX" doName="Amp" daName="q" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="2" fc="MX" doName="Amp" daName="instMag" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="2" fc="MX" doName="Amp" daName="q" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="3" fc="MX" doName="Amp" daName="instMag" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="3" fc="MX" doName="Amp" daName="q" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="4" fc="MX" doName="Amp" daName="instMag" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TCTR" lnInst="4" fc="MX" doName="Amp" daName="q" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="1" fc="MX" doName="Vol" daName="instMag" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="1" fc="MX" doName="Vol" daName="q" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="2" fc="MX" doName="Vol" daName="instMag" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="2" fc="MX" doName="Vol" daName="q" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="3" fc="MX" doName="Vol" daName="instMag" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="3" fc="MX" doName="Vol" daName="q" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="instMag" />
-                            <FCDA ldInst="MUnn" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="q" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TCTR" lnInst="1" fc="MX" doName="Amp" daName="instMag" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TCTR" lnInst="1" fc="MX" doName="Amp" daName="q" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TCTR" lnInst="2" fc="MX" doName="Amp" daName="instMag" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TCTR" lnInst="2" fc="MX" doName="Amp" daName="q" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TCTR" lnInst="3" fc="MX" doName="Amp" daName="instMag" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TCTR" lnInst="3" fc="MX" doName="Amp" daName="q" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TCTR" lnInst="4" fc="MX" doName="Amp" daName="instMag" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TCTR" lnInst="4" fc="MX" doName="Amp" daName="q" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="1" fc="MX" doName="Vol" daName="instMag" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="1" fc="MX" doName="Vol" daName="q" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="2" fc="MX" doName="Vol" daName="instMag" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="2" fc="MX" doName="Vol" daName="q" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="3" fc="MX" doName="Vol" daName="instMag" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="3" fc="MX" doName="Vol" daName="q" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="instMag" />
+                            <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="q" />
                         </DataSet>
+                        <SampledValueControl name="MSVCB01" datSet="PhsMeas1" smvID="000MU0001" smpRate="4000" nofASDU="1" confRev="1">
+                          <SmvOpts refreshTime="false" sampleSynchronized="true" sampleRate="false" security="false" />
+                        </SampledValueControl>
                     </LN0>
 
                     <LN lnType="IEC_61850_9_2LETCTR" lnClass="TCTR" inst="1"/>
