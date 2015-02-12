@@ -9,7 +9,7 @@
             <BitRate unit="b/s">10</BitRate>
             <ConnectedAP iedName="JSON" apName="S1">
                 <Address>
-                    <P type="IP">192.168.2.21</P>
+                    <P type="IP">localhost</P>
                     <P type="IP-SUBNET">255.255.255.0</P>
                     <P type="IP-GATEWAY">10.0.0.101</P>
                     <P type="OSI-TSEL">00000001</P>
@@ -18,7 +18,7 @@
                 </Address>
                 <SMV ldInst="C1" cbName="MSVCB01">
                     <Address>
-                        <P type="MAC-Address">01-0C-CD-04-00-01</P>
+                        <P type="MAC-Address">01-0C-CD-01-00-02</P>
                         <P type="APPID">4000</P>
                         <P type="VLAN-ID">123</P>
                         <P type="VLAN-PRIORITY">4</P>
@@ -27,7 +27,6 @@
             </ConnectedAP>
         </SubNetwork>
     </Communication>
-    
 
     <IED name="JSON">
         <Services>
@@ -68,7 +67,7 @@
                             <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="instMag" />
                             <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="q" />
                         </DataSet>
-                        <SampledValueControl name="MSVCB01" datSet="PhsMeas1" smvID="000MU0001" smpRate="4000" nofASDU="1" confRev="1">
+                        <SampledValueControl name="MSVCB01" datSet="PhsMeas1" smvID="0000MU0001" smpRate="4000" nofASDU="1" confRev="1">
                           <SmvOpts refreshTime="false" sampleSynchronized="true" sampleRate="false" security="false" />
                         </SampledValueControl>
                     </LN0>
