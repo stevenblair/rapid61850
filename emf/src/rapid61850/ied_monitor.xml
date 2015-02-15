@@ -24,6 +24,13 @@
                         <P type="VLAN-PRIORITY">4</P>
                     </Address>
                 </SMV>
+                <GSE ldInst="C1" cbName="MGSECB01">
+                    <Address>
+                        <P type="MAC-Address">01-0C-CD-01-00-02</P>
+                        <P type="APPID">3001</P>
+                        <P type="VLAN-PRIORITY">4</P>
+                    </Address>
+                </GSE>
             </ConnectedAP>
         </SubNetwork>
     </Communication>
@@ -67,10 +74,23 @@
                             <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="instMag" />
                             <FCDA ldInst="C1" prefix="" lnClass="TVTR" lnInst="4" fc="MX" doName="Vol" daName="q" />
                         </DataSet>
-                        <SampledValueControl name="MSVCB01" datSet="PhsMeas1" smvID="0000MU0001" smpRate="4000" nofASDU="1" confRev="1">
+                        <SampledValueControl name="MSVCB01" datSet="PhsMeas1" smvID="0000MU0002" smpRate="4000" nofASDU="1" confRev="1">
                           <SmvOpts refreshTime="false" sampleSynchronized="true" sampleRate="false" security="false" />
                         </SampledValueControl>
+                        <GSEControl name="MGSECB01" datSet="PhsMeas1" appID="MGSECB01"/>
                     </LN0>
+                    <LN lnType="LPHDa" lnClass="LPHD" inst="1">
+                        <DOI name="Proxy">
+                            <DAI name="stVal">
+                                <Val>17</Val>
+                            </DAI>
+                        </DOI>
+                        <DOI name="PhyNam">
+                            <DAI name="hwRev">
+                                <Val>replacement string</Val>
+                            </DAI>
+                        </DOI>
+                    </LN>
 
                     <LN lnType="IEC_61850_9_2LETCTR" lnClass="TCTR" inst="1"/>
                     <LN lnType="IEC_61850_9_2LETCTR" lnClass="TCTR" inst="2"/>
@@ -80,6 +100,9 @@
                     <LN lnType="IEC_61850_9_2LETVTR" lnClass="TVTR" inst="2"/>
                     <LN lnType="IEC_61850_9_2LETVTR" lnClass="TVTR" inst="3"/>
                     <LN lnType="IEC_61850_9_2LETVTR" lnClass="TVTR" inst="4"/>
+
+                    <LN lnType="exampleMMXU" lnClass="MMXU" inst="1"/>
+                    <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/>
 
                     <LN lnType="exampleJSON" lnClass="JSON" inst="1">
                         <DOI name="Attr">
@@ -154,7 +177,6 @@
         </AccessPoint>
     </IED>
 
-
     <DataTypeTemplates>
         <LNodeType id="IEC_61850_9_2LETCTR" lnClass="TCTR">
             <DO name="Amp" type="IEC_61850_9_2LESAVAmp"/>
@@ -170,7 +192,6 @@
             <DO name="NamPlt" type="myLPL"/>
         </LNodeType>
         <LNodeType id="LPHDa" lnClass="LPHD">
-            <DO name="Mod" type="myMod"/>
             <DO name="Health" type="myHealth"/>
             <DO name="Beh" type="myBeh"/>
             <DO name="NamPlt" type="myLPL"/>
@@ -178,30 +199,31 @@
             <DO name="PhyHealth" type="myINS"/>
             <DO name="Proxy" type="mySPS"/>
         </LNodeType>
-        <LNodeType id="CSWIa" lnClass="CSWI">
+
+        <!-- <LNodeType id="MMXUa" lnClass="MMXU">
             <DO name="Mod" type="myMod"/>
             <DO name="Health" type="myHealth"/>
             <DO name="Beh" type="myBeh"/>
-            <DO name="Pos" type="myPos"/>
-            <DO name="GrpAl" type="mySPS"/>
-        </LNodeType>
-        <LNodeType id="MMXUa" lnClass="MMXU">
-            <DO name="Mod" type="myMod"/>
-            <DO name="Beh" type="myHealth"/>
-            <DO name="Health" type="myBeh"/>
             <DO name="Amps" type="myMV"/>
             <DO name="Volts" type="myMV"/>
-        </LNodeType>
+        </LNodeType> -->
         <LNodeType id="exampleMMXU" lnClass="MMXU">
-            <DO name="Mod" type="myMod"/>
-            <DO name="Beh" type="myHealth"/>
-            <DO name="Health" type="myBeh"/>
-            <DO name="A" type="simpleWYE"/>
+            <!-- <DO name="Mod" type="myMod"/>
+            <DO name="Health" type="myHealth"/>
+            <DO name="Beh" type="myBeh"/> -->
+            <DO name="PhV" type="jsonWYE"/>
+            <DO name="A" type="jsonWYE"/>
+            <DO name="Hz" type="myMV"/>
         </LNodeType>
+        <LNodeType id="exampleMSQI" lnClass="MSQI">
+            <DO name="SeqA" type="jsonWYE"/>
+            <DO name="SeqV" type="jsonWYE"/>
+        </LNodeType>
+
         <LNodeType id="exampleJSON" lnClass="JSON">
 <!--            <DO name="Mod" type="myMod"/>
-            <DO name="Beh" type="myHealth"/>
-            <DO name="Health" type="myBeh"/> -->
+            <DO name="Health" type="myHealth"/>
+            <DO name="Beh" type="myBeh"/> -->
             <DO name="PhV" type="jsonWYE"/>
             <DO name="V1" type="jsonWYE"/>
             <DO name="SeqV" type="jsonWYE"/>
@@ -211,34 +233,14 @@
             <DO name="Ind" type="jsonIndications"/>
             <DO name="Attr" type="jsonAttributes"/>
         </LNodeType>
-        <LNodeType id="exampleRMXU" lnClass="RMXU">
+        <!-- <LNodeType id="exampleRMXU" lnClass="RMXU">
             <DO name="Mod" type="myMod"/>
-            <DO name="Beh" type="myHealth"/>
-            <DO name="Health" type="myBeh"/>
+            <DO name="Health" type="myHealth"/>
+            <DO name="Beh" type="myBeh"/>
             <DO name="AmpLocPhsA" type="simpleSAV"/>
             <DO name="AmpLocPhsB" type="simpleSAV"/>
             <DO name="AmpLocPhsC" type="simpleSAV"/>
-        </LNodeType>
-        <LNodeType id="CILOa" lnClass="CILO">
-            <DO name="Mod" type="myHealth"/>
-            <DO name="Beh" type="myBeh"/>
-            <DO name="Health" type="myINS"/>
-            <DO name="EnaOpen" type="mySPS"/>
-            <DO name="EnaClose" type="mySPS"/>
-        </LNodeType>
-        <LNodeType id="TVTRa" lnClass="TVTR">
-            <DO name="Mod" type="myMod"/>
-            <DO name="Health" type="myHealth"/>
-            <DO name="Beh" type="myBeh"/>
-            <DO name="Vol" type="mySAV"/>
-        </LNodeType>
-        <LNodeType id="RSYNa" lnClass="RSYN">
-            <DO name="Mod" type="myMod"/>
-            <DO name="Health" type="myHealth"/>
-            <DO name="Beh" type="myBeh"/>
-            <DO name="NamPlt" type="myLPL"/>
-            <DO name="Rel" type="mySPS"/>
-        </LNodeType>
+        </LNodeType> -->
 
         <DOType id="IEC_61850_9_2LESAVAmp" cdc="SAV">
             <DA name="instMag" bType="Struct" type="IEC_61850_9_2LEAV" fc="MX"/>
@@ -276,10 +278,19 @@
         </DOType>
         <DOType id="myDPL" cdc="DPL">
             <DA name="vendor" fc="DC" bType="VisString255">
-                <Val>myVendorName</Val>
+                <Val></Val>
             </DA>
             <DA name="hwRev" fc="DC" bType="VisString255">
-                <Val>Rev 1.23</Val>
+                <Val>Rev 1.0</Val>
+            </DA>
+            <DA name="serNum" fc="DC" bType="VisString255">
+                <Val></Val>
+            </DA>
+            <DA name="model" fc="DC" bType="VisString255">
+                <Val></Val>
+            </DA>
+            <DA name="location" fc="DC" bType="VisString255">
+                <Val></Val>
             </DA>
         </DOType>
         <DOType id="myPos" cdc="DPC">
@@ -290,16 +301,16 @@
         </DOType>
         <DOType id="mySPS" cdc="SPS">
             <DA name="stVal" fc="ST" bType="INT32" dchg="true">
-                 <Val>178</Val>
+                <Val>178</Val>
             </DA>
             <DA name="q" fc="ST" bType="Quality" qchg="true"/>
             <DA name="t" fc="ST" bType="Timestamp"/>
         </DOType>
         <DOType id="myMV" cdc="MV">
-            <DA name="mag" fc="MX" bType="Struct" type="myAnalogValue" dchg="true"/>
+            <DA name="mag" fc="MX" bType="Struct" type="myAnalogValue" dchg="false"/>
             <DA name="q" fc="MX" bType="Quality" qchg="true"/>
             <DA name="t" fc="MX" bType="Timestamp"/>
-            <DA name="sVC" fc="CF" bType="Struct" type="ScaledValueConfig" dchg="true"/>
+            <DA name="sVC" fc="CF" bType="Struct" type="ScaledValueConfig" dchg="false"/>
             <DA name="int1" fc="MX" bType="INT32" qchg="true"/>
             <DA name="int2" fc="MX" bType="INT32" qchg="true"/>
             <DA name="int3" fc="MX" bType="INT32" qchg="true"/>
@@ -316,10 +327,10 @@
             <DA name="t" fc="MX" bType="Timestamp"/>
             <SDO name="testSecondLayerSDO" type="mySPS"/>
             <DA name="testInteger" fc="ST" bType="INT32" dchg="true">
-                 <Val>-1234</Val>
+                <Val>-1234</Val>
             </DA>
             <DA name="testBoolean" fc="ST" bType="BOOLEAN" dchg="true">
-                 <Val>1</Val>
+                <Val>1</Val>
             </DA>
         </DOType>
         <DOType id="jsonCMV" cdc="CMV">
@@ -449,12 +460,12 @@
             <EnumVal ord="0">pos-neg-zero</EnumVal>
             <EnumVal ord="1">dir-quad-zero</EnumVal>
         </EnumType>
-        <EnumType id="Dbpos">
+        <!-- <EnumType id="Dbpos">
             <EnumVal ord="0">intermediate</EnumVal>
             <EnumVal ord="1">off</EnumVal>
             <EnumVal ord="2">on</EnumVal>
             <EnumVal ord="3">bad</EnumVal>
-        </EnumType>
+        </EnumType> -->
         <EnumType id="Tcmd">
             <EnumVal ord="0">stop</EnumVal>
             <EnumVal ord="1">lower</EnumVal>
