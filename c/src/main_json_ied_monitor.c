@@ -66,12 +66,12 @@ pcap_t *init_pcap() {
 	}
 #endif
 
-    used_if = alldevs->next->next->next;
+    used_if = alldevs->next->next;
 
 #ifdef _WIN32
     fprintf(stdout, "%s\n", used_if->description);
 #else
-    fprintf(stdout, "%s\n", used_if->name);
+    fprintf(stdout, "%s\n%s\n", used_if->name, used_if->description);
 #endif
     fflush(stdout);
 
@@ -128,6 +128,9 @@ int main() {
 		lampTestMonitor[i] = relays[i]->Ind.LEDTest;
 //		relays[i]->Ind.Trip = 1;
 	}
+
+	int len = 0;
+	unsigned char bufOut[2048] = {0};
 
 	float phaseVoltageMag = (float) (11000.0 / sqrt(3));
 
@@ -212,6 +215,16 @@ int main() {
 		Sleep(1);
 #else
 		usleep(1000);
+
+		len = sv_update_JSON_C1_MSVCB01(bufOut);
+		if (len > 0) {
+			pcap_sendpacket(fp, bufOut, len);
+		}
+
+		len = gse_send_JSON_C1_MGSECB01(bufOut, 1, 255);
+		if (len > 0) {
+			pcap_sendpacket(fp, bufOut, len);
+		}
 #endif
 	}
 #endif
