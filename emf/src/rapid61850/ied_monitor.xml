@@ -18,7 +18,7 @@
                 </Address>
                 <SMV ldInst="C1" cbName="MSVCB01">
                     <Address>
-                        <P type="MAC-Address">01-0C-CD-01-00-02</P>
+                        <P type="MAC-Address">01-0C-CD-04-00-02</P>
                         <P type="APPID">4000</P>
                         <P type="VLAN-ID">123</P>
                         <P type="VLAN-PRIORITY">4</P>
