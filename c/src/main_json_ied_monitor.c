@@ -99,12 +99,45 @@ float getRand() {
 	return (float) rand() / (float) RAND_MAX;
 }
 
+
+#define PI					3.1415926535897932384626433832795
+#define TWO_PI_OVER_THREE	2.0943951023931954923084289221863
+
+int toI(double I, double value) {
+	return (CTYPE_INT32) (I * value / ((double) JSON.S1.C1.IEC_61850_9_2LETCTR_1.Amp.sVC.scaleFactor));
+}
+
+int toV(double V, double value) {
+	return (CTYPE_INT32) (V * value / ((double) JSON.S1.C1.IEC_61850_9_2LETVTR_1.Vol.sVC.scaleFactor));
+}
+
+double harmonic(double num, double mag, double theta, double phase) {
+	return mag * sin((theta * num + phase));
+}
+
+
+
 int main() {
 	initialise_iec61850();
 	fp = init_pcap();
 
 #if JSON_INTERFACE == 1
 	start_json_interface();
+
+
+	double f_nominal = 50.0;
+	double samplesPerCycle = 80.0;
+	double f = 50.0;
+	double w;
+	double Vnom = 11000.0;
+	double V = Vnom * sqrt(2) / sqrt(3);
+	double Zmag = 10.0;
+	double I = V / Zmag;
+	double phi = 0.16666666679 * PI;
+	double Ts = 1 / (f_nominal * samplesPerCycle);
+	double theta = 0.0;
+	int t = 0;
+
 
 	srand(time(NULL));
 
@@ -132,19 +165,20 @@ int main() {
 	int len = 0;
 	unsigned char bufOut[2048] = {0};
 
-	float phaseVoltageMag = (float) (11000.0 / sqrt(3));
+	float phaseVoltageRMS = (float) (V / sqrt(2));
 
 	while (1) {
-		if (++timer >= 5) {
+		float phaseCurrentMag = (I / sqrt(2)) + 80.0 * (float) rand() / (float) RAND_MAX;
+		float phaseCurrentAng = -30.0 * (float) rand() / (float) RAND_MAX;
+
+		if (++timer >= 1) {
 			timer = 0;
 
 			for (i = 0; i < numberOfRelays; i++) {
-				float phaseCurrentMag = 200.0 + 50.0 * (float) rand() / (float) RAND_MAX;
-				float phaseCurrentAng = -30.0 * (float) rand() / (float) RAND_MAX;
 
 				relays[i]->Hz.mag = 50.0 + getRand() / 100.0;
 
-				relays[i]->SeqV.phsA.cVal.mag.f = phaseVoltageMag;
+				relays[i]->SeqV.phsA.cVal.mag.f = phaseVoltageRMS;
 				relays[i]->SeqV.phsA.cVal.ang.f = 0.0;
 				relays[i]->SeqV.phsB.cVal.mag.f = 0.0;
 				relays[i]->SeqV.phsB.cVal.ang.f = -120.0;
@@ -153,16 +187,16 @@ int main() {
 				relays[i]->SeqV.neut.cVal.mag.f = 0.0;
 				relays[i]->SeqV.phsA.cVal.ang.f = 0.0;
 
-				relays[i]->PhV.phsA.cVal.mag.f = phaseVoltageMag;
+				relays[i]->PhV.phsA.cVal.mag.f = phaseVoltageRMS;
 				relays[i]->PhV.phsA.cVal.ang.f = 0.0;
-				relays[i]->PhV.phsB.cVal.mag.f = phaseVoltageMag;
+				relays[i]->PhV.phsB.cVal.mag.f = phaseVoltageRMS;
 				relays[i]->PhV.phsB.cVal.ang.f = -120.0;
-				relays[i]->PhV.phsC.cVal.mag.f = phaseVoltageMag;
+				relays[i]->PhV.phsC.cVal.mag.f = phaseVoltageRMS;
 				relays[i]->PhV.phsC.cVal.ang.f = 120.0;
 				relays[i]->PhV.neut.cVal.mag.f = 0.0;
 				relays[i]->PhV.phsA.cVal.ang.f = 0.0;
 
-				relays[i]->V1.phsA.cVal.mag.f = phaseVoltageMag;
+				relays[i]->V1.phsA.cVal.mag.f = phaseVoltageRMS;
 				relays[i]->V1.phsA.cVal.ang.f = 0.0;
 				relays[i]->V1.phsB.cVal.mag.f = 0.0;
 				relays[i]->V1.phsB.cVal.ang.f = -120.0;
@@ -212,13 +246,30 @@ int main() {
 			}
 		}
 #ifdef _WIN32
-		Sleep(1);
+		Sleep(1000);
 #else
-		usleep(1000);
+		usleep(1000000);
 
-		len = sv_update_JSON_C1_MSVCB01(bufOut);
-		if (len > 0) {
-			pcap_sendpacket(fp, bufOut, len);
+		for (t = 0; t < JSON.S1.C1.LN0.MSVCB01.ASDU[JSON.S1.C1.LN0.MSVCB01.ASDUCount].smpRate; t++) {
+			w = 2 * PI * f;
+			theta = w * (((double) t) * Ts);
+//			printf("running\n");
+//			fflush(stdout);
+
+			JSON.S1.C1.IEC_61850_9_2LETVTR_1.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, 0)                   + harmonic(3, 0.02, theta, 0) + harmonic(7, 0.01, theta, 0));
+			JSON.S1.C1.IEC_61850_9_2LETVTR_2.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, - TWO_PI_OVER_THREE) + harmonic(3, 0.02, theta, 0) + harmonic(7, 0.01, theta, - TWO_PI_OVER_THREE));
+			JSON.S1.C1.IEC_61850_9_2LETVTR_3.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, + TWO_PI_OVER_THREE) + harmonic(3, 0.02, theta, 0) + harmonic(7, 0.01, theta, + TWO_PI_OVER_THREE));
+			JSON.S1.C1.IEC_61850_9_2LETVTR_4.Vol.instMag.i = JSON.S1.C1.IEC_61850_9_2LETVTR_1.Vol.instMag.i + JSON.S1.C1.IEC_61850_9_2LETVTR_2.Vol.instMag.i + JSON.S1.C1.IEC_61850_9_2LETVTR_3.Vol.instMag.i;
+
+			JSON.S1.C1.IEC_61850_9_2LETCTR_1.Amp.instMag.i = toI(phaseCurrentMag, harmonic(1, 1.0, theta - phi, 0)                   + harmonic(2, 0.01, theta - phi, 0)                   + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, 0)                   + harmonic(7, 0.03, theta - phi, 0)                   + harmonic(9, 0.03, theta - phi, 0));
+			JSON.S1.C1.IEC_61850_9_2LETCTR_2.Amp.instMag.i = toI(phaseCurrentMag, harmonic(1, 1.0, theta - phi, - TWO_PI_OVER_THREE) + harmonic(2, 0.01, theta - phi, + TWO_PI_OVER_THREE) + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, + TWO_PI_OVER_THREE) + harmonic(7, 0.03, theta - phi, - TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
+			JSON.S1.C1.IEC_61850_9_2LETCTR_3.Amp.instMag.i = toI(phaseCurrentMag, harmonic(1, 1.0, theta - phi, + TWO_PI_OVER_THREE) + harmonic(2, 0.01, theta - phi, - TWO_PI_OVER_THREE) + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, - TWO_PI_OVER_THREE) + harmonic(7, 0.03, theta - phi, + TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
+			JSON.S1.C1.IEC_61850_9_2LETCTR_4.Amp.instMag.i = JSON.S1.C1.IEC_61850_9_2LETCTR_1.Amp.instMag.i + JSON.S1.C1.IEC_61850_9_2LETCTR_2.Amp.instMag.i + JSON.S1.C1.IEC_61850_9_2LETCTR_3.Amp.instMag.i;
+
+			len = sv_update_JSON_C1_MSVCB01(bufOut);
+			if (len > 0) {
+				pcap_sendpacket(fp, bufOut, len);
+			}
 		}
 
 		len = gse_send_JSON_C1_MGSECB01(bufOut, 1, 255);

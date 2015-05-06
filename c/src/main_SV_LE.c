@@ -47,7 +47,7 @@ int toV(double V, double value) {
 }
 
 double harmonic(double num, double mag, double theta, double phase) {
-	return mag * sin((theta + phase) * num);
+	return mag * sin((theta * num + phase));
 }
 
 int main() {
