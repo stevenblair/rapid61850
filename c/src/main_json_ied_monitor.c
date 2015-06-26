@@ -66,7 +66,7 @@ pcap_t *init_pcap() {
 	}
 #endif
 
-    used_if = alldevs->next->next;
+    used_if = alldevs;
 
 #ifdef _WIN32
     fprintf(stdout, "%s\n", used_if->description);
@@ -141,7 +141,7 @@ int main() {
 
 	srand(time(NULL));
 
-	struct exampleJSON *relays[] = {&JSON.S1.C1.exampleJSON_1, &JSON.S1.C1.exampleJSON_2, &JSON.S1.C1.exampleJSON_3, &JSON.S1.C1.exampleJSON_4, &JSON.S1.C1.exampleJSON_5};
+	struct exampleJSON *relays[] = {&JSON.S1.C1.exampleJSON_1, &JSON2.S1.C1.exampleJSON_1, &JSON3.S1.C1.exampleJSON_1, &JSON4.S1.C1.exampleJSON_1, &JSON5.S1.C1.exampleJSON_1};
 	int numberOfRelays = sizeof relays / sizeof relays[0];
 
 	int timer = 0;
@@ -155,11 +155,16 @@ int main() {
 	int i = 0;
 	for (i = 0; i < numberOfRelays; i++) {
 		alarmTimer[i] = 0;
-		alarmTimerThreshold[i] = (int) 20000 * getRand();
+		alarmTimerThreshold[i] = (int) 20 * getRand();
 		tripTimer[i] = 0;
-		tripTimerThreshold[i] = (int) 100000 * getRand();
+		tripTimerThreshold[i] = (int) 1000 * getRand();
 		lampTestMonitor[i] = relays[i]->Ind.LEDTest;
 //		relays[i]->Ind.Trip = 1;
+
+		// always start with one IED showing an alarm
+		if (i == 3) {
+			relays[i]->Ind.NumOfAlarms = 2;
+		}
 	}
 
 	int len = 0;
@@ -168,17 +173,19 @@ int main() {
 	float phaseVoltageRMS = (float) (V / sqrt(2));
 
 	while (1) {
-		float phaseCurrentMag = (I / sqrt(2)) + 80.0 * (float) rand() / (float) RAND_MAX;
+		float phaseCurrentMag = (I / sqrt(2));// + 80.0 * (float) rand() / (float) RAND_MAX;
 		float phaseCurrentAng = -30.0 * (float) rand() / (float) RAND_MAX;
 
 		if (++timer >= 1) {
 			timer = 0;
 
 			for (i = 0; i < numberOfRelays; i++) {
+				float relayVoltageMagError = 1.0;//1.0 + 1.0 * getRand() / 100.0;
+				float relayCurrentMagError = 1.0 + 30.0 * getRand() / 100.0;
 
 				relays[i]->Hz.mag = 50.0 + getRand() / 100.0;
 
-				relays[i]->SeqV.phsA.cVal.mag.f = phaseVoltageRMS;
+				relays[i]->SeqV.phsA.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
 				relays[i]->SeqV.phsA.cVal.ang.f = 0.0;
 				relays[i]->SeqV.phsB.cVal.mag.f = 0.0;
 				relays[i]->SeqV.phsB.cVal.ang.f = -120.0;
@@ -187,16 +194,16 @@ int main() {
 				relays[i]->SeqV.neut.cVal.mag.f = 0.0;
 				relays[i]->SeqV.phsA.cVal.ang.f = 0.0;
 
-				relays[i]->PhV.phsA.cVal.mag.f = phaseVoltageRMS;
+				relays[i]->PhV.phsA.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
 				relays[i]->PhV.phsA.cVal.ang.f = 0.0;
-				relays[i]->PhV.phsB.cVal.mag.f = phaseVoltageRMS;
+				relays[i]->PhV.phsB.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
 				relays[i]->PhV.phsB.cVal.ang.f = -120.0;
-				relays[i]->PhV.phsC.cVal.mag.f = phaseVoltageRMS;
+				relays[i]->PhV.phsC.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
 				relays[i]->PhV.phsC.cVal.ang.f = 120.0;
 				relays[i]->PhV.neut.cVal.mag.f = 0.0;
 				relays[i]->PhV.phsA.cVal.ang.f = 0.0;
 
-				relays[i]->V1.phsA.cVal.mag.f = phaseVoltageRMS;
+				relays[i]->V1.phsA.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
 				relays[i]->V1.phsA.cVal.ang.f = 0.0;
 				relays[i]->V1.phsB.cVal.mag.f = 0.0;
 				relays[i]->V1.phsB.cVal.ang.f = -120.0;
@@ -205,14 +212,14 @@ int main() {
 				relays[i]->V1.neut.cVal.mag.f = 0.0;
 				relays[i]->V1.phsA.cVal.ang.f = 0.0;
 
-				relays[i]->SeqA.phsA.cVal.mag.f = phaseCurrentMag;
+				relays[i]->SeqA.phsA.cVal.mag.f = phaseCurrentMag * relayCurrentMagError;
 				relays[i]->SeqA.phsA.cVal.ang.f = phaseCurrentAng;
 
-				relays[i]->A1.phsA.cVal.mag.f = phaseCurrentMag;
+				relays[i]->A1.phsA.cVal.mag.f = phaseCurrentMag * relayCurrentMagError;
 				relays[i]->A1.phsA.cVal.ang.f = phaseCurrentAng;
-				relays[i]->A1.phsB.cVal.mag.f = phaseCurrentMag;
+				relays[i]->A1.phsB.cVal.mag.f = phaseCurrentMag * relayCurrentMagError;
 				relays[i]->A1.phsB.cVal.ang.f = -120.0 + phaseCurrentAng;
-				relays[i]->A1.phsC.cVal.mag.f = phaseCurrentMag;
+				relays[i]->A1.phsC.cVal.mag.f = phaseCurrentMag * relayCurrentMagError;
 				relays[i]->A1.phsC.cVal.ang.f = 120.0 + phaseCurrentAng;
 				relays[i]->A1.neut.cVal.mag.f = 0.0;
 				relays[i]->A1.neut.cVal.ang.f = 0.0;
@@ -247,8 +254,6 @@ int main() {
 		}
 #ifdef _WIN32
 		Sleep(1000);
-#else
-		usleep(1000000);
 
 		for (t = 0; t < JSON.S1.C1.LN0.MSVCB01.ASDU[JSON.S1.C1.LN0.MSVCB01.ASDUCount].smpRate; t++) {
 			w = 2 * PI * f;
@@ -261,9 +266,9 @@ int main() {
 			JSON.S1.C1.IEC_61850_9_2LETVTR_3.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, + TWO_PI_OVER_THREE) + harmonic(3, 0.02, theta, 0) + harmonic(7, 0.01, theta, + TWO_PI_OVER_THREE));
 			JSON.S1.C1.IEC_61850_9_2LETVTR_4.Vol.instMag.i = JSON.S1.C1.IEC_61850_9_2LETVTR_1.Vol.instMag.i + JSON.S1.C1.IEC_61850_9_2LETVTR_2.Vol.instMag.i + JSON.S1.C1.IEC_61850_9_2LETVTR_3.Vol.instMag.i;
 
-			JSON.S1.C1.IEC_61850_9_2LETCTR_1.Amp.instMag.i = toI(phaseCurrentMag, harmonic(1, 1.0, theta - phi, 0)                   + harmonic(2, 0.01, theta - phi, 0)                   + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, 0)                   + harmonic(7, 0.03, theta - phi, 0)                   + harmonic(9, 0.03, theta - phi, 0));
-			JSON.S1.C1.IEC_61850_9_2LETCTR_2.Amp.instMag.i = toI(phaseCurrentMag, harmonic(1, 1.0, theta - phi, - TWO_PI_OVER_THREE) + harmonic(2, 0.01, theta - phi, + TWO_PI_OVER_THREE) + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, + TWO_PI_OVER_THREE) + harmonic(7, 0.03, theta - phi, - TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
-			JSON.S1.C1.IEC_61850_9_2LETCTR_3.Amp.instMag.i = toI(phaseCurrentMag, harmonic(1, 1.0, theta - phi, + TWO_PI_OVER_THREE) + harmonic(2, 0.01, theta - phi, - TWO_PI_OVER_THREE) + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, - TWO_PI_OVER_THREE) + harmonic(7, 0.03, theta - phi, + TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
+			JSON.S1.C1.IEC_61850_9_2LETCTR_1.Amp.instMag.i = toI(relays[0]->A1.phsA.cVal.mag.f, harmonic(1, 1.0, theta - phi, 0)                   + harmonic(2, 0.01, theta - phi, 0)                   + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, 0)                   + harmonic(7, 0.03, theta - phi, 0)                   + harmonic(9, 0.03, theta - phi, 0));
+			JSON.S1.C1.IEC_61850_9_2LETCTR_2.Amp.instMag.i = toI(relays[0]->A1.phsA.cVal.mag.f, harmonic(1, 1.0, theta - phi, - TWO_PI_OVER_THREE) + harmonic(2, 0.01, theta - phi, + TWO_PI_OVER_THREE) + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, + TWO_PI_OVER_THREE) + harmonic(7, 0.03, theta - phi, - TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
+			JSON.S1.C1.IEC_61850_9_2LETCTR_3.Amp.instMag.i = toI(relays[0]->A1.phsA.cVal.mag.f, harmonic(1, 1.0, theta - phi, + TWO_PI_OVER_THREE) + harmonic(2, 0.01, theta - phi, - TWO_PI_OVER_THREE) + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, - TWO_PI_OVER_THREE) + harmonic(7, 0.03, theta - phi, + TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
 			JSON.S1.C1.IEC_61850_9_2LETCTR_4.Amp.instMag.i = JSON.S1.C1.IEC_61850_9_2LETCTR_1.Amp.instMag.i + JSON.S1.C1.IEC_61850_9_2LETCTR_2.Amp.instMag.i + JSON.S1.C1.IEC_61850_9_2LETCTR_3.Amp.instMag.i;
 
 			len = sv_update_JSON_C1_MSVCB01(bufOut);
@@ -276,6 +281,8 @@ int main() {
 		if (len > 0) {
 			pcap_sendpacket(fp, bufOut, len);
 		}
+#else
+		usleep(1000000);
 #endif
 	}
 #endif
