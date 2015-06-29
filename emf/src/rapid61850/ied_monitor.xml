@@ -135,6 +135,14 @@
                     <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
 
                     <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>10</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>20</Val>
+                            </DAI>
+                        </DOI>
                         <DOI name="Attr">
                             <DAI name="Manufacturer">
                                 <Val>Alstom</Val>
@@ -181,6 +189,14 @@
                     <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
 
                     <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>10</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>3000</Val>
+                            </DAI>
+                        </DOI>
                         <DOI name="Attr">
                             <DAI name="Manufacturer">
                                 <Val>Alstom</Val>
@@ -227,6 +243,14 @@
                     <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
 
                     <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>20</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>20</Val>
+                            </DAI>
+                        </DOI>
                         <DOI name="Attr">
                             <DAI name="Manufacturer">
                                 <Val>ABB</Val>
@@ -273,6 +297,14 @@
                     <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
 
                     <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>30</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>30</Val>
+                            </DAI>
+                        </DOI>
                         <DOI name="Attr">
                             <DAI name="Manufacturer">
                                 <Val>ABB</Val>
@@ -319,6 +351,14 @@
                     <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
 
                     <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>300</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>3000</Val>
+                            </DAI>
+                        </DOI>
                         <DOI name="Attr">
                             <DAI name="Manufacturer">
                                 <Val>Toshiba</Val>
@@ -509,6 +549,12 @@
             </DA>
             <DA name="Trip" fc="ST" bType="BOOLEAN">
                 <Val>false</Val>
+            </DA>
+            <DA name="EmulatedAlarmThreshold" fc="ST" bType="INT32">
+                <Val>100</Val>
+            </DA>
+            <DA name="EmulatedTripThreshold" fc="ST" bType="INT32">
+                <Val>1000</Val>
             </DA>
             <DA name="ResetIndications" fc="ST" bType="BOOLEAN">
                 <Val>false</Val>

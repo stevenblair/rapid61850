@@ -970,6 +970,27 @@ static int handle_http(struct mg_connection *conn) {
 	return 1;
 }
 
+#ifdef EMULATE_IEDS
+void init_emulate_IED(ACSIServer *acsiServer) {
+//	EmulatedIED *emulatedIEDData = (EmulatedIED *) acsiServer->customData;
+//
+//	emulatedIEDData->alarmTimeout = 10 * 100 * WEB_SERVER_SELECT_MAX_TIME;
+//	emulatedIEDData->tripTimeout = 100 * 100 * WEB_SERVER_SELECT_MAX_TIME;
+}
+
+void emulate_IED(ACSIServer *acsiServer) {
+//	EmulatedIED *emulatedIEDData = (EmulatedIED *) acsiServer->customData;
+//
+//	emulatedIEDData->ticks++;
+//	if (emulatedIEDData->ticks % emulatedIEDData->alarmTimeout == 0) {
+//		emulatedIEDData->alarms++;
+//	}
+//	if (emulatedIEDData->ticks % emulatedIEDData->tripTimeout == 0) {
+//		emulatedIEDData->trips++;
+//	}
+}
+#endif
+
 /**
  * Internal helper function for processing HTTP events on threads.
  */
@@ -979,7 +1000,10 @@ static void *serve(void *server) {
 	while (1) {
 		// TODO add processing of associated clients here
 		mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
-//		printf("IED %s, looping\n", s->iedName);
+#ifdef EMULATE_IEDS
+		emulate_IED(acsiServer);
+#endif
+//		printf("IED %s, looping\n", acsiServer->iedName);
 //		fflush(stdout);
 	}
 	return NULL;
