@@ -979,15 +979,19 @@ void init_emulate_IED(ACSIServer *acsiServer) {
 }
 
 void emulate_IED(ACSIServer *acsiServer) {
-//	EmulatedIED *emulatedIEDData = (EmulatedIED *) acsiServer->customData;
-//
-//	emulatedIEDData->ticks++;
-//	if (emulatedIEDData->ticks % emulatedIEDData->alarmTimeout == 0) {
-//		emulatedIEDData->alarms++;
-//	}
-//	if (emulatedIEDData->ticks % emulatedIEDData->tripTimeout == 0) {
-//		emulatedIEDData->trips++;
-//	}
+	struct exampleJSON *ln = (struct exampleJSON *) getLN(acsiServer->iedName, "C1", "exampleJSON_1")->data;
+
+	if (ln != NULL) {
+		acsiServer->ticks++;
+		unsigned int t = (unsigned int) acsiServer->ticks * WEB_SERVER_SELECT_MAX_TIME / 1000;
+
+		if (t % ln->Ind.EmulatedAlarmThreshold == 0) {
+			ln->Ind.NumOfAlarms++;
+		}
+		if (t % ln->Ind.EmulatedTripThreshold == 0) {
+			ln->Ind.Trip = 1;
+		}
+	}
 }
 #endif
 

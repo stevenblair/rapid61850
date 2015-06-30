@@ -42,6 +42,7 @@ extern "C" {
 #endif
 #include "ctypes.h"
 #include "dataModelIndex.h"
+#include "datatypes.h"
 
 #define WEB_SERVER_SELECT_MAX_TIME		5	// ms
 #define JSON_OUTPUT_PRETTIFY			1
