@@ -29,6 +29,10 @@
 extern "C" {
 #endif
 
+
+#define EMULATE_IEDS					1
+
+
 #include <stdlib.h>
 #include <string.h>
 #include "mongoose.h"
@@ -101,7 +105,21 @@ typedef struct ACSIServer {
 	struct mg_server *mg;		// mongoose web server instance
 	ACSIClient *clients;		// list of associated clients
 	Item *dataModel;			// pointer to root of data model index
+	unsigned long int ticks;
+//	void *customData;
 } ACSIServer;
+
+//#ifdef EMULATE_IEDS
+//typedef struct EmulatedIED {
+//	unsigned long int ticks;
+////	unsigned long int alarms;
+////	unsigned long int trips;
+////	unsigned long int alarmTimeout;
+////	unsigned long int tripTimeout;
+//} EmulatedIED;
+////void init_emulate_IED(ACSIServer *acsiServer);
+//#endif
+
 
 /**
  * Linked list definition for DataSet items.
