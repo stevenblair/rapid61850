@@ -396,7 +396,7 @@ public class SCDCodeGenerator {
 								
 								// initialise LN0 data hierarchy
 								Iterator<TDO> ln0Dos = getLNTypeDOs(dataTypeTemplates, ln0.getLnType()).iterator();
-								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + "." + ln0Name + ".LLN0.");
+								StringBuilder accumulatedName = new StringBuilder(iedName + "." + apName + "." + ldName + ".LN0.LLN0.");
 
 								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".objectRef = \"" + ln0Name + "\";\n");
 								jsonDataModelIndexSource.appendFunctions("\t" + iedJSON.getPath() + ".type = BASIC_TYPE_CONSTRUCTED;\n");

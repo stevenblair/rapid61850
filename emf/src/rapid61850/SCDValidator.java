@@ -1193,7 +1193,7 @@ public class SCDValidator {
 				            return true;
 		            	}
 		            }
-		        	
+					
 		        	return false;
 		        }
 			};
@@ -1238,7 +1238,7 @@ public class SCDValidator {
 				return;
 			} else {
 				if (result.size() == 0) {
-					error("no dataset satisfies ExtRef: LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
+					error("no dataset satisfies ExtRef: IED: " + extRef.getIedName() + ", LD Inst: " + extRef.getLdInst() + ", Prefix: " + extRef.getPrefix() + ", LN Class: " + extRef.getLnClass() + ", LN Inst: " + extRef.getLnInst() + ", DO name: " + extRef.getDoName() + ", DA name: " + extRef.getDaName());
 				}
 				else {
 					if (result.size() > 1) {
