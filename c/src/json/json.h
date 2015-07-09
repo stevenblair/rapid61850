@@ -33,17 +33,20 @@ extern "C" {
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
-#include <netdb.h>
 #ifdef _WIN32
 #include <windows.h>
 #include <winsock2.h>
 #else
+#include <netdb.h>
 #include <netinet/in.h>
 #endif
 #include "ctypes.h"
 #include "dataModelIndex.h"
+#include "ied.h"
+#include "datatypes.h"
 
 #define WEB_SERVER_SELECT_MAX_TIME		5	// ms
+#define EMULATED_IED_REFRESH_TIME		(WEB_SERVER_SELECT_MAX_TIME * 10)
 #define JSON_OUTPUT_PRETTIFY			1
 #define JSON_USE_HTTP_AUTH				0
 

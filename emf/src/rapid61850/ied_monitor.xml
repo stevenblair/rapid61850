@@ -9,7 +9,7 @@
             <BitRate unit="b/s">10</BitRate>
             <ConnectedAP iedName="JSON" apName="S1">
                 <Address>
-                    <P type="IP">localhost</P>
+                    <P type="IP">130.159.89.94</P>
                     <P type="IP-SUBNET">255.255.255.0</P>
                     <P type="IP-GATEWAY">10.0.0.101</P>
                     <P type="OSI-TSEL">00000001</P>
@@ -31,6 +31,46 @@
                         <P type="VLAN-PRIORITY">4</P>
                     </Address>
                 </GSE>
+            </ConnectedAP>
+            <ConnectedAP iedName="JSON2" apName="S1">
+                <Address>
+                    <P type="IP">130.159.89.94</P>
+                    <P type="IP-SUBNET">255.255.255.0</P>
+                    <P type="IP-GATEWAY">10.0.0.101</P>
+                    <P type="OSI-TSEL">00000001</P>
+                    <P type="OSI-PSEL">01</P>
+                    <P type="OSI-SSEL">01</P>
+                </Address>
+            </ConnectedAP>
+            <ConnectedAP iedName="JSON3" apName="S1">
+                <Address>
+                    <P type="IP">130.159.89.94</P>
+                    <P type="IP-SUBNET">255.255.255.0</P>
+                    <P type="IP-GATEWAY">10.0.0.101</P>
+                    <P type="OSI-TSEL">00000001</P>
+                    <P type="OSI-PSEL">01</P>
+                    <P type="OSI-SSEL">01</P>
+                </Address>
+            </ConnectedAP>
+            <ConnectedAP iedName="JSON4" apName="S1">
+                <Address>
+                    <P type="IP">130.159.89.94</P>
+                    <P type="IP-SUBNET">255.255.255.0</P>
+                    <P type="IP-GATEWAY">10.0.0.101</P>
+                    <P type="OSI-TSEL">00000001</P>
+                    <P type="OSI-PSEL">01</P>
+                    <P type="OSI-SSEL">01</P>
+                </Address>
+            </ConnectedAP>
+            <ConnectedAP iedName="JSON5" apName="S1">
+                <Address>
+                    <P type="IP">130.159.89.94</P>
+                    <P type="IP-SUBNET">255.255.255.0</P>
+                    <P type="IP-GATEWAY">10.0.0.101</P>
+                    <P type="OSI-TSEL">00000001</P>
+                    <P type="OSI-PSEL">01</P>
+                    <P type="OSI-SSEL">01</P>
+                </Address>
             </ConnectedAP>
         </SubNetwork>
     </Communication>
@@ -79,18 +119,8 @@
                         </SampledValueControl>
                         <GSEControl name="MGSECB01" datSet="PhsMeas1" appID="MGSECB01"/>
                     </LN0>
-                    <LN lnType="LPHDa" lnClass="LPHD" inst="1">
-                        <DOI name="Proxy">
-                            <DAI name="stVal">
-                                <Val>17</Val>
-                            </DAI>
-                        </DOI>
-                        <DOI name="PhyNam">
-                            <DAI name="hwRev">
-                                <Val>replacement string</Val>
-                            </DAI>
-                        </DOI>
-                    </LN>
+                    <!-- <LN lnType="LPHDa" lnClass="LPHD" inst="1">
+                    </LN> -->
 
                     <LN lnType="IEC_61850_9_2LETCTR" lnClass="TCTR" inst="1"/>
                     <LN lnType="IEC_61850_9_2LETCTR" lnClass="TCTR" inst="2"/>
@@ -101,20 +131,126 @@
                     <LN lnType="IEC_61850_9_2LETVTR" lnClass="TVTR" inst="3"/>
                     <LN lnType="IEC_61850_9_2LETVTR" lnClass="TVTR" inst="4"/>
 
-                    <LN lnType="exampleMMXU" lnClass="MMXU" inst="1"/>
-                    <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/>
+                    <!-- <LN lnType="exampleMMXU" lnClass="MMXU" inst="1"/>
+                    <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
 
                     <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>10</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>20</Val>
+                            </DAI>
+                        </DOI>
                         <DOI name="Attr">
-                            <DAI name="IPAddr">
-                                <Val>192.168.2.21</Val>
+                            <DAI name="Manufacturer">
+                                <Val>Alstom</Val>
+                            </DAI>
+                            <DAI name="RelayType">
+                                <Val>P545</Val>
                             </DAI>
                             <DAI name="Location">
                                 <Val>Bay 1</Val>
                             </DAI>
                         </DOI>
                     </LN>
-                    <LN lnType="exampleJSON" lnClass="JSON" inst="2">
+                </LDevice>
+            </Server>
+        </AccessPoint>
+    </IED>
+
+    <IED name="JSON2">
+        <Services>
+            <DynAssociation/>
+            <GetDirectory/>
+            <GetDataObjectDefinition/>
+            <GetDataSetValue/>
+            <DataSetDirectory/>
+            <ReadWrite/>
+            <FileHandling/>
+            <ConfDataSet max="4" maxAttributes="50"/>
+            <ConfReportControl max="12"/>
+            <ReportSettings bufTime="Dyn" cbName="Conf" rptID="Dyn" datSet="Conf" intgPd="Dyn" optFields="Conf"/>
+            <ConfLogControl max="1"/>
+            <ConfLNs fixLnInst="true"/>
+            <GetCBValues/>
+        </Services>
+        <AccessPoint name="S1">
+            <Server>
+                <Authentication/>
+                <LDevice inst="C1">
+                    <LN0 lnType="LN0" lnClass="LLN0" inst="">
+                    </LN0>
+                    <!-- <LN lnType="LPHDa" lnClass="LPHD" inst="1">
+                    </LN> -->
+
+                    <!-- <LN lnType="exampleMMXU" lnClass="MMXU" inst="1"/>
+                    <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
+
+                    <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>10</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>3000</Val>
+                            </DAI>
+                        </DOI>
+                        <DOI name="Attr">
+                            <DAI name="Manufacturer">
+                                <Val>Alstom</Val>
+                            </DAI>
+                            <DAI name="RelayType">
+                                <Val>P545</Val>
+                            </DAI>
+                            <DAI name="Location">
+                                <Val>Bay 2</Val>
+                            </DAI>
+                        </DOI>
+                    </LN>
+                </LDevice>
+            </Server>
+        </AccessPoint>
+    </IED>
+
+    <IED name="JSON3">
+        <Services>
+            <DynAssociation/>
+            <GetDirectory/>
+            <GetDataObjectDefinition/>
+            <GetDataSetValue/>
+            <DataSetDirectory/>
+            <ReadWrite/>
+            <FileHandling/>
+            <ConfDataSet max="4" maxAttributes="50"/>
+            <ConfReportControl max="12"/>
+            <ReportSettings bufTime="Dyn" cbName="Conf" rptID="Dyn" datSet="Conf" intgPd="Dyn" optFields="Conf"/>
+            <ConfLogControl max="1"/>
+            <ConfLNs fixLnInst="true"/>
+            <GetCBValues/>
+        </Services>
+        <AccessPoint name="S1">
+            <Server>
+                <Authentication/>
+                <LDevice inst="C1">
+                    <LN0 lnType="LN0" lnClass="LLN0" inst="">
+                    </LN0>
+                    <!-- <LN lnType="LPHDa" lnClass="LPHD" inst="1">
+                    </LN> -->
+
+                    <!-- <LN lnType="exampleMMXU" lnClass="MMXU" inst="1"/>
+                    <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
+
+                    <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>20</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>20</Val>
+                            </DAI>
+                        </DOI>
                         <DOI name="Attr">
                             <DAI name="Manufacturer">
                                 <Val>ABB</Val>
@@ -122,25 +258,53 @@
                             <DAI name="RelayType">
                                 <Val>REF615</Val>
                             </DAI>
-                            <DAI name="IPAddr">
-                                <Val>192.168.2.22</Val>
-                            </DAI>
                             <DAI name="Location">
                                 <Val>Bay 1</Val>
                             </DAI>
                         </DOI>
                     </LN>
-                    <LN lnType="exampleJSON" lnClass="JSON" inst="3">
-                        <DOI name="Attr">
-                            <DAI name="IPAddr">
-                                <Val>192.168.2.23</Val>
+                </LDevice>
+            </Server>
+        </AccessPoint>
+    </IED>
+
+    <IED name="JSON4">
+        <Services>
+            <DynAssociation/>
+            <GetDirectory/>
+            <GetDataObjectDefinition/>
+            <GetDataSetValue/>
+            <DataSetDirectory/>
+            <ReadWrite/>
+            <FileHandling/>
+            <ConfDataSet max="4" maxAttributes="50"/>
+            <ConfReportControl max="12"/>
+            <ReportSettings bufTime="Dyn" cbName="Conf" rptID="Dyn" datSet="Conf" intgPd="Dyn" optFields="Conf"/>
+            <ConfLogControl max="1"/>
+            <ConfLNs fixLnInst="true"/>
+            <GetCBValues/>
+        </Services>
+        <AccessPoint name="S1">
+            <Server>
+                <Authentication/>
+                <LDevice inst="C1">
+                    <LN0 lnType="LN0" lnClass="LLN0" inst="">
+                    </LN0>
+                    <!-- <LN lnType="LPHDa" lnClass="LPHD" inst="1">
+                    </LN> -->
+
+                    <!-- <LN lnType="exampleMMXU" lnClass="MMXU" inst="1"/>
+                    <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
+
+                    <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>30</Val>
                             </DAI>
-                            <DAI name="Location">
-                                <Val>Bay 2</Val>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>30</Val>
                             </DAI>
                         </DOI>
-                    </LN>
-                    <LN lnType="exampleJSON" lnClass="JSON" inst="4">
                         <DOI name="Attr">
                             <DAI name="Manufacturer">
                                 <Val>ABB</Val>
@@ -148,24 +312,59 @@
                             <DAI name="RelayType">
                                 <Val>REF615</Val>
                             </DAI>
-                            <DAI name="IPAddr">
-                                <Val>192.168.2.24</Val>
-                            </DAI>
                             <DAI name="Location">
                                 <Val>Bay 2</Val>
                             </DAI>
                         </DOI>
                     </LN>
-                    <LN lnType="exampleJSON" lnClass="JSON" inst="5">
+                </LDevice>
+            </Server>
+        </AccessPoint>
+    </IED>
+
+    <IED name="JSON5">
+        <Services>
+            <DynAssociation/>
+            <GetDirectory/>
+            <GetDataObjectDefinition/>
+            <GetDataSetValue/>
+            <DataSetDirectory/>
+            <ReadWrite/>
+            <FileHandling/>
+            <ConfDataSet max="4" maxAttributes="50"/>
+            <ConfReportControl max="12"/>
+            <ReportSettings bufTime="Dyn" cbName="Conf" rptID="Dyn" datSet="Conf" intgPd="Dyn" optFields="Conf"/>
+            <ConfLogControl max="1"/>
+            <ConfLNs fixLnInst="true"/>
+            <GetCBValues/>
+        </Services>
+        <AccessPoint name="S1">
+            <Server>
+                <Authentication/>
+                <LDevice inst="C1">
+                    <LN0 lnType="LN0" lnClass="LLN0" inst="">
+                    </LN0>
+                    <!-- <LN lnType="LPHDa" lnClass="LPHD" inst="1">
+                    </LN> -->
+
+                    <!-- <LN lnType="exampleMMXU" lnClass="MMXU" inst="1"/>
+                    <LN lnType="exampleMSQI" lnClass="MSQI" inst="1"/> -->
+
+                    <LN lnType="exampleJSON" lnClass="JSON" inst="1">
+                        <DOI name="Ind">
+                            <DAI name="EmulatedAlarmThreshold">
+                                <Val>300</Val>
+                            </DAI>
+                            <DAI name="EmulatedTripThreshold">
+                                <Val>3000</Val>
+                            </DAI>
+                        </DOI>
                         <DOI name="Attr">
                             <DAI name="Manufacturer">
                                 <Val>Toshiba</Val>
                             </DAI>
                             <DAI name="RelayType">
                                 <Val>GRB100</Val>
-                            </DAI>
-                            <DAI name="IPAddr">
-                                <Val>192.168.2.25</Val>
                             </DAI>
                             <DAI name="Location">
                                 <Val>Bay 3</Val>
@@ -351,6 +550,12 @@
             <DA name="Trip" fc="ST" bType="BOOLEAN">
                 <Val>false</Val>
             </DA>
+            <DA name="EmulatedAlarmThreshold" fc="ST" bType="INT32">
+                <Val>100</Val>
+            </DA>
+            <DA name="EmulatedTripThreshold" fc="ST" bType="INT32">
+                <Val>1000</Val>
+            </DA>
             <DA name="ResetIndications" fc="ST" bType="BOOLEAN">
                 <Val>false</Val>
             </DA>
@@ -368,9 +573,9 @@
             <DA name="ConfVer" fc="ST" bType="VisString255">
                 <Val>4</Val>
             </DA>
-            <DA name="IPAddr" fc="ST" bType="VisString255">
+<!--             <DA name="IPAddr" fc="ST" bType="VisString255">
                 <Val>192.168.2.20</Val>
-            </DA>
+            </DA> -->
             <DA name="Location" fc="ST" bType="VisString255">
                 <Val>Bay 1</Val>
             </DA>

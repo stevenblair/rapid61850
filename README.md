@@ -53,6 +53,7 @@ There are two source code trees: `emf` (in Java), and `c` (obviously written in 
 
 An example SCD file and a `main.c` file are provided. Many of the other C files are generated automatically. For the C code to compile with Eclipse, you should:
 
+ - Create a new Eclipse C project, with the name 'c' (use New > C Project > Executable > Empty Project). You should have the Eclipse CDT tools installed. Eclipse may warn that the project directory already exists, but this is OK.
  - If you plan to use the native, low-level C/C++ interface (as shown in [the next section](https://github.com/stevenblair/rapid61850#using-the-code-with-a-new-scd-file)), exclude the two `interface*.c` files from the build in Eclipse: right-click on the files > "Resource Configurations" > "Exclude from Build...", and then choose "Release" or "Debug" or another build. Also, exclude the `main_SV_LE.c` file, which provides an example implementation of IEC 61850-9-2LE Sampled Values, using `scd_LE.xml` as the SCD file. Otherwise, if using the high-level interfaces, exclude the existing `main.c` and `main_SV_LE.c` files.
  - Install MinGW and add `C:\MinGW\bin;` to `PATH` in the Project Properties > C/C++ Build > Environment options. (Other compilers should work too.)
  - In Project Properties > C/C++ Build > Settings > GCC Compiler Includes, set `"${workspace_loc:/${ProjName}/Include}"` as an include path.

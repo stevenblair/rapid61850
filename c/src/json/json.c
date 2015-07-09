@@ -22,6 +22,7 @@
 #if JSON_INTERFACE == 1
 
 #include "json.h"
+#include <pcap.h>
 
 Item *getIED(char *iedObjectRef) {
 	// check contains at least one IED
@@ -970,16 +971,174 @@ static int handle_http(struct mg_connection *conn) {
 	return 1;
 }
 
+#ifdef EMULATE_IEDS
+
+#define PI					3.1415926535897932384626433832795
+#define TWO_PI_OVER_THREE	2.0943951023931954923084289221863
+
+pcap_t *fp;
+
+double f_nominal = 50.0;
+double samplesPerCycle = 80.0;
+double f = 50.0;
+double w;
+double Vnom = 11000.0;
+double V;
+double Zmag = 10.0;
+double I;
+double phi = 0.16666666679 * PI;
+double Ts;
+double theta = 0.0;
+
+/**
+ * Returns a random number between 0.0 and 1.0.
+ */
+float getRand() {
+	return (float) rand() / (float) RAND_MAX;
+}
+
+int toI(double I, double value) {
+	return (CTYPE_INT32) (I * value / ((double) JSON.S1.C1.IEC_61850_9_2LETCTR_1.Amp.sVC.scaleFactor));
+}
+
+int toV(double V, double value) {
+	return (CTYPE_INT32) (V * value / ((double) JSON.S1.C1.IEC_61850_9_2LETVTR_1.Vol.sVC.scaleFactor));
+}
+
+double harmonic(double num, double mag, double theta, double phase) {
+	return mag * sin((theta * num + phase));
+}
+
+void init_emulate_IED(ACSIServer *acsiServer) {
+	srand(time(NULL));
+
+	V = Vnom * sqrt(2) / sqrt(3);
+	I = V / Zmag;
+	Ts = 1 / (f_nominal * samplesPerCycle);
+}
+
+void emulate_IED(ACSIServer *acsiServer) {
+	struct exampleJSON *ln = (struct exampleJSON *) getLN(acsiServer->iedName, "C1", "exampleJSON_1")->data;
+
+	if (ln != NULL) {
+		acsiServer->ticks++;
+		unsigned int t = (unsigned int) acsiServer->ticks * WEB_SERVER_SELECT_MAX_TIME / 1000;
+
+		if (acsiServer->ticks % EMULATED_IED_REFRESH_TIME == 0) {
+			float phaseVoltageRMS = (float) (V / sqrt(2));
+			float phaseCurrentMag = (I / sqrt(2));
+			float phaseCurrentAng = -30.0 * (float) rand() / (float) RAND_MAX;
+			float relayVoltageMagError = 1.0;
+			float relayCurrentMagError = 1.0 + 30.0 * getRand() / 100.0;
+
+			ln->Hz.mag = 50.0 + getRand() / 100.0;
+
+			ln->SeqV.phsA.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
+			ln->SeqV.phsA.cVal.ang.f = 0.0;
+			ln->SeqV.phsB.cVal.mag.f = 0.0;
+			ln->SeqV.phsB.cVal.ang.f = -120.0;
+			ln->SeqV.phsC.cVal.mag.f = 0.0;
+			ln->SeqV.phsC.cVal.ang.f = 120.0;
+			ln->SeqV.neut.cVal.mag.f = 0.0;
+			ln->SeqV.phsA.cVal.ang.f = 0.0;
+
+			ln->PhV.phsA.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
+			ln->PhV.phsA.cVal.ang.f = 0.0;
+			ln->PhV.phsB.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
+			ln->PhV.phsB.cVal.ang.f = -120.0;
+			ln->PhV.phsC.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
+			ln->PhV.phsC.cVal.ang.f = 120.0;
+			ln->PhV.neut.cVal.mag.f = 0.0;
+			ln->PhV.phsA.cVal.ang.f = 0.0;
+
+			ln->V1.phsA.cVal.mag.f = phaseVoltageRMS * relayVoltageMagError;
+			ln->V1.phsA.cVal.ang.f = 0.0;
+			ln->V1.phsB.cVal.mag.f = 0.0;
+			ln->V1.phsB.cVal.ang.f = -120.0;
+			ln->V1.phsC.cVal.mag.f = 0.0;
+			ln->V1.phsC.cVal.ang.f = 120.0;
+			ln->V1.neut.cVal.mag.f = 0.0;
+			ln->V1.phsA.cVal.ang.f = 0.0;
+
+			ln->SeqA.phsA.cVal.mag.f = phaseCurrentMag * relayCurrentMagError;
+			ln->SeqA.phsA.cVal.ang.f = phaseCurrentAng;
+
+			ln->A1.phsA.cVal.mag.f = phaseCurrentMag * relayCurrentMagError;
+			ln->A1.phsA.cVal.ang.f = phaseCurrentAng;
+			ln->A1.phsB.cVal.mag.f = phaseCurrentMag * relayCurrentMagError;
+			ln->A1.phsB.cVal.ang.f = -120.0 + phaseCurrentAng;
+			ln->A1.phsC.cVal.mag.f = phaseCurrentMag * relayCurrentMagError;
+			ln->A1.phsC.cVal.ang.f = 120.0 + phaseCurrentAng;
+			ln->A1.neut.cVal.mag.f = 0.0;
+			ln->A1.neut.cVal.ang.f = 0.0;
+		}
+
+		if ((acsiServer->ticks * WEB_SERVER_SELECT_MAX_TIME) % (ln->Ind.EmulatedAlarmThreshold * 1000) == 0) {
+			ln->Ind.NumOfAlarms++;
+		}
+
+		if ((acsiServer->ticks * WEB_SERVER_SELECT_MAX_TIME) % (ln->Ind.EmulatedTripThreshold * 1000) == 0) {
+			ln->Ind.Trip = 1;
+		}
+
+		if (ln->Ind.ResetIndications != 0) {
+			ln->Ind.ResetIndications = 0;
+			ln->Ind.Trip = 0;
+			ln->Ind.NumOfAlarms = 0;
+		}
+	}
+
+	struct IEC_61850_9_2LETCTR *lnSV = (struct IEC_61850_9_2LETCTR *) getLN(acsiServer->iedName, "C1", "IEC_61850_9_2LETCTR_1");
+
+	if (lnSV != NULL) {
+		unsigned char bufOut[2048];
+		int len = 0;
+
+		// TODO define start and end range; calculate time offset
+		unsigned int samplesToSend = JSON.S1.C1.LN0.MSVCB01.ASDU[JSON.S1.C1.LN0.MSVCB01.ASDUCount].smpRate * WEB_SERVER_SELECT_MAX_TIME / 1000;
+		unsigned int sample = 0;
+		for (sample = 0; sample < samplesToSend; sample++) {
+			w = 2 * PI * f;
+//			float t = ((float) JSON.S1.C1.LN0.MSVCB01.sampleCountMaster) / ((float) JSON.S1.C1.LN0.MSVCB01.ASDU[JSON.S1.C1.LN0.MSVCB01.ASDUCount].smpRate);
+			theta = w * (((double) JSON.S1.C1.LN0.MSVCB01.sampleCountMaster) * Ts);
+//			printf("%f, %f\n", t, theta);
+//			fflush(stdout);
+
+			JSON.S1.C1.IEC_61850_9_2LETVTR_1.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, 0)                   + harmonic(3, 0.02, theta, 0) + harmonic(7, 0.01, theta, 0));
+			JSON.S1.C1.IEC_61850_9_2LETVTR_2.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, - TWO_PI_OVER_THREE) + harmonic(3, 0.02, theta, 0) + harmonic(7, 0.01, theta, - TWO_PI_OVER_THREE));
+			JSON.S1.C1.IEC_61850_9_2LETVTR_3.Vol.instMag.i = toV(V, harmonic(1, 1.0, theta, + TWO_PI_OVER_THREE) + harmonic(3, 0.02, theta, 0) + harmonic(7, 0.01, theta, + TWO_PI_OVER_THREE));
+			JSON.S1.C1.IEC_61850_9_2LETVTR_4.Vol.instMag.i = JSON.S1.C1.IEC_61850_9_2LETVTR_1.Vol.instMag.i + JSON.S1.C1.IEC_61850_9_2LETVTR_2.Vol.instMag.i + JSON.S1.C1.IEC_61850_9_2LETVTR_3.Vol.instMag.i;
+
+			((struct IEC_61850_9_2LETCTR *) getLN(acsiServer->iedName, "C1", "IEC_61850_9_2LETCTR_1")->data)->Amp.instMag.i = toI(ln->A1.phsA.cVal.mag.f, harmonic(1, 1.0, theta - phi, 0)                   + harmonic(2, 0.01, theta - phi, 0)                   + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, 0)                   + harmonic(7, 0.03, theta - phi, 0)                   + harmonic(9, 0.03, theta - phi, 0));
+			((struct IEC_61850_9_2LETCTR *) getLN(acsiServer->iedName, "C1", "IEC_61850_9_2LETCTR_2")->data)->Amp.instMag.i = toI(ln->A1.phsA.cVal.mag.f, harmonic(1, 1.0, theta - phi, - TWO_PI_OVER_THREE) + harmonic(2, 0.01, theta - phi, + TWO_PI_OVER_THREE) + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, + TWO_PI_OVER_THREE) + harmonic(7, 0.03, theta - phi, - TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
+			((struct IEC_61850_9_2LETCTR *) getLN(acsiServer->iedName, "C1", "IEC_61850_9_2LETCTR_3")->data)->Amp.instMag.i = toI(ln->A1.phsA.cVal.mag.f, harmonic(1, 1.0, theta - phi, + TWO_PI_OVER_THREE) + harmonic(2, 0.01, theta - phi, - TWO_PI_OVER_THREE) + harmonic(3, 0.05, theta - phi, 0) + harmonic(5, 0.05, theta - phi, - TWO_PI_OVER_THREE) + harmonic(7, 0.03, theta - phi, + TWO_PI_OVER_THREE) + harmonic(9, 0.03, theta - phi, 0));
+			((struct IEC_61850_9_2LETCTR *) getLN(acsiServer->iedName, "C1", "IEC_61850_9_2LETCTR_4")->data)->Amp.instMag.i = ((struct IEC_61850_9_2LETCTR *) getLN(acsiServer->iedName, "C1", "IEC_61850_9_2LETCTR_1")->data)->Amp.instMag.i + ((struct IEC_61850_9_2LETCTR *) getLN(acsiServer->iedName, "C1", "IEC_61850_9_2LETCTR_2")->data)->Amp.instMag.i + ((struct IEC_61850_9_2LETCTR *) getLN(acsiServer->iedName, "C1", "IEC_61850_9_2LETCTR_3")->data)->Amp.instMag.i;
+
+			len = sv_update_JSON_C1_MSVCB01(bufOut);
+			if (len > 0) {
+				pcap_sendpacket(fp, bufOut, len);
+			}
+		}
+	}
+}
+#endif
+
 /**
  * Internal helper function for processing HTTP events on threads.
  */
 static void *serve(void *server) {
+#ifdef EMULATE_IEDS
 	ACSIServer *acsiServer = (ACSIServer *) mg_get_server_data((struct mg_server *) server);
+	init_emulate_IED(acsiServer);
+#endif
 
 	while (1) {
 		// TODO add processing of associated clients here
 		mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
-//		printf("IED %s, looping\n", s->iedName);
+#ifdef EMULATE_IEDS
+		emulate_IED(acsiServer);
+#endif
+//		printf("IED %s, looping\n", acsiServer->iedName);
 //		fflush(stdout);
 	}
 	return NULL;
@@ -987,6 +1146,10 @@ static void *serve(void *server) {
 
 void start_json_interface() {
 	init_webservers(&handle_http, serve);
+
+#ifdef EMULATE_IEDS
+	fp = init_pcap();
+#endif
 }
 
 // TODO use mg_connect() instead
