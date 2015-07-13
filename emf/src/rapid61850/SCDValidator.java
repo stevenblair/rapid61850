@@ -513,44 +513,62 @@ public class SCDValidator {
 				error("more than one IED named '" + iedName + "'");
 			}
 			
-			// check that LNs within this IED are unique
-			final EObjectCondition isLN = new EObjectTypeRelationCondition(
-				SclPackage.eINSTANCE.getTLN()
+			// check that LNs with LDevice, within this IED are unique
+			final EObjectCondition isLDevice = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTLDevice()
 			);
 			
-			IQueryResult lnResult = new SELECT(
+			IQueryResult LDeviceResult = new SELECT(
 				new FROM(ied),
-				new WHERE(isLN)
+				new WHERE(isLDevice)
 			).execute();
 			
-			for (Object oLN : lnResult) {
-				TLN ln = (TLN) oLN;
-				String lnType = ln.getLnType();
-				String lnPrefix = ln.getPrefix();
-				Long lnInst = ln.getInst();
+			for (Object oLDevice : LDeviceResult) {
+				TLDevice lDevice = (TLDevice) oLDevice;
+				String lDeviceInst = lDevice.getInst();
 				
-				final EObjectCondition isLNType = new EObjectAttributeValueCondition(
-					SclPackage.eINSTANCE.getTAnyLN_LnType(),
-					new StringValue(lnType)
+				final EObjectCondition isLN = new EObjectTypeRelationCondition(
+					SclPackage.eINSTANCE.getTLN()
 				);
 				
-				final EObjectCondition isLNInst = new EObjectAttributeValueCondition(
-					SclPackage.eINSTANCE.getTLN_Inst(),
-					new NumberCondition.LongValue(lnInst)
-				);
-				
-				final EObjectCondition isLNPrefix = new EObjectAttributeValueCondition(
-					SclPackage.eINSTANCE.getTLN_Prefix(),
-					new StringValue(lnPrefix)
-				);
-				
-				IQueryResult sameLNResult = new SELECT(
+				IQueryResult lnResult = new SELECT(
 					new FROM(ied),
-					new WHERE(isLN.AND(isLNType).AND(isLNInst).AND(isLNPrefix))
+					new WHERE(isLN)
 				).execute();
 				
-				if (sameLNResult.size() > 1) {
-					error("more than one LN in IED '" + iedName + "' with type '" + lnType + "', instance value '" + lnInst + "', and prefix '" + lnPrefix + "'");
+				for (Object oLN : lnResult) {
+					TLN ln = (TLN) oLN;
+					String lnType = ln.getLnType();
+					String lnPrefix = ln.getPrefix();
+					Long lnInst = ln.getInst();
+
+					final EObjectCondition isLDeviceInst = new EObjectAttributeValueCondition(
+						SclPackage.eINSTANCE.getTLDevice_Inst(),
+						new StringValue(lDeviceInst)
+					);
+					final EObjectCondition isLNType = new EObjectAttributeValueCondition(
+						SclPackage.eINSTANCE.getTAnyLN_LnType(),
+						new StringValue(lnType)
+					);
+					
+					final EObjectCondition isLNInst = new EObjectAttributeValueCondition(
+						SclPackage.eINSTANCE.getTLN_Inst(),
+						new NumberCondition.LongValue(lnInst)
+					);
+					
+					final EObjectCondition isLNPrefix = new EObjectAttributeValueCondition(
+						SclPackage.eINSTANCE.getTLN_Prefix(),
+						new StringValue(lnPrefix)
+					);
+					
+					IQueryResult sameLNResult = new SELECT(
+						new FROM(ied),
+						new WHERE(isLN.AND(isLDeviceInst).AND(isLNType).AND(isLNInst).AND(isLNPrefix))
+					).execute();
+					
+					if (sameLNResult.size() > 1) {
+						error("more than one LN in IED '" + iedName + "' with type '" + lnType + "', instance value '" + lnInst + "', and prefix '" + lnPrefix + "'");
+					}
 				}
 			}
 			
@@ -1057,91 +1075,49 @@ public class SCDValidator {
 			SclPackage.eINSTANCE.getTSampledValueControl()
 		);
 		
-		IQueryResult result = new SELECT(
+		
+		
+		final EObjectCondition isLDevice = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTLDevice()
+		);
+		
+		IQueryResult LDeviceResult = new SELECT(
 			new FROM(root),
-			new WHERE(isGSEControl.OR(isSVControl))
+			new WHERE(isLDevice)
 		).execute();
-	
-		//System.out.println("results: " + result.size());
-		for (Object next : result) {
-			//System.out.println(next.toString());
-			TControl control = (TControl) next;
-
-			final EObjectCondition isGSE = new EObjectTypeRelationCondition(
-				SclPackage.eINSTANCE.getTGSE()
-			);
-			final EObjectCondition isSMV = new EObjectTypeRelationCondition(
-				SclPackage.eINSTANCE.getTSMV()
-			);
-			final EObjectCondition isControlBlockForControl = new EObjectAttributeValueCondition(
-				SclPackage.eINSTANCE.getTControlBlock_CbName(),
-				new StringValue(control.getName())
-			);
-
-			IQueryResult resultMapped = new SELECT(
-				new FROM(root),
-				new WHERE((isGSE.OR(isSMV)).AND(isControlBlockForControl))
+		
+		for (Object oLDevice : LDeviceResult) {
+			TLDevice lDevice = (TLDevice) oLDevice;
+			String lDeviceInst = lDevice.getInst();
+		
+			IQueryResult result = new SELECT(
+				new FROM(lDevice),
+				new WHERE(isGSEControl.OR(isSVControl))
 			).execute();
-			
-			//System.out.println("\tresults: " + resultMapped.size() + " (for '" + control.getName() + "')");
-			//for (Object nextMapped : resultMapped) {
-				//System.out.println("\t\t" + nextMapped.toString());
-			//}
-			if (resultMapped.getException() == null) {
-				if (resultMapped.size() == 0) {
-					error("no ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
-				}
-				else {
-					if (resultMapped.size() == 1) {
-//						TControlBlock cb = ((TControlBlock) resultMapped.toArray()[0]);
-//						if (control.getControlBlock() == null) {
-//							control.setControlBlock(cb);
-//						}
-						//map.setControlBlock(control, cb);
-						//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
-					}
-					else {
-						error("more than one ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
-					}
-				}
-			}
-		}
-	}
+		
+			//System.out.println("results: " + result.size());
+			for (Object next : result) {
+				//System.out.println(next.toString());
+				TControl control = (TControl) next;
+	
+				final EObjectCondition isGSE = new EObjectTypeRelationCondition(
+					SclPackage.eINSTANCE.getTGSE()
+				);
+				final EObjectCondition isSMV = new EObjectTypeRelationCondition(
+					SclPackage.eINSTANCE.getTSMV()
+				);
+				final EObjectCondition isControlBlockForControl = new EObjectAttributeValueCondition(
+					SclPackage.eINSTANCE.getTControlBlock_CbName(),
+					new StringValue(control.getName())
+				);
+				final EObjectCondition isControlBlockLdInst = new EObjectAttributeValueCondition(
+					SclPackage.eINSTANCE.getTControlBlock_LdInst(),
+					new StringValue(lDeviceInst)
+				);
 
-	public void mapDataSetToControl(DocumentRoot root, SCDAdditionalMappings map) {
-		
-		final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
-			SclPackage.eINSTANCE.getTGSEControl()
-		);
-		final EObjectCondition isSVControl = new EObjectTypeRelationCondition(
-			SclPackage.eINSTANCE.getTSampledValueControl()
-		);
-		
-		IQueryResult result = new SELECT(
-			new FROM(root),
-			new WHERE(isGSEControl.OR(isSVControl))
-		).execute();
-	
-		//System.out.println("results: " + result.size());
-		for (Object next : result) {
-			//System.out.println(next.toString());
-			TControl control = (TControl) next;
-			
-			if (control.getDatSet() == null) {
-				warning("Control '" + control.eClass().getName() + "' with name '" + control.getName() + "' is not configured with a dataset");
-			}
-			else {
-				final EObjectCondition isDataSet = new EObjectTypeRelationCondition(
-					SclPackage.eINSTANCE.getTDataSet()
-				);
-				final EObjectCondition isDataSetForControl = new EObjectAttributeValueCondition(
-					SclPackage.eINSTANCE.getTNaming_Name(),
-					new StringValue(control.getDatSet())
-				);
-	
 				IQueryResult resultMapped = new SELECT(
 					new FROM(root),
-					new WHERE(isDataSet.AND(isDataSetForControl))
+					new WHERE((isGSE.OR(isSMV)).AND(isControlBlockForControl).AND(isControlBlockLdInst))
 				).execute();
 				
 				//System.out.println("\tresults: " + resultMapped.size() + " (for '" + control.getName() + "')");
@@ -1150,18 +1126,96 @@ public class SCDValidator {
 				//}
 				if (resultMapped.getException() == null) {
 					if (resultMapped.size() == 0) {
-						error("no dataset named '" + control.getDatSet() + "' for " + control.eClass().getName() + " '" + control.getName() + "'");
+						error("no ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
 					}
 					else {
 						if (resultMapped.size() == 1) {
-							TDataSet dataSet = ((TDataSet) resultMapped.toArray()[0]);
-							if (map != null) {
-								map.setDataset(control, dataSet);
-							}
+	//						TControlBlock cb = ((TControlBlock) resultMapped.toArray()[0]);
+	//						if (control.getControlBlock() == null) {
+	//							control.setControlBlock(cb);
+	//						}
+							//map.setControlBlock(control, cb);
 							//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
 						}
 						else {
-							error(resultMapped.size() + " datasets named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
+							error("more than one ControlBlock for " + control.eClass().getName() + " '" + control.getName() + "'");
+						}
+					}
+				}
+				
+				
+			}
+		}
+	}
+
+	public void mapDataSetToControl(DocumentRoot root, SCDAdditionalMappings map) {
+		
+		final EObjectCondition isLDevice = new EObjectTypeRelationCondition(
+			SclPackage.eINSTANCE.getTLDevice()
+		);
+		
+		IQueryResult LDeviceResult = new SELECT(
+			new FROM(root),
+			new WHERE(isLDevice)
+		).execute();
+		
+		for (Object oLDevice : LDeviceResult) {
+			TLDevice lDevice = (TLDevice) oLDevice;
+			String lDeviceInst = lDevice.getInst();
+			
+			final EObjectCondition isGSEControl = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTGSEControl()
+			);
+			final EObjectCondition isSVControl = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTSampledValueControl()
+			);
+			
+			IQueryResult result = new SELECT(
+				new FROM(lDevice),
+				new WHERE(isGSEControl.OR(isSVControl))
+			).execute();
+		
+			//System.out.println("results: " + result.size());
+			for (Object next : result) {
+				//System.out.println(next.toString());
+				TControl control = (TControl) next;
+				
+				if (control.getDatSet() == null) {
+					warning("Control '" + control.eClass().getName() + "' with name '" + control.getName() + "' is not configured with a dataset");
+				}
+				else {
+					final EObjectCondition isDataSet = new EObjectTypeRelationCondition(
+						SclPackage.eINSTANCE.getTDataSet()
+					);
+					final EObjectCondition isDataSetForControl = new EObjectAttributeValueCondition(
+						SclPackage.eINSTANCE.getTNaming_Name(),
+						new StringValue(control.getDatSet())
+					);
+		
+					IQueryResult resultMapped = new SELECT(
+						new FROM(lDevice),
+						new WHERE(isDataSet.AND(isDataSetForControl))
+					).execute();
+					
+					//System.out.println("\tresults: " + resultMapped.size() + " (for '" + control.getName() + "')");
+					//for (Object nextMapped : resultMapped) {
+						//System.out.println("\t\t" + nextMapped.toString());
+					//}
+					if (resultMapped.getException() == null) {
+						if (resultMapped.size() == 0) {
+							error("no dataset named '" + control.getDatSet() + "' for " + control.eClass().getName() + " '" + control.getName() + "'");
+						}
+						else {
+							if (resultMapped.size() == 1) {
+								TDataSet dataSet = ((TDataSet) resultMapped.toArray()[0]);
+								if (map != null) {
+									map.setDataset(control, dataSet);
+								}
+								//System.out.println("number of controls per dataset: " + dataSet.getControl().size());
+							}
+							else {
+								error(resultMapped.size() + " datasets named '" + control.getDatSet() + "' (for " + control.eClass().getName() + " '" + control.getName() + "')");
+							}
 						}
 					}
 				}
