@@ -971,7 +971,7 @@ static int handle_http(struct mg_connection *conn) {
 	return 1;
 }
 
-#ifdef EMULATE_IEDS
+#if EMULATE_IEDS == 1
 
 #define PI					3.1415926535897932384626433832795
 #define TWO_PI_OVER_THREE	2.0943951023931954923084289221863
@@ -1127,7 +1127,7 @@ void emulate_IED(ACSIServer *acsiServer) {
  * Internal helper function for processing HTTP events on threads.
  */
 static void *serve(void *server) {
-#ifdef EMULATE_IEDS
+#if EMULATE_IEDS == 1
 	ACSIServer *acsiServer = (ACSIServer *) mg_get_server_data((struct mg_server *) server);
 	init_emulate_IED(acsiServer);
 #endif
@@ -1135,7 +1135,7 @@ static void *serve(void *server) {
 	while (1) {
 		// TODO add processing of associated clients here
 		mg_poll_server((struct mg_server *) server, WEB_SERVER_SELECT_MAX_TIME);
-#ifdef EMULATE_IEDS
+#if EMULATE_IEDS == 1
 		emulate_IED(acsiServer);
 #endif
 //		printf("IED %s, looping\n", acsiServer->iedName);
@@ -1147,7 +1147,7 @@ static void *serve(void *server) {
 void start_json_interface() {
 	init_webservers(&handle_http, serve);
 
-#ifdef EMULATE_IEDS
+#if EMULATE_IEDS == 1
 	fp = init_pcap();
 #endif
 }

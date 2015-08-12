@@ -30,7 +30,7 @@ extern "C" {
 #endif
 
 
-#define EMULATE_IEDS					1
+#define EMULATE_IEDS					0
 
 
 #include <stdlib.h>
