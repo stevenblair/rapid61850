@@ -33,6 +33,8 @@ import org.eclipse.emf.query.conditions.eobjects.EObjectCondition;
 import org.eclipse.emf.query.conditions.eobjects.EObjectTypeRelationCondition;
 import org.eclipse.emf.query.conditions.eobjects.structuralfeatures.EObjectAttributeValueCondition;
 import org.eclipse.emf.query.conditions.numbers.NumberCondition;
+import org.eclipse.emf.query.conditions.strings.StringAdapter;
+import org.eclipse.emf.query.conditions.strings.StringCondition;
 import org.eclipse.emf.query.conditions.strings.StringValue;
 import org.eclipse.emf.query.handlers.PruneHandler;
 import org.eclipse.emf.query.statements.FROM;
@@ -840,6 +842,11 @@ public class SCDValidator {
 			final TFCDA fcda = (TFCDA) nextFCDA;
 			TIED ied = getIEDFromFCDA(root, fcda);
 			
+			String fcdaLnInst = "";
+			if (fcda.getLnInst() != null) {
+				fcdaLnInst = fcda.getLnInst();
+			}
+			
 			// filter out invalid LDs
 			PruneHandler pruner = new PruneHandler() {
 				public boolean shouldPrune(EObject object) {
@@ -859,30 +866,71 @@ public class SCDValidator {
 				SclPackage.eINSTANCE.getTLN(),
 				pruner
 			);
-			final EObjectCondition isLNInst = new EObjectAttributeValueCondition(
-				SclPackage.eINSTANCE.getTLN_Inst(),
-				new NumberCondition.LongValue(Long.parseLong(fcda.getLnInst()))
+			
+			final EObjectCondition isLN0 = new EObjectTypeRelationCondition(
+				SclPackage.eINSTANCE.getTLN0(),
+				pruner
 			);
+			
+//			System.out.println(fcda.getLnInst() + ", " + fcdaLnInst);
+			
+//			ObjectInstanceCondition sc_fcdaLnInst_LN0 = new ObjectInstanceCondition(fcdaLnInst) {
+//				@Override
+//				public boolean isSatisfied(Object obj) {
+//					return getObject().toString().equals(obj.toString());
+//				}
+//			};
+//			final EObjectCondition isLN0Inst = new EObjectAttributeValueCondition(
+//				SclPackage.eINSTANCE.getTLN0_Inst(),
+//				sc_fcdaLnInst_LN0
+//			);
+
 			ObjectInstanceCondition sc = new ObjectInstanceCondition(fcda.getLnClass()) {
 				@Override
 				public boolean isSatisfied(Object obj) {
 					return getObject().toString().equals(obj.toString());
 				}
 			};
+			ObjectInstanceCondition sc_LN0 = new ObjectInstanceCondition(fcda.getLnClass()) {
+				@Override
+				public boolean isSatisfied(Object obj) {
+					return getObject().toString().equals(obj.toString());
+				}
+			};
+			
 			final EObjectCondition isLNClass = new EObjectAttributeValueCondition(
 				SclPackage.eINSTANCE.getTLN_LnClass(),
 				sc
 			);
+			final EObjectCondition isLN0Class = new EObjectAttributeValueCondition(
+				SclPackage.eINSTANCE.getTLN0_LnClass(),
+				sc_LN0
+			);
 			
-			IQueryResult lnResult = new SELECT(
-				new FROM(ied),
-				new WHERE(isLN.AND(isLNInst).AND(isLNClass))
-			).execute();
+			IQueryResult lnResult;
+
+			if (fcda.getLnClass().toString().equals("LLN0")) {
+				lnResult = new SELECT(
+					new FROM(ied),
+					new WHERE(isLN0.AND(isLN0Class))
+				).execute();
+			}
+			else {
+				final EObjectCondition isLNInst = new EObjectAttributeValueCondition(
+					SclPackage.eINSTANCE.getTLN_Inst(),
+					new NumberCondition.LongValue(Long.parseLong(fcdaLnInst))
+				);
+				
+				lnResult = new SELECT(
+					new FROM(ied),
+					new WHERE((isLN).AND(isLNInst).AND(isLNClass))
+				).execute();
+			}
 
 			//System.out.println("\tlnResult: " + lnResult.size() + ", LN prefix: '" + ((TLN)lnResult.iterator().next()).getPrefix() + "', FCDA prefx: '" + fcda.getPrefix() + "'");
 			
 			if (lnResult.size() == 0) {
-				error("no Logical Node with class '" + fcda.getLnClass().toString() + "' for FCDA: " + fcda.toString());
+				error("lnResult.size() == 0, no Logical Node with class '" + fcda.getLnClass().toString() + "' for FCDA: " + fcda.toString());
 			}
 			else if (lnResult.size() >= 1) {
 				boolean found = false;
@@ -892,13 +940,18 @@ public class SCDValidator {
 				// find first matching prefix, noting that ln.getPrefix() may be null if not specified in SCD file
 				for (Object o : lnResult) {
 					if (!found) {
-						ln =  (TLN) o;
+						ln = (TLN) o;
 						
 						if (ln.getPrefix() != null) {
 							lnPrefix = ln.getPrefix();
 						}
+						
+						String fcdaPrefix = "";
+						if (fcda.getPrefix() != null) {
+							fcdaPrefix = fcda.getPrefix();
+						}
 	
-						if (fcda.getPrefix().equals(lnPrefix)) {
+						if (fcdaPrefix.equals(lnPrefix)) {
 							ln.setPrefix(lnPrefix);
 							found = true;
 							break;
@@ -907,7 +960,7 @@ public class SCDValidator {
 				}
 				
 				if (!found) {
-					error("no Logical Node with class '" + fcda.getLnClass().toString() + "' and prefix '" + lnPrefix + "' for FCDA: " + fcda.toString());
+					error("!found, no Logical Node with class '" + fcda.getLnClass().toString() + "' and prefix '" + lnPrefix + "' for FCDA: " + fcda.toString());
 				}
 				
 				final EObjectCondition isLNType = new EObjectTypeRelationCondition(
@@ -975,7 +1028,13 @@ public class SCDValidator {
 							
 							if (doTypeObjectResult.size() == 1) {
 								TDOType doType = ((TDOType) doTypeObjectResult.iterator().next());
-								String fcdaVariableName = fcda.getLdInst() + "_" + fcda.getPrefix() + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
+
+								String fcdaPrefix = "";
+								if (fcda.getPrefix() != null) {
+									fcdaPrefix = fcda.getPrefix();
+								}
+								
+								String fcdaVariableName = fcda.getLdInst() + "_" + fcdaPrefix + /*ln.getLnType()*/fcda.getLnClass() + "_" + ln.getInst() + "_" + fcda.getDoName();
 								//System.out.println("\tDOType: " + doType.getId() + ", looking for FCDA DA: " + fcda.getDaName());
 	
 								if (map != null) {
