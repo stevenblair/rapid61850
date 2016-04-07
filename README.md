@@ -62,6 +62,7 @@ An example SCD file and a `main.c` file are provided. Many of the other C files 
  - The WinPcap library files and header files (from http://www.winpcap.org/devel.htm) have been included in the repository for convenience. The PC must also have the WinPcap driver installed (either by installing Wireshark, or from http://www.winpcap.org/install/default.htm).
    - With Ubuntu, libpcap can be installed using `sudo apt-get install libpcap-dev`.
    - Remember that, on Linux, **libpcap needs to run as root**, so either start Eclipse or run the compiled binary from the Terminal with `sudo`. Alternatively, you can grant the binary the [capability to access the network interface](http://packetlife.net/blog/2010/mar/19/sniffing-wireshark-non-root-user/) using: `sudo setcap cap_net_raw,cap_net_admin=eip /path_to_project/rapid61850/c/Release/c`.
+   - You may need to select a specific network interface for the GOOSE and SV communications. If so, you would slightly adjust the Pcap initialisation code (i.e. the first argument to the call to `pcap_open_live()`) as required. This appears in the example `main*.c` files and, for the high-level interface, is set at this line of code: https://github.com/stevenblair/rapid61850/blob/master/c/src/interface.c#L56. For example, `used_if = alldevs;` would point to the first network interface seen by your OS, and `used_if = alldevs->next;` would point to the second network interface (if it exist).
 
 
 ## Using the code with a new SCD file ##
