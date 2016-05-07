@@ -10,7 +10,7 @@
  * Include interface.c and interfaceSendPack.c in the C build. Exclude main.c.
  *
  *
- * Copyright (c) 2012 Steven Blair
+ * Copyright (c) 2016 Steven Blair
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,23 +27,36 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-
-
-//#if HIGH_LEVEL_INTERFACE == 1
-
 #ifdef _WIN32
 	#define WPCAP
 	#define HAVE_REMOTE
 	#define WIN32_LEAN_AND_MEAN
 #endif
+
 #include <pcap.h>
 #include <math.h>
 #include <unistd.h>
+#include <windows.h>
 #include "iec61850.h"
 
-#define PI					3.1415926535897932384626433832795
-#define TWO_PI_OVER_THREE	2.0943951023931954923084289221863
+/* Basic Compression Library */
+#include "bcl/rle.h"
+#include "bcl/shannonfano.h"
+#include "bcl/huffman.h"
+#include "bcl/rice.h"
+#include "bcl/lz.h"
+#include "bcl/systimer.h"
 
+#include "liblzg/lzg.h"
+
+#include "FastLZ/fastlz.h"
+
+#include "lzfx/lzfx.h"
+
+
+#define PI						3.1415926535897932384626433832795
+#define TWO_PI_OVER_THREE		2.0943951023931954923084289221863
+#define NUMBER_OF_ALGORITHMS	17
 
 unsigned char bufIn[2048] = {0};
 unsigned char bufOut[2048] = {0};
@@ -52,10 +65,7 @@ pcap_t *fp;
 char errbuf[PCAP_ERRBUF_SIZE];
 
 
-#include <windows.h>
-
-void usleep_custom(__int64 usec)
-{
+void usleep_custom(__int64 usec) {
     HANDLE timer;
     LARGE_INTEGER ft;
 
@@ -67,67 +77,55 @@ void usleep_custom(__int64 usec)
     CloseHandle(timer);
 }
 
-
-/* Basic Compression Library */
-#include "bcl/rle.h"
-#include "bcl/shannonfano.h"
-#include "bcl/huffman.h"
-#include "bcl/rice.h"
-#include "bcl/lz.h"
-
-/* Timing */
-#include "bcl/systimer.h"
-
-
-
-
-#include "liblzg/lzg.h"
-
-
-
-#include "FastLZ/fastlz.h"
-
-
+const char *get_algorithm_name(int algo) {
+//	  if( strcmp( argv[1], "rle" ) == 0 )     algo = 1;
+//	  if( strcmp( argv[1], "huff" ) == 0 )    algo = 2;
+//	  if( strcmp( argv[1], "rice8" ) == 0 )   algo = 3;
+//	  if( strcmp( argv[1], "rice16" ) == 0 )  algo = 4;
+//	  if( strcmp( argv[1], "rice32" ) == 0 )  algo = 5;
+//	  if( strcmp( argv[1], "rice8s" ) == 0 )  algo = 6;
+//	  if( strcmp( argv[1], "rice16s" ) == 0 ) algo = 7;
+//	  if( strcmp( argv[1], "rice32s" ) == 0 ) algo = 8;
+//	  if( strcmp( argv[1], "lz" ) == 0 )      algo = 9;
+//	  if( strcmp( argv[1], "lz_f" ) == 0 )    algo = 10;
+//	  if( strcmp( argv[1], "sf" ) == 0 )      algo = 11;
+	switch(algo) {
+    case 1: return "rle";
+    case 2: return "huff";
+    case 3: return "rice8";
+    case 4: return "rice16";
+    case 5: return "rice32";
+    case 6: return "rice8s";
+    case 7: return "rice16s";
+    case 8: return "rice32s";
+    case 9: return "lz";
+    case 10: return "lz_f";
+    case 11: return "sf";
+    case 12: return "lzg1";
+    case 13: return "lzg5";
+    case 14: return "lzg9";
+    case 15: return "fastlz1";
+    case 16: return "fastlz2";
+    case 17: return "lzfx";
+	    default: break;
+	}
+	return "";
+}
 
 int TestBuf(unsigned char *in, unsigned int insize, int algo) {
   unsigned int  outsize, bufsize = 0, *work, k, err_count;
   unsigned char *out, *buf;
   double        t0, t_comp, t_uncomp;
 
+  printf("Testing %s:", get_algorithm_name(algo));
 
-  printf("Testing %d:", algo);
-
-  /* Worst case output buffer size */
-  if (algo <= 11 || algo == 15 || algo == 16) {
-	  bufsize = (insize * 104 + 50) / 100 + 384;
-  }
-  else if (algo > 11 && algo <= 14) {
-	  bufsize = LZG_MaxEncodedSize(insize);
-  }
-
-  /* Allocate memory */
-  out = (unsigned char *) malloc(2 * bufsize);
-  if (!out) {
-    printf("out of memory!\n");
-    return 0;
-  }
-
-  /* Pointers to compression buffer and output memory */
-  buf = &out[0];
-  out = &buf[bufsize];
-
-
-
-
-
-
+  // liblzg config
   lzg_encoder_config_t config;
-
-  // Default arguments
   LZG_InitEncoderConfig(&config);
   config.fast = LZG_TRUE;
   config.level = LZG_LEVEL_1;
 
+  // FastLZ config
   int FastLZ_level = 1;
 
   switch(algo) {
@@ -150,11 +148,29 @@ int TestBuf(unsigned char *in, unsigned int insize, int algo) {
     	break;
   }
 
+  // worst case output buffer size
+  if (algo <= 11 || algo == 15 || algo == 16) {
+	  bufsize = (insize * 104 + 50) / 100 + 384;
+  }
+  else if (algo > 11 && algo <= 14) {
+	  bufsize = LZG_MaxEncodedSize(insize);
+  }
+  else if (algo == 17) {
+	  bufsize = LZG_MaxEncodedSize(insize);
+  }
 
+  // allocate memory
+  out = (unsigned char *) malloc(2 * bufsize);
+  if (!out) {
+    printf("out of memory!\n");
+    return 0;
+  }
 
+  // pointers to compression buffer and output memory
+  buf = &out[0];
+  out = &buf[bufsize];
 
-
-  /* Compress and decompress */
+  // compress and decompress
   switch(algo) {
     case 1:
       t0 = GetTime();
@@ -230,7 +246,7 @@ int TestBuf(unsigned char *in, unsigned int insize, int algo) {
       break;
     case 10:
       work = malloc( sizeof(unsigned int) * (65536+insize) );
-      if( work ) {
+      if (work) {
         t0 = GetTime();
         outsize = LZ_CompressFast( in, buf, insize, work );
         t_comp = GetTime() - t0;
@@ -239,8 +255,7 @@ int TestBuf(unsigned char *in, unsigned int insize, int algo) {
         LZ_Uncompress( buf, out, outsize );
         t_uncomp = GetTime() - t0;
       }
-      else
-      {
+      else {
         printf( "unable to allocate working buffer!\n" );
         t_comp = 0.0;
         t_uncomp = 0.0;
@@ -259,51 +274,47 @@ int TestBuf(unsigned char *in, unsigned int insize, int algo) {
     case 13:
     case 14:
       t0 = GetTime();
-//      outsize = XX_Compress(in, buf, insize);
       outsize = LZG_Encode(in, insize, buf, bufsize, &config);
       t_comp = GetTime() - t0;
       t0 = GetTime();
-//      XX_Uncompress(buf, out, outsize, insize);
-      LZG_Decode(buf, outsize, out, insize); // unsigned int LZG_Decode(const unsigned char *in, lzg_uint32_t insize, unsigned char *out, lzg_uint32_t outsize)
+      LZG_Decode(buf, outsize, out, insize);
       t_uncomp = GetTime() - t0;
       break;
     case 15:
     case 16:
       t0 = GetTime();
-//      outsize = XX_Compress(in, buf, insize);
       outsize = fastlz_compress_level(FastLZ_level, in, insize, buf);
       t_comp = GetTime() - t0;
       t0 = GetTime();
-//      XX_Uncompress(buf, out, outsize, insize);
       fastlz_decompress(buf, outsize, out, insize);
       t_uncomp = GetTime() - t0;
       break;
+    case 17:
+      t0 = GetTime();
+      outsize = bufsize;
+      lzfx_compress(in, insize, buf, &outsize);
+      t_comp = GetTime() - t0;
+      t0 = GetTime();
+      lzfx_decompress(buf, outsize, out, &insize);
+      t_uncomp = GetTime() - t0;
+      break;
     default:
-      /* Should never happen... */
       outsize = 0;
       t_comp = 0.0;
       t_uncomp = 0.0;
   }
 
-
-
-
-
   err_count = 0;
   if (outsize > 0) {
-    /* Show compression result */
-    printf( "\n  Compression: %d/%d bytes (%.1f%%)", outsize, insize,
-            100*(float)outsize/(float)insize );
+    // show compression result
+    printf("\n  Compression: %d/%d bytes (%.1f%%)", outsize, insize, 100*(float)outsize/(float)insize);
 
-    /* Compare input / output data */
-    for( k = 0; k < insize; ++ k )
-    {
-      if( in[ k ] != out[ k ] )
-      {
-        if( err_count == 0 ) printf( "\n" );
-        if( err_count == 30 ) printf( "    ...\n" );
-        else if( err_count < 30 )
-        {
+    // compare input / output data
+    for (k = 0; k < insize; ++ k) {
+      if (in[ k ] != out[ k ]) {
+        if (err_count == 0) printf( "\n" );
+        if (err_count == 30) printf( "    ...\n" );
+        else if (err_count < 30) {
             printf( "    %d: %d != %d\n", k, out[ k ], in[ k ] );
         }
         ++ err_count;
@@ -311,17 +322,17 @@ int TestBuf(unsigned char *in, unsigned int insize, int algo) {
     }
 
     /* Did we have success? */
-    if ( err_count == 0 ) {
-      printf( "\n" );
-      printf( "    Compression speed: %3.1f KB/s (%.3f us)\n",
-              (double) insize / (1024.0 * t_comp), 1000000.0 * t_comp );
-      printf( "    Decompression speed: %3.1f KB/s (%.3f us)\n",
-              (double) insize / (1024.0 * t_uncomp), 1000000.0 * t_uncomp );
+    if (err_count == 0) {
+      printf("\n");
+      printf("    Compression speed: %3.1f KB/s (%.3f us)\n",
+              (double) insize / (1024.0 * t_comp), 1000000.0 * t_comp);
+      printf("    Decompression speed: %3.1f KB/s (%.3f us)\n",
+              (double) insize / (1024.0 * t_uncomp), 1000000.0 * t_uncomp);
     }
     else {
-      printf( "    *******************************\n" );
-      printf( "    ERROR: %d faulty bytes\n", err_count );
-      printf( "    *******************************\n" );
+      printf("    *******************************\n");
+      printf("    ERROR: %d faulty bytes\n", err_count);
+      printf("    *******************************\n");
     }
   }
 
@@ -330,7 +341,6 @@ int TestBuf(unsigned char *in, unsigned int insize, int algo) {
 
   return (outsize > 0) && (err_count == 0);
 }
-
 
 
 
@@ -397,13 +407,7 @@ int main() {
 	initialise_iec61850();	// initialise IEC 61850 library
 	fp = init_pcap();		// initialise platform-specific libpcap network interface
 
-
 	InitTimer();
-
-
-
-
-
 
 	double f_nominal = 50.0;
 	double samplesPerCycle = 80.0;
@@ -418,10 +422,6 @@ int main() {
 	double theta = 0.0;
 	int t = 0;
 	unsigned int muNumber = 0;
-
-
-
-
 
 	unsigned int compression_start_offset = 28;
 	int algo = 1;
@@ -450,11 +450,12 @@ int main() {
 
 			int len = sv_update_LE_IED_MUnn_MSVCB01(bufOut);
 			if (len > 0) {
-				TestBuf(&bufOut[compression_start_offset - 1], len - compression_start_offset, algo);
-				algo++;
-				if (algo > 16) {
-					return 0;
+				while (algo <= NUMBER_OF_ALGORITHMS) {
+					TestBuf(&bufOut[compression_start_offset - 1], len - compression_start_offset, algo);
+					algo++;
 				}
+
+				return 0;
 
 //				pcap_sendpacket(fp, bufOut, len);
 			}
