@@ -31,13 +31,8 @@ extern "C" {
 
 
 
-int ber_decode_E1Q1SB1_C1_Performance(unsigned char *buf, struct E1Q1SB1_C1_Performance *E1Q1SB1_C1_Performance);
-int ber_decode_E1Q1SB1_C1_Positions(unsigned char *buf, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions);
-int ber_decode_E1Q1SB1_C1_Measurands(unsigned char *buf, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands);
-int ber_decode_E1Q1SB1_C1_smv(unsigned char *buf, struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv);
-int ber_decode_E1Q1SB1_C1_rmxu(unsigned char *buf, struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu);
-int ber_decode_D1Q1SB4_C1_SyckResult(unsigned char *buf, struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult);
-int ber_decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult);
+int ber_decode_LE_IED_MUnn_PhsMeas1(unsigned char *buf, struct LE_IED_MUnn_PhsMeas1 *LE_IED_MUnn_PhsMeas1);
+int ber_decode_LE_IED_MUnn_PhsMeas2(unsigned char *buf, struct LE_IED_MUnn_PhsMeas2 *LE_IED_MUnn_PhsMeas2);
 
 void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
 

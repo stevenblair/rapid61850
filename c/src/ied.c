@@ -22,18 +22,8 @@
 #include "datatypes.h"
 
 
-struct E1Q1SB1_t E1Q1SB1;
-struct E1Q1BP2_t E1Q1BP2;
-struct E1Q1BP3_t E1Q1BP3;
-struct E1Q2SB1_t E1Q2SB1;
-struct E1Q3SB1_t E1Q3SB1;
-struct E1Q3KA1_t E1Q3KA1;
-struct E1Q3KA2_t E1Q3KA2;
-struct E1Q3KA3_t E1Q3KA3;
-struct D1Q1SB1_t D1Q1SB1;
-struct D1Q1BP2_t D1Q1BP2;
-struct D1Q1BP3_t D1Q1BP3;
-struct D1Q1SB4_t D1Q1SB4;
+struct LE_IED_t LE_IED;
+struct LE_IED_RECV_t LE_IED_RECV;
 
 
 

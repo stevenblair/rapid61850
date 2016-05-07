@@ -31,7 +31,7 @@ extern "C" {
 #define TIMESTAMP_SUPPORTED		0
 #define GOOSE_FIXED_SIZE		0	// set to 1 to enable fixed-sized GOOSE encoding, which is slightly more efficient to encode.
 #define HIGH_LEVEL_INTERFACE	0	//
-#define JSON_INTERFACE			1	// set to 1 to enable the JSON-based web interface over HTTP
+#define JSON_INTERFACE			0	// set to 1 to enable the JSON-based web interface over HTTP
 
 #define LOCAL_MAC_ADDRESS_VALUE	{0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02}
 

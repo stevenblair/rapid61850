@@ -25,644 +25,268 @@
 
 
 
-int ber_get_length_myAnalogValue(struct myAnalogValue *myAnalogValue) {
+int ber_get_length_IEC_61850_9_2LEAV(struct IEC_61850_9_2LEAV *IEC_61850_9_2LEAV) {
 	int total = 0;
 	int len = 0;
 
-	len = BER_GET_LENGTH_CTYPE_FLOAT32(&myAnalogValue->f);
+	len = BER_GET_LENGTH_CTYPE_INT32(&IEC_61850_9_2LEAV->i);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
 }
-int ber_encode_myAnalogValue(unsigned char *buf, struct myAnalogValue *myAnalogValue) {
+int ber_encode_IEC_61850_9_2LEAV(unsigned char *buf, struct IEC_61850_9_2LEAV *IEC_61850_9_2LEAV) {
 	int offset = 0;
 
 	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myAnalogValue(myAnalogValue));
+	offset += encodeLength(&buf[offset], ber_get_length_IEC_61850_9_2LEAV(IEC_61850_9_2LEAV));
 
-	offset += BER_ENCODE_CTYPE_FLOAT32(&buf[offset], &myAnalogValue->f);
+	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEAV->i);
 
 	return offset;
 }
-int ber_get_length_ScaledValueConfig(struct ScaledValueConfig *ScaledValueConfig) {
+int ber_get_length_IEC_61850_9_2LEsVCAmp(struct IEC_61850_9_2LEsVCAmp *IEC_61850_9_2LEsVCAmp) {
 	int total = 0;
 	int len = 0;
 
-	len = BER_GET_LENGTH_CTYPE_FLOAT32(&ScaledValueConfig->scaleFactor);
+	len = BER_GET_LENGTH_CTYPE_FLOAT32(&IEC_61850_9_2LEsVCAmp->scaleFactor);
 	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_FLOAT32(&ScaledValueConfig->offset);
+	len = BER_GET_LENGTH_CTYPE_FLOAT32(&IEC_61850_9_2LEsVCAmp->offset);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
 }
-int ber_encode_ScaledValueConfig(unsigned char *buf, struct ScaledValueConfig *ScaledValueConfig) {
+int ber_encode_IEC_61850_9_2LEsVCAmp(unsigned char *buf, struct IEC_61850_9_2LEsVCAmp *IEC_61850_9_2LEsVCAmp) {
 	int offset = 0;
 
 	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_ScaledValueConfig(ScaledValueConfig));
+	offset += encodeLength(&buf[offset], ber_get_length_IEC_61850_9_2LEsVCAmp(IEC_61850_9_2LEsVCAmp));
 
-	offset += BER_ENCODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->scaleFactor);
-	offset += BER_ENCODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->offset);
+	offset += BER_ENCODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCAmp->scaleFactor);
+	offset += BER_ENCODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCAmp->offset);
 
 	return offset;
 }
-int ber_get_length_myVector(struct myVector *myVector) {
+int ber_get_length_IEC_61850_9_2LEsVCVol(struct IEC_61850_9_2LEsVCVol *IEC_61850_9_2LEsVCVol) {
 	int total = 0;
 	int len = 0;
 
-	len = ber_get_length_myAnalogValue(&myVector->mag);
+	len = BER_GET_LENGTH_CTYPE_FLOAT32(&IEC_61850_9_2LEsVCVol->scaleFactor);
 	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_myAnalogValue(&myVector->ang);
+	len = BER_GET_LENGTH_CTYPE_FLOAT32(&IEC_61850_9_2LEsVCVol->offset);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
 }
-int ber_encode_myVector(unsigned char *buf, struct myVector *myVector) {
+int ber_encode_IEC_61850_9_2LEsVCVol(unsigned char *buf, struct IEC_61850_9_2LEsVCVol *IEC_61850_9_2LEsVCVol) {
 	int offset = 0;
 
 	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myVector(myVector));
+	offset += encodeLength(&buf[offset], ber_get_length_IEC_61850_9_2LEsVCVol(IEC_61850_9_2LEsVCVol));
 
-	offset += ber_encode_myAnalogValue(&buf[offset], &myVector->mag);
-	offset += ber_encode_myAnalogValue(&buf[offset], &myVector->ang);
+	offset += BER_ENCODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCVol->scaleFactor);
+	offset += BER_ENCODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCVol->offset);
 
 	return offset;
 }
-int ber_get_length_simpleVector(struct simpleVector *simpleVector) {
+int ber_get_length_IEC_61850_9_2LESAVAmp(struct IEC_61850_9_2LESAVAmp *IEC_61850_9_2LESAVAmp) {
 	int total = 0;
 	int len = 0;
 
-	len = ber_get_length_myAnalogValue(&simpleVector->mag);
+	len = ber_get_length_IEC_61850_9_2LEAV(&IEC_61850_9_2LESAVAmp->instMag);
 	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_myAnalogValue(&simpleVector->ang);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&IEC_61850_9_2LESAVAmp->q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEsVCAmp(&IEC_61850_9_2LESAVAmp->sVC);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
 }
-int ber_encode_simpleVector(unsigned char *buf, struct simpleVector *simpleVector) {
+int ber_encode_IEC_61850_9_2LESAVAmp(unsigned char *buf, struct IEC_61850_9_2LESAVAmp *IEC_61850_9_2LESAVAmp) {
 	int offset = 0;
 
 	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_simpleVector(simpleVector));
+	offset += encodeLength(&buf[offset], ber_get_length_IEC_61850_9_2LESAVAmp(IEC_61850_9_2LESAVAmp));
 
-	offset += ber_encode_myAnalogValue(&buf[offset], &simpleVector->mag);
-	offset += ber_encode_myAnalogValue(&buf[offset], &simpleVector->ang);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &IEC_61850_9_2LESAVAmp->instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LESAVAmp->q);
+	offset += ber_encode_IEC_61850_9_2LEsVCAmp(&buf[offset], &IEC_61850_9_2LESAVAmp->sVC);
 
 	return offset;
 }
-int ber_get_length_myMod(struct myMod *myMod) {
+int ber_get_length_IEC_61850_9_2LESAVVol(struct IEC_61850_9_2LESAVVol *IEC_61850_9_2LESAVVol) {
 	int total = 0;
 	int len = 0;
 
-	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myMod->ctlVal);
+	len = ber_get_length_IEC_61850_9_2LEAV(&IEC_61850_9_2LESAVVol->instMag);
 	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myMod->stVal);
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&IEC_61850_9_2LESAVVol->q);
 	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&myMod->q);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&myMod->t);
+	len = ber_get_length_IEC_61850_9_2LEsVCVol(&IEC_61850_9_2LESAVVol->sVC);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
 }
-int ber_encode_myMod(unsigned char *buf, struct myMod *myMod) {
+int ber_encode_IEC_61850_9_2LESAVVol(unsigned char *buf, struct IEC_61850_9_2LESAVVol *IEC_61850_9_2LESAVVol) {
 	int offset = 0;
 
 	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myMod(myMod));
+	offset += encodeLength(&buf[offset], ber_get_length_IEC_61850_9_2LESAVVol(IEC_61850_9_2LESAVVol));
 
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->ctlVal);
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->stVal);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &myMod->q);
-	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myMod->t);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &IEC_61850_9_2LESAVVol->instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LESAVVol->q);
+	offset += ber_encode_IEC_61850_9_2LEsVCVol(&buf[offset], &IEC_61850_9_2LESAVVol->sVC);
 
 	return offset;
 }
-int ber_get_length_myHealth(struct myHealth *myHealth) {
+int ber_get_length_IEC_61850_9_2LEINC(struct IEC_61850_9_2LEINC *IEC_61850_9_2LEINC) {
 	int total = 0;
 	int len = 0;
 
-	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myHealth->stVal);
+	len = BER_GET_LENGTH_CTYPE_INT32(&IEC_61850_9_2LEINC->ctlVal);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_INT32(&IEC_61850_9_2LEINC->stVal);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&IEC_61850_9_2LEINC->q);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&IEC_61850_9_2LEINC->t);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
 }
-int ber_encode_myHealth(unsigned char *buf, struct myHealth *myHealth) {
+int ber_encode_IEC_61850_9_2LEINC(unsigned char *buf, struct IEC_61850_9_2LEINC *IEC_61850_9_2LEINC) {
 	int offset = 0;
 
 	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myHealth(myHealth));
+	offset += encodeLength(&buf[offset], ber_get_length_IEC_61850_9_2LEINC(IEC_61850_9_2LEINC));
 
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myHealth->stVal);
+	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEINC->ctlVal);
+	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEINC->stVal);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LEINC->q);
+	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &IEC_61850_9_2LEINC->t);
 
 	return offset;
 }
-int ber_get_length_myBeh(struct myBeh *myBeh) {
+int ber_get_length_LE_IED_MUnn_PhsMeas1() {
 	int total = 0;
 	int len = 0;
 
-	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &myBeh->stVal);
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_1.Vol.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_1.Vol.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_2.Vol.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_2.Vol.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_3.Vol.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_3.Vol.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.q);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
 }
-int ber_encode_myBeh(unsigned char *buf, struct myBeh *myBeh) {
+int ber_encode_LE_IED_MUnn_PhsMeas1(unsigned char *buf) {
 	int offset = 0;
 
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myBeh(myBeh));
-
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myBeh->stVal);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_1.Vol.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_1.Vol.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_2.Vol.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_2.Vol.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_3.Vol.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_3.Vol.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.q);
 
 	return offset;
 }
-int ber_get_length_myINS(struct myINS *myINS) {
+int ber_get_length_LE_IED_MUnn_PhsMeas2() {
 	int total = 0;
 	int len = 0;
 
-	len = BER_GET_LENGTH_CTYPE_INT32(&myINS->stVal);
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_5.Amp.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_5.Amp.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_6.Amp.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_6.Amp.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_7.Amp.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_7.Amp.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_8.Amp.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_8.Amp.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_5.Vol.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_5.Vol.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_6.Vol.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_6.Vol.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_7.Vol.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_7.Vol.q);
+	total += len + getLengthBytes(len) + 1;
+	len = ber_get_length_IEC_61850_9_2LEAV(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_8.Vol.instMag);
+	total += len + getLengthBytes(len) + 1;
+	len = BER_GET_LENGTH_CTYPE_QUALITY(&LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_8.Vol.q);
 	total += len + getLengthBytes(len) + 1;
 
 	return total;
 }
-int ber_encode_myINS(unsigned char *buf, struct myINS *myINS) {
+int ber_encode_LE_IED_MUnn_PhsMeas2(unsigned char *buf) {
 	int offset = 0;
 
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myINS(myINS));
-
-	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &myINS->stVal);
-
-	return offset;
-}
-int ber_get_length_myLPL(struct myLPL *myLPL) {
-	int total = 0;
-	int len = 0;
-
-	len = BER_GET_LENGTH_CTYPE_VISSTRING255(&myLPL->ldNs);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_VISSTRING255(&myLPL->configRev);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_myLPL(unsigned char *buf, struct myLPL *myLPL) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myLPL(myLPL));
-
-	offset += BER_ENCODE_CTYPE_VISSTRING255(&buf[offset], &myLPL->ldNs);
-	offset += BER_ENCODE_CTYPE_VISSTRING255(&buf[offset], &myLPL->configRev);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_5.Amp.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_5.Amp.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_6.Amp.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_6.Amp.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_7.Amp.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_7.Amp.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_8.Amp.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_8.Amp.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_5.Vol.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_5.Vol.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_6.Vol.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_6.Vol.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_7.Vol.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_7.Vol.q);
+	offset += ber_encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_8.Vol.instMag);
+	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_8.Vol.q);
 
 	return offset;
-}
-int ber_get_length_myDPL(struct myDPL *myDPL) {
-	int total = 0;
-	int len = 0;
-
-	len = BER_GET_LENGTH_CTYPE_VISSTRING255(&myDPL->vendor);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_VISSTRING255(&myDPL->hwRev);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_myDPL(unsigned char *buf, struct myDPL *myDPL) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myDPL(myDPL));
-
-	offset += BER_ENCODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->vendor);
-	offset += BER_ENCODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->hwRev);
-
-	return offset;
-}
-int ber_get_length_myPos(struct myPos *myPos) {
-	int total = 0;
-	int len = 0;
-
-	len = BER_GET_LENGTH_CTYPE_DBPOS(&myPos->stVal);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&myPos->q);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&myPos->t);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_BOOLEAN(&myPos->ctlVal);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_myPos(unsigned char *buf, struct myPos *myPos) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myPos(myPos));
-
-	offset += BER_ENCODE_CTYPE_DBPOS(&buf[offset], &myPos->stVal);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &myPos->q);
-	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myPos->t);
-	offset += BER_ENCODE_CTYPE_BOOLEAN(&buf[offset], &myPos->ctlVal);
-
-	return offset;
-}
-int ber_get_length_mySPS(struct mySPS *mySPS) {
-	int total = 0;
-	int len = 0;
-
-	len = BER_GET_LENGTH_CTYPE_INT32(&mySPS->stVal);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&mySPS->q);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&mySPS->t);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_mySPS(unsigned char *buf, struct mySPS *mySPS) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_mySPS(mySPS));
-
-	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &mySPS->stVal);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &mySPS->q);
-	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &mySPS->t);
-
-	return offset;
-}
-int ber_get_length_myMV(struct myMV *myMV) {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myAnalogValue(&myMV->mag);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&myMV->q);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&myMV->t);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_ScaledValueConfig(&myMV->sVC);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_INT32(&myMV->int1);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_INT32(&myMV->int2);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_INT32(&myMV->int3);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_myMV(unsigned char *buf, struct myMV *myMV) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myMV(myMV));
-
-	offset += ber_encode_myAnalogValue(&buf[offset], &myMV->mag);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &myMV->q);
-	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myMV->t);
-	offset += ber_encode_ScaledValueConfig(&buf[offset], &myMV->sVC);
-	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &myMV->int1);
-	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &myMV->int2);
-	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &myMV->int3);
-
-	return offset;
-}
-int ber_get_length_simpleMV(struct simpleMV *simpleMV) {
-	int total = 0;
-	int len = 0;
-
-	len = BER_GET_LENGTH_CTYPE_FLOAT32(&simpleMV->mag);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&simpleMV->q);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&simpleMV->t);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_ScaledValueConfig(&simpleMV->sVC);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_simpleMV(unsigned char *buf, struct simpleMV *simpleMV) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_simpleMV(simpleMV));
-
-	offset += BER_ENCODE_CTYPE_FLOAT32(&buf[offset], &simpleMV->mag);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &simpleMV->q);
-	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &simpleMV->t);
-	offset += ber_encode_ScaledValueConfig(&buf[offset], &simpleMV->sVC);
-
-	return offset;
-}
-int ber_get_length_simpleCMV(struct simpleCMV *simpleCMV) {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_simpleVector(&simpleCMV->cVal);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&simpleCMV->q);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&simpleCMV->t);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_mySPS(&simpleCMV->testSecondLayerSDO);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_INT32(&simpleCMV->testInteger);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_BOOLEAN(&simpleCMV->testBoolean);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_simpleCMV(unsigned char *buf, struct simpleCMV *simpleCMV) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_simpleCMV(simpleCMV));
-
-	offset += ber_encode_simpleVector(&buf[offset], &simpleCMV->cVal);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &simpleCMV->q);
-	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &simpleCMV->t);
-	offset += ber_encode_mySPS(&buf[offset], &simpleCMV->testSecondLayerSDO);
-	offset += BER_ENCODE_CTYPE_INT32(&buf[offset], &simpleCMV->testInteger);
-	offset += BER_ENCODE_CTYPE_BOOLEAN(&buf[offset], &simpleCMV->testBoolean);
-
-	return offset;
-}
-int ber_get_length_simpleWYE(struct simpleWYE *simpleWYE) {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_simpleCMV(&simpleWYE->phsA);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_simpleCMV(&simpleWYE->phsB);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_simpleCMV(&simpleWYE->phsC);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_simpleWYE(unsigned char *buf, struct simpleWYE *simpleWYE) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_simpleWYE(simpleWYE));
-
-	offset += ber_encode_simpleCMV(&buf[offset], &simpleWYE->phsA);
-	offset += ber_encode_simpleCMV(&buf[offset], &simpleWYE->phsB);
-	offset += ber_encode_simpleCMV(&buf[offset], &simpleWYE->phsC);
-
-	return offset;
-}
-int ber_get_length_myCMV(struct myCMV *myCMV) {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myVector(&myCMV->cVal);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&myCMV->q);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_TIMESTAMP(&myCMV->t);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_myCMV(unsigned char *buf, struct myCMV *myCMV) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_myCMV(myCMV));
-
-	offset += ber_encode_myVector(&buf[offset], &myCMV->cVal);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &myCMV->q);
-	offset += BER_ENCODE_CTYPE_TIMESTAMP(&buf[offset], &myCMV->t);
-
-	return offset;
-}
-int ber_get_length_mySEQ(struct mySEQ *mySEQ) {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myCMV(&mySEQ->c1);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_myCMV(&mySEQ->c2);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_myCMV(&mySEQ->c3);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &mySEQ->seqT);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_mySEQ(unsigned char *buf, struct mySEQ *mySEQ) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_mySEQ(mySEQ));
-
-	offset += ber_encode_myCMV(&buf[offset], &mySEQ->c1);
-	offset += ber_encode_myCMV(&buf[offset], &mySEQ->c2);
-	offset += ber_encode_myCMV(&buf[offset], &mySEQ->c3);
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &mySEQ->seqT);
-
-	return offset;
-}
-int ber_get_length_mySAV(struct mySAV *mySAV) {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myAnalogValue(&mySAV->instMag);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&mySAV->q);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_mySAV(unsigned char *buf, struct mySAV *mySAV) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_mySAV(mySAV));
-
-	offset += ber_encode_myAnalogValue(&buf[offset], &mySAV->instMag);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &mySAV->q);
-
-	return offset;
-}
-int ber_get_length_simpleSAV(struct simpleSAV *simpleSAV) {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myAnalogValue(&simpleSAV->instMag);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_QUALITY(&simpleSAV->q);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
-	int offset = 0;
-
-	buf[offset++] = 0xA2;
-	offset += encodeLength(&buf[offset], ber_get_length_simpleSAV(simpleSAV));
-
-	offset += ber_encode_myAnalogValue(&buf[offset], &simpleSAV->instMag);
-	offset += BER_ENCODE_CTYPE_QUALITY(&buf[offset], &simpleSAV->q);
-
-	return offset;
-}
-int ber_get_length_E1Q1SB1_C1_Performance() {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Amps);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_myMV(&E1Q1SB1.S1.C1.MMXUa_1.Volts);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_E1Q1SB1_C1_Performance(unsigned char *buf) {
-	int offset = 0;
-
-	offset += ber_encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Amps);
-	offset += ber_encode_myMV(&buf[offset], &E1Q1SB1.S1.C1.MMXUa_1.Volts);
-
-	return offset;
-}
-int ber_encode_control_E1Q1SB1_C1_Performance(unsigned char *buf) {
-	return ber_encode_E1Q1SB1_C1_Performance(buf);
-}
-int ber_get_length_E1Q1SB1_C1_Positions() {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_myPos(&E1Q1SB1.S1.C1.CSWIa_1.Pos);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_myPos(&E1Q1SB1.S1.C1.CSWIa_2.Pos);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_E1Q1SB1_C1_Positions(unsigned char *buf) {
-	int offset = 0;
-
-	offset += ber_encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
-	offset += ber_encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_1.Pos);
-	offset += ber_encode_myPos(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_2.Pos);
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
-
-	return offset;
-}
-int ber_encode_control_E1Q1SB1_C1_ItlPositions(unsigned char *buf) {
-	return ber_encode_E1Q1SB1_C1_Positions(buf);
-}
-int ber_encode_control_E1Q1SB1_C1_AnotherPositions(unsigned char *buf) {
-	return ber_encode_E1Q1SB1_C1_Positions(buf);
-}
-int ber_get_length_E1Q1SB1_C1_Measurands() {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_E1Q1SB1_C1_Measurands(unsigned char *buf) {
-	int offset = 0;
-
-	offset += ber_encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
-
-	return offset;
-}
-int ber_get_length_E1Q1SB1_C1_smv() {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_myAnalogValue(&E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_myMod(&E1Q1SB1.S1.C1.CSWIa_1.Mod);
-	total += len + getLengthBytes(len) + 1;
-	len = BER_GET_LENGTH_CTYPE_ENUM((CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_E1Q1SB1_C1_smv(unsigned char *buf) {
-	int offset = 0;
-
-	offset += ber_encode_myAnalogValue(&buf[offset], &E1Q1SB1.S1.C1.TVTRa_1.Vol.instMag);
-	offset += ber_encode_myMod(&buf[offset], &E1Q1SB1.S1.C1.CSWIa_1.Mod);
-	offset += BER_ENCODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1.S1.C1.MMXUa_1.Mod.stVal);
-
-	return offset;
-}
-int ber_get_length_E1Q1SB1_C1_rmxu() {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsB);
-	total += len + getLengthBytes(len) + 1;
-	len = ber_get_length_simpleSAV(&E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_E1Q1SB1_C1_rmxu(unsigned char *buf) {
-	int offset = 0;
-
-	offset += ber_encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsA);
-	offset += ber_encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsB);
-	offset += ber_encode_simpleSAV(&buf[offset], &E1Q1SB1.S1.C1.exampleRMXU_1.AmpLocPhsC);
-
-	return offset;
-}
-int ber_get_length_D1Q1SB4_C1_SyckResult() {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_mySPS(&D1Q1SB4.S1.C1.RSYNa_1.Rel);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_D1Q1SB4_C1_SyckResult(unsigned char *buf) {
-	int offset = 0;
-
-	offset += ber_encode_mySPS(&buf[offset], &D1Q1SB4.S1.C1.RSYNa_1.Rel);
-
-	return offset;
-}
-int ber_encode_control_D1Q1SB4_C1_SyckResult(unsigned char *buf) {
-	return ber_encode_D1Q1SB4_C1_SyckResult(buf);
-}
-int ber_get_length_D1Q1SB4_C1_MMXUResult() {
-	int total = 0;
-	int len = 0;
-
-	len = ber_get_length_simpleWYE(&D1Q1SB4.S1.C1.exampleMMXU_1.A);
-	total += len + getLengthBytes(len) + 1;
-
-	return total;
-}
-int ber_encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf) {
-	int offset = 0;
-
-	offset += ber_encode_simpleWYE(&buf[offset], &D1Q1SB4.S1.C1.exampleMMXU_1.A);
-
-	return offset;
-}
-int ber_encode_control_D1Q1SB4_C1_MMXUResult(unsigned char *buf) {
-	return ber_encode_D1Q1SB4_C1_MMXUResult(buf);
 }
 
 

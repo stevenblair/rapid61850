@@ -31,16 +31,10 @@ extern "C" {
 
 
 
-int encode_E1Q1SB1_C1_Performance(unsigned char *buf);
-int encode_control_E1Q1SB1_C1_PerformanceSV(unsigned char *buf);
-int encode_E1Q1SB1_C1_Positions(unsigned char *buf);
-int encode_E1Q1SB1_C1_Measurands(unsigned char *buf);
-int encode_E1Q1SB1_C1_smv(unsigned char *buf);
-int encode_control_E1Q1SB1_C1_Volt(unsigned char *buf);
-int encode_E1Q1SB1_C1_rmxu(unsigned char *buf);
-int encode_control_E1Q1SB1_C1_rmxuCB(unsigned char *buf);
-int encode_D1Q1SB4_C1_SyckResult(unsigned char *buf);
-int encode_D1Q1SB4_C1_MMXUResult(unsigned char *buf);
+int encode_LE_IED_MUnn_PhsMeas1(unsigned char *buf);
+int encode_control_LE_IED_MUnn_MSVCB01(unsigned char *buf);
+int encode_LE_IED_MUnn_PhsMeas2(unsigned char *buf);
+int encode_control_LE_IED_MUnn_MSVCB02(unsigned char *buf);
 
 int svEncodePacket(struct svControl *svControl, unsigned char *buf);
 

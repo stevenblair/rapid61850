@@ -26,358 +26,128 @@
 
 
 
-int ber_decode_myAnalogValue(unsigned char *buf, struct myAnalogValue *myAnalogValue) {
+int ber_decode_IEC_61850_9_2LEAV(unsigned char *buf, struct IEC_61850_9_2LEAV *IEC_61850_9_2LEAV) {
 	int offset = 0;
 
 	if (buf[offset++] == 0xA2) {
 		offset += getLengthFieldSize(buf[offset]);
 
-		offset += BER_DECODE_CTYPE_FLOAT32(&buf[offset], &myAnalogValue->f);
+		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEAV->i);
 	}
 
 	return offset;
 }
-int ber_decode_ScaledValueConfig(unsigned char *buf, struct ScaledValueConfig *ScaledValueConfig) {
+int ber_decode_IEC_61850_9_2LEsVCAmp(unsigned char *buf, struct IEC_61850_9_2LEsVCAmp *IEC_61850_9_2LEsVCAmp) {
 	int offset = 0;
 
 	if (buf[offset++] == 0xA2) {
 		offset += getLengthFieldSize(buf[offset]);
 
-		offset += BER_DECODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->scaleFactor);
-		offset += BER_DECODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->offset);
+		offset += BER_DECODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCAmp->scaleFactor);
+		offset += BER_DECODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCAmp->offset);
 	}
 
 	return offset;
 }
-int ber_decode_myVector(unsigned char *buf, struct myVector *myVector) {
+int ber_decode_IEC_61850_9_2LEsVCVol(unsigned char *buf, struct IEC_61850_9_2LEsVCVol *IEC_61850_9_2LEsVCVol) {
 	int offset = 0;
 
 	if (buf[offset++] == 0xA2) {
 		offset += getLengthFieldSize(buf[offset]);
 
-		offset += ber_decode_myAnalogValue(&buf[offset], &myVector->mag);
-		offset += ber_decode_myAnalogValue(&buf[offset], &myVector->ang);
+		offset += BER_DECODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCVol->scaleFactor);
+		offset += BER_DECODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCVol->offset);
 	}
 
 	return offset;
 }
-int ber_decode_simpleVector(unsigned char *buf, struct simpleVector *simpleVector) {
+int ber_decode_IEC_61850_9_2LESAVAmp(unsigned char *buf, struct IEC_61850_9_2LESAVAmp *IEC_61850_9_2LESAVAmp) {
 	int offset = 0;
 
 	if (buf[offset++] == 0xA2) {
 		offset += getLengthFieldSize(buf[offset]);
 
-		offset += ber_decode_myAnalogValue(&buf[offset], &simpleVector->mag);
-		offset += ber_decode_myAnalogValue(&buf[offset], &simpleVector->ang);
+		offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &IEC_61850_9_2LESAVAmp->instMag);
+		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LESAVAmp->q);
+		offset += ber_decode_IEC_61850_9_2LEsVCAmp(&buf[offset], &IEC_61850_9_2LESAVAmp->sVC);
 	}
 
 	return offset;
 }
-int ber_decode_myMod(unsigned char *buf, struct myMod *myMod) {
+int ber_decode_IEC_61850_9_2LESAVVol(unsigned char *buf, struct IEC_61850_9_2LESAVVol *IEC_61850_9_2LESAVVol) {
 	int offset = 0;
 
 	if (buf[offset++] == 0xA2) {
 		offset += getLengthFieldSize(buf[offset]);
 
-		offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->ctlVal);
-		offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->stVal);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &myMod->q);
-		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &myMod->t);
+		offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &IEC_61850_9_2LESAVVol->instMag);
+		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LESAVVol->q);
+		offset += ber_decode_IEC_61850_9_2LEsVCVol(&buf[offset], &IEC_61850_9_2LESAVVol->sVC);
 	}
 
 	return offset;
 }
-int ber_decode_myHealth(unsigned char *buf, struct myHealth *myHealth) {
+int ber_decode_IEC_61850_9_2LEINC(unsigned char *buf, struct IEC_61850_9_2LEINC *IEC_61850_9_2LEINC) {
 	int offset = 0;
 
 	if (buf[offset++] == 0xA2) {
 		offset += getLengthFieldSize(buf[offset]);
 
-		offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myHealth->stVal);
+		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEINC->ctlVal);
+		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEINC->stVal);
+		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LEINC->q);
+		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &IEC_61850_9_2LEINC->t);
 	}
 
 	return offset;
 }
-int ber_decode_myBeh(unsigned char *buf, struct myBeh *myBeh) {
+int ber_decode_LE_IED_MUnn_PhsMeas1(unsigned char *buf, struct LE_IED_MUnn_PhsMeas1 *LE_IED_MUnn_PhsMeas1) {
 	int offset = 0;
 
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myBeh->stVal);
-	}
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_q);
 
 	return offset;
 }
-int ber_decode_myINS(unsigned char *buf, struct myINS *myINS) {
+int ber_decode_LE_IED_MUnn_PhsMeas2(unsigned char *buf, struct LE_IED_MUnn_PhsMeas2 *LE_IED_MUnn_PhsMeas2) {
 	int offset = 0;
 
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &myINS->stVal);
-	}
-
-	return offset;
-}
-int ber_decode_myLPL(unsigned char *buf, struct myLPL *myLPL) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += BER_DECODE_CTYPE_VISSTRING255(&buf[offset], &myLPL->ldNs);
-		offset += BER_DECODE_CTYPE_VISSTRING255(&buf[offset], &myLPL->configRev);
-	}
-
-	return offset;
-}
-int ber_decode_myDPL(unsigned char *buf, struct myDPL *myDPL) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += BER_DECODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->vendor);
-		offset += BER_DECODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->hwRev);
-	}
-
-	return offset;
-}
-int ber_decode_myPos(unsigned char *buf, struct myPos *myPos) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += BER_DECODE_CTYPE_DBPOS(&buf[offset], &myPos->stVal);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &myPos->q);
-		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &myPos->t);
-		offset += BER_DECODE_CTYPE_BOOLEAN(&buf[offset], &myPos->ctlVal);
-	}
-
-	return offset;
-}
-int ber_decode_mySPS(unsigned char *buf, struct mySPS *mySPS) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &mySPS->stVal);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &mySPS->q);
-		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &mySPS->t);
-	}
-
-	return offset;
-}
-int ber_decode_myMV(unsigned char *buf, struct myMV *myMV) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += ber_decode_myAnalogValue(&buf[offset], &myMV->mag);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &myMV->q);
-		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &myMV->t);
-		offset += ber_decode_ScaledValueConfig(&buf[offset], &myMV->sVC);
-		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &myMV->int1);
-		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &myMV->int2);
-		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &myMV->int3);
-	}
-
-	return offset;
-}
-int ber_decode_simpleMV(unsigned char *buf, struct simpleMV *simpleMV) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += BER_DECODE_CTYPE_FLOAT32(&buf[offset], &simpleMV->mag);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &simpleMV->q);
-		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &simpleMV->t);
-		offset += ber_decode_ScaledValueConfig(&buf[offset], &simpleMV->sVC);
-	}
-
-	return offset;
-}
-int ber_decode_simpleCMV(unsigned char *buf, struct simpleCMV *simpleCMV) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += ber_decode_simpleVector(&buf[offset], &simpleCMV->cVal);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &simpleCMV->q);
-		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &simpleCMV->t);
-		offset += ber_decode_mySPS(&buf[offset], &simpleCMV->testSecondLayerSDO);
-		offset += BER_DECODE_CTYPE_INT32(&buf[offset], &simpleCMV->testInteger);
-		offset += BER_DECODE_CTYPE_BOOLEAN(&buf[offset], &simpleCMV->testBoolean);
-	}
-
-	return offset;
-}
-int ber_decode_simpleWYE(unsigned char *buf, struct simpleWYE *simpleWYE) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += ber_decode_simpleCMV(&buf[offset], &simpleWYE->phsA);
-		offset += ber_decode_simpleCMV(&buf[offset], &simpleWYE->phsB);
-		offset += ber_decode_simpleCMV(&buf[offset], &simpleWYE->phsC);
-	}
-
-	return offset;
-}
-int ber_decode_myCMV(unsigned char *buf, struct myCMV *myCMV) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += ber_decode_myVector(&buf[offset], &myCMV->cVal);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &myCMV->q);
-		offset += BER_DECODE_CTYPE_TIMESTAMP(&buf[offset], &myCMV->t);
-	}
-
-	return offset;
-}
-int ber_decode_mySEQ(unsigned char *buf, struct mySEQ *mySEQ) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += ber_decode_myCMV(&buf[offset], &mySEQ->c1);
-		offset += ber_decode_myCMV(&buf[offset], &mySEQ->c2);
-		offset += ber_decode_myCMV(&buf[offset], &mySEQ->c3);
-		offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &mySEQ->seqT);
-	}
-
-	return offset;
-}
-int ber_decode_mySAV(unsigned char *buf, struct mySAV *mySAV) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += ber_decode_myAnalogValue(&buf[offset], &mySAV->instMag);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &mySAV->q);
-	}
-
-	return offset;
-}
-int ber_decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
-	int offset = 0;
-
-	if (buf[offset++] == 0xA2) {
-		offset += getLengthFieldSize(buf[offset]);
-
-		offset += ber_decode_myAnalogValue(&buf[offset], &simpleSAV->instMag);
-		offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &simpleSAV->q);
-	}
-
-	return offset;
-}
-int ber_decode_E1Q1SB1_C1_Performance(unsigned char *buf, struct E1Q1SB1_C1_Performance *E1Q1SB1_C1_Performance) {
-	int offset = 0;
-
-	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_Performance->C1_MMXU_1_Amps);
-	offset += ber_decode_myMV(&buf[offset], &E1Q1SB1_C1_Performance->C1_MMXU_1_Volts);
-
-	return offset;
-}
-int ber_decode_E1Q1SB1_C1_Positions(unsigned char *buf, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions) {
-	int offset = 0;
-
-	offset += ber_decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Positions->C1_TVTR_1_Vol_instMag);
-	offset += ber_decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_1_Pos);
-	offset += ber_decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_2_Pos);
-	offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1_MMXU_1_Mod_stVal);
-
-	return offset;
-}
-int ber_decode_E1Q1SB1_C1_Measurands(unsigned char *buf, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands) {
-	int offset = 0;
-
-	offset += ber_decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Measurands->C1_TVTR_1_Vol_instMag);
-
-	return offset;
-}
-int ber_decode_E1Q1SB1_C1_smv(unsigned char *buf, struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv) {
-	int offset = 0;
-
-	offset += ber_decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1_TVTR_1_Vol_instMag);
-	offset += ber_decode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1_CSWI_1_Mod);
-	offset += BER_DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1_MMXU_1_Mod_stVal);
-
-	return offset;
-}
-int ber_decode_E1Q1SB1_C1_rmxu(unsigned char *buf, struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu) {
-	int offset = 0;
-
-	offset += ber_decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsA);
-	offset += ber_decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsB);
-	offset += ber_decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsC);
-
-	return offset;
-}
-int ber_decode_D1Q1SB4_C1_SyckResult(unsigned char *buf, struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult) {
-	int offset = 0;
-
-	offset += ber_decode_mySPS(&buf[offset], &D1Q1SB4_C1_SyckResult->C1_RSYN_1_Rel);
-
-	return offset;
-}
-int ber_decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult) {
-	int offset = 0;
-
-	offset += ber_decode_simpleWYE(&buf[offset], &D1Q1SB4_C1_MMXUResult->C1_MMXU_1_A);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_5_Amp_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_5_Amp_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_6_Amp_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_6_Amp_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_7_Amp_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_7_Amp_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_8_Amp_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_8_Amp_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_5_Vol_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_5_Vol_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_6_Vol_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_6_Vol_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_7_Vol_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_7_Vol_q);
+	offset += ber_decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_8_Vol_instMag);
+	offset += BER_DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_8_Vol_q);
 
 	return offset;
 }
 
 void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {
 
-	if (gocbRefLength == 29 && strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$GO$Performance", gocbRefLength) == 0) {
-		if (stNum != D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.stNum) {
-			ber_decode_E1Q1SB1_C1_Performance(dataset, &D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.E1Q1SB1_C1_Performance);
-		}
-		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.timeAllowedToLive = timeAllowedToLive;
-		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.T = T;
-		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.stNum = stNum;
-		D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.sqNum = sqNum;
-		if (D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.exampleMMXU_1.gse_inputs_Performance.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
-		}
-	}
-	if (gocbRefLength == 34 && strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$GO$AnotherPositions", gocbRefLength) == 0) {
-		if (stNum != D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.stNum) {
-			ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.E1Q1SB1_C1_Positions);
-		}
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.timeAllowedToLive = timeAllowedToLive;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.T = T;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.stNum = stNum;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.sqNum = sqNum;
-		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_AnotherPositions.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
-		}
-	}
-	if (gocbRefLength == 30 && strncmp((const char *) gocbRef, "E1Q1SB1C1/LLN0$GO$ItlPositions", gocbRefLength) == 0) {
-		if (stNum != D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.stNum) {
-			ber_decode_E1Q1SB1_C1_Positions(dataset, &D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.E1Q1SB1_C1_Positions);
-		}
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.timeAllowedToLive = timeAllowedToLive;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.T = T;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.stNum = stNum;
-		D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.sqNum = sqNum;
-		if (D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone(timeAllowedToLive, T, stNum, sqNum);
-		}
-	}
 }
 
 

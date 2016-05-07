@@ -33,9 +33,8 @@ extern "C" {
 
 
 void init_sv();
-int sv_update_E1Q1SB1_C1_PerformanceSV(unsigned char *buf);
-int sv_update_E1Q1SB1_C1_Volt(unsigned char *buf);
-int sv_update_E1Q1SB1_C1_rmxuCB(unsigned char *buf);
+int sv_update_LE_IED_MUnn_MSVCB01(unsigned char *buf);
+int sv_update_LE_IED_MUnn_MSVCB02(unsigned char *buf);
 void svDecode(unsigned char *buf, int len);
 
 

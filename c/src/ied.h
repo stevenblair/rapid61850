@@ -30,108 +30,57 @@ extern "C" {
 #include "gse.h"
 
 
-struct E1Q1SB1_t {
+struct LE_IED_t {
 	struct {
 		struct {
 			struct {
-				struct LN0 LLN0;
-				struct svControl PerformanceSV;
-				struct gseControl Performance;
-				struct gseControl ItlPositions;
-				struct gseControl AnotherPositions;
-				struct svControl Volt;
-				struct svControl rmxuCB;
+				struct IEC_61850_9_2LELLN0 LLN0;
+				struct svControl MSVCB01;
+				struct svControl MSVCB02;
 			} LN0;
-			struct exampleRMXU exampleRMXU_1;
-			struct LPHDa LPHDa_1;
-			struct CSWIa CSWIa_1;
-			struct CSWIa CSWIa_2;
-			struct MMXUa MMXUa_1;
-			struct TVTRa TVTRa_1;
-		} C1;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_1;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_2;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_3;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_4;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_1;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_2;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_3;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_4;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_5;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_6;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_7;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_8;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_5;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_6;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_7;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_8;
+		} MUnn;
 	} S1;
 };
 
-struct E1Q1BP2_t {
-	struct {
-	} S1;
-};
-
-struct E1Q1BP3_t {
-	struct {
-	} S1;
-};
-
-struct E1Q2SB1_t {
-	struct {
-	} S1;
-};
-
-struct E1Q3SB1_t {
-	struct {
-	} S1;
-};
-
-struct E1Q3KA1_t {
-	struct {
-	} S1;
-};
-
-struct E1Q3KA2_t {
-	struct {
-	} S1;
-};
-
-struct E1Q3KA3_t {
-	struct {
-	} S1;
-};
-
-struct D1Q1SB1_t {
-	struct {
-	} S1;
-};
-
-struct D1Q1BP2_t {
-	struct {
-	} S1;
-};
-
-struct D1Q1BP3_t {
-	struct {
-	} S1;
-};
-
-struct D1Q1SB4_t {
+struct LE_IED_RECV_t {
 	struct {
 		struct {
 			struct {
-				struct LN0 LLN0;
-				struct gseControl SyckResult;
-				struct gseControl MMXUResult;
+				struct IEC_61850_9_2LELLN0 LLN0;
 			} LN0;
-			struct exampleMMXU exampleMMXU_1;
-			struct LPHDa LPHDa_1;
-			struct RSYNa RSYNa_1;
-		} C1;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_1;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_2;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_3;
+			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_4;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_1;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_2;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_3;
+			struct IEC_61850_9_2LETVTR IEC_61850_9_2LETVTR_4;
+		} MUnn;
 	} S1;
 };
 
 
 
 
-extern struct E1Q1SB1_t E1Q1SB1;
-extern struct E1Q1BP2_t E1Q1BP2;
-extern struct E1Q1BP3_t E1Q1BP3;
-extern struct E1Q2SB1_t E1Q2SB1;
-extern struct E1Q3SB1_t E1Q3SB1;
-extern struct E1Q3KA1_t E1Q3KA1;
-extern struct E1Q3KA2_t E1Q3KA2;
-extern struct E1Q3KA3_t E1Q3KA3;
-extern struct D1Q1SB1_t D1Q1SB1;
-extern struct D1Q1BP2_t D1Q1BP2;
-extern struct D1Q1BP3_t D1Q1BP3;
-extern struct D1Q1SB4_t D1Q1SB4;
+extern struct LE_IED_t LE_IED;
+extern struct LE_IED_RECV_t LE_IED_RECV;
 
 
 #ifdef __cplusplus /* If this is a C++ compiler, end C linkage */

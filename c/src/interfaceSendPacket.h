@@ -31,14 +31,8 @@ extern "C" {
 
 
 
-int interface_sv_update_E1Q1SB1_C1_PerformanceSV();
-int interface_gse_send_E1Q1SB1_C1_Performance(int statusChange, int timeAllowedToLive);
-int interface_gse_send_E1Q1SB1_C1_ItlPositions(int statusChange, int timeAllowedToLive);
-int interface_gse_send_E1Q1SB1_C1_AnotherPositions(int statusChange, int timeAllowedToLive);
-int interface_sv_update_E1Q1SB1_C1_Volt();
-int interface_sv_update_E1Q1SB1_C1_rmxuCB();
-int interface_gse_send_D1Q1SB4_C1_SyckResult(int statusChange, int timeAllowedToLive);
-int interface_gse_send_D1Q1SB4_C1_MMXUResult(int statusChange, int timeAllowedToLive);
+int interface_sv_update_LE_IED_MUnn_MSVCB01();
+int interface_sv_update_LE_IED_MUnn_MSVCB02();
 
 
 

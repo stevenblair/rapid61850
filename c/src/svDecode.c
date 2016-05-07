@@ -26,268 +26,116 @@
 
 
 
-int decode_myAnalogValue(unsigned char *buf, struct myAnalogValue *myAnalogValue) {
+int decode_IEC_61850_9_2LEAV(unsigned char *buf, struct IEC_61850_9_2LEAV *IEC_61850_9_2LEAV) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &myAnalogValue->f);
+	offset += DECODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEAV->i);
 
 	return offset;
 }
-int decode_ScaledValueConfig(unsigned char *buf, struct ScaledValueConfig *ScaledValueConfig) {
+int decode_IEC_61850_9_2LEsVCAmp(unsigned char *buf, struct IEC_61850_9_2LEsVCAmp *IEC_61850_9_2LEsVCAmp) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->scaleFactor);
-	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &ScaledValueConfig->offset);
+	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCAmp->scaleFactor);
+	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCAmp->offset);
 
 	return offset;
 }
-int decode_myVector(unsigned char *buf, struct myVector *myVector) {
+int decode_IEC_61850_9_2LEsVCVol(unsigned char *buf, struct IEC_61850_9_2LEsVCVol *IEC_61850_9_2LEsVCVol) {
 	int offset = 0;
 
-	offset += decode_myAnalogValue(&buf[offset], &myVector->mag);
-	offset += decode_myAnalogValue(&buf[offset], &myVector->ang);
+	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCVol->scaleFactor);
+	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &IEC_61850_9_2LEsVCVol->offset);
 
 	return offset;
 }
-int decode_simpleVector(unsigned char *buf, struct simpleVector *simpleVector) {
+int decode_IEC_61850_9_2LESAVAmp(unsigned char *buf, struct IEC_61850_9_2LESAVAmp *IEC_61850_9_2LESAVAmp) {
 	int offset = 0;
 
-	offset += decode_myAnalogValue(&buf[offset], &simpleVector->mag);
-	offset += decode_myAnalogValue(&buf[offset], &simpleVector->ang);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &IEC_61850_9_2LESAVAmp->instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LESAVAmp->q);
+	offset += decode_IEC_61850_9_2LEsVCAmp(&buf[offset], &IEC_61850_9_2LESAVAmp->sVC);
 
 	return offset;
 }
-int decode_myMod(unsigned char *buf, struct myMod *myMod) {
+int decode_IEC_61850_9_2LESAVVol(unsigned char *buf, struct IEC_61850_9_2LESAVVol *IEC_61850_9_2LESAVVol) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->ctlVal);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myMod->stVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myMod->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myMod->t);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &IEC_61850_9_2LESAVVol->instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LESAVVol->q);
+	offset += decode_IEC_61850_9_2LEsVCVol(&buf[offset], &IEC_61850_9_2LESAVVol->sVC);
 
 	return offset;
 }
-int decode_myHealth(unsigned char *buf, struct myHealth *myHealth) {
+int decode_IEC_61850_9_2LEINC(unsigned char *buf, struct IEC_61850_9_2LEINC *IEC_61850_9_2LEINC) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myHealth->stVal);
+	offset += DECODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEINC->ctlVal);
+	offset += DECODE_CTYPE_INT32(&buf[offset], &IEC_61850_9_2LEINC->stVal);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &IEC_61850_9_2LEINC->q);
+	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &IEC_61850_9_2LEINC->t);
 
 	return offset;
 }
-int decode_myBeh(unsigned char *buf, struct myBeh *myBeh) {
+int decode_LE_IED_MUnn_PhsMeas1(unsigned char *buf, CTYPE_INT16U smpCnt, struct LE_IED_MUnn_PhsMeas1 *LE_IED_MUnn_PhsMeas1) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &myBeh->stVal);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_q);
 
 	return offset;
 }
-int decode_myINS(unsigned char *buf, struct myINS *myINS) {
+int decode_LE_IED_MUnn_PhsMeas2(unsigned char *buf, CTYPE_INT16U smpCnt, struct LE_IED_MUnn_PhsMeas2 *LE_IED_MUnn_PhsMeas2) {
 	int offset = 0;
 
-	offset += DECODE_CTYPE_INT32(&buf[offset], &myINS->stVal);
-
-	return offset;
-}
-int decode_myLPL(unsigned char *buf, struct myLPL *myLPL) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_VISSTRING255(&buf[offset], &myLPL->ldNs);
-	offset += DECODE_CTYPE_VISSTRING255(&buf[offset], &myLPL->configRev);
-
-	return offset;
-}
-int decode_myDPL(unsigned char *buf, struct myDPL *myDPL) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->vendor);
-	offset += DECODE_CTYPE_VISSTRING255(&buf[offset], &myDPL->hwRev);
-
-	return offset;
-}
-int decode_myPos(unsigned char *buf, struct myPos *myPos) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_DBPOS(&buf[offset], &myPos->stVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myPos->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myPos->t);
-	offset += DECODE_CTYPE_BOOLEAN(&buf[offset], &myPos->ctlVal);
-
-	return offset;
-}
-int decode_mySPS(unsigned char *buf, struct mySPS *mySPS) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_INT32(&buf[offset], &mySPS->stVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &mySPS->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &mySPS->t);
-
-	return offset;
-}
-int decode_myMV(unsigned char *buf, struct myMV *myMV) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &myMV->mag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myMV->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myMV->t);
-	offset += decode_ScaledValueConfig(&buf[offset], &myMV->sVC);
-	offset += DECODE_CTYPE_INT32(&buf[offset], &myMV->int1);
-	offset += DECODE_CTYPE_INT32(&buf[offset], &myMV->int2);
-	offset += DECODE_CTYPE_INT32(&buf[offset], &myMV->int3);
-
-	return offset;
-}
-int decode_simpleMV(unsigned char *buf, struct simpleMV *simpleMV) {
-	int offset = 0;
-
-	offset += DECODE_CTYPE_FLOAT32(&buf[offset], &simpleMV->mag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &simpleMV->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &simpleMV->t);
-	offset += decode_ScaledValueConfig(&buf[offset], &simpleMV->sVC);
-
-	return offset;
-}
-int decode_simpleCMV(unsigned char *buf, struct simpleCMV *simpleCMV) {
-	int offset = 0;
-
-	offset += decode_simpleVector(&buf[offset], &simpleCMV->cVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &simpleCMV->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &simpleCMV->t);
-	offset += decode_mySPS(&buf[offset], &simpleCMV->testSecondLayerSDO);
-	offset += DECODE_CTYPE_INT32(&buf[offset], &simpleCMV->testInteger);
-	offset += DECODE_CTYPE_BOOLEAN(&buf[offset], &simpleCMV->testBoolean);
-
-	return offset;
-}
-int decode_simpleWYE(unsigned char *buf, struct simpleWYE *simpleWYE) {
-	int offset = 0;
-
-	offset += decode_simpleCMV(&buf[offset], &simpleWYE->phsA);
-	offset += decode_simpleCMV(&buf[offset], &simpleWYE->phsB);
-	offset += decode_simpleCMV(&buf[offset], &simpleWYE->phsC);
-
-	return offset;
-}
-int decode_myCMV(unsigned char *buf, struct myCMV *myCMV) {
-	int offset = 0;
-
-	offset += decode_myVector(&buf[offset], &myCMV->cVal);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &myCMV->q);
-	offset += DECODE_CTYPE_TIMESTAMP(&buf[offset], &myCMV->t);
-
-	return offset;
-}
-int decode_mySEQ(unsigned char *buf, struct mySEQ *mySEQ) {
-	int offset = 0;
-
-	offset += decode_myCMV(&buf[offset], &mySEQ->c1);
-	offset += decode_myCMV(&buf[offset], &mySEQ->c2);
-	offset += decode_myCMV(&buf[offset], &mySEQ->c3);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &mySEQ->seqT);
-
-	return offset;
-}
-int decode_mySAV(unsigned char *buf, struct mySAV *mySAV) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &mySAV->instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &mySAV->q);
-
-	return offset;
-}
-int decode_simpleSAV(unsigned char *buf, struct simpleSAV *simpleSAV) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &simpleSAV->instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &simpleSAV->q);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_Performance(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Performance *E1Q1SB1_C1_Performance) {
-	int offset = 0;
-
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Performance->C1_MMXU_1_Amps);
-	offset += decode_myMV(&buf[offset], &E1Q1SB1_C1_Performance->C1_MMXU_1_Volts);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_Positions(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Positions *E1Q1SB1_C1_Positions) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Positions->C1_TVTR_1_Vol_instMag);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_1_Pos);
-	offset += decode_myPos(&buf[offset], &E1Q1SB1_C1_Positions->C1_CSWI_2_Pos);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_Positions->C1_MMXU_1_Mod_stVal);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_Measurands(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_Measurands *E1Q1SB1_C1_Measurands) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_Measurands->C1_TVTR_1_Vol_instMag);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_smv(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_smv *E1Q1SB1_C1_smv) {
-	int offset = 0;
-
-	offset += decode_myAnalogValue(&buf[offset], &E1Q1SB1_C1_smv->C1_TVTR_1_Vol_instMag);
-	offset += decode_myMod(&buf[offset], &E1Q1SB1_C1_smv->C1_CSWI_1_Mod);
-	offset += DECODE_CTYPE_ENUM(&buf[offset], (CTYPE_ENUM *) &E1Q1SB1_C1_smv->C1_MMXU_1_Mod_stVal);
-
-	return offset;
-}
-int decode_E1Q1SB1_C1_rmxu(unsigned char *buf, CTYPE_INT16U smpCnt, struct E1Q1SB1_C1_rmxu *E1Q1SB1_C1_rmxu) {
-	int offset = 0;
-
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsA);
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsB);
-	offset += decode_simpleSAV(&buf[offset], &E1Q1SB1_C1_rmxu->C1_RMXU_1_AmpLocPhsC);
-
-	return offset;
-}
-int decode_D1Q1SB4_C1_SyckResult(unsigned char *buf, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_SyckResult *D1Q1SB4_C1_SyckResult) {
-	int offset = 0;
-
-	offset += decode_mySPS(&buf[offset], &D1Q1SB4_C1_SyckResult->C1_RSYN_1_Rel);
-
-	return offset;
-}
-int decode_D1Q1SB4_C1_MMXUResult(unsigned char *buf, CTYPE_INT16U smpCnt, struct D1Q1SB4_C1_MMXUResult *D1Q1SB4_C1_MMXUResult) {
-	int offset = 0;
-
-	offset += decode_simpleWYE(&buf[offset], &D1Q1SB4_C1_MMXUResult->C1_MMXU_1_A);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_5_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_5_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_6_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_6_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_7_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_7_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_8_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TCTR_8_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_5_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_5_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_6_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_6_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_7_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_7_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_8_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas2->MUnn_TVTR_8_Vol_q);
 
 	return offset;
 }
 
 void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {
 
-	if (svIDLength == 2 && strncmp((const char *) svID, "11", svIDLength) == 0) {
-		decode_E1Q1SB1_C1_smv(dataset, smpCnt, &D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.E1Q1SB1_C1_smv[ASDU]);
-		D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.smpCnt = smpCnt;
-		if (D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.LPHDa_1.sv_inputs_Volt.datasetDecodeDone(smpCnt);
+	if (svIDLength == 9 && strncmp((const char *) svID, "000MU0001", svIDLength) == 0) {
+		decode_LE_IED_MUnn_PhsMeas1(dataset, smpCnt, &LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1);
+		LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.smpCnt = smpCnt;
+		if (LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.datasetDecodeDone != NULL) {
+			LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.datasetDecodeDone(smpCnt);
 		}
 	}
-	if (svIDLength == 4 && strncmp((const char *) svID, "rmxu", svIDLength) == 0) {
-		decode_E1Q1SB1_C1_rmxu(dataset, smpCnt, &D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.E1Q1SB1_C1_rmxu[ASDU]);
-		D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.smpCnt = smpCnt;
-		if (D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_rmxuCB.datasetDecodeDone(smpCnt);
-		}
-	}
-	if (svIDLength == 11 && strncmp((const char *) svID, "Performance", svIDLength) == 0) {
-		decode_E1Q1SB1_C1_Performance(dataset, smpCnt, &D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.E1Q1SB1_C1_Performance);
-		D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.smpCnt = smpCnt;
-		if (D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.exampleMMXU_1.sv_inputs_PerformanceSV.datasetDecodeDone(smpCnt);
-		}
-	}
-	if (svIDLength == 2 && strncmp((const char *) svID, "11", svIDLength) == 0) {
-		decode_E1Q1SB1_C1_smv(dataset, smpCnt, &D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.E1Q1SB1_C1_smv[ASDU]);
-		D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.smpCnt = smpCnt;
-		if (D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.datasetDecodeDone != NULL) {
-			D1Q1SB4.S1.C1.RSYNa_1.sv_inputs_Volt.datasetDecodeDone(smpCnt);
+	if (svIDLength == 9 && strncmp((const char *) svID, "000MU0101", svIDLength) == 0) {
+		decode_LE_IED_MUnn_PhsMeas2(dataset, smpCnt, &LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB02.LE_IED_MUnn_PhsMeas2);
+		LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB02.smpCnt = smpCnt;
+		if (LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB02.datasetDecodeDone != NULL) {
+			LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB02.datasetDecodeDone(smpCnt);
 		}
 	}
 }

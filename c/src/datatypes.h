@@ -29,286 +29,95 @@ extern "C" {
 
 
 // enums
-enum ACDdir {
-	ACDDIR_UNKNOWN_0 = 0,
-	ACDDIR_FORWARD_1 = 1,
-	ACDDIR_BACKWARD_2 = 2,
-	ACDDIR_BOTH_3 = 3
-};
-enum seqT {
-	SEQT_POS_NEG_ZERO_0 = 0,
-	SEQT_DIR_QUAD_ZERO_1 = 1
-};
-enum Dbpos {
-	DBPOS_INTERMEDIATE_0 = 0,
-	DBPOS_OFF_1 = 1,
-	DBPOS_ON_2 = 2,
-	DBPOS_BAD_3 = 3
-};
-enum Tcmd {
-	TCMD_STOP_0 = 0,
-	TCMD_LOWER_1 = 1,
-	TCMD_HIGHER_2 = 2,
-	TCMD_RESERVED_3 = 3
-};
-enum Beh {
-	BEH_ON_1 = 1,
-	BEH_BLOCKED_2 = 2,
-	BEH_TEST_3 = 3,
-	BEH_TEST_BLOCKED_4 = 4,
-	BEH_OFF_5 = 5
-};
-enum Mod {
-	MOD_ON_1 = 1,
-	MOD_BLOCKED_2 = 2,
-	MOD_TEST_3 = 3,
-	MOD_TEST_BLOCKED_4 = 4,
-	MOD_OFF_5 = 5
-};
-enum Health {
-	HEALTH_OK_1 = 1,
-	HEALTH_WARNING_2 = 2,
-	HEALTH_ALARM_3 = 3
-};
 
 // data attributes
-struct myAnalogValue {
-	CTYPE_FLOAT32 f;
+struct IEC_61850_9_2LEAV {
+	CTYPE_INT32 i;
 };
-struct ScaledValueConfig {
+struct IEC_61850_9_2LEsVCAmp {
 	CTYPE_FLOAT32 scaleFactor;
 	CTYPE_FLOAT32 offset;
 };
-struct myVector {
-	struct myAnalogValue mag;
-	struct myAnalogValue ang;
-};
-struct simpleVector {
-	struct myAnalogValue mag;
-	struct myAnalogValue ang;
+struct IEC_61850_9_2LEsVCVol {
+	CTYPE_FLOAT32 scaleFactor;
+	CTYPE_FLOAT32 offset;
 };
 
 // data objects
-struct myMod {
-	enum Mod ctlVal;
-	enum Mod stVal;
+struct IEC_61850_9_2LESAVAmp {
+	struct IEC_61850_9_2LEAV instMag;
 	CTYPE_QUALITY q;
-	CTYPE_TIMESTAMP t;
+	struct IEC_61850_9_2LEsVCAmp sVC;
 };
-struct myHealth {
-	enum Health stVal;
-};
-struct myBeh {
-	enum Beh stVal;
-};
-struct myINS {
-	CTYPE_INT32 stVal;
-};
-struct myLPL {
-	CTYPE_VISSTRING255 ldNs;
-	CTYPE_VISSTRING255 configRev;
-};
-struct myDPL {
-	CTYPE_VISSTRING255 vendor;
-	CTYPE_VISSTRING255 hwRev;
-};
-struct myPos {
-	CTYPE_DBPOS stVal;
+struct IEC_61850_9_2LESAVVol {
+	struct IEC_61850_9_2LEAV instMag;
 	CTYPE_QUALITY q;
-	CTYPE_TIMESTAMP t;
-	CTYPE_BOOLEAN ctlVal;
+	struct IEC_61850_9_2LEsVCVol sVC;
 };
-struct mySPS {
+struct IEC_61850_9_2LEINC {
+	CTYPE_INT32 ctlVal;
 	CTYPE_INT32 stVal;
 	CTYPE_QUALITY q;
 	CTYPE_TIMESTAMP t;
-};
-struct myMV {
-	struct myAnalogValue mag;
-	CTYPE_QUALITY q;
-	CTYPE_TIMESTAMP t;
-	struct ScaledValueConfig sVC;
-	CTYPE_INT32 int1;
-	CTYPE_INT32 int2;
-	CTYPE_INT32 int3;
-};
-struct simpleMV {
-	CTYPE_FLOAT32 mag;
-	CTYPE_QUALITY q;
-	CTYPE_TIMESTAMP t;
-	struct ScaledValueConfig sVC;
-};
-struct simpleCMV {
-	struct mySPS testSecondLayerSDO;
-	struct simpleVector cVal;
-	CTYPE_QUALITY q;
-	CTYPE_TIMESTAMP t;
-	CTYPE_INT32 testInteger;
-	CTYPE_BOOLEAN testBoolean;
-};
-struct simpleWYE {
-	struct simpleCMV phsA;
-	struct simpleCMV phsB;
-	struct simpleCMV phsC;
-};
-struct myCMV {
-	struct myVector cVal;
-	CTYPE_QUALITY q;
-	CTYPE_TIMESTAMP t;
-};
-struct mySEQ {
-	struct myCMV c1;
-	struct myCMV c2;
-	struct myCMV c3;
-	enum seqT seqT;
-};
-struct mySAV {
-	struct myAnalogValue instMag;
-	CTYPE_QUALITY q;
-};
-struct simpleSAV {
-	struct myAnalogValue instMag;
-	CTYPE_QUALITY q;
 };
 
 // datasets
-struct E1Q1SB1_C1_Performance {
-	struct myMV C1_MMXU_1_Amps;
-	struct myMV C1_MMXU_1_Volts;
+struct LE_IED_MUnn_PhsMeas1 {
+	struct IEC_61850_9_2LEAV MUnn_TCTR_1_Amp_instMag;
+	CTYPE_QUALITY MUnn_TCTR_1_Amp_q;
+	struct IEC_61850_9_2LEAV MUnn_TCTR_2_Amp_instMag;
+	CTYPE_QUALITY MUnn_TCTR_2_Amp_q;
+	struct IEC_61850_9_2LEAV MUnn_TCTR_3_Amp_instMag;
+	CTYPE_QUALITY MUnn_TCTR_3_Amp_q;
+	struct IEC_61850_9_2LEAV MUnn_TCTR_4_Amp_instMag;
+	CTYPE_QUALITY MUnn_TCTR_4_Amp_q;
+	struct IEC_61850_9_2LEAV MUnn_TVTR_1_Vol_instMag;
+	CTYPE_QUALITY MUnn_TVTR_1_Vol_q;
+	struct IEC_61850_9_2LEAV MUnn_TVTR_2_Vol_instMag;
+	CTYPE_QUALITY MUnn_TVTR_2_Vol_q;
+	struct IEC_61850_9_2LEAV MUnn_TVTR_3_Vol_instMag;
+	CTYPE_QUALITY MUnn_TVTR_3_Vol_q;
+	struct IEC_61850_9_2LEAV MUnn_TVTR_4_Vol_instMag;
+	CTYPE_QUALITY MUnn_TVTR_4_Vol_q;
 };
-struct E1Q1SB1_C1_Positions {
-	struct myAnalogValue C1_TVTR_1_Vol_instMag;
-	struct myPos C1_CSWI_1_Pos;
-	struct myPos C1_CSWI_2_Pos;
-	enum Mod C1_MMXU_1_Mod_stVal;
-};
-struct E1Q1SB1_C1_Measurands {
-	struct myAnalogValue C1_TVTR_1_Vol_instMag;
-};
-struct E1Q1SB1_C1_smv {
-	struct myAnalogValue C1_TVTR_1_Vol_instMag;
-	struct myMod C1_CSWI_1_Mod;
-	enum Mod C1_MMXU_1_Mod_stVal;
-};
-struct E1Q1SB1_C1_rmxu {
-	struct simpleSAV C1_RMXU_1_AmpLocPhsA;
-	struct simpleSAV C1_RMXU_1_AmpLocPhsB;
-	struct simpleSAV C1_RMXU_1_AmpLocPhsC;
-};
-struct D1Q1SB4_C1_SyckResult {
-	struct mySPS C1_RSYN_1_Rel;
-};
-struct D1Q1SB4_C1_MMXUResult {
-	struct simpleWYE C1_MMXU_1_A;
+struct LE_IED_MUnn_PhsMeas2 {
+	struct IEC_61850_9_2LEAV MUnn_TCTR_5_Amp_instMag;
+	CTYPE_QUALITY MUnn_TCTR_5_Amp_q;
+	struct IEC_61850_9_2LEAV MUnn_TCTR_6_Amp_instMag;
+	CTYPE_QUALITY MUnn_TCTR_6_Amp_q;
+	struct IEC_61850_9_2LEAV MUnn_TCTR_7_Amp_instMag;
+	CTYPE_QUALITY MUnn_TCTR_7_Amp_q;
+	struct IEC_61850_9_2LEAV MUnn_TCTR_8_Amp_instMag;
+	CTYPE_QUALITY MUnn_TCTR_8_Amp_q;
+	struct IEC_61850_9_2LEAV MUnn_TVTR_5_Vol_instMag;
+	CTYPE_QUALITY MUnn_TVTR_5_Vol_q;
+	struct IEC_61850_9_2LEAV MUnn_TVTR_6_Vol_instMag;
+	CTYPE_QUALITY MUnn_TVTR_6_Vol_q;
+	struct IEC_61850_9_2LEAV MUnn_TVTR_7_Vol_instMag;
+	CTYPE_QUALITY MUnn_TVTR_7_Vol_q;
+	struct IEC_61850_9_2LEAV MUnn_TVTR_8_Vol_instMag;
+	CTYPE_QUALITY MUnn_TVTR_8_Vol_q;
 };
 
 // logical nodes
-struct LN0 {
-	struct myMod Mod;
-	struct myHealth Health;
-	struct myBeh Beh;
-	struct myLPL NamPlt;
+struct IEC_61850_9_2LELLN0 {
+	struct IEC_61850_9_2LEINC Mod;
 };
-struct LPHDa {
-	struct myMod Mod;
-	struct myHealth Health;
-	struct myBeh Beh;
-	struct myLPL NamPlt;
-	struct myDPL PhyNam;
-	struct myINS PhyHealth;
-	struct mySPS Proxy;
+struct IEC_61850_9_2LETCTR {
+	struct IEC_61850_9_2LESAVAmp Amp;
 	struct {
-		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
+		struct LE_IED_MUnn_PhsMeas1 LE_IED_MUnn_PhsMeas1;
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 		CTYPE_INT16U smpCnt;
-	} sv_inputs_Volt;
-};
-struct CSWIa {
-	struct myMod Mod;
-	struct myHealth Health;
-	struct myBeh Beh;
-	struct myPos Pos;
-	struct mySPS GrpAl;
-};
-struct MMXUa {
-	struct myMod Mod;
-	struct myHealth Beh;
-	struct myBeh Health;
-	struct myMV Amps;
-	struct myMV Volts;
-};
-struct exampleMMXU {
-	struct myMod Mod;
-	struct myHealth Beh;
-	struct myBeh Health;
-	struct simpleWYE A;
+	} sv_inputs_MSVCB01;
 	struct {
-		struct E1Q1SB1_C1_rmxu E1Q1SB1_C1_rmxu[16];
+		struct LE_IED_MUnn_PhsMeas2 LE_IED_MUnn_PhsMeas2;
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 		CTYPE_INT16U smpCnt;
-	} sv_inputs_rmxuCB;
-	struct {
-		struct E1Q1SB1_C1_Performance E1Q1SB1_C1_Performance;
-		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
-		CTYPE_INT32U timeAllowedToLive;
-		CTYPE_TIMESTAMP T;
-		CTYPE_INT32U stNum;
-		CTYPE_INT32U sqNum;
-	} gse_inputs_Performance;
-	struct {
-		struct E1Q1SB1_C1_Performance E1Q1SB1_C1_Performance;
-		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
-		CTYPE_INT16U smpCnt;
-	} sv_inputs_PerformanceSV;
+	} sv_inputs_MSVCB02;
 };
-struct exampleRMXU {
-	struct myMod Mod;
-	struct myHealth Beh;
-	struct myBeh Health;
-	struct simpleSAV AmpLocPhsA;
-	struct simpleSAV AmpLocPhsB;
-	struct simpleSAV AmpLocPhsC;
-};
-struct CILOa {
-	struct myHealth Mod;
-	struct myBeh Beh;
-	struct myINS Health;
-	struct mySPS EnaOpen;
-	struct mySPS EnaClose;
-};
-struct TVTRa {
-	struct myMod Mod;
-	struct myHealth Health;
-	struct myBeh Beh;
-	struct mySAV Vol;
-};
-struct RSYNa {
-	struct myMod Mod;
-	struct myHealth Health;
-	struct myBeh Beh;
-	struct myLPL NamPlt;
-	struct mySPS Rel;
-	struct {
-		struct E1Q1SB1_C1_smv E1Q1SB1_C1_smv[2];
-		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
-		CTYPE_INT16U smpCnt;
-	} sv_inputs_Volt;
-	struct {
-		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
-		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
-		CTYPE_INT32U timeAllowedToLive;
-		CTYPE_TIMESTAMP T;
-		CTYPE_INT32U stNum;
-		CTYPE_INT32U sqNum;
-	} gse_inputs_AnotherPositions;
-	struct {
-		struct E1Q1SB1_C1_Positions E1Q1SB1_C1_Positions;
-		void (*datasetDecodeDone)(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);
-		CTYPE_INT32U timeAllowedToLive;
-		CTYPE_TIMESTAMP T;
-		CTYPE_INT32U stNum;
-		CTYPE_INT32U sqNum;
-	} gse_inputs_ItlPositions;
+struct IEC_61850_9_2LETVTR {
+	struct IEC_61850_9_2LESAVVol Vol;
 };
 
 void init_datatypes();

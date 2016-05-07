@@ -25,8 +25,8 @@
 
 
 
-int interface_sv_update_E1Q1SB1_C1_PerformanceSV() {
-	int len = sv_update_E1Q1SB1_C1_PerformanceSV(bufOut);
+int interface_sv_update_LE_IED_MUnn_MSVCB01() {
+	int len = sv_update_LE_IED_MUnn_MSVCB01(bufOut);
 
 	if (len > 0) {
 		pcap_sendpacket(fp, bufOut, len);
@@ -35,68 +35,8 @@ int interface_sv_update_E1Q1SB1_C1_PerformanceSV() {
 	return len;
 }
 
-int interface_gse_send_E1Q1SB1_C1_Performance(int statusChange, int timeAllowedToLive) {
-	int len = gse_send_E1Q1SB1_C1_Performance(bufOut, (CTYPE_BOOLEAN) statusChange, (CTYPE_INT32U) timeAllowedToLive);
-
-	if (len > 0) {
-		pcap_sendpacket(fp, bufOut, len);
-	}
-
-	return len;
-}
-
-int interface_gse_send_E1Q1SB1_C1_ItlPositions(int statusChange, int timeAllowedToLive) {
-	int len = gse_send_E1Q1SB1_C1_ItlPositions(bufOut, (CTYPE_BOOLEAN) statusChange, (CTYPE_INT32U) timeAllowedToLive);
-
-	if (len > 0) {
-		pcap_sendpacket(fp, bufOut, len);
-	}
-
-	return len;
-}
-
-int interface_gse_send_E1Q1SB1_C1_AnotherPositions(int statusChange, int timeAllowedToLive) {
-	int len = gse_send_E1Q1SB1_C1_AnotherPositions(bufOut, (CTYPE_BOOLEAN) statusChange, (CTYPE_INT32U) timeAllowedToLive);
-
-	if (len > 0) {
-		pcap_sendpacket(fp, bufOut, len);
-	}
-
-	return len;
-}
-
-int interface_sv_update_E1Q1SB1_C1_Volt() {
-	int len = sv_update_E1Q1SB1_C1_Volt(bufOut);
-
-	if (len > 0) {
-		pcap_sendpacket(fp, bufOut, len);
-	}
-
-	return len;
-}
-
-int interface_sv_update_E1Q1SB1_C1_rmxuCB() {
-	int len = sv_update_E1Q1SB1_C1_rmxuCB(bufOut);
-
-	if (len > 0) {
-		pcap_sendpacket(fp, bufOut, len);
-	}
-
-	return len;
-}
-
-int interface_gse_send_D1Q1SB4_C1_SyckResult(int statusChange, int timeAllowedToLive) {
-	int len = gse_send_D1Q1SB4_C1_SyckResult(bufOut, (CTYPE_BOOLEAN) statusChange, (CTYPE_INT32U) timeAllowedToLive);
-
-	if (len > 0) {
-		pcap_sendpacket(fp, bufOut, len);
-	}
-
-	return len;
-}
-
-int interface_gse_send_D1Q1SB4_C1_MMXUResult(int statusChange, int timeAllowedToLive) {
-	int len = gse_send_D1Q1SB4_C1_MMXUResult(bufOut, (CTYPE_BOOLEAN) statusChange, (CTYPE_INT32U) timeAllowedToLive);
+int interface_sv_update_LE_IED_MUnn_MSVCB02() {
+	int len = sv_update_LE_IED_MUnn_MSVCB02(bufOut);
 
 	if (len > 0) {
 		pcap_sendpacket(fp, bufOut, len);
