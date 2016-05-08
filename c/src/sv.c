@@ -72,7 +72,7 @@ int sv_update_LE_IED_MUnn_MSVCB02(unsigned char *buf) {
 void init_sv() {
 	int i = 0;
 
-	LE_IED.S1.MUnn.LN0.MSVCB01.noASDU = 1;
+	LE_IED.S1.MUnn.LN0.MSVCB01.noASDU = 6;
 	LE_IED.S1.MUnn.LN0.MSVCB01.ethHeaderData.destMACAddress[0] = 0x01;
 	LE_IED.S1.MUnn.LN0.MSVCB01.ethHeaderData.destMACAddress[1] = 0x0C;
 	LE_IED.S1.MUnn.LN0.MSVCB01.ethHeaderData.destMACAddress[2] = 0xCD;
@@ -82,8 +82,8 @@ void init_sv() {
 	LE_IED.S1.MUnn.LN0.MSVCB01.ethHeaderData.APPID = 0x4000;
 	LE_IED.S1.MUnn.LN0.MSVCB01.ethHeaderData.VLAN_ID = 0x000;
 	LE_IED.S1.MUnn.LN0.MSVCB01.ethHeaderData.VLAN_PRIORITY = 0x4;
-	LE_IED.S1.MUnn.LN0.MSVCB01.ASDU = (struct ASDU *) calloc(1, sizeof(struct ASDU));
-	for (i = 0; i < 1; i++) {
+	LE_IED.S1.MUnn.LN0.MSVCB01.ASDU = (struct ASDU *) calloc(6, sizeof(struct ASDU));
+	for (i = 0; i < 6; i++) {
 		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].svID = (unsigned char *) calloc(1, 10);
 		strncpy((char *) LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].svID, "000MU0001\0", 10);
 		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].datset = (unsigned char *) calloc(1, 9);
@@ -94,7 +94,7 @@ void init_sv() {
 		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].showRefrTm = 0;
 		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].showDatset = 0;
 		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].showSmpRate = 0;
-		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].smpRate = 4000;
+		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].smpRate = 14400;
 		LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[i].data.size = 0;
 	}
 	LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount = 0;

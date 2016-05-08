@@ -106,7 +106,7 @@ struct IEC_61850_9_2LELLN0 {
 struct IEC_61850_9_2LETCTR {
 	struct IEC_61850_9_2LESAVAmp Amp;
 	struct {
-		struct LE_IED_MUnn_PhsMeas1 LE_IED_MUnn_PhsMeas1;
+		struct LE_IED_MUnn_PhsMeas1 LE_IED_MUnn_PhsMeas1[6];
 		void (*datasetDecodeDone)(CTYPE_INT16U smpCnt);
 		CTYPE_INT16U smpCnt;
 	} sv_inputs_MSVCB01;

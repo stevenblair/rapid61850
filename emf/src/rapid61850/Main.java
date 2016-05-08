@@ -30,7 +30,7 @@ import ch.iec._61850._2006.scl.util.SclXMLProcessor;
 public class Main {
 	
 	final static String PATH_TO_SOURCE	= "src" + File.separator + "rapid61850" + File.separator;
-	final static String SCD_FILENAME	= "LEx2.scd";					// edit this to match the input SCD filename
+	final static String SCD_FILENAME	= "LEx2_compression.scd";					// edit this to match the input SCD filename
 	
 	public static void main(String[] args) {
 		SCDValidator validator = new SCDValidator();
