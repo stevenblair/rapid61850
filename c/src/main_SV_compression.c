@@ -401,10 +401,10 @@ void analyse_results(unsigned int compression_iterations) {
 		float mean_compress_time_us = total_compress_time_us[i] / compression_iterations;
 		float mean_decompress_time_us = total_decompress_time_us[i] / compression_iterations;
 		float mean_total_time_us = mean_compress_time_us + mean_decompress_time_us;
-		float mean_time_to_ratio = mean_total_time_us / mean_ratio;
+		float mean_combined = mean_total_time_us * mean_ratio;
 
 		if (mean_ratio < 0.9 && mean_total_time_us < 100.0) {
-			printf("%s\t%.2f\t%4.1f us\t(%4.1f, %4.1f)\t%5.1f\n", get_algorithm_name(i + 1), mean_ratio, mean_total_time_us, mean_compress_time_us, mean_decompress_time_us, mean_time_to_ratio);
+			printf("%s\t%.2f\t%4.1f us\t(%4.1f, %4.1f)\t%5.1f\n", get_algorithm_name(i + 1), mean_ratio, mean_total_time_us, mean_compress_time_us, mean_decompress_time_us, mean_combined);
 		}
 	}
 }
@@ -484,7 +484,8 @@ int main() {
 	double Zmag = 8.0;
 	double I = V / Zmag;
 	double phi = 0.2 * PI;
-	double Ts = 1 / (f_nominal * samplesPerCycle);
+	unsigned int sample_rate = f_nominal * samplesPerCycle; // TODO smpRate should be given per nominal cycle?
+	double Ts = 1.0 / (sample_rate);
 	double theta = 0.0;
 	unsigned int t = 0;
 	unsigned int muNumber = 0;
@@ -492,9 +493,6 @@ int main() {
 	unsigned int compression_start_offset = 28;
 	int i = 0;
 	unsigned int compression_iterations = 0;
-
-	// TODO smpRate should be given per nominal cycle?
-	unsigned int sample_rate = f_nominal * samplesPerCycle;
 
 	result_iterations = sample_rate / LE_IED.S1.MUnn.LN0.MSVCB01.noASDU;
 //	printf("result_iterations: %d\n", result_iterations);
@@ -531,10 +529,10 @@ int main() {
 				compression_iterations++;
 			}
 
-			if (t + 1 >= 7.200 - 1) {//result_iterations) {
-				analyse_results(compression_iterations);
-				return 0;
-			}
+//			if (t + 1 >= 7200 - 1) {//result_iterations) {
+//				analyse_results(compression_iterations);
+//				return 0;
+//			}
 //			else {
 //				printf("t: %d, %d\n", t, result_iterations);
 //			}
