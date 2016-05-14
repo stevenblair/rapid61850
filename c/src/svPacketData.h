@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ctypes.h"
+#include "datatypes.h"
 
 #define SV_USE_VLAN						1	// set to "1" to insert VLAN tag into SV packets
 #define SV_OPTIONAL_SUPPORTED			0	// set to "1" to enable output of optional items in SV packets (Wireshark does not support these)
@@ -56,6 +57,7 @@ struct svControl {
 	CTYPE_INT16U ASDUCount;				// stores present ASDU count; transmit a packet when equals "noASDU"
 	CTYPE_INT16U sampleCountMaster;
 	int (*update)(unsigned char *buf);	// function pointer to save next ASDU, and possible send SV packet
+	struct LE_IED_MUnn_PhsMeas1 prev_dataset_values;
 };
 
 #endif

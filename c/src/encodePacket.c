@@ -39,7 +39,7 @@ int encodeLength(unsigned char *buf, CTYPE_INT16U len) {
 		return 1;
 	}
 	else if (len <= 255) {
-		buf[0] = (unsigned char) 0x81;			// 0x80 specifies larger than one byte; 0x02 is number of length bytes to follow
+		buf[0] = (unsigned char) 0x81;			// 0x80 specifies larger than one byte; 0x01 is number of length bytes to follow
 		buf[1] = (unsigned char) len;
 
 		return 2;

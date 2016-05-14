@@ -54,7 +54,7 @@ extern "C" {
 #define CTYPE_FLOAT64		double
 #define CTYPE_VISSTRING255	char *
 #define CTYPE_DBPOS			int
-#define CTYPE_QUALITY		CTYPE_INT16U
+#define CTYPE_QUALITY		CTYPE_INT32U
 #define CTYPE_TIMESTAMP		long long
 
 
