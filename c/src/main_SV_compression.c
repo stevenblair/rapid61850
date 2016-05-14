@@ -691,7 +691,7 @@ size_t encodeVarint(int32_t value, uint8_t* output) {
  * @param value A variable-length encoded integer of arbitrary size.
  * @param inputSize How many bytes are
  */
-uint32_t decodeVarint(uint8_t* input, size_t inputSize) {
+uint32_t decodeVarint(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes) {
 	uint32_t ret = 0;
 	size_t i = 0;
     for (i = 0; i < inputSize; i++) {
@@ -701,6 +701,7 @@ uint32_t decodeVarint(uint8_t* input, size_t inputSize) {
             break;
         }
     }
+    *number_of_bytes = i + 1;
     ret = logicalRightShift(ret, 1) ^ -(ret & 1);	// decode zigzag
     return ret;
 }
@@ -722,13 +723,20 @@ void test_value2(int32_t value) {
 void test_value(int32_t value) {
 	unsigned char buf[12] = {0};
 	int size = encodeVarint(value, buf);
-	int32_t out = decodeVarint(buf, size);
-	printf("in: %d, encoded size: %d (%x%x%x%x%x%x%x), decoded value: %d\n", value, size, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], out);
+	uint8_t num = 0;
+	int32_t out = decodeVarint(buf, size, &num);
+	printf("in: %d, encoded size: %d (%x%x%x%x%x%x%x), decoded value: %d (%d bytes)\n", value, size, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], out, num);
+}
+
+void decode_dataset(CTYPE_INT16U smpCnt) {
+	printf("smpCnt %d, decoded value: %d\n", smpCnt, LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1[smpCnt % 6].MUnn_TVTR_1_Vol_instMag.i / 100);
 }
 
 int main() {
 	initialise_iec61850();	// initialise IEC 61850 library
 	fp = init_pcap();		// initialise platform-specific libpcap network interface
+
+	LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.datasetDecodeDone = decode_dataset;
 
 	test_value(0);
 	test_value(720000);
@@ -803,10 +811,14 @@ int main() {
 				}
 
 				pcap_sendpacket(fp, bufOut, len);
+
+				svDecode_compress(bufOut, len);
+//				printf("decoded value: %d\n", LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1[0].MUnn_TCTR_1_Amp_instMag.i);
+
 				compression_iterations++;
 			}
 
-			if (t >= 72.00 - 1) {//result_iterations) {
+			if (t >= 288 - 1) {//result_iterations) {
 //				t1 = GetTime() - t0;
 //				printf("t1: %lf us\n", t1 * 1000);
 

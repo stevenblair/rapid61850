@@ -26,7 +26,7 @@
 #include "svEncode.h"
 #include "encodePacket.h"
 
-#define EXCLUDE_DUPLICATE_ASDU_FIELDS	1
+#define EXCLUDE_DUPLICATE_ASDU_FIELDS	0
 
 int svASDULength_compress(struct svControl *svControl, short ASDU) {
 	int len = 0;
@@ -273,6 +273,34 @@ size_t encode_uint32_t(uint8_t* output, uint32_t value) {
     return outputSize;
 }
 
+uint32_t decode_uint32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes) {
+	uint32_t ret = 0;
+	size_t i = 0;
+    for (i = 0; i < inputSize; i++) {
+        ret |= (input[i] & 127) << (7 * i);
+        //If the next-byte flag is set
+        if(!(input[i] & 128)) {
+            break;
+        }
+    }
+    *number_of_bytes = i + 1;
+    ret = logicalRightShift(ret, 1) ^ -(ret & 1);	// decode zigzag
+    return ret;
+}
+int32_t decode_int32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes) {
+	uint32_t ret = 0;
+	size_t i = 0;
+    for (i = 0; i < inputSize; i++) {
+        ret |= (input[i] & 127) << (7 * i);
+        //If the next-byte flag is set
+        if(!(input[i] & 128)) {
+            break;
+        }
+    }
+    *number_of_bytes = i + 1;
+    return ret;
+}
+
 int encode_LE_IED_MUnn_PhsMeas1_compress(unsigned char *buf, struct LE_IED_MUnn_PhsMeas1 *prev_data_values, short ASDUCount) {
 	int offset = 0;
 
@@ -298,7 +326,7 @@ int encode_LE_IED_MUnn_PhsMeas1_compress(unsigned char *buf, struct LE_IED_MUnn_
 //		printf("offset (ASDUCount == 0): %d\n", offset);
 	}
 	else {
-		// TODO should be formed of individual _compress encoders
+		// TODO should be formed of individual *_compress encoders
 		offset += encode_int32_t(&buf[offset], prev_data_values->MUnn_TCTR_1_Amp_instMag.i - LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag.i);
 		offset += encode_uint32_t(&buf[offset], prev_data_values->MUnn_TCTR_1_Amp_q - LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.q);
 		offset += encode_int32_t(&buf[offset], prev_data_values->MUnn_TCTR_2_Amp_instMag.i - LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.instMag.i);
@@ -375,33 +403,80 @@ int sv_update_LE_IED_MUnn_MSVCB01_compress(unsigned char *buf) {
 
 
 
-int decode_LE_IED_MUnn_PhsMeas1_compress(unsigned char *buf, CTYPE_INT16U smpCnt, struct LE_IED_MUnn_PhsMeas1 *LE_IED_MUnn_PhsMeas1) {
+int DECODE_CTYPE_QUALITY_compress(unsigned char *buf, CTYPE_QUALITY *value) {
+//	netmemcpy(value, buf, SV_GET_LENGTH_QUALITY);
+	uint8_t number_of_bytes = 0;
+	*value = decode_uint32_t(buf, 4, &number_of_bytes);
+
+	return number_of_bytes;
+//	return SV_GET_LENGTH_QUALITY;
+}
+int DECODE_CTYPE_INT32_compress(unsigned char *buf, CTYPE_INT32 *value) {
+//	netmemcpy(value, buf, SV_GET_LENGTH_INT32);
+	uint8_t number_of_bytes = 0;
+	*value = decode_int32_t(buf, 4, &number_of_bytes);
+
+	return number_of_bytes;
+//	return SV_GET_LENGTH_INT32;
+}
+int decode_IEC_61850_9_2LEAV_compress(unsigned char *buf, struct IEC_61850_9_2LEAV *IEC_61850_9_2LEAV) {
 	int offset = 0;
 
-	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_q);
-	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_q);
-	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_q);
-	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_q);
-	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_q);
-	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_q);
-	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_q);
-	offset += decode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_instMag);
-	offset += DECODE_CTYPE_QUALITY(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_q);
+	offset += DECODE_CTYPE_INT32_compress(&buf[offset], &IEC_61850_9_2LEAV->i);
+
+	return offset;
+}
+
+int decode_LE_IED_MUnn_PhsMeas1_compress(unsigned char *buf, CTYPE_INT16U smpCnt, struct LE_IED_MUnn_PhsMeas1 *LE_IED_MUnn_PhsMeas1, struct LE_IED_MUnn_PhsMeas1 *prev_LE_IED_MUnn_PhsMeas1) {
+	int offset = 0;
+
+	offset += decode_IEC_61850_9_2LEAV_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_instMag);
+	offset += DECODE_CTYPE_QUALITY_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_q);
+	offset += decode_IEC_61850_9_2LEAV_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_q);
+	offset += decode_IEC_61850_9_2LEAV_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_instMag);
+	offset += DECODE_CTYPE_QUALITY_compress(&buf[offset], &LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_q);
+
+	LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_instMag.i += prev_LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_instMag.i;
+	LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_instMag.i += prev_LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_instMag.i;
+	LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_instMag.i += prev_LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_instMag.i;
+	LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_instMag.i += prev_LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_instMag.i;
+	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_instMag.i += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_instMag.i;
+	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_instMag.i += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_instMag.i;
+	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_instMag.i += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_instMag.i;
+	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_instMag.i += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_instMag.i;
+	LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TCTR_1_Amp_q;
+	LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TCTR_2_Amp_q;
+	LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TCTR_3_Amp_q;
+	LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TCTR_4_Amp_q;
+	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_1_Vol_q;
+	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_q;
+	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_q;
+	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_q;
+
+//	printf("decode offset: %d\n", offset);
 
 	return offset;
 }
 
 void svDecodeDataset_compress(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {
-
 	if (svIDLength == 9 && strncmp((const char *) svID, "000MU0001", svIDLength) == 0) {
-		decode_LE_IED_MUnn_PhsMeas1_compress(dataset, smpCnt, &LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1[ASDU]);
+		if (ASDU == 0) {
+			decode_LE_IED_MUnn_PhsMeas1(dataset, smpCnt, &LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1[ASDU]);
+		}
+		else {
+			decode_LE_IED_MUnn_PhsMeas1_compress(dataset, smpCnt, &LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1[ASDU], &LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1[ASDU - 1]);
+		}
 		LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.smpCnt = smpCnt;
 		if (LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.datasetDecodeDone != NULL) {
 			LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.datasetDecodeDone(smpCnt);
@@ -409,14 +484,14 @@ void svDecodeDataset_compress(unsigned char *dataset, int datasetLength, int ASD
 	}
 }
 
-void svDecodeASDU_compress(unsigned char *buf, int len, int noASDU) {
+int svDecodeASDU_compress(unsigned char *buf, int len, int noASDU, int prev_smpCnt) {
 	unsigned char tag;	// assumes only one byte is used
 	int lengthFieldSize;
 	int lengthValue;
 	int offsetForNonSequence;
 	unsigned char *svID = NULL;
 	int svIDLength = 0;
-    CTYPE_INT16U smpCnt = 0;
+    int smpCnt = -1;
 
 	int i = 0;
     for (i = 0; i < len;) {
@@ -461,6 +536,7 @@ void svDecodeASDU_compress(unsigned char *buf, int len, int noASDU) {
 
 		i += offsetForNonSequence;
 	}
+    return smpCnt;
 }
 
 void svDecodeAPDU_compress(unsigned char *buf, int len, unsigned int ASDU, unsigned int totalASDUs) {
@@ -470,6 +546,8 @@ void svDecodeAPDU_compress(unsigned char *buf, int len, unsigned int ASDU, unsig
 	int offsetForSequence = 1 + lengthFieldSize;
 	int offsetForNonSequence = 1 + lengthFieldSize + lengthValue;
 	unsigned int noASDU = 0;
+	int prev_smpCnt = 0;
+	int ret = 0;
 	//static unsigned int ASDU = 0;
 
 	//printf("tag: %x, ASDU: %u,  totalASDUs: %u, lengthFieldSize: %i, lengthValue: %i, offset: %i\n", tag, ASDU, totalASDUs, lengthFieldSize, lengthValue, offsetForNonSequence);
@@ -487,7 +565,13 @@ void svDecodeAPDU_compress(unsigned char *buf, int len, unsigned int ASDU, unsig
 			svDecodeAPDU_compress(&buf[offsetForSequence], lengthValue, ASDU, totalASDUs);
 			break;
 		case SV_TAG_ASDU:
-			svDecodeASDU_compress(&buf[offsetForSequence], lengthValue, ASDU);
+			ret = svDecodeASDU_compress(&buf[offsetForSequence], lengthValue, ASDU, prev_smpCnt);
+			if (ret > 0) {
+				prev_smpCnt = ret;
+			}
+			else {
+				prev_smpCnt++;
+			}
 			ASDU++;
 
 			// process any more ASDUs, until max number
