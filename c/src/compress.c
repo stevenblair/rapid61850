@@ -26,7 +26,7 @@
 #include "svEncode.h"
 #include "encodePacket.h"
 
-#define EXCLUDE_DUPLICATE_ASDU_FIELDS	0
+#define EXCLUDE_DUPLICATE_ASDU_FIELDS	1
 
 int svASDULength_compress(struct svControl *svControl, short ASDU) {
 	int len = 0;
@@ -484,7 +484,7 @@ void svDecodeDataset_compress(unsigned char *dataset, int datasetLength, int ASD
 	}
 }
 
-int svDecodeASDU_compress(unsigned char *buf, int len, int noASDU, int prev_smpCnt) {
+int svDecodeASDU_compress(unsigned char *buf, int len, int noASDU, int prev_smpCnt, unsigned char *prev_svID, int *prev_svID_length) {
 	unsigned char tag;	// assumes only one byte is used
 	int lengthFieldSize;
 	int lengthValue;
@@ -506,6 +506,9 @@ int svDecodeASDU_compress(unsigned char *buf, int len, int noASDU, int prev_smpC
 			case SV_TAG_SVID:
 				svID = &buf[i + 1 + lengthFieldSize];
 				svIDLength = lengthValue;
+
+				prev_svID = svID;
+				*prev_svID_length = lengthValue;
 				break;
 			case SV_TAG_DATSET:
 
@@ -529,6 +532,9 @@ int svDecodeASDU_compress(unsigned char *buf, int len, int noASDU, int prev_smpC
 				if (svID != NULL) {
 					svDecodeDataset_compress(&buf[i + 1 + lengthFieldSize], lengthValue, noASDU, svID, svIDLength, smpCnt);
 				}
+				else if (prev_svID != NULL) {
+					svDecodeDataset_compress(&buf[i + 1 + lengthFieldSize], lengthValue, noASDU, prev_svID, *prev_svID_length, smpCnt);
+				}
 				break;
 			default:
 				break;
@@ -547,6 +553,8 @@ void svDecodeAPDU_compress(unsigned char *buf, int len, unsigned int ASDU, unsig
 	int offsetForNonSequence = 1 + lengthFieldSize + lengthValue;
 	unsigned int noASDU = 0;
 	int prev_smpCnt = 0;
+	unsigned char *prev_svID = NULL;
+	int prev_svID_length = 0;
 	int ret = 0;
 	//static unsigned int ASDU = 0;
 
@@ -565,7 +573,7 @@ void svDecodeAPDU_compress(unsigned char *buf, int len, unsigned int ASDU, unsig
 			svDecodeAPDU_compress(&buf[offsetForSequence], lengthValue, ASDU, totalASDUs);
 			break;
 		case SV_TAG_ASDU:
-			ret = svDecodeASDU_compress(&buf[offsetForSequence], lengthValue, ASDU, prev_smpCnt);
+			ret = svDecodeASDU_compress(&buf[offsetForSequence], lengthValue, ASDU, prev_smpCnt, prev_svID, &prev_svID_length);
 			if (ret > 0) {
 				prev_smpCnt = ret;
 			}

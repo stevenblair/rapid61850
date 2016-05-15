@@ -806,9 +806,9 @@ int main() {
 
 			if (len > 0) {
 				printf("len > 0: %d, %d bytes\n", t, len);
-				for (i = 0; i < NUMBER_OF_ALGORITHMS; i++) {
-					TestBuf(&bufOut[compression_start_offset - 1], len - compression_start_offset, compression_iterations, i + 1);
-				}
+//				for (i = 0; i < NUMBER_OF_ALGORITHMS; i++) {
+//					TestBuf(&bufOut[compression_start_offset - 1], len - compression_start_offset, compression_iterations, i + 1);
+//				}
 
 				pcap_sendpacket(fp, bufOut, len);
 
