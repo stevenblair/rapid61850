@@ -1,34 +1,26 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>rapid61850 by stevenblair</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>rapid61850</h1>
-        <p>Rapid-prototyping protection and control schemes with IEC 61850</p>
-        <p class="view"><a href="https://github.com/stevenblair/rapid61850">View the Project on GitHub <small>stevenblair/rapid61850</small></a></p>
-        <ul>
-          <li><a href="https://github.com/stevenblair/rapid61850/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/stevenblair/rapid61850/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/stevenblair/rapid61850">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a id="rapid-prototyping-protection-schemes-with-iec-61850" class="anchor" href="#rapid-prototyping-protection-schemes-with-iec-61850" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rapid-prototyping protection schemes with IEC 61850</h1>
+    <section class="page-header">
+      <h1 class="project-name">rapid61850</h1>
+      <h2 class="project-tagline">Rapid-prototyping protection and control schemes with IEC 61850</h2>
+      <a href="https://github.com/stevenblair/rapid61850" class="btn">View on GitHub</a>
+      <a href="https://github.com/stevenblair/rapid61850/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/stevenblair/rapid61850/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="rapid-prototyping-protection-schemes-with-iec-61850" class="anchor" href="#rapid-prototyping-protection-schemes-with-iec-61850" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rapid-prototyping protection schemes with IEC 61850</h1>
 
 <p>The goal of this software is to automatically generate C/C++ code which reads and writes GOOSE and Sampled Value packets. Any valid IEC 61850 Substation Configuration Description (SCD) file, describing GOOSE and/or SV communications, can be used as the input. The output code is lightweight and platform-independent, so it can run on a variety of devices, including low-cost microcontrollers and the Raspberry Pi. It's ideal for rapid-prototyping new power system protection, control, and automation systems that require communications.</p>
 
@@ -39,7 +31,7 @@
 <p><img src="http://personal.strath.ac.uk/steven.m.blair/mbed-cropped.png"></p>
 
 <h2>
-<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
 <li>Implements sending and receiving GOOSE and Sampled Value packets</li>
@@ -62,7 +54,7 @@
 <p>You can read more about the motivation and benefits of the project <a href="http://strathprints.strath.ac.uk/43427/1/S_Blair_Rapid_IEC_61850_preprint.pdf">here</a>.</p>
 
 <h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>This process has been tested on Windows and Ubuntu, but other Linux flavours and OS X should work too. Most steps only need to be completed once.</p>
 
@@ -94,25 +86,26 @@
 </ul>
 
 <h3>
-<a id="emf-import-process" class="anchor" href="#emf-import-process" aria-hidden="true"><span class="octicon octicon-link"></span></a>EMF import process</h3>
+<a id="emf-import-process" class="anchor" href="#emf-import-process" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>EMF import process</h3>
 
 <ol>
 <li>Start Eclipse, with the Workspace set to the root of the repository directory, e.g., <code>/home/user/rapid61850</code> on Linux.</li>
 <li>Create an "EMF Project" called "emf", at the location of the repository code.</li>
 <li>Select "XML Schema" as the Model Importer type. Select all the IEC 61850 XML Schema documents in the <code>emf/model</code> directory.</li>
 <li>Select the three root packages that are imported (although, only <code>scl</code> is used). Click "Finish". This will re-generate some files in <code>emf/model</code>: scl.ecore, lcoordinates.ecore, lmaintenance.ecore, and SCL.genmodel.</li>
-<li>Create a new project of type "Convert Projects to JET Projects", and select the <code>emf</code> project. For the <code>emf</code> project, go to Project Properties &gt; JET Settings, and set Template Containers to "templates", and Source Container to "src". Delete the <code>rapid61850/templates</code> directory in the root of <code>emf</code> that was created before JET was configured correctly.</li>
+<li>Create a new project of type "Convert Projects to JET Projects", and select the <code>emf</code> project. For the <code>emf</code> project, go to Project Properties &gt; JET Settings, and set Template Containers to "templates", and Source Container to "src". You can delete the <code>rapid61850/emf/rapid61850/templates</code> directory (but not the <code>rapid61850/emf/templates</code> or <code>rapid61850/emf/src/rapid61850/templates</code> directories) that was created before JET was configured correctly.</li>
 <li>Open <code>SCL.genmodel</code> and right-click on the root of the model tree. Select "Show Properties View" and ensure that "Compliance Level" is set to "6.0". Right-click on the root again and select "Generate Model Code". This should re-generate the model implementation files (in the <code>emf/src/ch</code> directory), and set up the project properly for using the generated code.</li>
 <li>Two additional JAR libraries must be included for the project to compile. In the Project Properties for <code>emf</code>, go to Java Build Path &gt; Libraries. Click on "Add External JARs..." and find <code>com.ibm.icu_4.4.2.v20110823.jar</code> and <code>org.eclipse.emf.query_1.2.100.v200903190031.jar</code> (or similar versions). These should be located in the "plugins" directory within the Eclipse installation.</li>
 </ol>
 
 <h3>
-<a id="c-code-project-example" class="anchor" href="#c-code-project-example" aria-hidden="true"><span class="octicon octicon-link"></span></a>C code project example</h3>
+<a id="c-code-project-example" class="anchor" href="#c-code-project-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>C code project example</h3>
 
 <p>An example SCD file and a <code>main.c</code> file are provided. Many of the other C files are generated automatically. For the C code to compile with Eclipse, you should:</p>
 
 <ul>
-<li>If you plan to use the native, low-level C/C++ interface (as shown in <a href="https://github.com/stevenblair/rapid61850#using-the-code-with-a-new-scd-file">the next section</a>), exclude the two <code>interface*.c</code> files from the build in Eclipse: right-click on the files &gt; "Resource Configurations" &gt; "Exclude from Build...", and then choose "Release" or "Debug" or another build. Also, exclude the <code>main_SV_LE.c</code> file, which provides an example implementation of IEC 61850-9-2LE Sampled Values, using <code>scd_LE.xml</code> as the SCD file. Otherwise, if using the high-level interfaces, exclude the existing <code>main.c</code> and <code>main_SV_LE.c</code> files.</li>
+<li>Create a new Eclipse C project, with the name 'c' (use New &gt; C Project &gt; Executable &gt; Empty Project). You should have the Eclipse CDT tools installed. Eclipse may warn that the project directory already exists, but this is OK.</li>
+<li>If you plan to use the native, low-level C/C++ interface (as shown in <a href="https://github.com/stevenblair/rapid61850#using-the-code-with-a-new-scd-file">the next section</a>), exclude the two <code>interface*.c</code> files from the build in Eclipse: right-click on the files &gt; "Resource Configurations" &gt; "Exclude from Build...", and then check the boxes for "Release" or "Debug" or another build. Also, exclude the <code>main_SV_LE.c</code> file, which provides an example implementation of IEC 61850-9-2LE Sampled Values, using <code>scd_LE.xml</code> as the SCD file. Otherwise, if using the high-level interfaces, exclude the existing <code>main.c</code> and <code>main_SV_LE.c</code> files.</li>
 <li>Install MinGW and add <code>C:\MinGW\bin;</code> to <code>PATH</code> in the Project Properties &gt; C/C++ Build &gt; Environment options. (Other compilers should work too.)</li>
 <li>In Project Properties &gt; C/C++ Build &gt; Settings &gt; GCC Compiler Includes, set <code>"${workspace_loc:/${ProjName}/Include}"</code> as an include path.</li>
 <li>In Project Properties &gt; C/C++ Build &gt; Settings &gt; MinGW C Linker, add <code>wpcap</code> and <code>ws2_32</code> (assuming you are using Windows) to "Libraries" and add <code>"${workspace_loc:/${ProjName}/Lib}"</code> and <code>"C:\MinGW\lib"</code> to "Library search path".
@@ -126,40 +119,41 @@
 <ul>
 <li>With Ubuntu, libpcap can be installed using <code>sudo apt-get install libpcap-dev</code>.</li>
 <li>Remember that, on Linux, <strong>libpcap needs to run as root</strong>, so either start Eclipse or run the compiled binary from the Terminal with <code>sudo</code>. Alternatively, you can grant the binary the <a href="http://packetlife.net/blog/2010/mar/19/sniffing-wireshark-non-root-user/">capability to access the network interface</a> using: <code>sudo setcap cap_net_raw,cap_net_admin=eip /path_to_project/rapid61850/c/Release/c</code>.</li>
+<li>You may need to select a specific network interface for the GOOSE and SV communications. If so, you would slightly adjust the Pcap initialisation code (i.e. the first argument to the call to <code>pcap_open_live()</code>) as required. This appears in the example <code>main*.c</code> files and, for the high-level interface, is set at this line of code: <a href="https://github.com/stevenblair/rapid61850/blob/master/c/src/interface.c#L56">https://github.com/stevenblair/rapid61850/blob/master/c/src/interface.c#L56</a>. For example, <code>used_if = alldevs;</code> would point to the first network interface seen by your OS, and <code>used_if = alldevs-&gt;next;</code> would point to the second network interface (if it exist).</li>
 </ul>
 </li>
 </ul>
 
 <h2>
-<a id="using-the-code-with-a-new-scd-file" class="anchor" href="#using-the-code-with-a-new-scd-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using the code with a new SCD file</h2>
+<a id="using-the-code-with-a-new-scd-file" class="anchor" href="#using-the-code-with-a-new-scd-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the code with a new SCD file</h2>
 
 <p>First, open the file <code>Main.java</code>. In the <code>Main</code> class, set the value of <code>SCD_FILENAME</code> to the filename of the SCD file. The SCD file should be in the same directory as the <code>Main.java</code> file. Run the Java project to generate the C implementation. <strong>If the SCD parser complains, ensure that the first two lines of the SCD file exactly match those from the example <code>scd.xml</code> in the repository.</strong> It's usually best to refresh the C project in Eclipse, to ensure that Eclipse knows about the new or modified files.</p>
 
 <p>A basic C <code>main()</code> function will look something like:</p>
 
-<div class="highlight highlight-C"><pre>#<span class="pl-k">include</span> <span class="pl-s1"><span class="pl-pds">"</span>iec61850.h<span class="pl-pds">"</span></span>
+<div class="highlight highlight-source-c"><pre>#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">"</span>iec61850.h<span class="pl-pds">"</span></span>
 
-<span class="pl-st">int</span> length = <span class="pl-c1">0</span>;
-<span class="pl-st">unsigned</span> <span class="pl-st">char</span> buffer[<span class="pl-c1">2048</span>] = {<span class="pl-c1">0</span>};
+<span class="pl-k">int</span> length = <span class="pl-c1">0</span>;
+<span class="pl-k">unsigned</span> <span class="pl-k">char</span> buffer[<span class="pl-c1">2048</span>] = {<span class="pl-c1">0</span>};
 
-<span class="pl-st">int</span> <span class="pl-en">main</span>() {
-    <span class="pl-s3">initialise_iec61850</span>();                                         <span class="pl-c">// initialise all data structures</span>
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    <span class="pl-c1">initialise_iec61850</span>();                                         <span class="pl-c">// initialise all data structures</span>
 
     <span class="pl-c">// send GOOSE packet</span>
-    E1Q1SB1.<span class="pl-vo">S1</span>.<span class="pl-vo">C1</span>.<span class="pl-vo">TVTRa_1</span>.<span class="pl-vo">Vol</span>.<span class="pl-vo">instMag</span>.<span class="pl-vo">f</span> = <span class="pl-c1">1.024</span>;                   <span class="pl-c">// set a value that appears in the dataset used by the "ItlPositions" GOOSE Control</span>
-    length = E1Q1SB1.<span class="pl-vo">S1</span>.<span class="pl-vo">C1</span>.<span class="pl-vo">LN0</span>.<span class="pl-vo">ItlPositions</span>.<span class="pl-s3">send</span>(buffer, <span class="pl-c1">1</span>, <span class="pl-c1">512</span>);  <span class="pl-c">// generate a goose packet, and store the bytes in "buffer"</span>
-    <span class="pl-s3">send_ethernet_packet</span>(buffer, length);                          <span class="pl-c">// platform-specific call to send an Ethernet packet</span>
+    E1Q1SB1.<span class="pl-smi">S1</span>.<span class="pl-smi">C1</span>.<span class="pl-smi">TVTRa_1</span>.<span class="pl-smi">Vol</span>.<span class="pl-smi">instMag</span>.<span class="pl-smi">f</span> = <span class="pl-c1">1.024</span>;                   <span class="pl-c">// set a value that appears in the dataset used by the "ItlPositions" GOOSE Control</span>
+    length = E1Q1SB1.<span class="pl-smi">S1</span>.<span class="pl-smi">C1</span>.<span class="pl-smi">LN0</span>.<span class="pl-smi">ItlPositions</span>.<span class="pl-c1">send</span>(buffer, <span class="pl-c1">1</span>, <span class="pl-c1">512</span>);  <span class="pl-c">// generate a goose packet, and store the bytes in "buffer"</span>
+    <span class="pl-c1">send_ethernet_packet</span>(buffer, length);                          <span class="pl-c">// platform-specific call to send an Ethernet packet</span>
 
 
     <span class="pl-c">// in another IED...</span>
 
 
     <span class="pl-c">// receive GOOSE or SV packet</span>
-    length = <span class="pl-s3">recv_ethernet_packet</span>(buffer);                         <span class="pl-c">// platform-specific call to receive an Ethernet packet</span>
-    <span class="pl-s3">gse_sv_packet_filter</span>(buffer, length);                          <span class="pl-c">// deals with any GOOSE or SV dataset that is able to be processed</span>
+    length = <span class="pl-c1">recv_ethernet_packet</span>(buffer);                         <span class="pl-c">// platform-specific call to receive an Ethernet packet</span>
+    <span class="pl-c1">gse_sv_packet_filter</span>(buffer, length);                          <span class="pl-c">// deals with any GOOSE or SV dataset that is able to be processed</span>
 
     <span class="pl-c">// read value that was updated by the packet (it will equal 1.024)</span>
-    <span class="pl-st">float</span> inputValue = D1Q1SB4.<span class="pl-vo">S1</span>.<span class="pl-vo">C1</span>.<span class="pl-vo">RSYNa_1</span>.<span class="pl-vo">gse_inputs_ItlPositions</span>.<span class="pl-vo">E1Q1SB1_C1_Positions</span>.<span class="pl-vo">C1_TVTR_1_Vol_instMag</span>.<span class="pl-vo">f</span>;
+    <span class="pl-k">float</span> inputValue = D1Q1SB4.<span class="pl-smi">S1</span>.<span class="pl-smi">C1</span>.<span class="pl-smi">RSYNa_1</span>.<span class="pl-smi">gse_inputs_ItlPositions</span>.<span class="pl-smi">E1Q1SB1_C1_Positions</span>.<span class="pl-smi">C1_TVTR_1_Vol_instMag</span>.<span class="pl-smi">f</span>;
 
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
@@ -169,20 +163,20 @@
 <p>The generated C code implements all IEDs specified in the SCD file. You can use the code to emulate the communications between several IEDs, or just use one IED's implementation.</p>
 
 <h3>
-<a id="set-the-local-mac-address" class="anchor" href="#set-the-local-mac-address" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set the local MAC address</h3>
+<a id="set-the-local-mac-address" class="anchor" href="#set-the-local-mac-address" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set the local MAC address</h3>
 
 <p>In <code>ctypes.h</code>, set <code>LOCAL_MAC_ADDRESS_VALUE</code> to the local network interface's MAC address. This must be done for each physical device.</p>
 
 <h3>
-<a id="callbacks-after-a-dataset-is-decoded" class="anchor" href="#callbacks-after-a-dataset-is-decoded" aria-hidden="true"><span class="octicon octicon-link"></span></a>Callbacks after a dataset is decoded</h3>
+<a id="callbacks-after-a-dataset-is-decoded" class="anchor" href="#callbacks-after-a-dataset-is-decoded" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Callbacks after a dataset is decoded</h3>
 
 <p>Callbacks should be set up in the form:</p>
 
-<div class="highlight highlight-C"><pre><span class="pl-st">void</span> <span class="pl-en">SVcallbackFunction</span>(CTYPE_INT16U smpCnt) {
+<div class="highlight highlight-source-c"><pre><span class="pl-k">void</span> <span class="pl-en">SVcallbackFunction</span>(CTYPE_INT16U smpCnt) {
     ;
 }
 
-<span class="pl-st">void</span> <span class="pl-en">GSEcallbackFunction</span>(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {
+<span class="pl-k">void</span> <span class="pl-en">GSEcallbackFunction</span>(CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {
     ;
 }
 
@@ -194,20 +188,20 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <p>where <code>D1Q1SB4.S1.C1.exampleMMXU_1</code> is a Logical Node defined in <code>datatypes.h</code> (and <code>ied.h</code>). <code>rmxuCB</code> is the name of the <code>SampledValueControl</code>, in a different IED, which sent the SV packets. After being initialised, the callback function will be executed after this dataset is successfully decoded, to allow the LN to deal with the new data. For example, by default, only one packet of data is saved for each GSE or SV Control - and is overwritten when a new packet arrives. Therefore, it may be useful to use the callback to log the data to a separate memory buffer.</p>
 
 <h3>
-<a id="fixed-length-goose-encoding" class="anchor" href="#fixed-length-goose-encoding" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fixed-length GOOSE encoding</h3>
+<a id="fixed-length-goose-encoding" class="anchor" href="#fixed-length-goose-encoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Fixed-length GOOSE encoding</h3>
 
 <p>To enable fixed-length GOOSE encoding, in <code>ctypes.h</code> set the value of <code>GOOSE_FIXED_SIZE</code> to <code>1</code>. Otherwise, it should have a value of <code>0</code>. This can only be enabled globally for all GOOSE encoding, rather than on a per Control basis.</p>
 
 <h3>
-<a id="platform-specific-options" class="anchor" href="#platform-specific-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Platform-specific options</h3>
+<a id="platform-specific-options" class="anchor" href="#platform-specific-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Platform-specific options</h3>
 
 <p>All platform-specific options can be edited in <code>ctypes.h</code> or <code>ctypes.c</code>. For example, for a big endian platform, change:</p>
 
-<div class="highlight highlight-C"><pre>#<span class="pl-k">define</span> <span class="pl-en">LITTLE_ENDIAN</span>       <span class="pl-c1">1</span></pre></div>
+<div class="highlight highlight-source-c"><pre>#<span class="pl-k">define</span> <span class="pl-en">LITTLE_ENDIAN</span>       <span class="pl-c1">1</span></pre></div>
 
 <p>to:</p>
 
-<div class="highlight highlight-C"><pre>#<span class="pl-k">define</span> <span class="pl-en">LITTLE_ENDIAN</span>       <span class="pl-c1">0</span></pre></div>
+<div class="highlight highlight-source-c"><pre>#<span class="pl-k">define</span> <span class="pl-en">LITTLE_ENDIAN</span>       <span class="pl-c1">0</span></pre></div>
 
 <p>All <code>CTYPE_*</code> definitions must map to local datatypes of the correct size and sign.</p>
 
@@ -216,7 +210,7 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <p>The value of <code>TIMESTAMP_SUPPORTED</code> should be set to <code>0</code>, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.</p>
 
 <h2>
-<a id="using-the-http-and-json-interface" class="anchor" href="#using-the-http-and-json-interface" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using the HTTP and JSON interface</h2>
+<a id="using-the-http-and-json-interface" class="anchor" href="#using-the-http-and-json-interface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the HTTP and JSON interface</h2>
 
 <p><em>This functionality is experimental. Some data types and ACSI services have not been fully tested yet. Support for Windows and Linux has been verified; OS X should work too. The JSON interface can run on an embedded (i.e., non-POSIX) platform, but an alternative web server is necessary.</em></p>
 
@@ -225,35 +219,35 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <p><a href="https://github.com/cesanta/mongoose">Mongoose</a>, which is embedded in the repository and has an open source GPL 2 license, provides a simple and lightweight web server. As with the rest of <code>rapid61850</code>, the JSON interface "implements" all IEDs specified in the SCD file. By default, a new thread is spawned for each IED; this allows multiple IEDs to be tested together from a single application. (Note: no locking has been implemented for the data model, but different IEDs should not modify each other's data directly.) As well as the HTTP server for each IED, there is a basic facility for an HTTP client, for IEDs to perform GET and POST operations on other IEDs - whether local or remote.</p>
 
 <h3>
-<a id="api-details" class="anchor" href="#api-details" aria-hidden="true"><span class="octicon octicon-link"></span></a>API details</h3>
+<a id="api-details" class="anchor" href="#api-details" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API details</h3>
 
 <p>There are examples of how to use each command from C code in <code>main_json.c</code>. JSON prettification (formatting with whitespace) can be enabled at compile-time.</p>
 
 <p>Either <code>.</code> or <code>/</code> can be used to separate items in the object reference, but the separator between the Logical Device and the object reference must be <code>/</code>. All URLs are case-sensitive.</p>
 
 <h4>
-<a id="associate" class="anchor" href="#associate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Associate</h4>
+<a id="associate" class="anchor" href="#associate" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Associate</h4>
 
 <p>Explicitly creates an ACSI association, using the IP address and port of the requester as the ID. <code>ACSI_AUTO_ASSOCIATE</code> can be set to <code>1</code> to automatically associate any client that requests data. Alternatively, this command can be completely ignored for convenience. If using HTTP authentication (with SSL), the username and password act as the authentication parameters for the association.</p>
 
 <p>HTTP <code>GET</code> with: <code>/associate</code></p>
 
 <h4>
-<a id="release" class="anchor" href="#release" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release</h4>
+<a id="release" class="anchor" href="#release" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Release</h4>
 
 <p>Releases an ACSI association.</p>
 
 <p>HTTP <code>GET</code> with: <code>/release</code></p>
 
 <h4>
-<a id="abort" class="anchor" href="#abort" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abort</h4>
+<a id="abort" class="anchor" href="#abort" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Abort</h4>
 
 <p>Aborts an ACSI association.</p>
 
 <p>HTTP <code>GET</code> with: <code>/abort</code></p>
 
 <h4>
-<a id="get-value" class="anchor" href="#get-value" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get value</h4>
+<a id="get-value" class="anchor" href="#get-value" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get value</h4>
 
 <p>Returns the value of the specified element and all sub-elements, if applicable. The is effectively the default response for the server; if no Logical Device is specified, then all data for the entire IED will be returned.</p>
 
@@ -272,7 +266,7 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <p>Returns: <code>{"AmpLocPhsB":{"instMag":{"f":1.024000},"q":0}}</code></p>
 
 <h4>
-<a id="get-definition" class="anchor" href="#get-definition" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get definition</h4>
+<a id="get-definition" class="anchor" href="#get-definition" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get definition</h4>
 
 <p>Returns the data definition of the specified element.</p>
 
@@ -291,7 +285,7 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <p>Returns: <code>{"name":"AmpLocPhsB","type":"simpleSAV","CDC":"SAV"}</code></p>
 
 <h4>
-<a id="get-directory" class="anchor" href="#get-directory" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get directory</h4>
+<a id="get-directory" class="anchor" href="#get-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get directory</h4>
 
 <p>Returns the definition of the full hierarchy, starting from the specified element. I.e., does the same as "get definition", except that it recursively seeks out all leaf nodes.</p>
 
@@ -303,11 +297,11 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 
 <p>Returns:</p>
 
-<div class="highlight highlight-JSON"><pre>{
-    <span class="pl-s1"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>configRev<span class="pl-pds">"</span></span>,
-    <span class="pl-s1"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>VisString255<span class="pl-pds">"</span></span>,
-    <span class="pl-s1"><span class="pl-pds">"</span>FC<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>DC<span class="pl-pds">"</span></span>,
-    <span class="pl-s1"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : []
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>configRev<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>VisString255<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>FC<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>DC<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : []
 }</pre></div>
 
 <hr>
@@ -316,35 +310,35 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 
 <p>Returns:</p>
 
-<div class="highlight highlight-JSON"><pre>{
-    <span class="pl-s1"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>AmpLocPhsB<span class="pl-pds">"</span></span>,
-    <span class="pl-s1"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>simpleSAV<span class="pl-pds">"</span></span>,
-    <span class="pl-s1"><span class="pl-pds">"</span>CDC<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>SAV<span class="pl-pds">"</span></span>,
-    <span class="pl-s1"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : [
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>AmpLocPhsB<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>simpleSAV<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>CDC<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>SAV<span class="pl-pds">"</span></span>,
+    <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : [
         {
-            <span class="pl-s1"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>instMag<span class="pl-pds">"</span></span>,
-            <span class="pl-s1"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>myAnalogValue<span class="pl-pds">"</span></span>,
-            <span class="pl-s1"><span class="pl-pds">"</span>FC<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>MX<span class="pl-pds">"</span></span>,
-            <span class="pl-s1"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : [
+            <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>instMag<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>myAnalogValue<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>FC<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>MX<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : [
                 {
-                    <span class="pl-s1"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>f<span class="pl-pds">"</span></span>,
-                    <span class="pl-s1"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>FLOAT32<span class="pl-pds">"</span></span>,
-                    <span class="pl-s1"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : []
+                    <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>f<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>FLOAT32<span class="pl-pds">"</span></span>,
+                    <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : []
                 }
             ]
         },
         {
-            <span class="pl-s1"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>q<span class="pl-pds">"</span></span>,
-            <span class="pl-s1"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>Quality<span class="pl-pds">"</span></span>,
-            <span class="pl-s1"><span class="pl-pds">"</span>FC<span class="pl-pds">"</span></span> : <span class="pl-s1"><span class="pl-pds">"</span>MX<span class="pl-pds">"</span></span>,
-            <span class="pl-s1"><span class="pl-pds">"</span>qchg<span class="pl-pds">"</span></span> : <span class="pl-c1">true</span>,
-            <span class="pl-s1"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : []
+            <span class="pl-s"><span class="pl-pds">"</span>name<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>q<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>Quality<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>FC<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>MX<span class="pl-pds">"</span></span>,
+            <span class="pl-s"><span class="pl-pds">"</span>qchg<span class="pl-pds">"</span></span> : <span class="pl-c1">true</span>,
+            <span class="pl-s"><span class="pl-pds">"</span>items<span class="pl-pds">"</span></span> : []
         }
    ]
 }</pre></div>
 
 <h4>
-<a id="set-value" class="anchor" href="#set-value" aria-hidden="true"><span class="octicon octicon-link"></span></a>Set value</h4>
+<a id="set-value" class="anchor" href="#set-value" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set value</h4>
 
 <p>Attempts to set the value of the specified element.</p>
 
@@ -357,7 +351,7 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <p>Returns: <code>ok</code> if successful</p>
 
 <h3>
-<a id="building-the-json-interface-code" class="anchor" href="#building-the-json-interface-code" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the JSON interface code</h3>
+<a id="building-the-json-interface-code" class="anchor" href="#building-the-json-interface-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building the JSON interface code</h3>
 
 <p>Two JSON examples are provided in the repository:</p>
 
@@ -378,7 +372,7 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 </ol>
 
 <h3>
-<a id="using-ssl-to-encrypt-all-connections" class="anchor" href="#using-ssl-to-encrypt-all-connections" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using SSL to encrypt all connections</h3>
+<a id="using-ssl-to-encrypt-all-connections" class="anchor" href="#using-ssl-to-encrypt-all-connections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using SSL to encrypt all connections</h3>
 
 <ol>
 <li>Install OpenSSL for your operating system.</li>
@@ -403,7 +397,7 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 </ol>
 
 <h2>
-<a id="using-the-python-or-java-interfaces" class="anchor" href="#using-the-python-or-java-interfaces" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using the Python or Java interfaces</h2>
+<a id="using-the-python-or-java-interfaces" class="anchor" href="#using-the-python-or-java-interfaces" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the Python or Java interfaces</h2>
 
 <p>So far, this readme has described how to use the native C/C++ interface. It's also possible to use <a href="http://www.swig.org/">SWIG</a> to automatically generate wrappers for high-level languages from C/C++ header files. At the moment, Python and Java interfaces on Windows and Linux have been tested, but other languages (such as C#, Lua, Perl, Ruby, etc.) should work too. (You can also use the high-level interface from C/C++ too, but not alongside the native interface.)</p>
 
@@ -412,7 +406,7 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <p>Note that this interface can also be used within a C/C++ application - this is shown in the example <code>main.c</code> file, if <code>HIGH_LEVEL_INTERFACE</code> is defined as <code>1</code>. If your are not using this high-level interface, and are using the plain C interface, you may need to exclude the two <code>interface*.c</code> files from the build in Eclipse.</p>
 
 <h3>
-<a id="building-on-windows" class="anchor" href="#building-on-windows" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building on Windows</h3>
+<a id="building-on-windows" class="anchor" href="#building-on-windows" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building on Windows</h3>
 
 <p>If using MinGW as the C compiler (as described above), this process is significantly simpler if the 32-bit versions of Eclipse and the JDK are used. The following instructions assume this. It's also assumed that the Python or Java application exists within a directory at the same level as the <code>emf</code> and <code>c</code> directories.</p>
 
@@ -445,7 +439,7 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <p>The following subsections explain how to change the compiler settings for the <code>c</code> project to generate a dynamic library, instead of an executable. This differs for Python and Java. It may be helpful to create different build configurations in Eclipse if you need to use more than one of the C/C++, Python, or Java interfaces. You may also need to exclude the existing <code>main.c</code> file from any Python or Java builds.</p>
 
 <h4>
-<a id="python-interface-c-compiler-settings" class="anchor" href="#python-interface-c-compiler-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Python interface C compiler settings</h4>
+<a id="python-interface-c-compiler-settings" class="anchor" href="#python-interface-c-compiler-settings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Python interface C compiler settings</h4>
 
 <ul>
 <li>In C/C++ Build &gt; Settings &gt; Build Artifact:
@@ -488,22 +482,22 @@ D1Q1SB4.S1.C1.RSYNa_1.gse_inputs_ItlPositions.datasetDecodeDone = &amp;GSEcallba
 <li>
 <p>Create and run your Python code, e.g.:</p>
 
-<div class="highlight highlight-python"><pre><span class="pl-k">import</span> rapid61850
+<div class="highlight highlight-source-python"><pre><span class="pl-k">import</span> rapid61850
 <span class="pl-k">from</span> rapid61850 <span class="pl-k">import</span> <span class="pl-k">*</span>
 
 rapid61850.start()
 
 rapid61850.interface_gse_send_D1Q1SB4_C1_MMXUResult(<span class="pl-c1">1</span>, <span class="pl-c1">512</span>)     <span class="pl-c"># send GOOSE packet</span>
 
-rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal <span class="pl-k">=</span> MOD_ON_1      <span class="pl-c"># interact with IED data model</span>
-<span class="pl-k">print</span> rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal</pre></div>
+rapid61850.cvar.<span class="pl-c1">E1Q1SB1</span>.<span class="pl-c1">S1</span>.<span class="pl-c1">C1</span>.LPHDa_1.Mod.stVal <span class="pl-k">=</span> <span class="pl-c1">MOD_ON_1</span>      <span class="pl-c"># interact with IED data model</span>
+<span class="pl-c1">print</span> rapid61850.cvar.<span class="pl-c1">E1Q1SB1</span>.<span class="pl-c1">S1</span>.<span class="pl-c1">C1</span>.LPHDa_1.Mod.stVal</pre></div>
 
 <p>Note that all C global variables appear within <code>rapid61850.cvar</code>.</p>
 </li>
 </ul>
 
 <h4>
-<a id="java-interface-c-compiler-settings" class="anchor" href="#java-interface-c-compiler-settings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Java interface C compiler settings</h4>
+<a id="java-interface-c-compiler-settings" class="anchor" href="#java-interface-c-compiler-settings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Java interface C compiler settings</h4>
 
 <ul>
 <li>In C/C++ Build &gt; Settings &gt; Build Artifact:
@@ -537,18 +531,18 @@ rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal <span class="pl-k">=</span> MOD_
 <li>
 <p>Create your Java code, e.g.:</p>
 
-<div class="highlight highlight-java"><pre><span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">Main</span> {
-    <span class="pl-s">static</span> {
-        <span class="pl-stj">System</span><span class="pl-k">.</span>loadLibrary(<span class="pl-s1"><span class="pl-pds">"</span>rapid61850<span class="pl-pds">"</span></span>);
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Main</span> {
+    <span class="pl-k">static</span> {
+        <span class="pl-smi">System</span><span class="pl-k">.</span>loadLibrary(<span class="pl-s"><span class="pl-pds">"</span>rapid61850<span class="pl-pds">"</span></span>);
     }
 
-    <span class="pl-s">public</span> <span class="pl-s">static</span> <span class="pl-st">void</span> <span class="pl-en">main</span>(<span class="pl-st">String</span>[] <span class="pl-v">args</span>) {
+    <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">main</span>(<span class="pl-k">String</span>[] <span class="pl-v">args</span>) {
         rapid61850<span class="pl-k">.</span>start();
 
-        <span class="pl-stj">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(rapid61850<span class="pl-k">.</span>interface_gse_send_E1Q1SB1_C1_Performance(<span class="pl-c1">1</span>, <span class="pl-c1">512</span>));                 <span class="pl-c">// send GOOSE packet</span>
+        <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(rapid61850<span class="pl-k">.</span>interface_gse_send_E1Q1SB1_C1_Performance(<span class="pl-c1">1</span>, <span class="pl-c1">512</span>));                 <span class="pl-c">// send GOOSE packet</span>
 
-        rapid61850<span class="pl-k">.</span>getE1Q1SB1()<span class="pl-k">.</span>getS1()<span class="pl-k">.</span>getC1()<span class="pl-k">.</span>getMMXUa_1()<span class="pl-k">.</span>getMod()<span class="pl-k">.</span>setStVal(<span class="pl-stj">Mod</span><span class="pl-c1"><span class="pl-k">.</span>MOD_ON_1</span>);             <span class="pl-c">// interact with IED data model</span>
-        <span class="pl-stj">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(rapid61850<span class="pl-k">.</span>getE1Q1SB1()<span class="pl-k">.</span>getS1()<span class="pl-k">.</span>getC1()<span class="pl-k">.</span>getMMXUa_1()<span class="pl-k">.</span>getMod()<span class="pl-k">.</span>getStVal());
+        rapid61850<span class="pl-k">.</span>getE1Q1SB1()<span class="pl-k">.</span>getS1()<span class="pl-k">.</span>getC1()<span class="pl-k">.</span>getMMXUa_1()<span class="pl-k">.</span>getMod()<span class="pl-k">.</span>setStVal(<span class="pl-smi">Mod</span><span class="pl-c1"><span class="pl-k">.</span>MOD_ON_1</span>);             <span class="pl-c">// interact with IED data model</span>
+        <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(rapid61850<span class="pl-k">.</span>getE1Q1SB1()<span class="pl-k">.</span>getS1()<span class="pl-k">.</span>getC1()<span class="pl-k">.</span>getMMXUa_1()<span class="pl-k">.</span>getMod()<span class="pl-k">.</span>getStVal());
     }
 }</pre></div>
 </li>
@@ -556,13 +550,13 @@ rapid61850.cvar.E1Q1SB1.S1.C1.LPHDa_1.Mod.stVal <span class="pl-k">=</span> MOD_
 </ul>
 
 <h3>
-<a id="building-on-linux" class="anchor" href="#building-on-linux" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building on Linux</h3>
+<a id="building-on-linux" class="anchor" href="#building-on-linux" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building on Linux</h3>
 
 <p>On Linux, it's easier to create the Python or Java interface with the Terminal, rather than with Eclipse. The steps below assume Ubuntu (and have only been tested on 11.10 64-bit), so it may differ on other distributions. <strong>Note that because the following scripts compile all <em>.c files, the example `main</em>.c` files may need to be deleted from the C source code directory.</strong></p>
 
 <p>Install the following packages:</p>
 
-<div class="highlight highlight-sh"><pre>sudo apt-get install libpcap-dev
+<div class="highlight highlight-source-shell"><pre>sudo apt-get install libpcap-dev
 sudo apt-get install swig
 sudo apt-get install build-essential
 sudo apt-get install python2.7         <span class="pl-c"># other Python versions should be ok</span>
@@ -573,9 +567,9 @@ sudo apt-get install openjdk-6-jdk</pre></div>
 <p>Open a Terminal at the <code>rapid61850/c/src</code> directory.</p>
 
 <h4>
-<a id="python" class="anchor" href="#python" aria-hidden="true"><span class="octicon octicon-link"></span></a>Python</h4>
+<a id="python" class="anchor" href="#python" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Python</h4>
 
-<div class="highlight highlight-sh"><pre><span class="pl-c"># attempt to clean up any previous files</span>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># attempt to clean up any previous files</span>
 rm <span class="pl-k">*</span>.o <span class="pl-k">*</span>.so <span class="pl-k">*</span>_wrap.c rapid61850.py rapid61850.pyc
 
 <span class="pl-c"># run SWIG, output goes in current directory</span>
@@ -596,9 +590,9 @@ sudo python2.7
 <span class="pl-k">&gt;&gt;&gt;</span> <span class="pl-en">exit</span>()</pre></div>
 
 <h4>
-<a id="java" class="anchor" href="#java" aria-hidden="true"><span class="octicon octicon-link"></span></a>Java</h4>
+<a id="java" class="anchor" href="#java" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Java</h4>
 
-<div class="highlight highlight-sh"><pre><span class="pl-c"># attempt to clean up any previous files</span>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># attempt to clean up any previous files</span>
 rm <span class="pl-k">*</span>.o <span class="pl-k">*</span>.so <span class="pl-k">*</span>_wrap.c java/<span class="pl-k">*</span>.class java/<span class="pl-k">*</span>.java
 
 mkdir java    <span class="pl-c"># only needed once</span>
@@ -614,14 +608,14 @@ ld -G <span class="pl-k">*</span>.o -lpcap -o librapid61850.so
 javac -d java/ java/<span class="pl-k">*</span>.java ../../java_interface/Main.java
 
 <span class="pl-c"># run the sample Java program. sudo is needed for the network interface</span>
-<span class="pl-s3">cd</span> java
+<span class="pl-c1">cd</span> java
 sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    <span class="pl-c"># this path must be set correctly</span></pre></div>
 
 <h2>
-<a id="software-documentation" class="anchor" href="#software-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Software documentation</h2>
+<a id="software-documentation" class="anchor" href="#software-documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Software documentation</h2>
 
 <h3>
-<a id="validation" class="anchor" href="#validation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Validation</h3>
+<a id="validation" class="anchor" href="#validation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Validation</h3>
 
 <p><code>SCDValidator.java</code> performs semantic validation of the SCD file, prior to code generation. It checks for the following constraints:</p>
 
@@ -638,29 +632,29 @@ sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    <span class
 
 <p>The validation process extensively uses the <a href="http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.emf.query.doc/tutorials/queryTutorial.html">EMF Model Query</a> framework for searching and filtering SCD data. It uses a SQL-like syntax. For example, to find all IEDs in the SCD document object <code>root</code>:</p>
 
-<div class="highlight highlight-java"><pre><span class="pl-s">public</span> <span class="pl-st">void</span> checkForDuplicateNames(<span class="pl-stj">DocumentRoot</span> root) {
+<div class="highlight highlight-source-java"><pre><span class="pl-k">public</span> <span class="pl-k">void</span> checkForDuplicateNames(<span class="pl-smi">DocumentRoot</span> root) {
     <span class="pl-c">// describe a condition: is the object an IED (called `TIED` in EMF)?</span>
-    <span class="pl-s">final</span> <span class="pl-stj">EObjectCondition</span> isIED <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">EObjectTypeRelationCondition</span>(
-        <span class="pl-stj">SclPackage</span><span class="pl-k">.</span>eINSTANCE<span class="pl-k">.</span>getTIED()
+    <span class="pl-k">final</span> <span class="pl-smi">EObjectCondition</span> isIED <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">EObjectTypeRelationCondition</span>(
+        <span class="pl-smi">SclPackage</span><span class="pl-k">.</span>eINSTANCE<span class="pl-k">.</span>getTIED()
     );
 
     <span class="pl-c">// build and execute a query</span>
-    <span class="pl-stj">IQueryResult</span> iedResult <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">SELECT</span>(
-        <span class="pl-k">new</span> <span class="pl-stj">FROM</span>(root),
-        <span class="pl-k">new</span> <span class="pl-stj">WHERE</span>(isIED)
+    <span class="pl-smi">IQueryResult</span> iedResult <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">SELECT</span>(
+        <span class="pl-k">new</span> <span class="pl-smi">FROM</span>(root),
+        <span class="pl-k">new</span> <span class="pl-smi">WHERE</span>(isIED)
     )<span class="pl-k">.</span>execute();
 
     <span class="pl-c">// loop through results</span>
-    <span class="pl-k">for</span> (<span class="pl-stj">Object</span> o <span class="pl-k">:</span> iedResult) {
-        <span class="pl-stj">TIED</span> ied <span class="pl-k">=</span> (<span class="pl-c1">TIED</span>) o;
-        <span class="pl-stj">String</span> iedName <span class="pl-k">=</span> ied<span class="pl-k">.</span>getName();
+    <span class="pl-k">for</span> (<span class="pl-smi">Object</span> o <span class="pl-k">:</span> iedResult) {
+        <span class="pl-smi">TIED</span> ied <span class="pl-k">=</span> (<span class="pl-c1">TIED</span>) o;
+        <span class="pl-smi">String</span> iedName <span class="pl-k">=</span> ied<span class="pl-k">.</span>getName();
 
         <span class="pl-c">// ...</span>
     }
 }</pre></div>
 
 <h3>
-<a id="augmented-iec-61850-6-scl-model" class="anchor" href="#augmented-iec-61850-6-scl-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Augmented IEC 61850-6 SCL model</h3>
+<a id="augmented-iec-61850-6-scl-model" class="anchor" href="#augmented-iec-61850-6-scl-model" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Augmented IEC 61850-6 SCL model</h3>
 
 <p><code>SCDAdditionalMappings.java</code> uses hash maps to explicitly link parts of the Java representation of the SCL model. This greatly simplifies the code generation process. (In the SCL, these links are implicit and are achieved by string-matching.) Each mapping is as follows:</p>
 
@@ -680,7 +674,7 @@ sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    <span class
 </ul>
 
 <h3>
-<a id="code-generation" class="anchor" href="#code-generation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code generation</h3>
+<a id="code-generation" class="anchor" href="#code-generation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Code generation</h3>
 
 <p>The following UML class diagram illustrates how a generic representation of a C file is used by the code generation process:</p>
 
@@ -689,7 +683,7 @@ sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    <span class
 <p>Java Emitter Template (JET) files (<code>CSourceTemplate</code> and <code>CHeaderTemplate</code>) are used to define the generic structure of C source and header files. This approach allows several header files, which specify function prototypes, to be generated automatically from the <code>CSource</code> objects.</p>
 
 <h2>
-<a id="notes-and-possible-features" class="anchor" href="#notes-and-possible-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes and possible features</h2>
+<a id="notes-and-possible-features" class="anchor" href="#notes-and-possible-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Notes and possible features</h2>
 
 <ul>
 <li>Some data types are not supported yet. However, the main <em>useful</em> data types (integer, floating-point, and boolean) are supported.</li>
@@ -698,14 +692,16 @@ sudo java -Djava.library.path=/home/steven/rapid61850/c/src/ Main    <span class
 <li>According to <a href="http://www.tissues.iec61850.com/tissue.mspx?issueid=579">the standard</a>, SV datasets should only contain primitive data types, and not constructed types. However, because SV encoding involves fixed-length value fields, it is always possible to reconstruct the data, if encoded and decoded consistently. Therefore, this library will allow constructed types to be encoded in SV packets. Semantically, SV datasets should only contain data values that have been sampled at the specified sampling rate. Again, for practicality, this library allows any DA or DO to be used in SV datasets.</li>
 <li>Support for trigger options is not implemented at present.</li>
 </ul>
-      </section>
-    </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/stevenblair">stevenblair</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-              <script type="text/javascript">
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/stevenblair/rapid61850">rapid61850</a> is maintained by <a href="https://github.com/stevenblair">stevenblair</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
