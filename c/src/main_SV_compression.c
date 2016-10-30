@@ -67,6 +67,8 @@ pcap_t *fp;
 char errbuf[PCAP_ERRBUF_SIZE];
 
 
+// functions defined elsewhere
+int32_t logicalRightShift(int32_t x, int32_t n);
 size_t encode_uint32_t(uint8_t* output, uint32_t value);
 uint32_t decode_uint32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes);
 
@@ -548,10 +550,6 @@ int32_t EncodeInt32(int32_t value, unsigned char *out) {
 	}
 
 	return out_size;
-}
-
-int32_t logicalRightShift(int32_t x, int32_t n) {
-    return (unsigned)x >> n;
 }
 
 //int32_t DecodeInt32(int32_t in) {

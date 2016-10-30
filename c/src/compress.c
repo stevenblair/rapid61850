@@ -31,6 +31,11 @@
 
 // basic variable length integer encoding and decoding functions (for signed and unsigned)
 
+
+int32_t logicalRightShift(int32_t x, int32_t n) {
+    return (unsigned)x >> n;
+}
+
 // modified from https://techoverflow.net/blog/2013/01/25/efficiently-encoding-variable-length-integers-in-cc/
 size_t encode_int32_t(uint8_t* output, int32_t value) {
 	uint32_t value2 = (value >> 31) ^ (value << 1);
