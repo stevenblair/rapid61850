@@ -39,7 +39,7 @@
 #include <windows.h>
 #include "iec61850.h"
 
-/* Basic Compression Library */
+// Basic Compression Library
 #include "bcl/rle.h"
 #include "bcl/shannonfano.h"
 #include "bcl/huffman.h"
@@ -47,14 +47,11 @@
 #include "bcl/lz.h"
 #include "bcl/systimer.h"
 
+// other compression libraries
 #include "liblzg/lzg.h"
-
 #include "FastLZ/fastlz.h"
-
 #include "lzfx/lzfx.h"
-
 #include "trle/trle.h"
-
 #include "mrle/mrle.h"
 
 

@@ -36,6 +36,7 @@ struct LE_IED_t {
 			struct {
 				struct IEC_61850_9_2LELLN0 LLN0;
 				struct svControl MSVCB01;
+				struct LE_IED_MUnn_PhsMeas1 MSVCB01_prev_dataset_values;	// additional storage for dataset's previous values
 				struct svControl MSVCB02;
 			} LN0;
 			struct IEC_61850_9_2LETCTR IEC_61850_9_2LETCTR_1;

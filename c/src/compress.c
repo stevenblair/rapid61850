@@ -29,7 +29,71 @@
 #define EXCLUDE_DUPLICATE_ASDU_FIELDS	1
 
 
-// encoding functions
+// basic variable length integer encoding and decoding functions (for signed and unsigned)
+
+// modified from https://techoverflow.net/blog/2013/01/25/efficiently-encoding-variable-length-integers-in-cc/
+size_t encode_int32_t(uint8_t* output, int32_t value) {
+	uint32_t value2 = (value >> 31) ^ (value << 1);
+    size_t outputSize = 0;
+    // while more than 7 bits of data are left, occupy the last output byte
+    // and set the next byte flag
+    while (value2 > 127) {
+        // |128: Set the next byte flag
+        output[outputSize] = ((uint8_t)(value2)) | 128;
+        // remove the seven bits we just wrote
+        value2 >>= 7;
+        outputSize++;
+    }
+    output[outputSize++] = ((uint8_t)value2) & 127;
+    return outputSize;
+}
+
+size_t encode_uint32_t(uint8_t* output, uint32_t value) {
+    size_t outputSize = 0;
+    // while more than 7 bits of data are left, occupy the last output byte
+    // and set the next byte flag
+    while (value > 127) {
+        // |128: Set the next byte flag
+        output[outputSize] = ((uint8_t)(value)) | 128;
+        // remove the seven bits we just wrote
+        value >>= 7;
+        outputSize++;
+    }
+    output[outputSize++] = ((uint8_t)value) & 127;
+    return outputSize;
+}
+
+uint32_t decode_uint32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes) {
+	uint32_t ret = 0;
+	size_t i = 0;
+    for (i = 0; i < inputSize; i++) {
+        ret |= (input[i] & 127) << (7 * i);
+        // if the next-byte flag is set
+        if(!(input[i] & 128)) {
+            break;
+        }
+    }
+    *number_of_bytes = i + 1;
+    return ret;
+}
+
+int32_t decode_int32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes) {
+	uint32_t ret = 0;
+	size_t i = 0;
+    for (i = 0; i < inputSize; i++) {
+        ret |= (input[i] & 127) << (7 * i);
+        // if the next-byte flag is set
+        if(!(input[i] & 128)) {
+            break;
+        }
+    }
+    *number_of_bytes = i + 1;
+    ret = logicalRightShift(ret, 1) ^ -(ret & 1);	// decode zigzag
+    return ret;
+}
+
+
+// IEC 61850 encoding functions
 
 int svASDULength_compress(struct svControl *svControl, short ASDU) {
 	int len = 0;
@@ -67,14 +131,6 @@ int svASDULength_compress(struct svControl *svControl, short ASDU) {
 	return len;
 }
 
-//int svSeqLength(struct svControl *svControl) {
-//	int len = svASDULength(svControl);
-//	len += getLengthBytes(len);
-//	len++;
-//	len = len * svControl->noASDU;	// assume all ASDUs are the same size
-//
-//	return len;
-//}
 int svSeqLength_compress(struct svControl *svControl) {
 	int i = 0;
 	int len = 0;
@@ -83,9 +139,8 @@ int svSeqLength_compress(struct svControl *svControl) {
 		int this_ASDU_len = svASDULength_compress(svControl, i);
 		len += this_ASDU_len;
 		len += getLengthBytes(this_ASDU_len);
-		len++;	// TODO needed?
+		len++;
 	}
-	//	len = len * svControl->noASDU;	// assume all ASDUs are the same size
 
 	return len;
 }
@@ -245,91 +300,13 @@ int svEncodePacket_compress(struct svControl *svControl, unsigned char *buf) {
 	return offset;
 }
 
-// from https://techoverflow.net/blog/2013/01/25/efficiently-encoding-variable-length-integers-in-cc/
-size_t encode_int32_t(uint8_t* output, int32_t value) {
-	uint32_t value2 = (value >> 31) ^ (value << 1);
-    size_t outputSize = 0;
-    //While more than 7 bits of data are left, occupy the last output byte
-    // and set the next byte flag
-    while (value2 > 127) {
-        //|128: Set the next byte flag
-        output[outputSize] = ((uint8_t)(value2)) | 128;
-        //Remove the seven bits we just wrote
-        value2 >>= 7;
-        outputSize++;
-    }
-    output[outputSize++] = ((uint8_t)value2) & 127;
-    return outputSize;
-}
-size_t encode_uint32_t(uint8_t* output, uint32_t value) {
-    size_t outputSize = 0;
-    //While more than 7 bits of data are left, occupy the last output byte
-    // and set the next byte flag
-    while (value > 127) {
-        //|128: Set the next byte flag
-        output[outputSize] = ((uint8_t)(value)) | 128;
-        //Remove the seven bits we just wrote
-        value >>= 7;
-        outputSize++;
-    }
-    output[outputSize++] = ((uint8_t)value) & 127;
-    return outputSize;
-}
-
-uint32_t decode_uint32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes) {
-	uint32_t ret = 0;
-	size_t i = 0;
-    for (i = 0; i < inputSize; i++) {
-        ret |= (input[i] & 127) << (7 * i);
-        //If the next-byte flag is set
-        if(!(input[i] & 128)) {
-            break;
-        }
-    }
-    *number_of_bytes = i + 1;
-    return ret;
-}
-int32_t decode_int32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes) {
-	uint32_t ret = 0;
-	size_t i = 0;
-    for (i = 0; i < inputSize; i++) {
-        ret |= (input[i] & 127) << (7 * i);
-        //If the next-byte flag is set
-        if(!(input[i] & 128)) {
-            break;
-        }
-    }
-    *number_of_bytes = i + 1;
-    ret = logicalRightShift(ret, 1) ^ -(ret & 1);	// decode zigzag
-    return ret;
-}
-
 int encode_LE_IED_MUnn_PhsMeas1_compress(unsigned char *buf, struct LE_IED_MUnn_PhsMeas1 *prev_data_values, short ASDUCount) {
 	int offset = 0;
 
 	if (ASDUCount == 0) {
 		offset += encode_LE_IED_MUnn_PhsMeas1(buf);
-//		offset += encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag);
-//		offset += ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.q);
-//		offset += encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.instMag);
-//		offset += ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.q);
-//		offset += encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.instMag);
-//		offset += ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.q);
-//		offset += encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.instMag);
-//		offset += ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.q);
-//		offset += encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_1.Vol.instMag);
-//		offset += ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_1.Vol.q);
-//		offset += encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_2.Vol.instMag);
-//		offset += ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_2.Vol.q);
-//		offset += encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_3.Vol.instMag);
-//		offset += ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_3.Vol.q);
-//		offset += encode_IEC_61850_9_2LEAV(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.instMag);
-//		offset += ENCODE_CTYPE_QUALITY(&buf[offset], &LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.q);
-
-//		printf("offset (ASDUCount == 0): %d\n", offset);
 	}
 	else {
-		// TODO store prev value in static struct variable?
 		// TODO should be formed of individual *_compress encoders
 		offset += encode_int32_t(&buf[offset], prev_data_values->MUnn_TCTR_1_Amp_instMag.i - LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag.i);
 		offset += encode_uint32_t(&buf[offset], prev_data_values->MUnn_TCTR_1_Amp_q - LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.q);
@@ -347,8 +324,6 @@ int encode_LE_IED_MUnn_PhsMeas1_compress(unsigned char *buf, struct LE_IED_MUnn_
 		offset += encode_uint32_t(&buf[offset], prev_data_values->MUnn_TVTR_3_Vol_q - LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_3.Vol.q);
 		offset += encode_int32_t(&buf[offset], prev_data_values->MUnn_TVTR_4_Vol_instMag.i - LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.instMag.i);
 		offset += encode_uint32_t(&buf[offset], prev_data_values->MUnn_TVTR_4_Vol_q - LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_4.Vol.q);
-
-//		printf("offset: %d\n", offset);
 	}
 
 	// TODO no need to copy if last ASDU
@@ -378,10 +353,8 @@ int encode_control_LE_IED_MUnn_MSVCB01_compress(unsigned char *buf, struct LE_IE
 
 // returns 1 if buf contains valid packet data
 int sv_update_LE_IED_MUnn_MSVCB01_compress(unsigned char *buf) {
-	struct LE_IED_MUnn_PhsMeas1 *prev_data_values = NULL;
-//	if (LE_IED.S1.MUnn.LN0.MSVCB01.noASDU > 1 && LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount > 0) {
-		prev_data_values = &LE_IED.S1.MUnn.LN0.MSVCB01.prev_dataset_values;
-//	}
+	struct LE_IED_MUnn_PhsMeas1 *prev_data_values = &LE_IED.S1.MUnn.LN0.MSVCB01_prev_dataset_values;
+
 	int size = encode_control_LE_IED_MUnn_MSVCB01_compress(LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount].data.data, prev_data_values, LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount);
 	LE_IED.S1.MUnn.LN0.MSVCB01.ASDU[LE_IED.S1.MUnn.LN0.MSVCB01.ASDUCount].data.size = size;
 
@@ -401,7 +374,7 @@ int sv_update_LE_IED_MUnn_MSVCB01_compress(unsigned char *buf) {
 }
 
 
-// decoding functions
+// IEC 61850 decoding functions
 
 int DECODE_CTYPE_QUALITY_compress(unsigned char *buf, CTYPE_QUALITY *value) {
 	uint8_t number_of_bytes = 0;
@@ -459,8 +432,6 @@ int decode_LE_IED_MUnn_PhsMeas1_compress(unsigned char *buf, CTYPE_INT16U smpCnt
 	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_2_Vol_q;
 	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_3_Vol_q;
 	LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_q += prev_LE_IED_MUnn_PhsMeas1->MUnn_TVTR_4_Vol_q;
-
-//	printf("decode offset: %d\n", offset);
 
 	return offset;
 }
@@ -552,7 +523,6 @@ void svDecodeAPDU_compress(unsigned char *buf, int len, unsigned int ASDU, unsig
 	unsigned char *prev_svID = NULL;
 	int prev_svID_length = 0;
 	int ret = 0;
-	//static unsigned int ASDU = 0;
 
 	//printf("tag: %x, ASDU: %u,  totalASDUs: %u, lengthFieldSize: %i, lengthValue: %i, offset: %i\n", tag, ASDU, totalASDUs, lengthFieldSize, lengthValue, offsetForNonSequence);
 
