@@ -155,7 +155,9 @@ The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating times
 
 ## Real-time compression of Sampled Values data ##
 
-This library can be used to compress Sampled Values data, in real-time, to significantly reduce bandwidth requirements and reduce overall latency. To avoid affecting the master branch for this project, the code is available in the [compress branch](https://github.com/stevenblair/rapid61850/tree/compress) (which will eventually be merged into the main code branch). The example provided uses the -9-2LE dataset format, and is aimed at relatively high sampling rates (using the recommendations in IEC 61869-9).
+This library can be used to compress Sampled Values data, in real-time, to significantly reduce bandwidth requirements and reduce overall latency. To avoid affecting the master branch for this project, the code is available in the [compress branch](https://github.com/stevenblair/rapid61850/tree/compress) (which will eventually be merged into the main code branch).
+
+The example provided uses the -9-2LE dataset format, and is aimed at relatively high sampling rates (using the recommendations in IEC 61869-9). The code is based on the `LEx2_compression.scd` SCD file along with a manual implementation of the compression encoding and decoding functions in `compress.c`. A main C file `main_SV_compression.c` ca be used to test the method, along with other open source compression algorthims for comparison (these other algorithms are not specifically designed to operate SV datasets and are therefore not feasible for real-time applications).
 
 You can read more about the method and typical results in this paper: http://strathprints.strath.ac.uk/57710/1/Blair_etal_AMPS2016_Real_time_compression_of_IEC_61869_9_sampled_value_data.pdf
 
