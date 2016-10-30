@@ -153,6 +153,12 @@ In `ctypes.c`, the basic library function `memcpy()` is used to copy bytes in or
 
 The value of `TIMESTAMP_SUPPORTED` should be set to `0`, unless generating timestamps has been implemented for your platform. An implementation for Windows has been included by default.
 
+## Real-time compression of Sampled Values data ##
+
+This library can be used to compress Sampled Values data, in real-time, to significantly reduce bandwidth requirements and reduce overall latency. To avoid affecting the master branch for this project, the code is available in the [compress branch](https://github.com/stevenblair/rapid61850/tree/compress) (which will eventually be merged into the main code branch). The example provided uses the -9-2LE dataset format, and is aimed at relatively high sampling rates (using the recommendations in IEC 61869-9).
+
+You can read more about the method and typical results in this paper: http://strathprints.strath.ac.uk/57710/1/Blair_etal_AMPS2016_Real_time_compression_of_IEC_61869_9_sampled_value_data.pdf
+
 ## Using the HTTP and JSON interface ##
 
 *This functionality is experimental. Some data types and ACSI services have not been fully tested yet. Support for Windows and Linux has been verified; OS X should work too. The JSON interface can run on an embedded (i.e., non-POSIX) platform, but an alternative web server is necessary.*
