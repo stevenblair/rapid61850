@@ -28,6 +28,9 @@
 
 #define EXCLUDE_DUPLICATE_ASDU_FIELDS	1
 
+
+// encoding functions
+
 int svASDULength_compress(struct svControl *svControl, short ASDU) {
 	int len = 0;
 
@@ -284,7 +287,6 @@ uint32_t decode_uint32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_by
         }
     }
     *number_of_bytes = i + 1;
-    ret = logicalRightShift(ret, 1) ^ -(ret & 1);	// decode zigzag
     return ret;
 }
 int32_t decode_int32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes) {
@@ -298,6 +300,7 @@ int32_t decode_int32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_byte
         }
     }
     *number_of_bytes = i + 1;
+    ret = logicalRightShift(ret, 1) ^ -(ret & 1);	// decode zigzag
     return ret;
 }
 
@@ -326,6 +329,7 @@ int encode_LE_IED_MUnn_PhsMeas1_compress(unsigned char *buf, struct LE_IED_MUnn_
 //		printf("offset (ASDUCount == 0): %d\n", offset);
 	}
 	else {
+		// TODO store prev value in static struct variable?
 		// TODO should be formed of individual *_compress encoders
 		offset += encode_int32_t(&buf[offset], prev_data_values->MUnn_TCTR_1_Amp_instMag.i - LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag.i);
 		offset += encode_uint32_t(&buf[offset], prev_data_values->MUnn_TCTR_1_Amp_q - LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.q);
@@ -397,27 +401,19 @@ int sv_update_LE_IED_MUnn_MSVCB01_compress(unsigned char *buf) {
 }
 
 
-
-
-
-
-
+// decoding functions
 
 int DECODE_CTYPE_QUALITY_compress(unsigned char *buf, CTYPE_QUALITY *value) {
-//	netmemcpy(value, buf, SV_GET_LENGTH_QUALITY);
 	uint8_t number_of_bytes = 0;
 	*value = decode_uint32_t(buf, 4, &number_of_bytes);
 
 	return number_of_bytes;
-//	return SV_GET_LENGTH_QUALITY;
 }
 int DECODE_CTYPE_INT32_compress(unsigned char *buf, CTYPE_INT32 *value) {
-//	netmemcpy(value, buf, SV_GET_LENGTH_INT32);
 	uint8_t number_of_bytes = 0;
 	*value = decode_int32_t(buf, 4, &number_of_bytes);
 
 	return number_of_bytes;
-//	return SV_GET_LENGTH_INT32;
 }
 int decode_IEC_61850_9_2LEAV_compress(unsigned char *buf, struct IEC_61850_9_2LEAV *IEC_61850_9_2LEAV) {
 	int offset = 0;

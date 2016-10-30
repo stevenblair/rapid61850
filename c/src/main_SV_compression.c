@@ -60,7 +60,7 @@
 
 #define PI						3.1415926535897932384626433832795
 #define TWO_PI_OVER_THREE		2.0943951023931954923084289221863
-#define NUMBER_OF_ALGORITHMS	19
+#define NUMBER_OF_ALGORITHMS	(19 + 1)
 #define BUF_SIZE				4096
 
 unsigned char bufIn[2048] = {0};
@@ -70,7 +70,8 @@ pcap_t *fp;
 char errbuf[PCAP_ERRBUF_SIZE];
 
 
-
+size_t encode_uint32_t(uint8_t* output, uint32_t value);
+uint32_t decode_uint32_t(uint8_t* input, size_t inputSize, uint8_t *number_of_bytes);
 
 typedef struct alg_result {
 	unsigned char success;
@@ -158,10 +159,12 @@ const char *get_algorithm_name(int algo) {
 	case 17: return "lzfx";
 	case 18: return "trle";
 	case 19: return "mrle";
+	case 20: return "prop.";
 	default: break;
 	}
 	return "";
 }
+
 
 int TestBuf(unsigned char *in, unsigned int insize, unsigned int iteration, int algo) {
 	unsigned int  outsize, bufsize = 0, k, err_count;
@@ -444,6 +447,7 @@ void analyse_results(unsigned int compression_iterations) {
 		}
 	}
 
+	printf("\nanalysing %d iterations:\n\n", compression_iterations);
 	printf("alg\tbytes\tratio\tstddev\ttotal time\t\tscore\titerations\n");
 	for (i = 0; i < NUMBER_OF_ALGORITHMS; i++) {
 //		printf("%s\t%f, %f, %f\n", get_algorithm_name(i + 1), total_ratio[i], total_compress_time_us[i], total_decompress_time_us[i]);
@@ -727,6 +731,21 @@ void test_value(int32_t value) {
 	int32_t out = decodeVarint(buf, size, &num);
 	printf("in: %d, encoded size: %d (%x%x%x%x%x%x%x), decoded value: %d (%d bytes)\n", value, size, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], out, num);
 }
+void test_value_uint32_t(uint32_t value) {
+	unsigned char buf[12] = {0};
+	int size = encode_uint32_t(buf, value);
+	uint8_t num = 0;
+	uint32_t out = decode_uint32_t(buf, size, &num);
+	printf("in: %u, encoded size: %u (%x%x%x%x%x%x%x), decoded value: %u (%d bytes)\n", value, size, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], out, num);
+}
+
+//int list[14400] = {0};
+//int list_pos = 0;
+//void test_value_list(int32_t value) {
+//	unsigned char buf[12] = {0};
+//	list[list_pos] = encodeVarint(value, buf);
+//	list_pos++;
+//}
 
 void decode_dataset(CTYPE_INT16U smpCnt) {
 	printf("smpCnt %d, decoded value: %d\n", smpCnt, LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1[smpCnt % 6].MUnn_TVTR_1_Vol_instMag.i / 100);
@@ -736,13 +755,15 @@ int main() {
 	initialise_iec61850();	// initialise IEC 61850 library
 	fp = init_pcap();		// initialise platform-specific libpcap network interface
 
-	LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.datasetDecodeDone = decode_dataset;
+//	LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.datasetDecodeDone = decode_dataset;
 
-	test_value(0);
-	test_value(720000);
-	test_value(-720000);
-	test_value(3020000);
-	test_value(-3020000);
+//	test_value(0);
+//	test_value(720000);
+//	test_value(-720000);
+	test_value_uint32_t(2097151);
+	test_value_uint32_t(2097152);
+//	return 0;
+
 //	printf("in: %x out %x, %d\n", 720000, EncodeInt32(720000), DecodeInt32(EncodeInt32(720000)));
 //	printf("in: %x out %x, %d\n", -720000, EncodeInt32(-720000), DecodeInt32(EncodeInt32(-720000)));
 //	printf("in: %x out %x, %d\n", -1720000, EncodeInt32(-1720000), DecodeInt32(EncodeInt32(-1720000)));
@@ -802,17 +823,30 @@ int main() {
 			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.instMag.i = LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_1.Amp.instMag.i + LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_2.Amp.instMag.i + LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_3.Amp.instMag.i;
 //			LE_IED.S1.MUnn.IEC_61850_9_2LETCTR_4.Amp.instMag.i = 0;
 
+//			test_value_list(LE_IED.S1.MUnn.IEC_61850_9_2LETVTR_1.Vol.instMag.i);
+
+//			int len = sv_update_LE_IED_MUnn_MSVCB01(bufOut);
 			int len = sv_update_LE_IED_MUnn_MSVCB01_compress(bufOut);
 
+
 			if (len > 0) {
-				printf("len > 0: %d, %d bytes\n", t, len);
-//				for (i = 0; i < NUMBER_OF_ALGORITHMS; i++) {
-//					TestBuf(&bufOut[compression_start_offset - 1], len - compression_start_offset, compression_iterations, i + 1);
-//				}
+				results[NUMBER_OF_ALGORITHMS - 1][compression_iterations].success = 1;
+				results[NUMBER_OF_ALGORITHMS - 1][compression_iterations].original_data_length = 561;
+				results[NUMBER_OF_ALGORITHMS - 1][compression_iterations].ratio = (float) len / (float) results[NUMBER_OF_ALGORITHMS - 1][compression_iterations].original_data_length;
+				results[NUMBER_OF_ALGORITHMS - 1][compression_iterations].compress_time_us = 0.0;
+				results[NUMBER_OF_ALGORITHMS - 1][compression_iterations].decompress_time_us = 0.0;
+
+//				printf("len > 0: %d, %d bytes\n", t, len);
+				printf("%d, ", len);
+				for (i = 0; i < NUMBER_OF_ALGORITHMS; i++) {
+					TestBuf(&bufOut[compression_start_offset - 1], len - compression_start_offset, compression_iterations, i + 1);
+				}
 
 				pcap_sendpacket(fp, bufOut, len);
 
+//				svDecode(bufOut, len);
 				svDecode_compress(bufOut, len);
+
 //				printf("decoded value: %d\n", LE_IED_RECV.S1.MUnn.IEC_61850_9_2LETCTR_1.sv_inputs_MSVCB01.LE_IED_MUnn_PhsMeas1[0].MUnn_TCTR_1_Amp_instMag.i);
 
 				compression_iterations++;

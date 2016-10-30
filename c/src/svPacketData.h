@@ -57,7 +57,7 @@ struct svControl {
 	CTYPE_INT16U ASDUCount;				// stores present ASDU count; transmit a packet when equals "noASDU"
 	CTYPE_INT16U sampleCountMaster;
 	int (*update)(unsigned char *buf);	// function pointer to save next ASDU, and possible send SV packet
-	struct LE_IED_MUnn_PhsMeas1 prev_dataset_values;
+	struct LE_IED_MUnn_PhsMeas1 prev_dataset_values;	// TODO put this as another generic "data" element (in ASDU struct?), and cast to type?
 };
 
 #endif
