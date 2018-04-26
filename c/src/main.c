@@ -30,7 +30,7 @@
 #include "interface.h"
 #endif
 
-#include "jsonRPC.h"
+#include "json.h"
 
 #if HIGH_LEVEL_INTERFACE == 0
 
