@@ -35,6 +35,7 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 	unsigned char *svID = NULL;
 	int svIDLength = 0;
     CTYPE_INT16U smpCnt = 0;
+    uint64_t refrTm = 0;
 
 	int i = 0;
     for (i = 0; i < len;) {
@@ -60,7 +61,7 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 
 				break;
 			case SV_TAG_REFRTM:
-
+				netmemcpy(&refrTm, &buf[i + 1 + lengthFieldSize], lengthValue);
 				break;
 			case SV_TAG_SMPSYNCH:
 
@@ -70,7 +71,7 @@ void svDecodeASDU(unsigned char *buf, int len, int noASDU) {
 				break;
 			case SV_TAG_SEQUENCEOFDATA:
 				if (svID != NULL) {
-					svDecodeDataset(&buf[i + 1 + lengthFieldSize], lengthValue, noASDU, svID, svIDLength, smpCnt);
+					svDecodeDataset(&buf[i + 1 + lengthFieldSize], lengthValue, noASDU, svID, svIDLength, smpCnt, refrTm);
 				}
 				break;
 			default:

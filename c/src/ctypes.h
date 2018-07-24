@@ -26,14 +26,15 @@ extern "C" {
 #endif
 
 #include <string.h>
+#include <stdint.h>
 
 #define PLATFORM_LITTLE_ENDIAN	1
 #define TIMESTAMP_SUPPORTED		0
 #define GOOSE_FIXED_SIZE		0	// set to 1 to enable fixed-sized GOOSE encoding, which is slightly more efficient to encode.
 #define HIGH_LEVEL_INTERFACE	0	//
-#define JSON_INTERFACE			0	// set to 1 to enable the JSON-based web interface over HTTP
+#define JSON_INTERFACE			1	// set to 1 to enable the JSON-based web interface over HTTP
 
-#define LOCAL_MAC_ADDRESS_VALUE	{0x01, 0x0C, 0xCD, 0x01, 0x00, 0x02}
+#define LOCAL_MAC_ADDRESS_VALUE	{0x00, 0x02, 0xB3, 0x01, 0x00, 0x02}
 
 // platform-specific data types to conform to SV type sizes (Table 14 in IEC 61850-9-2)
 #define CTYPE_BOOLEAN		unsigned char
@@ -55,7 +56,7 @@ extern "C" {
 #define CTYPE_VISSTRING255	char *
 #define CTYPE_DBPOS			int
 #define CTYPE_QUALITY		CTYPE_INT32U
-#define CTYPE_TIMESTAMP		long long
+#define CTYPE_TIMESTAMP		uint64_t
 
 
 #define TRUE		1

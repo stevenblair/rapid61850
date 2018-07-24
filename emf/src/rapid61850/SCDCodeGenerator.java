@@ -881,7 +881,7 @@ public class SCDCodeGenerator {
 			// TODO does not handle multiple APs; see get(0)
 			// TODO do not set to root of data model index
 
-			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + " = calloc(1, sizeof(ACSIServer));\n");
+			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + " = (ACSIServer *) calloc(1, sizeof(ACSIServer));\n");
 			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + "->iedName = \"" + ied.getName()  + "\";\n");
 			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + "->apName = \"" + ied.getAccessPoint().get(0).getName()  + "\";\n");
 			jsonDataModelIndexSource.appendFunctions("\tserver" + iedNumber + "->mg = mg_create_server((void *) server" + iedNumber + ");\n");
@@ -910,7 +910,7 @@ public class SCDCodeGenerator {
 		// process Logical Node Types
 		Iterator<TLNodeType> lnTypes = dataTypeTemplates.getLNodeType().iterator();
 		dataTypesHeader.appendDatatypes("\n\n// logical nodes\n");
-		svDecodeDatasetFunction.append("void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt) {\n");
+		svDecodeDatasetFunction.append("void svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt, uint64_t refrTm) {\n");
 		gseDecodeDatasetFunction.append("void gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum) {\n");
 		
 		while (lnTypes.hasNext()) {
@@ -986,7 +986,8 @@ public class SCDCodeGenerator {
 
 																svDecodeDatasetFunction.append("\n\tif (svIDLength == " + svControl.getSmvID().length() + " && strncmp((const char *) svID, \"" + svControl.getSmvID() + "\", svIDLength) == 0) {");
 																svDecodeDatasetFunction.append("\n\t\tdecode_" + datasetName + "(dataset, smpCnt, &" + inputsPath + datasetName + ASDUIndex + ");");
-																svDecodeDatasetFunction.append("\n\t\t" + inputsPath + "smpCnt = smpCnt;");
+																svDecodeDatasetFunction.append("\n\t\t" + inputsPath + "smpCnt[ASDU] = smpCnt;");
+																svDecodeDatasetFunction.append("\n\t\t" + inputsPath + "refrTm[ASDU] = refrTm;");
 																svDecodeDatasetFunction.append("\n\t\tif (" + inputsPath + "datasetDecodeDone != NULL) {");
 																svDecodeDatasetFunction.append("\n\t\t\t" + inputsPath + "datasetDecodeDone(smpCnt);");
 																svDecodeDatasetFunction.append("\n\t\t}");
@@ -995,7 +996,8 @@ public class SCDCodeGenerator {
 																dataTypesHeader.appendDatatypes("\n\tstruct {");
 																dataTypesHeader.appendDatatypes("\n\t\tstruct " + datasetName + " " + datasetName + noASDUString + ";");
 																dataTypesHeader.appendDatatypes("\n\t\tvoid (*datasetDecodeDone)(CTYPE_INT16U smpCnt);");
-																dataTypesHeader.appendDatatypes("\n\t\tCTYPE_INT16U smpCnt;");
+																dataTypesHeader.appendDatatypes("\n\t\tCTYPE_INT16U smpCnt" + noASDUString + ";");
+																dataTypesHeader.appendDatatypes("\n\t\tCTYPE_TIMESTAMP refrTm" + noASDUString + ";");
 																dataTypesHeader.appendDatatypes("\n\t} sv_inputs_" + svControl.getName() + ";");
 															}
 														}
@@ -1116,7 +1118,7 @@ public class SCDCodeGenerator {
 		svEncodeHeader = svEncodeSource.populateHeaderFilePrototypes(svEncodeHeader);
 		gseEncodeHeader = gseEncodeSource.populateHeaderFilePrototypes(gseEncodeHeader);
 		gseDecodeHeader = gseDecodeSource.populateHeaderFilePrototypes(gseDecodeHeader);
-		svDecodeHeader.appendFunctionPrototypes("\nvoid svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt);");
+		svDecodeHeader.appendFunctionPrototypes("\nvoid svDecodeDataset(unsigned char *dataset, int datasetLength, int ASDU, unsigned char *svID, int svIDLength, CTYPE_INT16U smpCnt, uint64_t refrTm);");
 		gseDecodeHeader.appendFunctionPrototypes("\nvoid gseDecodeDataset(unsigned char *dataset, CTYPE_INT16U datasetLength, unsigned char *gocbRef, CTYPE_INT16U gocbRefLength, CTYPE_INT32U timeAllowedToLive, CTYPE_TIMESTAMP T, CTYPE_INT32U stNum, CTYPE_INT32U sqNum);");
 		svEncodeHeader.appendFunctionPrototypes("\nint svEncodePacket(struct svControl *svControl, unsigned char *buf);");
 		gseEncodeHeader.appendFunctionPrototypes("int gseEncodePacket(struct gseControl *gseControl, unsigned char *buf);");
